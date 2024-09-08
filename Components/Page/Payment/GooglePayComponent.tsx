@@ -15,6 +15,7 @@ import { NorthEastRounded } from "@mui/icons-material";
 interface BankAccountProps {
   accountDetails?: CommonDetails;
   walletState: walletState;
+  payLoading: boolean;
 }
 
 const timer = (ms: any) => new Promise((res) => setTimeout(res, ms));
@@ -22,20 +23,13 @@ const timer = (ms: any) => new Promise((res) => setTimeout(res, ms));
 const GooglePayComponent = ({
   accountDetails,
   walletState,
+  payLoading,
 }: BankAccountProps) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const [loading, setLoading] = useState(true);
   const [checkVerify, setCheckVerify] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    if (accountDetails) {
-      setLoading(false);
-      console.log(accountDetails);
-    }
-  }, [accountDetails]);
 
   const handleSubmit = async () => {
     window.open(accountDetails?.redirect, "_blank");
@@ -89,7 +83,7 @@ const GooglePayComponent = ({
         mt: 5,
       }}
     >
-      {loading ? (
+      {payLoading ? (
         <>
           <Typography>Please wait</Typography>
           <Box

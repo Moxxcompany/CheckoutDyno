@@ -86,6 +86,7 @@ const Payment = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [paymentType, setPaymentType] = useState(paymentTypes.CARD);
+  const [payLoading, setPayloading] = useState(false);
   const [accountDetails, setAccountDetails] = useState<CommonDetails>();
 
   const [tokenData, setTokenData] = useState({ email: "" });
@@ -100,7 +101,7 @@ const Payment = () => {
       paymentType === paymentTypes.GOOGLE_PAY ||
       paymentType === paymentTypes.APPLE_PAY
     ) {
-      // initiateGoogleApplyPayTransfer();
+      initiateGoogleApplyPayTransfer();
     }
   }, [paymentType]);
 
@@ -148,6 +149,7 @@ const Payment = () => {
       currency: walletState.currency,
       amount: walletState.amount,
     };
+    setPayloading(true);
     const res = createEncryption(JSON.stringify(finalPayload));
 
     const {
@@ -155,6 +157,7 @@ const Payment = () => {
     }: { data: CommonApiRes } = await axiosBaseApi.post("pay/addPayment", {
       data: res,
     });
+    setPayloading(false);
     setAccountDetails(data);
   };
 
@@ -279,6 +282,7 @@ const Payment = () => {
                     <GooglePayComponent
                       accountDetails={accountDetails}
                       walletState={walletState}
+                      payLoading={payLoading}
                     />
                   )}
                   {paymentType === paymentTypes.USSD && (
