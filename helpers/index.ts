@@ -51,7 +51,7 @@ const generateRedirectUrl = (data: any) => {
   let url;
   url =
     process.env.NEXT_PUBLIC_SERVER_URL +
-    "/pay/verify?response=" +
+    "pay/verify?response=" +
     JSON.stringify(data);
 
   return url;

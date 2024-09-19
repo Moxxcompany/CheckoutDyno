@@ -1,4 +1,5 @@
 export enum paymentTypes {
+  WALLET = "WALLET",
   CARD = "CARD",
   BANK_TRANSFER = "BANK_TRANSFER",
   BANK_ACCOUNT = "BANK_ACCOUNT",

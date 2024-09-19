@@ -23,6 +23,7 @@ import {
   AccountBalanceRounded,
   CreditCardRounded,
   CurrencyBitcoinRounded,
+  WalletRounded,
 } from "@mui/icons-material";
 import { Box, Divider, Grid, Typography, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -35,8 +36,10 @@ import Loading from "@/Components/UI/Loading";
 import { useRouter } from "next/router";
 import { TOAST_SHOW } from "@/Redux/Actions/ToastAction";
 import jwt from "jsonwebtoken";
+import WalletComponent from "@/Components/Page/Payment/WalletComponent";
 
 const paymentMethods = [
+  { label: "Wallet", value: paymentTypes.WALLET, icon: <WalletRounded /> },
   { label: "Card", value: paymentTypes.CARD, icon: <CreditCardRounded /> },
   {
     label: "Bank Transfer (NGN)",
@@ -87,6 +90,7 @@ const Payment = () => {
   const dispatch = useDispatch();
   const [paymentType, setPaymentType] = useState(paymentTypes.CARD);
   const [payLoading, setPayloading] = useState(false);
+  const [paymentMode, setPaymentMode] = useState("payment");
   const [accountDetails, setAccountDetails] = useState<CommonDetails>();
 
   const [tokenData, setTokenData] = useState({ email: "" });
@@ -125,6 +129,7 @@ const Payment = () => {
         amount: data.amount,
         currency: data.base_currency,
       });
+      setPaymentMode(data.payment_mode);
 
       localStorage.setItem("token", data.token);
       const tempToken: any = jwt.decode(data.token);
@@ -198,6 +203,8 @@ const Payment = () => {
                       flexDirection: "column",
                       color: "#fff",
                       gap: 2,
+                      // maxHeight: "400px",
+                      // overflow: "scroll",
                       "& .paymentBox": {
                         display: "flex",
                         gap: 1,
@@ -213,16 +220,23 @@ const Payment = () => {
                     }}
                   >
                     {paymentMethods.map((x, i) => (
-                      <Box
-                        className={`paymentBox ${
-                          paymentType === x.value && "activeBox"
-                        }`}
-                        key={x.value}
-                        onClick={() => setPaymentType(x.value)}
-                      >
-                        {x.icon}
-                        <Typography>{x.label}</Typography>
-                      </Box>
+                      <>
+                        {x.value === paymentTypes.WALLET &&
+                        paymentMode === "addFund" ? (
+                          <></>
+                        ) : (
+                          <Box
+                            className={`paymentBox ${
+                              paymentType === x.value && "activeBox"
+                            }`}
+                            key={x.value}
+                            onClick={() => setPaymentType(x.value)}
+                          >
+                            {x.icon}
+                            <Typography>{x.label}</Typography>
+                          </Box>
+                        )}
+                      </>
                     ))}
                   </Box>
                 </Box>
@@ -268,6 +282,10 @@ const Payment = () => {
                     </Box>
                   </Box>
                   <Divider flexItem sx={{ my: 2 }} />
+                  {paymentType === paymentTypes.WALLET &&
+                    paymentMode !== "addFund" && (
+                      <WalletComponent walletState={walletState} />
+                    )}
                   {paymentType === paymentTypes.CARD && (
                     <CardComponent walletState={walletState} />
                   )}
