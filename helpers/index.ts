@@ -57,6 +57,23 @@ const generateRedirectUrl = (data: any) => {
   return url;
 };
 
+const generateStatusUrl = (data: any) => {
+  let url;
+  const status = data?.status;
+  if (status === "successful") {
+    url =
+      process.env.NEXT_PUBLIC_SERVER_URL +
+      "pay/success?response=" +
+      JSON.stringify(data);
+  } else {
+    url =
+      process.env.NEXT_PUBLIC_SERVER_URL +
+      "pay/failed?response=" +
+      JSON.stringify(data);
+  }
+  return url;
+};
+
 const getCurrencySymbol = (currency: any, amount: any) => {
   switch (currency) {
     case "NGN":
@@ -94,4 +111,5 @@ export {
   getTime,
   generateRedirectUrl,
   getCurrencySymbol,
+  generateStatusUrl,
 };

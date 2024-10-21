@@ -1,4 +1,5 @@
 import axiosBaseApi from "@/axiosConfig";
+import { generateStatusUrl } from "@/helpers";
 import { TOAST_SHOW } from "@/Redux/Actions/ToastAction";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -27,8 +28,12 @@ const Verify = () => {
       } = await axiosBaseApi.post("pay/confirmPayment", {
         uniqueRef: txRef,
       });
-
-      window.location.replace(data);
+      const { redirect_uri, redirect, ...rest } = data;
+      const url = generateStatusUrl({ ...rest, redirect });
+      if (redirect) {
+        localStorage.setItem("redirect_uri", redirect_uri);
+      }
+      window.location.replace(url);
     } catch (e: any) {
       const message = e.response.data.message ?? e.message;
       dispatch({

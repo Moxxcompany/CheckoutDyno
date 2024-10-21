@@ -24,6 +24,7 @@ import { TOAST_SHOW } from "@/Redux/Actions/ToastAction";
 import {
   CommonApiRes,
   CommonDetails,
+  commonPayload,
   currencyData,
 } from "@/utils/types/paymentTypes";
 
@@ -34,21 +35,26 @@ import Dropdown from "@/Components/UI/Dropdown";
 import { paymentTypes } from "@/utils/enums";
 import { CopyAllRounded, NorthEastRounded } from "@mui/icons-material";
 
-const initialValue = {
-  network: "MTN",
-  mobile: "",
-};
-
-const currencyList = [
+const currencyList2 = [
   "BTC",
   "ETH",
+  "BCH",
   "BNB",
-  "ADA",
-  "SOL",
-  "XRP",
+  "TRX",
   "DOGE",
   "USDT",
   "LTC",
+];
+const currencyList = [
+  { label: "Bitcoin (BTC)", wallet: "BTC", currency: "BTC" },
+  { label: "Ethereum (ETH)", wallet: "ETH", currency: "ETH" },
+  { label: "Bitcoin Cash (BCH)", wallet: "BCH", currency: "BCH" },
+  { label: "Binance Coin (BNB)", wallet: "BSC", currency: "BNB" },
+  { label: "TRX (TRON)", wallet: "TRON", currency: "TRX" },
+  { label: "Dogecoin (DOGE)", wallet: "DOGE", currency: "DOGE" },
+  { label: "USDT (TRON)", wallet: "TRON", currency: "USDT" },
+  // { label: "USDT (ERC-20)", wallet: "ETH", currency: "USDT" },
+  { label: "Litecoin (LTC)", wallet: "LTC", currency: "LTC" },
 ];
 
 interface CryptoDetails {
@@ -57,20 +63,19 @@ interface CryptoDetails {
   hash: string;
 }
 
-const CyrptoComponent = () => {
+const CyrptoComponent = ({ walletState }: commonPayload) => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const walletState = useSelector((state: rootReducer) => state.walletReducer);
+
   const [loading, setLoading] = useState(true);
 
   const [currencyRates, setCurrencyRates] = useState<currencyData[]>();
   const [selectedCurrency, setSelectedCurrency] = useState<currencyData>();
   const [checkVerify, setCheckVerify] = useState(false);
   const [cryptoDetails, setCryptoDetails] = useState<CryptoDetails>({
-    qr_code:
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAYAAAB1PADUAAAAAklEQVR4AewaftIAAATdSURBVO3BQY4cSRIEQdNA/f/Lun30UwCJ9GqSOyaCP1K15KRq0UnVopOqRSdVi06qFp1ULTqpWnRSteikatFJ1aKTqkUnVYtOqhadVC06qVr0yUtAfpOaCcikZgLyTWpugDyhZgLym9S8cVK16KRq0UnVok+WqdkE5JvUTEAmNTdAnlDzhppNQDadVC06qVp0UrXoky8D8oSaJ9RMQJ4AMql5Q80EZAJyo+YJIE+o+aaTqkUnVYtOqhZ98o8DcqNmAjKpuQFyo2YCMqn5LzmpWnRSteikatEn/zg1T6h5Q80E5AbIpOb/2UnVopOqRSdViz75MjV/EpBJzQ2QSc0E5A0gk5o31PxNTqoWnVQtOqla9MkyIL8JyKTmCSCTmgnIpGYCMqmZgExqJiCTmhsgf7OTqkUnVYtOqhbhj/zDgExqboBMap4A8k1q/mUnVYtOqhadVC365CUgk5oJyI2aCcgTaiYgk5ongExqnlAzAXkDyKTmBsikZgJyo+aNk6pFJ1WLTqoW4Y8sAnKjZgIyqXkCyBNqboA8oeYGyBtqJiA3aiYgk5pvOqladFK16KRqEf7IC0AmNTdAJjU3QCY1N0AmNROQSc0EZFJzA+RGzQ2QSc0bQJ5Qs+mkatFJ1aKTqkX4I38QkBs1E5BNar4JyKTmBsgTap4AMqnZdFK16KRq0UnVIvyRF4A8oeYJIJOa3wTkCTU3QG7UvAHkRs03nVQtOqladFK16JNlam6ATGomIJOaCciNmgnIpGYCMqnZBGRS8wSQSc0mIJOaN06qFp1ULTqpWoQ/8gKQGzVPALlRMwF5Q80EZFKzCciNmgnIpGYCsknNGydVi06qFp1ULfrkJTUTkBsgN2reUDMBuQEyqZmA3Ki5ATKpeULNBOQJNb/ppGrRSdWik6pF+CN/MSCTmjeATGpugDyhZgIyqZmA3Ki5ATKpmYBMar7ppGrRSdWik6pFnywDMqmZgDyhZgLyhJobIJOaGzU3QN5QMwGZ1ExqJiBPAJnUvHFSteikatFJ1aJPXgIyqZmATGomIJOaCcgTaiYgTwC5ATKpeUPNBOQJIJOaCciNmk0nVYtOqhadVC3CH/mDgExq3gAyqXkCyCY1N0AmNROQb1Kz6aRq0UnVopOqRZ8sAzKpmYBMam6ATGpu1ExAJjVvqJmA3ACZ1NwAeUPNE0AmNW+cVC06qVp0UrXok2VqbtQ8oeYGyCY1b6h5Q80TQCYgk5rfdFK16KRq0UnVok9eAvKb1Dyh5gbIpGYCMqn5TUAmNZvUbDqpWnRSteikatEny9RsAvIGkBs1E5AbIL9JzRNq/qSTqkUnVYtOqhZ98mVAnlDzhJoJyKRmAjIBmdTcALkBcqPmBsgmIDdqNp1ULTqpWnRSteiTfxyQSc0E5EbNBGRSc6NmAnIDZFIzAZnUTEDeUDMBmdS8cVK16KRq0UnVok/+Y9RMQG6ATGomIJOaCcgTap5QMwH5k06qFp1ULTqpWvTJl6n5JjUTkE1qbtTcqJmATEAmNW+ouQEyqdl0UrXopGrRSdWiT5YB+U1AbtRMQG7U3AC5UTMB+U1AJjW/6aRq0UnVopOqRfgjVUtOqhadVC06qVp0UrXopGrRSdWik6pFJ1WLTqoWnVQtOqladFK16KRq0UnVopOqRf8DrEVOIaD9/IUAAAAASUVORK5CYII=",
-    hash: "any",
-    address: "1AgYvJWb3h6eAaJdsHaZrEewAXzr5z3fYu",
+    qr_code: "",
+    hash: "",
+    address: "",
   });
   const [loading2, setLoading2] = useState(false);
 
@@ -84,10 +89,10 @@ const CyrptoComponent = () => {
     try {
       const {
         data: { data },
-      } = await axiosBaseApi.post("pay/getCurrencyRates", {
+      } = await axiosBaseApi.post("/pay/getCurrencyRates", {
         source: walletState.currency,
         amount: walletState.amount,
-        currencyList,
+        currencyList: currencyList.map((x) => x.currency),
         fixedDecimal: false,
       });
       setCurrencyRates(data);
@@ -107,8 +112,14 @@ const CyrptoComponent = () => {
 
   const handleSubmit = async (values: any) => {
     try {
+      const walletIndex = currencyList.findIndex(
+        (x) => x.currency === selectedCurrency?.currency
+      );
+
+      const wallet = currencyList[walletIndex].wallet;
+
       const finalPayload = {
-        currency: selectedCurrency?.currency,
+        currency: wallet,
         amount: selectedCurrency?.amount,
         paymentType: paymentTypes.CRYPTO,
       };
@@ -117,7 +128,7 @@ const CyrptoComponent = () => {
       setLoading2(true);
       const {
         data: { data },
-      }: { data: CommonApiRes } = await axiosBaseApi.post("pay/addPayment", {
+      }: { data: CommonApiRes } = await axiosBaseApi.post("/pay/addPayment", {
         data: res,
       });
       if (data.redirect) {
@@ -142,11 +153,10 @@ const CyrptoComponent = () => {
     try {
       const {
         data: { data },
-      } = await axiosBaseApi.post("pay/verifyPayment", {
-        uniqueRef: cryptoDetails?.hash,
+      } = await axiosBaseApi.post("/pay/verifyCryptoPayment", {
+        address: cryptoDetails.address,
       });
-      const redirectUri = generateRedirectUrl(data);
-      window.location.replace(redirectUri);
+      window.location.replace(data);
     } catch (e: any) {
       const message = e.response.data.message ?? e.message;
       dispatch({
@@ -294,7 +304,7 @@ const CyrptoComponent = () => {
                 <>
                   <Dropdown
                     menuItems={currencyList.map((x) => {
-                      return { label: x, value: x };
+                      return { label: x.label, value: x.currency };
                     })}
                     fullWidth
                     label="currency"

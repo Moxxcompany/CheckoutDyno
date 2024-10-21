@@ -76,11 +76,11 @@ const paymentMethods = [
     value: paymentTypes.QR_CODE,
     icon: <AccountBalanceRounded />,
   },
-  // {
-  //   label: "Crypto",
-  //   value: paymentTypes.CRYPTO,
-  //   icon: <CurrencyBitcoinRounded />,
-  // },
+  {
+    label: "Crypto",
+    value: paymentTypes.CRYPTO,
+    icon: <CurrencyBitcoinRounded />,
+  },
 ];
 
 const Payment = () => {
@@ -91,6 +91,7 @@ const Payment = () => {
   const [paymentType, setPaymentType] = useState(paymentTypes.CARD);
   const [payLoading, setPayloading] = useState(false);
   const [paymentMode, setPaymentMode] = useState("payment");
+  const [allowedModes, setAllowedModes] = useState<any[]>([]);
   const [accountDetails, setAccountDetails] = useState<CommonDetails>();
 
   const [tokenData, setTokenData] = useState({ email: "" });
@@ -130,6 +131,9 @@ const Payment = () => {
         currency: data.base_currency,
       });
       setPaymentMode(data.payment_mode);
+      if (data?.payment_mode === "createLink") {
+        setAllowedModes(data?.allowedModes?.split(","));
+      }
 
       localStorage.setItem("token", data.token);
       const tempToken: any = jwt.decode(data.token);
@@ -203,8 +207,8 @@ const Payment = () => {
                       flexDirection: "column",
                       color: "#fff",
                       gap: 2,
-                      // maxHeight: "400px",
-                      // overflow: "scroll",
+                      maxHeight: "500px",
+                      overflow: "scroll",
                       "& .paymentBox": {
                         display: "flex",
                         gap: 1,
@@ -219,25 +223,48 @@ const Payment = () => {
                       },
                     }}
                   >
-                    {paymentMethods.map((x, i) => (
+                    {paymentMode === "createLink" && allowedModes.length > 0 ? (
                       <>
-                        {x.value === paymentTypes.WALLET &&
-                        paymentMode === "addFund" ? (
-                          <></>
-                        ) : (
-                          <Box
-                            className={`paymentBox ${
-                              paymentType === x.value && "activeBox"
-                            }`}
-                            key={x.value}
-                            onClick={() => setPaymentType(x.value)}
-                          >
-                            {x.icon}
-                            <Typography>{x.label}</Typography>
-                          </Box>
-                        )}
+                        {paymentMethods.map((x, i) => (
+                          <>
+                            {allowedModes.indexOf(x.value) === -1 ? (
+                              <></>
+                            ) : (
+                              <Box
+                                className={`paymentBox ${
+                                  paymentType === x.value && "activeBox"
+                                }`}
+                                key={x.value}
+                                onClick={() => setPaymentType(x.value)}
+                              >
+                                {x.icon}
+                                <Typography>{x.label}</Typography>
+                              </Box>
+                            )}
+                          </>
+                        ))}
                       </>
-                    ))}
+                    ) : (
+                      paymentMethods.map((x, i) => (
+                        <>
+                          {x.value === paymentTypes.WALLET &&
+                          paymentMode === "addFund" ? (
+                            <></>
+                          ) : (
+                            <Box
+                              className={`paymentBox ${
+                                paymentType === x.value && "activeBox"
+                              }`}
+                              key={x.value}
+                              onClick={() => setPaymentType(x.value)}
+                            >
+                              {x.icon}
+                              <Typography>{x.label}</Typography>
+                            </Box>
+                          )}
+                        </>
+                      ))
+                    )}
                   </Box>
                 </Box>
               </Grid>
@@ -283,7 +310,7 @@ const Payment = () => {
                   </Box>
                   <Divider flexItem sx={{ my: 2 }} />
                   {paymentType === paymentTypes.WALLET &&
-                    paymentMode !== "addFund" && (
+                    paymentMode === "createPayment" && (
                       <WalletComponent walletState={walletState} />
                     )}
                   {paymentType === paymentTypes.CARD && (
@@ -312,7 +339,9 @@ const Payment = () => {
                   {paymentType === paymentTypes.QR_CODE && (
                     <QRCodeComponent walletState={walletState} />
                   )}
-                  {/* {paymentType === paymentTypes.CRYPTO && <CyrptoComponent />} */}
+                  {paymentType === paymentTypes.CRYPTO && (
+                    <CyrptoComponent walletState={walletState} />
+                  )}
                 </Box>
               </Grid>
             </Grid>
