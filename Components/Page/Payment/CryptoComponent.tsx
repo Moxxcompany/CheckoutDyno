@@ -50,10 +50,10 @@ const currencyList = [
   { label: "Ethereum (ETH)", wallet: "ETH", currency: "ETH" },
   { label: "Bitcoin Cash (BCH)", wallet: "BCH", currency: "BCH" },
   { label: "Binance Coin (BNB)", wallet: "BSC", currency: "BNB" },
-  { label: "TRX (TRON)", wallet: "TRON", currency: "TRX" },
+  { label: "TRX (TRON)", wallet: "TRX", currency: "TRX" },
   { label: "Dogecoin (DOGE)", wallet: "DOGE", currency: "DOGE" },
-  { label: "USDT (TRON)", wallet: "TRON", currency: "USDT" },
-  // { label: "USDT (ERC-20)", wallet: "ETH", currency: "USDT" },
+  { label: "USDT (TRC-20)", wallet: "USDT-TRC20", currency: "USDT-TRC20" },
+  { label: "USDT (ERC-20)", wallet: "USDT-ERC20", currency: "USDT-ERC20" },
   { label: "Litecoin (LTC)", wallet: "LTC", currency: "LTC" },
 ];
 
@@ -68,7 +68,7 @@ const CyrptoComponent = ({ walletState }: commonPayload) => {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(true);
-
+  const [error, setError] = useState("");
   const [currencyRates, setCurrencyRates] = useState<currencyData[]>();
   const [selectedCurrency, setSelectedCurrency] = useState<currencyData>();
   const [checkVerify, setCheckVerify] = useState(false);
@@ -139,6 +139,7 @@ const CyrptoComponent = ({ walletState }: commonPayload) => {
       }
     } catch (e: any) {
       const message = e.response.data.message ?? e.message;
+      setError(message);
       dispatch({
         type: TOAST_SHOW,
         payload: {
@@ -408,7 +409,9 @@ const CyrptoComponent = ({ walletState }: commonPayload) => {
                 </Box>
               )}
             </Collapse>
+            {error && <Typography>{error}</Typography>}
           </Box>
+          {}
         </>
       )}
     </Box>
