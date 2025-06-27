@@ -39,41 +39,9 @@ import jwt from "jsonwebtoken";
 import WalletComponent from "@/Components/Page/Payment/WalletComponent";
 
 const paymentMethods = [
-  { label: "Wallet", value: paymentTypes.WALLET, icon: <WalletRounded /> },
-  { label: "Card", value: paymentTypes.CARD, icon: <CreditCardRounded /> },
   {
     label: "Bank Transfer (NGN)",
     value: paymentTypes.BANK_TRANSFER,
-    icon: <AccountBalanceRounded />,
-  },
-  {
-    label: "Bank Account",
-    value: paymentTypes.BANK_ACCOUNT,
-    icon: <AccountBalanceRounded />,
-  },
-  {
-    label: "Google Pay",
-    value: paymentTypes.GOOGLE_PAY,
-    icon: <AccountBalanceRounded />,
-  },
-  {
-    label: "Apple Pay",
-    value: paymentTypes.APPLE_PAY,
-    icon: <AccountBalanceRounded />,
-  },
-  {
-    label: "USSD",
-    value: paymentTypes.USSD,
-    icon: <AccountBalanceRounded />,
-  },
-  {
-    label: "Mobile Money",
-    value: paymentTypes.MOBILE_MONEY,
-    icon: <AccountBalanceRounded />,
-  },
-  {
-    label: "NQR",
-    value: paymentTypes.QR_CODE,
     icon: <AccountBalanceRounded />,
   },
   {
