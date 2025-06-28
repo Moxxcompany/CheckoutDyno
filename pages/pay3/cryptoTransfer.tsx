@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AccountBalanceWallet,
   ArrowBack,
@@ -64,6 +64,14 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (selectedCrypto !== '') {
+        setActiveStep(activeStep + 1)
+      }
+    }, 10000)
+  }, [selectedCrypto])
 
   return (
     <Box
