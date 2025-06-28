@@ -256,7 +256,7 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
                   mb: 2,
                 }}
               >
-                <QRCode value={cryptoAddress} size={'100%'} />
+                <QRCode value={cryptoAddress}/>
               </Box>
               <Box display="flex" alignItems="center" justifyContent="space-between" border={'1px solid #E7EAFD'} padding={'10px'} borderRadius={'8px'} bgcolor={'#FFFFFF'}>
                 <Typography variant="body2" sx={{ color: "#444CE7" }} fontWeight={'400'} fontSize={'11px'} maxWidth={'88%'} overflow={'hidden'} textOverflow={'ellipsis'} whiteSpace={'nowrap'}>{cryptoAddress}</Typography>
