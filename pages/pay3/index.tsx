@@ -70,6 +70,7 @@ import FloatingChatButton from '@/Components/UI/ChatButton'
 
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import BankTransferCompo from './bankTransferCompo'
+import CryptoTransfer from './cryptoTransfer'
 
 const paymentMethods = [
   {
@@ -117,12 +118,14 @@ const Payment = () => {
   const [accountDetails, setAccountDetails] = useState<CommonDetails>()
   const [selectedCurrency, setSelectedCurrency] = useState('USD')
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-
+  const [darkMode, setDarkMode] = useState(false)
+  const [activeStep, setActiveStep] = useState<number>(0)
   const [tokenData, setTokenData] = useState({ email: '' })
   const [walletState, setWalletState] = useState<walletState>({
     amount: 0,
     currency: 'USD'
   })
+  const [transferMethod, setTransferMethod] = useState('')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -194,9 +197,6 @@ const Payment = () => {
     setAccountDetails(data)
   }
 
-  const [darkMode, setDarkMode] = useState(false)
-  const [activeStep, setActiveStep] = useState<number>(0)
-
   const toggleDarkMode = () => setDarkMode(!darkMode)
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -223,12 +223,12 @@ const Payment = () => {
   const convertedPrice = (basePriceUSD * (selected?.rate || 1)).toFixed(2)
 
   return (
-    <Box sx={{ height: '100vh' }}>
+    <Box>
       <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <Box
         sx={{
-          height: 'calc(100vh - 197px)',
-          overflowY: 'auto',
+          height: 'calc(100vh - 86px)',
+          overflowY: 'auto'
         }}
       >
         <ProgressBar activeStep={activeStep} />
@@ -240,6 +240,7 @@ const Payment = () => {
             justifyContent='center'
             bgcolor='#F8FAFC'
             px={2}
+            minHeight={'calc(100vh - 340px)'}
             // marginTop="50px"
           >
             <Paper
@@ -346,7 +347,10 @@ const Payment = () => {
                     fullWidth
                     variant='outlined'
                     startIcon={<AssuredWorkloadIcon />}
-                    onClick={() => setActiveStep(1)}
+                    onClick={() => {
+                      setActiveStep(1)
+                      setTransferMethod('bank')
+                    }}
                     sx={{
                       borderColor: '#4F46E5',
                       color: '#4F46E5',
@@ -367,7 +371,10 @@ const Payment = () => {
                     fullWidth
                     variant='outlined'
                     startIcon={<CurrencyBitcoinIcon />}
-                    onClick={() => setActiveStep(1)}
+                    onClick={() => {
+                      setActiveStep(1)
+                      setTransferMethod('crypto')
+                    }}
                     sx={{
                       borderColor: '#10B981',
                       color: '#10B981',
@@ -430,10 +437,17 @@ const Payment = () => {
             </Paper>
           </Box>
         ) : activeStep === 1 ? (
-          <BankTransferCompo />
+          transferMethod === 'bank' ? (
+            <BankTransferCompo
+              activeStep={activeStep}
+              setActiveStep={setActiveStep}
+            />
+          ) : (
+            <CryptoTransfer />
+          )
         ) : null}
 
-        <Box sx={{ position: 'absolute', bottom: 0, width: '100%' }}>
+        <Box sx={{ width: '100%' }}>
           <Footer />
         </Box>
       </Box>

@@ -13,9 +13,16 @@ import {
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import { ArrowBack, ContentCopy, ErrorOutline } from '@mui/icons-material'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 
-const BankTransferCompo = () => {
+interface BankTransferCompoProps {
+  activeStep: number
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>
+}
+const BankTransferCompo = ({
+  activeStep,
+  setActiveStep
+}: BankTransferCompoProps) => {
   const handleCopy = () => {
     navigator.clipboard.writeText('1234567890')
   }
@@ -42,7 +49,7 @@ const BankTransferCompo = () => {
         }}
       >
         {/* Back Button */}
-        <IconButton>
+        <IconButton onClick={()=>setActiveStep(activeStep-1)}>
           <ArrowBack sx={{ color: '#444CE7' }} />
         </IconButton>
 
@@ -83,8 +90,19 @@ const BankTransferCompo = () => {
               1234567890
             </Typography>
             <Tooltip title='Copy'>
-              <IconButton onClick={handleCopy} size='small' sx={{fontSize:'12px', color:'#2D3282', bgcolor:'#E7EAFD', borderRadius:'6px'}}>
-                <FileCopyIcon sx={{ color: '#2D3282', mr:1, fontSize:'12px' }} />
+              <IconButton
+                onClick={handleCopy}
+                size='small'
+                sx={{
+                  fontSize: '12px',
+                  color: '#2D3282',
+                  bgcolor: '#E7EAFD',
+                  borderRadius: '6px'
+                }}
+              >
+                <FileCopyIcon
+                  sx={{ color: '#2D3282', mr: 1, fontSize: '12px' }}
+                />
                 Copy
               </IconButton>
             </Tooltip>
