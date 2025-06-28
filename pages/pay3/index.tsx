@@ -262,7 +262,7 @@ const Payment = () => {
               }}
             >
               <Box display="flex" justifyContent="center" mb={2}>
-                <Image src="/Logo2.png" alt="Logo" width={69} height={77} />
+                <Image src="/logo2.png" alt="Logo" width={69} height={77} />
               </Box>
 
               <Typography variant="h6" fontWeight={500} fontSize={25} gutterBottom fontFamily="Space Grotesk">
