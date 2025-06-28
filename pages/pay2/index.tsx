@@ -109,7 +109,7 @@ const Payment = () => {
       setLoading(false);
     } catch (e: any) {
       setLoading(false);
-      const message = e.response.data.message ?? e.message;
+      const message = e?.response?.data?.message ?? e.message;
       dispatch({
         type: TOAST_SHOW,
         payload: {

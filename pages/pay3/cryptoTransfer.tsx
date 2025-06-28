@@ -57,7 +57,7 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
     return cryptoOptions.find((opt) => opt.value === selectedCrypto);
   };
 
-  const cryptoAddress = 'TNPJXWXJ6XJ6XJ6XJ6XJ6XJ6XJ6XJ6XJ6XJ';
+  const cryptoAddress = 'TNPJXWXJ6XJ6XJ6XJ6XJ6XJ6X';
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(cryptoAddress);
@@ -65,13 +65,13 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (selectedCrypto !== '') {
-        setActiveStep(activeStep + 1)
-      }
-    }, 10000)
-  }, [selectedCrypto])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (selectedCrypto !== '') {
+  //       setActiveStep(activeStep + 1)
+  //     }
+  //   }, 100000)
+  // }, [selectedCrypto])
 
   return (
     <Box
@@ -95,8 +95,15 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
           boxShadow: '0px 45px 64px 0px #0D03230F',
         }}
       >
-        {/* Back Button */}
-        <IconButton onClick={() => setActiveStep(activeStep - 1)}>
+        <IconButton onClick={() => setActiveStep(activeStep - 1)} sx={{
+          backgroundColor: '#f5f7ff', // light blue tint
+          color: '#444CE7',           // arrow color
+          borderRadius: '50%',
+          padding: '10px',
+          '&:hover': {
+            backgroundColor: '#ebefff', // slightly darker on hover
+          },
+        }}>
           <ArrowBack sx={{ color: '#444CE7' }} />
         </IconButton>
 
@@ -109,13 +116,15 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
           alignItems="center"
           gap={1}
           fontSize={'27px'}
+          fontFamily='Space Grotesk'
         >
           <CurrencyBitcoinIcon sx={{ color: '#12B76A', fontSize: '28px' }} /> Cryptocurrency
         </Typography>
 
         {/* Crypto Selection Dropdown (Always visible) */}
         <Box mt={3} mb={1}>
-          <Typography variant="subtitle2" fontWeight="medium">
+          <Typography variant="subtitle2" fontWeight="medium" fontFamily='Space Grotesk'
+          >
             Preferred Crypto
           </Typography>
         </Box>
@@ -148,7 +157,9 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
             }}
             renderValue={(selected) => {
               if (!selected) {
-                return <em style={{ color: '#757575' }}>Select Crypto Type</em>;
+                return <span style={{
+                  color: '#757575', fontFamily: 'Space Grotesk'
+                }}>Select Crypto Type</span>;
               }
 
               const option = getSelectedOption();
@@ -195,7 +206,7 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
         {selectedCrypto === 'USDT' && (
           <>
             <Box mt={2} mb={1}>
-              <Typography variant="subtitle2" fontWeight="medium">
+              <Typography variant="subtitle2" fontWeight="medium" fontFamily='Space Grotesk'>
                 Preferred Network
               </Typography>
             </Box>
@@ -208,6 +219,7 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
                 borderRadius={'5px'}
                 sx={{ cursor: 'pointer' }}
                 onClick={() => setSelectedNetwork('TRC-20')}
+                fontFamily='Space Grotesk'
               >
                 TRC-20
               </Typography>
@@ -219,6 +231,7 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
                 borderRadius={'5px'}
                 sx={{ cursor: 'pointer' }}
                 onClick={() => setSelectedNetwork('ERC-20')}
+                fontFamily='Space Grotesk'
               >
                 ERC-20
               </Typography>
@@ -229,7 +242,7 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
         {/* QR Code Section (Shown when any crypto is selected) */}
         {selectedCrypto && (
           <>
-            <Typography variant="h6" fontWeight="medium" my={1} fontSize={'small'}>
+            <Typography variant="h6" fontWeight="medium" my={1} fontSize={'small'} fontFamily='Space Grotesk'>
               Send {selectedCrypto} {selectedCrypto === 'USDT' ? `(${selectedNetwork})` : ''} to This Address
             </Typography>
 
@@ -246,7 +259,7 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
                 <QRCode value={cryptoAddress} size={'100%'} />
               </Box>
               <Box display="flex" alignItems="center" justifyContent="space-between" border={'1px solid #E7EAFD'} padding={'10px'} borderRadius={'8px'} bgcolor={'#FFFFFF'}>
-                <Typography variant="body2" sx={{ color: "#444CE7" }} fontWeight={'400'} fontSize={'11px'}>{cryptoAddress}</Typography>
+                <Typography variant="body2" sx={{ color: "#444CE7" }} fontWeight={'400'} fontSize={'11px'} maxWidth={'88%'} overflow={'hidden'} textOverflow={'ellipsis'} whiteSpace={'nowrap'}>{cryptoAddress}</Typography>
                 <IconButton
                   size='small'
                   sx={{
@@ -262,7 +275,7 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
               </Box>
               <Box display={'flex'} alignItems={'center'} gap={1}>
                 <InfoOutlinedIcon fontSize={'small'} />
-                <Typography variant="h6" fontWeight="400" my={1} color={'#1A1919'} fontSize={'small'} textAlign={'left'} lineHeight={'18px'}>
+                <Typography variant="h6" fontWeight="400" my={1} color={'#1A1919'} fontSize={'small'} textAlign={'left'} lineHeight={'18px'} fontFamily='Space Grotesk'>
                   Send only {selectedCrypto} in {selectedCrypto === 'USDT' ? `(${selectedNetwork}) network` : ''} to this address, or your funds will be lost.
                 </Typography>
               </Box>
@@ -272,14 +285,32 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
               border={'1px solid #DFDFDF'} padding={'20px'} borderRadius={'10px'} bgcolor={'#FFFFFF'}
             >
               <Box display={'flex'} gap={2} justifyContent={'space-between'}>
-                <Typography variant="h6" fontWeight="medium" fontSize={'20px'}>
+                <Typography variant="h6" fontWeight="medium" fontSize={'20px'} sx={{
+                  fontSize: {
+                    xs: '16px',  // for small screens
+                    sm: '18px',
+                    md: '20px',  // default
+                  }
+                }} fontFamily='Space Grotesk' whiteSpace={'nowrap'}>
                   To Pay:
                 </Typography>
                 <Box display={'flex'} alignItems={'start'} gap={1}>
                   <Box textAlign={'end'}>
-                    <Typography variant="body1" fontSize={'25px'} fontWeight={'medium'} display={'flex'} alignItems={'center'} gap={1}>35.00 {selectedCrypto}
+                    <Typography variant="body1" fontSize={'25px'} fontWeight={'medium'} display={'flex'} alignItems={'center'} gap={1} sx={{
+                  fontSize: {
+                    xs: '14px',  // for small screens
+                    sm: '18px',
+                    md: '20px',  // default
+                  }
+                }} fontFamily='Space Grotesk' whiteSpace={'nowrap'} >35.00 {selectedCrypto}
                     </Typography>
-                    <Typography variant="body1">=35.00 USD</Typography>
+                    <Typography variant="body1" sx={{
+                  fontSize: {
+                    xs: '14px',  // for small screens
+                    sm: '18px',
+                    md: '20px',  // default
+                  }
+                }} fontFamily='Space Grotesk' whiteSpace={'nowrap'}>=35.00 USD</Typography>
                   </Box>
                   <IconButton
                     size='small'
@@ -299,7 +330,7 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
               <Divider sx={{ my: 2 }} />
 
               <Box textAlign="center">
-                <Typography variant="body2" fontWeight={'normal'} fontSize={'13px'}>🕒 invoice expires in: 14:21</Typography>
+                <Typography variant="body2" fontWeight={'normal'} fontSize={'13px'} fontFamily='Space Grotesk' >🕒 invoice expires in: 14:21</Typography>
               </Box>
             </Box>
           </>

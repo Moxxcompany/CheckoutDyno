@@ -45,6 +45,7 @@ import {
   Select,
   Tooltip,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -109,7 +110,7 @@ const currencyOptions = [
 
 const Payment = () => {
   const theme = useTheme();
-
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const router = useRouter();
   const dispatch = useDispatch();
   const [paymentType, setPaymentType] = useState(paymentTypes.CARD);
@@ -285,7 +286,13 @@ const Payment = () => {
                   alignItems="center"
                   py={2}
                 >
-                  <Typography variant="subtitle2" fontWeight={400} fontSize={25}>
+                  <Typography variant="subtitle2" fontWeight={400} fontSize={25} sx={{
+                    fontSize: {
+                      xs: '12px',  // for small screens
+                      sm: '18px',
+                      md: '20px',  // default
+                    }
+                  }}>
                     To Pay:
                   </Typography>
                   <Box
@@ -305,7 +312,13 @@ const Payment = () => {
                     onClick={handleClick}
                   >
                     {selected?.icon}
-                    <Typography fontWeight={400} fontFamily="Space Grotesk" fontSize={25}>
+                    <Typography fontWeight={400} fontFamily="Space Grotesk" fontSize={25} sx={{
+                      fontSize: {
+                        xs: '12px',  // for small screens
+                        sm: '18px',
+                        md: '20px',  // default
+                      }
+                    }}>
                       {convertedPrice} {selected?.code}
                     </Typography>
                     {isOpen ? (
@@ -323,16 +336,34 @@ const Payment = () => {
                           border: "1px solid #737373",
                           borderRadius: "10px",
                         },
-                      }}  
+                      }}
                     >
                       {currencyOptions.map((currency) => (
                         <MenuItem
                           key={currency.code}
                           onClick={(e) => handleSelect(e, currency.code)}
+                          sx={{
+                            px: {
+                              xs: 1.5,
+                              sm: 2,
+                              md: 2.5,
+                            },
+                            py: {
+                              xs: 1,
+                              sm: 1.2,
+                              md: 1.5,
+                            },
+                          }}
                         >
                           <Box display="flex" alignItems="center" gap={1}>
                             {currency.icon}
-                            <Typography sx={{ fontSize: "14px" }}>
+                            <Typography sx={{
+                              fontSize: {
+                                xs: '14px',  // for small screens
+                                sm: '18px',
+                                md: '20px',  // default
+                              }
+                            }}>
                               {currency.label}
                             </Typography>
                           </Box>
@@ -359,15 +390,37 @@ const Payment = () => {
                       textTransform: "none",
                       fontFamily: "Space Grotesk",
                       borderRadius: 30,
-                      paddingTop: 2,
-                      paddingBottom: 2,
+
+                      // Responsive padding
+                      py: {
+                        xs: 1.2,  // ~10px
+                        sm: 1.5,
+                        md: 2     // default
+                      },
+
+                      // Responsive font size
+                      fontSize: {
+                        xs: '14px',
+                        sm: '16px',
+                        md: '18px'
+                      },
+
+                      // Optional: Responsive minHeight for better visual spacing
+                      minHeight: {
+                        xs: 40,
+                        sm: 48,
+                        md: 56
+                      },
+
                       "&:hover": {
                         backgroundColor: "#EEF2FF",
                         borderColor: "#4F46E5",
                       },
                     }}
                   >
-                    Bank Transfer
+                    {isSmallScreen ? 'Bank' : 'Bank Transfer'}
+
+
                   </Button>
 
                   <Button
@@ -383,17 +436,38 @@ const Payment = () => {
                       color: "#10B981",
                       textTransform: "none",
                       borderRadius: 30,
-                      paddingTop: 2,
                       fontFamily: "Space Grotesk",
-                      paddingBottom: 2,
+
+                      // Responsive vertical padding
+                      py: {
+                        xs: 1.2,  // ~10px
+                        sm: 1.5,
+                        md: 2
+                      },
+
+                      // Responsive font size
+                      fontSize: {
+                        xs: '14px',
+                        sm: '16px',
+                        md: '18px'
+                      },
+
+                      // Optional: consistent height across devices
+                      minHeight: {
+                        xs: 40,
+                        sm: 48,
+                        md: 56
+                      },
+
                       "&:hover": {
                         backgroundColor: "#ECFDF5",
                         borderColor: "#10B981",
                       },
                     }}
                   >
-                    Cryptocurrency
+                    {isSmallScreen ? 'Crypto' : 'Cryptocurrency'}
                   </Button>
+
                 </Box>
               </Box>
 
@@ -408,7 +482,7 @@ const Payment = () => {
                   variant="caption"
                   color="#515151"
                   fontWeight={400}
-                    fontSize={12}
+                  fontSize={12}
                   sx={{ textAlign: "left" }}
                 >
                   If you need to continue later, save your {"\n"} Transaction
@@ -452,7 +526,7 @@ const Payment = () => {
             <CryptoTransfer activeStep={activeStep} setActiveStep={setActiveStep} />
           )
         ) : activeStep === 2 ? (
-          <TransferExpectedCard isTrue={false} type={transferMethod}/>
+          <TransferExpectedCard isTrue={false} type={transferMethod} />
         ) : null}
 
         <Box sx={{ width: "100%" }}>
