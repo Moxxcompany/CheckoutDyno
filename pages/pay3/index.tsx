@@ -241,7 +241,7 @@ const Payment = () => {
             bgcolor='#F8FAFC'
             px={2}
             minHeight={'calc(100vh - 340px)'}
-            // marginTop="50px"
+          // marginTop="50px"
           >
             <Paper
               elevation={3}
@@ -443,7 +443,7 @@ const Payment = () => {
               setActiveStep={setActiveStep}
             />
           ) : (
-            <CryptoTransfer />
+            <CryptoTransfer activeStep={activeStep} setActiveStep={setActiveStep} />
           )
         ) : null}
 
