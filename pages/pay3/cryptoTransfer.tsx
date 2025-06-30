@@ -29,27 +29,36 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import QRCode from 'react-qr-code'
 import CopyIcon from '@/assets/Icons/CopyIcon'
 import ClockIcon from '@/assets/Icons/ClockIcon'
+import axiosBaseApi from '@/axiosConfig'
+import { currencyData, walletState } from '@/utils/types/paymentTypes'
+import { TOAST_SHOW } from '@/Redux/Actions/ToastAction'
+import { useDispatch } from 'react-redux'
 
 interface CryptoTransferProps {
   activeStep: number
   setActiveStep: React.Dispatch<React.SetStateAction<number>>
+  walletState: walletState
 }
 
 const cryptoOptions = [
-  { value: 'USDT', label: 'USDT (TRC-20, ERC-20)', icon: <AttachMoney /> },
-  { value: 'BTC', label: 'Bitcoin (BTC)', icon: <CurrencyBitcoin /> },
-  { value: 'ETH', label: 'Ethereum (ETH)', icon: <CurrencyExchange /> },
-  { value: 'BNB', label: 'BNB', icon: <Diamond /> },
-  { value: 'LTC', label: 'Litecoin (LTC)', icon: <Paid /> },
-  { value: 'DOGE', label: 'Dogecoin (DOGE)', icon: <CurrencyLira /> },
-  { value: 'BCH', label: 'Bitcoin Cash (BCH)', icon: <AccountBalanceWallet /> },
-  { value: 'TRX', label: 'Tron (TRX)', icon: <Bolt /> }
+  { value: 'USDT', label: 'USDT (TRC-20, ERC-20)', icon: <AttachMoney />, currency: "USDT-TRC20" },
+  { value: 'BTC', label: 'Bitcoin (BTC)', icon: <CurrencyBitcoin />, currency: "BTC" },
+  { value: 'ETH', label: 'Ethereum (ETH)', icon: <CurrencyExchange />, currency: "ETH" },
+  { value: 'BNB', label: 'BNB', icon: <Diamond />, currency: "BNB" },
+  { value: 'LTC', label: 'Litecoin (LTC)', icon: <Paid />, currency: "LTC" },
+  { value: 'DOGE', label: 'Dogecoin (DOGE)', icon: <CurrencyLira />, currency: "DOGE" },
+  { value: 'BCH', label: 'Bitcoin Cash (BCH)', icon: <AccountBalanceWallet />, currency: "BCH" },
+  { value: 'TRX', label: 'Tron (TRX)', icon: <Bolt />, currency: "TRX" }
 ]
 
-const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
+const CryptoTransfer = ({ activeStep, setActiveStep, walletState }: CryptoTransferProps) => {
+  const dispatch = useDispatch();
   const [selectedCrypto, setSelectedCrypto] = useState('')
   const [selectedNetwork, setSelectedNetwork] = useState('TRC-20')
   const [copied, setCopied] = useState(false)
+  const [currencyRates, setCurrencyRates] = useState<currencyData[]>();
+  const [selectedCurrency, setSelectedCurrency] = useState<currencyData>();
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (event: any) => {
     setSelectedCrypto(event.target.value)
@@ -74,6 +83,38 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
   //     }
   //   }, 100000)
   // }, [selectedCrypto])
+
+  useEffect(() => {
+    if (selectedCrypto) {
+      getCurrencyRate();
+    }
+  }, [selectedCrypto]);
+
+  const getCurrencyRate = async () => {
+    try {
+      const {
+        data: { data },
+      } = await axiosBaseApi.post("/pay/getCurrencyRates", {
+        source: walletState?.currency,
+        amount: walletState?.amount,
+        currencyList: cryptoOptions.map((x) => x.currency),
+        fixedDecimal: false,
+      });
+      console.log('Pay3 ==> Crypto component', data)
+      setCurrencyRates(data);
+      setSelectedCurrency(data[0]);
+      setLoading(false);
+    } catch (e: any) {
+      const message = e.response.data.message ?? e.message;
+      dispatch({
+        type: TOAST_SHOW,
+        payload: {
+          message: message,
+          severity: "error",
+        },
+      });
+    }
+  };
 
   return (
     <Box
@@ -433,7 +474,7 @@ const CryptoTransfer = ({ activeStep, setActiveStep }: CryptoTransferProps) => {
               </Box>
               <Divider sx={{ my: 2 }} />
 
-              <Box  display={'flex'} alignItems={'center'} justifyContent={"center"} gap={1}>
+              <Box display={'flex'} alignItems={'center'} justifyContent={"center"} gap={1}>
                 <ClockIcon />
                 <Typography
                   variant='body2'

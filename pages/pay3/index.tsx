@@ -16,6 +16,7 @@ import { rootReducer } from "@/utils/types";
 import {
   CommonApiRes,
   CommonDetails,
+  currencyData,
   transferDetails,
 } from "@/utils/types/paymentTypes";
 
@@ -95,19 +96,19 @@ const currencyOptions = [
     code: "USD",
     label: "United States Dollar (USD)",
     icon: <FlagCircleOutlined sx={{ fontSize: 18 }} />,
-    rate: 1, // Base currency
+    currency: 'USD'
   },
   {
     code: "EUR",
     label: "Euro (EUR)",
     icon: <FlagCircleOutlined sx={{ fontSize: 18 }} />,
-    rate: 0.93,
+    currency: 'EUR'
   },
   {
     code: "NGN",
     label: "Nigerian Naira (NGN)",
     icon: <FlagCircleOutlined sx={{ fontSize: 18 }} />,
-    rate: 1600,
+    currency: 'NGN'
   },
 ];
 
@@ -122,6 +123,7 @@ const Payment = () => {
   const [allowedModes, setAllowedModes] = useState<any[]>([]);
   const [accountDetails, setAccountDetails] = useState<CommonDetails>();
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
+  const [currencyRates, setCurrencyRates] = useState<currencyData>();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [darkMode, setDarkMode] = useState(false);
   const [activeStep, setActiveStep] = useState<number>(0);
@@ -184,6 +186,31 @@ const Payment = () => {
     }
   };
 
+  const getCurrencyRate = async (selectedCurrency: string) => {
+    try {
+      const {
+        data: { data },
+      } = await axiosBaseApi.post("/pay/getCurrencyRates", {
+        source: walletState?.currency,
+        amount: walletState?.amount,
+        currencyList: [selectedCurrency],
+        fixedDecimal: false,
+      });
+      setCurrencyRates(data[0])
+      setSelectedCurrency(selectedCurrency);
+      setLoading(false);
+    } catch (e: any) {
+      const message = e.response.data.message ?? e.message;
+      dispatch({
+        type: TOAST_SHOW,
+        payload: {
+          message: message,
+          severity: "error",
+        },
+      });
+    }
+  };
+
   const initiateGoogleApplyPayTransfer = async () => {
     const finalPayload = {
       paymentType,
@@ -217,18 +244,12 @@ const Payment = () => {
   };
 
   const handleSelect = (event: React.MouseEvent, code: string) => {
-    setSelectedCurrency(code);
+    getCurrencyRate(code)
     handleClose();
   };
 
 
   const isOpen = Boolean(anchorEl);
-
-  const basePriceUSD = 129.0;
-  const selected = currencyOptions.find((c) => c.code === selectedCurrency);
-  const convertedPrice = (basePriceUSD * (selected?.rate || 1)).toFixed(2);
-
-
 
   return (
     <Box>
@@ -239,7 +260,7 @@ const Payment = () => {
           overflowY: "auto",
         }}
       >
-        <ProgressBar activeStep={activeStep}  />
+        <ProgressBar activeStep={activeStep} />
 
         {activeStep === 0 ? (
           <Box
@@ -314,7 +335,7 @@ const Payment = () => {
                     }}
                     onClick={handleClick}
                   >
-                    {selected?.icon}
+                    {currencyOptions.find((c) => c.code === currencyRates?.currency)?.icon || currencyOptions.find((c) => c.code === walletState?.currency)?.icon}
                     <Typography fontWeight={400} fontFamily="Space Grotesk" fontSize={25} sx={{
                       fontSize: {
                         xs: '12px',  // for small screens
@@ -322,7 +343,7 @@ const Payment = () => {
                         md: '20px',  // default
                       }
                     }}>
-                      {convertedPrice} {selected?.code}
+                      {currencyRates?.amount ?? walletState?.amount} {currencyRates?.currency ?? walletState?.currency}
                     </Typography>
                     {isOpen ? (
                       <ArrowDropUp fontSize="small" />
@@ -513,7 +534,7 @@ const Payment = () => {
                       "&:hover": { bgcolor: "#E0E7FF" },
                     }}
                   >
-                   <CopyIcon/>
+                    <CopyIcon />
                   </IconButton>
                 </Box>
               </Box>
@@ -528,7 +549,7 @@ const Payment = () => {
               setActiveStep={setActiveStep}
             />
           ) : (
-            <CryptoTransfer activeStep={activeStep} setActiveStep={setActiveStep} />
+            <CryptoTransfer activeStep={activeStep} setActiveStep={setActiveStep} walletState={walletState} />
           )
         ) : activeStep === 2 ? (
           <TransferExpectedCard isTrue={false} type={transferMethod} />
