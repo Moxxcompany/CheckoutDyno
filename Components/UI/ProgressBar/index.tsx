@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import {
   Stepper,
@@ -8,32 +8,32 @@ import {
   stepConnectorClasses,
   Typography,
   IconButton,
-  Box,
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
-import CheckIcon from '@mui/icons-material/Check';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+  Box
+} from '@mui/material'
+import { styled } from '@mui/material/styles'
+import CheckIcon from '@mui/icons-material/Check'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 
 const CustomConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
-    top: 14,
+    top: 14
   },
   [`& .${stepConnectorClasses.line}`]: {
     height: 2,
     border: 0,
     backgroundColor: '#CBD5E1', // gray line
-    borderRadius: 1,
+    borderRadius: 1
   },
   [`&.${stepConnectorClasses.active} .${stepConnectorClasses.line}`]: {
-    backgroundColor: '#4F46E5', // active step line
+    backgroundColor: '#4F46E5' // active step line
   },
   [`&.${stepConnectorClasses.completed} .${stepConnectorClasses.line}`]: {
-    backgroundColor: '#4F46E5', // completed line
-  },
-}));
+    backgroundColor: '#4F46E5' // completed line
+  }
+}))
 
 const StepIconRoot = styled('div')<{
-  ownerState: { completed: boolean; active: boolean };
+  ownerState: { completed: boolean; active: boolean }
 }>(({ ownerState }) => ({
   backgroundColor: ownerState.completed ? '#4F46E5' : '#fff',
   zIndex: 1,
@@ -44,11 +44,11 @@ const StepIconRoot = styled('div')<{
   border: '2px solid #4F46E5',
   borderRadius: '50%',
   justifyContent: 'center',
-  alignItems: 'center',
-}));
+  alignItems: 'center'
+}))
 
-function StepIconComponent(props: any) {
-  const { active, completed } = props;
+function StepIconComponent (props: any) {
+  const { active, completed } = props
 
   return (
     <StepIconRoot ownerState={{ completed, active }}>
@@ -60,36 +60,50 @@ function StepIconComponent(props: any) {
             width: 8,
             height: 8,
             borderRadius: '50%',
-            background: active ? '#4F46E5' : '#CBD5E1',
+            background: active ? '#4F46E5' : '#CBD5E1'
           }}
         />
       )}
     </StepIconRoot>
-  );
+  )
 }
 
-const steps = ['Order Info', 'Payment', 'Confirmation'];
+const steps = ['Order Info', 'Payment', 'Confirmation']
 
-export default function ProgressBar({ activeStep }: { activeStep: number }) {
+export default function ProgressBar ({ activeStep }: { activeStep: number }) {
   return (
-    <Box sx={{ width: '100%', px: 4, py: 3, bgcolor: '#F8FAFC' }}>
-      <Box display="flex" alignItems="center" mb={2}>
-        <IconButton>
-          <ArrowBackIosNewIcon fontSize="small" />
-        </IconButton>
-        <Typography variant="body2" fontWeight={500}>
-          Back
-        </Typography>
-      </Box>
+    <Box
+      sx={{ width: '100%', px: 4, py: 3, bgcolor: '#F8FAFC' }}
+      // minHeight={'calc(100vh - 340px)'}
+    >
+      {activeStep === 2 ? (
+        <Box display='flex' alignItems='center' mb={2} height={35}>
+      
+        </Box>
+      ) : (
+        <Box display='flex' alignItems='center' mb={2}>
+          <IconButton>
+            <ArrowBackIosNewIcon fontSize='small' />
+          </IconButton>
+
+          <Typography variant='body2' fontWeight={500}>
+            Back
+          </Typography>
+        </Box>
+      )}
       <Stepper
         alternativeLabel
         activeStep={activeStep}
         connector={<CustomConnector />}
       >
-        {steps.map((label) => (
+        {steps.map(label => (
           <Step key={label}>
             <StepLabel StepIconComponent={StepIconComponent}>
-              <Typography variant="caption" fontWeight={500} color="text.secondary">
+              <Typography
+                variant='caption'
+                fontWeight={500}
+                color='text.secondary'
+              >
                 {/* {label} */}
               </Typography>
             </StepLabel>
@@ -97,5 +111,5 @@ export default function ProgressBar({ activeStep }: { activeStep: number }) {
         ))}
       </Stepper>
     </Box>
-  );
+  )
 }

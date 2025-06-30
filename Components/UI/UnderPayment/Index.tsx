@@ -142,12 +142,13 @@ const UnderPayment = () => {
                 fontWeight={400}
                 fontSize={16}
                 color="#515151"
+                fontFamily="Space Grotesk"
 
                 sx={{
                   fontSize: {
                     xs: "12px", // for small screens
-                    sm: "18px",
-                    md: "20px", // default
+                    sm: "14px",
+                    md: "16px", // default
                   },
                 }}
               >
@@ -159,11 +160,13 @@ const UnderPayment = () => {
                 fontWeight={400}
                 color="#515151"
                 fontSize={16}
+                fontFamily="Space Grotesk"
+
                 sx={{
                   fontSize: {
                     xs: "12px", // for small screens
-                    sm: "18px",
-                    md: "20px", // default
+                    sm: "14px",
+                    md: "16px", // default
                   },
                 }}
               >
@@ -175,12 +178,14 @@ const UnderPayment = () => {
               display="flex"
               justifyContent="space-between"
               alignItems="center"
-              py={2}
+              // py={2}
             >
               <Typography
                 variant="subtitle2"
                 fontWeight={400}
                 fontSize={25}
+                color="#000"
+                fontFamily="Space Grotesk"
                 sx={{
                   fontSize: {
                     xs: "12px", // for small screens
@@ -212,6 +217,8 @@ const UnderPayment = () => {
                   fontWeight={400}
                   fontFamily="Space Grotesk"
                   fontSize={25}
+                color="#000"
+
                   sx={{
                     fontSize: {
                       xs: "12px", // for small screens
