@@ -202,7 +202,7 @@ const CryptoTransfer = ({ activeStep, setActiveStep, walletState }: CryptoTransf
 
         {selectedCrypto === 'USDT' && (
           <Box mt={2} mb={3} display='flex' gap={1} alignItems='center'>
-            {["TRC20", "ERC20"].map((net) => (
+            {['TRC20', 'ERC20'].map((net) => (
               <Typography
                 key={net}
                 border={`1px solid ${selectedNetwork === net ? '#86A4F9' : '#E7EAFD'}`}
@@ -211,7 +211,7 @@ const CryptoTransfer = ({ activeStep, setActiveStep, walletState }: CryptoTransf
                 bgcolor={selectedNetwork === net ? '#E7EAFD' : '#F5F8FF'}
                 borderRadius='5px'
                 sx={{ cursor: 'pointer' }}
-                onClick={() => handleNetworkChange(net)}
+                onClick={() => handleNetworkChange(net as 'TRC20' | 'ERC20')}
                 fontFamily='Space Grotesk'
               >
                 {net}
