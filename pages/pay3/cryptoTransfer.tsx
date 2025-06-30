@@ -34,7 +34,7 @@ interface CryptoTransferProps {
 }
 
 const cryptoOptions = [
-  { value: 'USDT', label: 'USDT (TRC-20, ERC-20)', icon: <Icon icon="cryptocurrency-color:usdt" width="24" />, currency: "USDT-TRC20" },
+  { value: 'USDT', label: 'USDT (TRC-20, ERC-20)', icon: <Icon icon="cryptocurrency-color:usdt" width="24" /> },
   { value: 'BTC', label: 'Bitcoin (BTC)', icon: <Icon icon="logos:bitcoin" width="24" />, currency: "BTC" },
   { value: 'ETH', label: 'Ethereum (ETH)', icon: <Icon icon="cryptocurrency-color:eth" width="24" />, currency: "ETH" },
   { value: 'BNB', label: 'BNB', icon: <Icon icon="cryptocurrency-color:bnb" width="24" />, currency: "BNB" },
@@ -53,18 +53,19 @@ interface CryptoDetails {
 const CryptoTransfer = ({ activeStep, setActiveStep, walletState }: CryptoTransferProps) => {
   const dispatch = useDispatch();
   const [selectedCrypto, setSelectedCrypto] = useState('')
-  const [selectedNetwork, setSelectedNetwork] = useState('TRC-20')
+  const [selectedNetwork, setSelectedNetwork] = useState<'TRC20' | 'ERC20'>('TRC20')
   const [copied, setCopied] = useState(false)
   const [currencyRates, setCurrencyRates] = useState<currencyData[]>()
   const [selectedCurrency, setSelectedCurrency] = useState<currencyData>()
-  const [cryptoDetails, setCryptoDetails] = useState<CryptoDetails>({
-    qr_code: "",
-    hash: "",
-    address: "",
-  });
+  const [cryptoDetails, setCryptoDetails] = useState<CryptoDetails>({ qr_code: "", hash: "", address: "" });
   const [loading, setLoading] = useState(false);
 
   const getSelectedOption = () => cryptoOptions.find(opt => opt.value === selectedCrypto)
+
+  const getApiCurrency = () => {
+    if (selectedCrypto === 'USDT') return `USDT-${selectedNetwork}`
+    return cryptoOptions.find(opt => opt.value === selectedCrypto)?.currency || ''
+  }
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(cryptoDetails?.address)
@@ -72,32 +73,25 @@ const CryptoTransfer = ({ activeStep, setActiveStep, walletState }: CryptoTransf
     setTimeout(() => setCopied(false), 2000)
   }
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (selectedCrypto !== '') {
-  //       setActiveStep(activeStep + 1)
-  //     }
-  //   }, 100000)
-  // }, [selectedCrypto])
-
-  const getCurrencyRateAndSubmit = async (value: string) => {
+  const getCurrencyRateAndSubmit = async (cryptoValue: string, network: 'TRC20' | 'ERC20' = 'TRC0') => {
     try {
-      setLoading(true)
+      setLoading(true);
+      const currency = cryptoValue === 'USDT' ? `USDT-${network}` : cryptoOptions.find(x => x.value === cryptoValue)?.currency || ''
+
       const rateResponse = await axiosBaseApi.post("/pay/getCurrencyRates", {
         source: walletState?.currency,
         amount: walletState?.amount,
-        currencyList: [value],
+        currencyList: [currency],
         fixedDecimal: false,
       });
 
       const rateData = rateResponse?.data?.data
       setCurrencyRates(rateData);
       setSelectedCurrency(rateData[0]);
-      setSelectedCrypto(value);
+      setSelectedCrypto(cryptoValue);
 
-      const wallet = cryptoOptions.find(x => x.currency === rateData[0]?.currency)?.currency;
       const finalPayload = {
-        currency: wallet,
+        currency,
         amount: rateData[0]?.amount,
         paymentType: paymentTypes.CRYPTO,
       };
@@ -111,20 +105,23 @@ const CryptoTransfer = ({ activeStep, setActiveStep, walletState }: CryptoTransf
       } else {
         setCryptoDetails(result);
       }
-
     } catch (e: any) {
       const message = e?.response?.data?.message ?? e.message;
-      dispatch({
-        type: TOAST_SHOW,
-        payload: { message, severity: "error" },
-      });
+      dispatch({ type: TOAST_SHOW, payload: { message, severity: "error" } });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   const handleChange = (event: any) => {
-    getCurrencyRateAndSubmit(event.target.value)
+    const value = event.target.value
+    if (value === 'USDT') setSelectedNetwork('TRC20')
+    getCurrencyRateAndSubmit(value, value === 'USDT' ? 'TRC20' : undefined)
+  }
+
+  const handleNetworkChange = (network: 'TRC20' | 'ERC20') => {
+    setSelectedNetwork(network)
+    getCurrencyRateAndSubmit('USDT', network)
   }
 
   const handleVerify = async () => {
@@ -205,7 +202,7 @@ const CryptoTransfer = ({ activeStep, setActiveStep, walletState }: CryptoTransf
 
         {selectedCrypto === 'USDT' && (
           <Box mt={2} mb={3} display='flex' gap={1} alignItems='center'>
-            {["TRC-20", "ERC-20"].map(net => (
+            {["TRC20", "ERC20"].map((net) => (
               <Typography
                 key={net}
                 border={`1px solid ${selectedNetwork === net ? '#86A4F9' : '#E7EAFD'}`}
@@ -214,7 +211,7 @@ const CryptoTransfer = ({ activeStep, setActiveStep, walletState }: CryptoTransf
                 bgcolor={selectedNetwork === net ? '#E7EAFD' : '#F5F8FF'}
                 borderRadius='5px'
                 sx={{ cursor: 'pointer' }}
-                onClick={() => setSelectedNetwork(net)}
+                onClick={() => handleNetworkChange(net)}
                 fontFamily='Space Grotesk'
               >
                 {net}
