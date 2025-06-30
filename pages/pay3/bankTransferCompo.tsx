@@ -112,7 +112,8 @@ const BankTransferCompo = ({
                   color: '#444CE7',
                   bgcolor: '#E7EAFD',
                   borderRadius: '6px',
-                  fontFamily: "Space Grotesk"
+                  fontFamily: "Space Grotesk",
+                  gap:'4px'
                 }}
               >
                 <CopyIcon />

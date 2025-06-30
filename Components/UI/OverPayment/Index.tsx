@@ -280,6 +280,7 @@ const OverPayment = () => {
                 color={'#515151'}
                 fontFamily='Space Grotesk'
                 textAlign="justify"
+                fontWeight={500}
               >
                 Excess amount will be refunded to your Wallet of the store you
                 purchased from.

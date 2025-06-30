@@ -127,8 +127,8 @@ const Payment = () => {
         data: query_data,
       });
       setWalletState({
-        amount: 20,
-        currency: "USD",
+        amount: data.amount,
+        currency: data.base_currency,
       });
       setPaymentMode(data.payment_mode);
       if (data?.payment_mode === "createLink") {
