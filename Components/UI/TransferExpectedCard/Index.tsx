@@ -3,7 +3,7 @@ import { Box, Typography, Button, Card, useTheme } from "@mui/material";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import DoneIcon from "@mui/icons-material/Done";
 
-export default function TransferExpectedCard({ isTrue, type }: { isTrue?: boolean, type: string }) {
+export default function TransferExpectedCard({ isTrue, type  }: { isTrue?: boolean, type: string  }) {
     const theme = useTheme();
 
 

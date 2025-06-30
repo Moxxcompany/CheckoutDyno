@@ -73,7 +73,7 @@ const CryptoTransfer = ({ activeStep, setActiveStep, walletState }: CryptoTransf
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const getCurrencyRateAndSubmit = async (cryptoValue: string, network: 'TRC20' | 'ERC20' = 'TRC0') => {
+  const getCurrencyRateAndSubmit = async (cryptoValue: string, network: 'TRC20' | 'ERC20' = 'TRC20') => {
     try {
       setLoading(true);
       const currency = cryptoValue === 'USDT' ? `USDT-${network}` : cryptoOptions.find(x => x.value === cryptoValue)?.currency || ''

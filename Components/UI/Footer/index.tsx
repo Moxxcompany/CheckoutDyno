@@ -3,8 +3,6 @@
 import { Box, Typography, IconButton } from '@mui/material'
 import EmailIcon from '@mui/icons-material/Email'
 import SendIcon from '@mui/icons-material/Send'
-import ShareIcon from '@/assets/Icons/ShareIcon'
-import MailIcon from '@/assets/Icons/MailIcon'
 import XIcon from '@mui/icons-material/X'
 import InstagramIcon from '@mui/icons-material/Instagram'
 export default function Footer () {
@@ -14,16 +12,17 @@ export default function Footer () {
       <Box
         display='flex'
         justifyContent='center'
-        gap={2}
+        // gap={1}
         bgcolor='#F8FAFC'
         py={2}
       >
-        <IconButton>
-          <XIcon sx={{ color: '#444CE7' }} />
+          <IconButton>
+          <InstagramIcon sx={{ color: '#2D3282' }} />
         </IconButton>
         <IconButton>
-          <InstagramIcon sx={{ color: '#444CE7' }} />
+          <XIcon sx={{ color: '#2D3282' }} />
         </IconButton>
+      
       </Box>
 
       {/* Footer Bar */}
