@@ -77,37 +77,26 @@ import TransferExpectedCard from "@/Components/UI/TransferExpectedCard/Index";
 import CopyIcon from "@/assets/Icons/CopyIcon";
 import UnderPayment from "@/Components/UI/UnderPayment/Index";
 import OverPayment from "@/Components/UI/OverPayment/Index";
-
-const paymentMethods = [
-  {
-    label: "Bank Transfer (NGN)",
-    value: paymentTypes.BANK_TRANSFER,
-    icon: <AccountBalanceRounded />,
-  },
-  {
-    label: "Crypto",
-    value: paymentTypes.CRYPTO,
-    icon: <CurrencyBitcoinRounded />,
-  },
-];
+import { Icon } from '@iconify/react';
+import BitCoinGreenIcon from "@/assets/Icons/BitCoinGreenIcon";
 
 const currencyOptions = [
   {
     code: "USD",
     label: "United States Dollar (USD)",
-    icon: <FlagCircleOutlined sx={{ fontSize: 18 }} />,
+    icon: <Icon icon="circle-flags:us-um" width={20} />,
     currency: 'USD'
   },
   {
     code: "EUR",
     label: "Euro (EUR)",
-    icon: <FlagCircleOutlined sx={{ fontSize: 18 }} />,
+    icon: <Icon icon="circle-flags:european-union" width={20} />,
     currency: 'EUR'
   },
   {
     code: "NGN",
     label: "Nigerian Naira (NGN)",
-    icon: <FlagCircleOutlined sx={{ fontSize: 18 }} />,
+    icon: <Icon icon="circle-flags:ng" width={20} />,
     currency: 'NGN'
   },
 ];
@@ -403,7 +392,7 @@ const Payment = () => {
                   <Button
                     fullWidth
                     variant="outlined"
-                    startIcon={<AssuredWorkloadIcon />}
+                    startIcon={<Icon icon="mingcute:bank-line" width="15" />}
                     onClick={() => {
                       setActiveStep(1);
                       setTransferMethod("bank");
@@ -450,7 +439,7 @@ const Payment = () => {
                   <Button
                     fullWidth
                     variant="outlined"
-                    startIcon={<CurrencyBitcoinIcon />}
+                    startIcon={<BitCoinGreenIcon width={8.25} />}
                     onClick={() => {
                       setActiveStep(1);
                       setTransferMethod("crypto");
