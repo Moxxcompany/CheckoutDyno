@@ -73,6 +73,8 @@ import FileCopyIcon from "@mui/icons-material/FileCopy";
 import BankTransferCompo from "./bankTransferCompo";
 import CryptoTransfer from "./cryptoTransfer";
 import TransferExpectedCard from "@/Components/UI/TransferExpectedCard/Index";
+import CopyIcon from "@/assets/Icons/CopyIcon";
+import UnderPayment from "@/Components/UI/UnderPayment/Index";
 
 const paymentMethods = [
   {
@@ -239,283 +241,284 @@ const Payment = () => {
         <ProgressBar activeStep={activeStep} />
 
         {activeStep === 0 ? (
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            bgcolor="#F8FAFC"
-            px={2}
-            minHeight={"calc(100vh - 340px)"}
-          >
-            <Paper
-              elevation={3}
-              sx={{
-                borderRadius: 4,
-                p: 4,
-                width: "100%",
-                maxWidth: 500,
-                marginTop: 10,
-                textAlign: "center",
-                margin: 0,
-                border: "1px solid #E7EAFD",
-                boxShadow: "0px 45px 64px 0px #0D03230F",
-              }}
-            >
-              <Box display="flex" justifyContent="center" mb={2}>
-                <Image src="/logo2.png" alt="Logo" width={69} height={77} />
-              </Box>
+          // <Box
+          //   display="flex"
+          //   alignItems="center"
+          //   justifyContent="center"
+          //   bgcolor="#F8FAFC"
+          //   px={2}
+          //   minHeight={"calc(100vh - 340px)"}
+          // >
+          //   <Paper
+          //     elevation={3}
+          //     sx={{
+          //       borderRadius: 4,
+          //       p: 4,
+          //       width: "100%",
+          //       maxWidth: 500,
+          //       marginTop: 10,
+          //       textAlign: "center",
+          //       margin: 0,
+          //       border: "1px solid #E7EAFD",
+          //       boxShadow: "0px 45px 64px 0px #0D03230F",
+          //     }}
+          //   >
+          //     <Box display="flex" justifyContent="center" mb={2}>
+          //       <Image src="/logo2.png" alt="Logo" width={69} height={77} />
+          //     </Box>
 
-              <Typography variant="h6" fontWeight={500} fontSize={25} gutterBottom fontFamily="Space Grotesk">
-                Your order is almost complete!
-              </Typography>
+          //     <Typography variant="h6" fontWeight={500} fontSize={25} gutterBottom fontFamily="Space Grotesk">
+          //       Your order is almost complete!
+          //     </Typography>
 
-              <Typography variant="body2" color="#000" mb={3} fontFamily="Space Grotesk">
-                Choose a payment method below to finalize your transaction:
-              </Typography>
+          //     <Typography variant="body2" color="#000" mb={3} fontFamily="Space Grotesk">
+          //       Choose a payment method below to finalize your transaction:
+          //     </Typography>
 
-              <Box
-                alignItems="center"
-                border="1px solid #E2E8F0"
-                borderRadius={2}
-                px={2}
-                mb={2}
-              >
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  py={2}
-                >
-                  <Typography variant="subtitle2" fontWeight={400} fontSize={25} sx={{
-                    fontSize: {
-                      xs: '12px',  // for small screens
-                      sm: '18px',
-                      md: '20px',  // default
-                    }
-                  }}>
-                    To Pay:
-                  </Typography>
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    border={1}
-                    borderRadius={"6px"}
-                    padding={1}
-                    gap={1}
-                    sx={{
-                      cursor: "pointer",
-                      borderColor: "transparent",
-                      "&:hover": {
-                        borderColor: "#737373", // or any hover color
-                      },
-                    }}
-                    onClick={handleClick}
-                  >
-                    {selected?.icon}
-                    <Typography fontWeight={400} fontFamily="Space Grotesk" fontSize={25} sx={{
-                      fontSize: {
-                        xs: '12px',  // for small screens
-                        sm: '18px',
-                        md: '20px',  // default
-                      }
-                    }}>
-                      {convertedPrice} {selected?.code}
-                    </Typography>
-                    {isOpen ? (
-                      <ArrowDropUp fontSize="small" />
-                    ) : (
-                      <ArrowDropDown fontSize="small" />
-                    )}
+          //     <Box
+          //       alignItems="center"
+          //       border="1px solid #E2E8F0"
+          //       borderRadius={2}
+          //       px={2}
+          //       mb={2}
+          //     >
+          //       <Box
+          //         display="flex"
+          //         justifyContent="space-between"
+          //         alignItems="center"
+          //         py={2}
+          //       >
+          //         <Typography variant="subtitle2" fontWeight={400} fontSize={25} sx={{
+          //           fontSize: {
+          //             xs: '12px',  // for small screens
+          //             sm: '18px',
+          //             md: '20px',  // default
+          //           }
+          //         }}>
+          //           To Pay:
+          //         </Typography>
+          //         <Box
+          //           display="flex"
+          //           alignItems="center"
+          //           border={1}
+          //           borderRadius={"6px"}
+          //           padding={1}
+          //           gap={1}
+          //           sx={{
+          //             cursor: "pointer",
+          //             borderColor: "transparent",
+          //             "&:hover": {
+          //               borderColor: "#737373", // or any hover color
+          //             },
+          //           }}
+          //           onClick={handleClick}
+          //         >
+          //           {selected?.icon}
+          //           <Typography fontWeight={400} fontFamily="Space Grotesk" fontSize={25} sx={{
+          //             fontSize: {
+          //               xs: '12px',  // for small screens
+          //               sm: '18px',
+          //               md: '20px',  // default
+          //             }
+          //           }}>
+          //             {convertedPrice} {selected?.code}
+          //           </Typography>
+          //           {isOpen ? (
+          //             <ArrowDropUp fontSize="small" />
+          //           ) : (
+          //             <ArrowDropDown fontSize="small" />
+          //           )}
 
-                    <Menu
-                      anchorEl={anchorEl}
-                      open={isOpen}
-                      onClose={handleClose}
-                      PaperProps={{
-                        sx: {
-                          border: "1px solid #737373",
-                          borderRadius: "10px",
-                        },
-                      }}
-                    >
-                      {currencyOptions.map((currency) => (
-                        <MenuItem
-                          key={currency.code}
-                          onClick={(e) => handleSelect(e, currency.code)}
-                          sx={{
-                            px: {
-                              xs: 1.5,
-                              sm: 2,
-                              md: 2.5,
-                            },
-                            py: {
-                              xs: 1,
-                              sm: 1.2,
-                              md: 1.5,
-                            },
-                          }}
-                        >
-                          <Box display="flex" alignItems="center" gap={1}>
-                            {currency.icon}
-                            <Typography sx={{
-                              fontSize: {
-                                xs: '14px',  // for small screens
-                                sm: '18px',
-                                md: '20px',  // default
-                              }
-                            }}>
-                              {currency.label}
-                            </Typography>
-                          </Box>
-                        </MenuItem>
-                      ))}
-                    </Menu>
-                  </Box>
-                </Box>
+          //           <Menu
+          //             anchorEl={anchorEl}
+          //             open={isOpen}
+          //             onClose={handleClose}
+          //             PaperProps={{
+          //               sx: {
+          //                 border: "1px solid #737373",
+          //                 borderRadius: "10px",
+          //               },
+          //             }}
+          //           >
+          //             {currencyOptions.map((currency) => (
+          //               <MenuItem
+          //                 key={currency.code}
+          //                 onClick={(e) => handleSelect(e, currency.code)}
+          //                 sx={{
+          //                   px: {
+          //                     xs: 1.5,
+          //                     sm: 2,
+          //                     md: 2.5,
+          //                   },
+          //                   py: {
+          //                     xs: 1,
+          //                     sm: 1.2,
+          //                     md: 1.5,
+          //                   },
+          //                 }}
+          //               >
+          //                 <Box display="flex" alignItems="center" gap={1}>
+          //                   {currency.icon}
+          //                   <Typography sx={{
+          //                     fontSize: {
+          //                       xs: '14px',  // for small screens
+          //                       sm: '18px',
+          //                       md: '20px',  // default
+          //                     }
+          //                   }}>
+          //                     {currency.label}
+          //                   </Typography>
+          //                 </Box>
+          //               </MenuItem>
+          //             ))}
+          //           </Menu>
+          //         </Box>
+          //       </Box>
 
-                <Divider sx={{ mb: 2 }} />
+          //       <Divider sx={{ mb: 2 }} />
 
-                <Box display="flex" gap={2} mb={2}>
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    startIcon={<AssuredWorkloadIcon />}
-                    onClick={() => {
-                      setActiveStep(1);
-                      setTransferMethod("bank");
-                    }}
-                    sx={{
-                      borderColor: "#4F46E5",
-                      color: "#4F46E5",
-                      textTransform: "none",
-                      fontFamily: "Space Grotesk",
-                      borderRadius: 30,
+          //       <Box display="flex" gap={2} mb={2}>
+          //         <Button
+          //           fullWidth
+          //           variant="outlined"
+          //           startIcon={<AssuredWorkloadIcon />}
+          //           onClick={() => {
+          //             setActiveStep(1);
+          //             setTransferMethod("bank");
+          //           }}
+          //           sx={{
+          //             borderColor: "#4F46E5",
+          //             color: "#4F46E5",
+          //             textTransform: "none",
+          //             fontFamily: "Space Grotesk",
+          //             borderRadius: 30,
 
-                      // Responsive padding
-                      py: {
-                        xs: 1.2,  // ~10px
-                        sm: 1.5,
-                        md: 2     // default
-                      },
+          //             // Responsive padding
+          //             py: {
+          //               xs: 1.2,  // ~10px
+          //               sm: 1.5,
+          //               md: 2     // default
+          //             },
 
-                      // Responsive font size
-                      fontSize: {
-                        xs: '14px',
-                        sm: '16px',
-                        md: '18px'
-                      },
+          //             // Responsive font size
+          //             fontSize: {
+          //               xs: '14px',
+          //               sm: '16px',
+          //               md: '18px'
+          //             },
 
-                      // Optional: Responsive minHeight for better visual spacing
-                      minHeight: {
-                        xs: 40,
-                        sm: 48,
-                        md: 56
-                      },
+          //             // Optional: Responsive minHeight for better visual spacing
+          //             minHeight: {
+          //               xs: 40,
+          //               sm: 48,
+          //               md: 56
+          //             },
 
-                      "&:hover": {
-                        backgroundColor: "#EEF2FF",
-                        borderColor: "#4F46E5",
-                      },
-                    }}
-                  >
-                    {isSmallScreen ? 'Bank' : 'Bank Transfer'}
+          //             "&:hover": {
+          //               backgroundColor: "#EEF2FF",
+          //               borderColor: "#4F46E5",
+          //             },
+          //           }}
+          //         >
+          //           {isSmallScreen ? 'Bank' : 'Bank Transfer'}
 
 
-                  </Button>
+          //         </Button>
 
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    startIcon={<CurrencyBitcoinIcon />}
-                    onClick={() => {
-                      setActiveStep(1);
-                      setTransferMethod("crypto");
-                    }}
-                    sx={{
-                      borderColor: "#10B981",
-                      color: "#10B981",
-                      textTransform: "none",
-                      borderRadius: 30,
-                      fontFamily: "Space Grotesk",
+          //         <Button
+          //           fullWidth
+          //           variant="outlined"
+          //           startIcon={<CurrencyBitcoinIcon />}
+          //           onClick={() => {
+          //             setActiveStep(1);
+          //             setTransferMethod("crypto");
+          //           }}
+          //           sx={{
+          //             borderColor: "#10B981",
+          //             color: "#10B981",
+          //             textTransform: "none",
+          //             borderRadius: 30,
+          //             fontFamily: "Space Grotesk",
 
-                      // Responsive vertical padding
-                      py: {
-                        xs: 1.2,  // ~10px
-                        sm: 1.5,
-                        md: 2
-                      },
+          //             // Responsive vertical padding
+          //             py: {
+          //               xs: 1.2,  // ~10px
+          //               sm: 1.5,
+          //               md: 2
+          //             },
 
-                      // Responsive font size
-                      fontSize: {
-                        xs: '14px',
-                        sm: '16px',
-                        md: '18px'
-                      },
+          //             // Responsive font size
+          //             fontSize: {
+          //               xs: '14px',
+          //               sm: '16px',
+          //               md: '18px'
+          //             },
 
-                      // Optional: consistent height across devices
-                      minHeight: {
-                        xs: 40,
-                        sm: 48,
-                        md: 56
-                      },
+          //             // Optional: consistent height across devices
+          //             minHeight: {
+          //               xs: 40,
+          //               sm: 48,
+          //               md: 56
+          //             },
 
-                      "&:hover": {
-                        backgroundColor: "#ECFDF5",
-                        borderColor: "#10B981",
-                      },
-                    }}
-                  >
-                    {isSmallScreen ? 'Crypto' : 'Cryptocurrency'}
-                  </Button>
+          //             "&:hover": {
+          //               backgroundColor: "#ECFDF5",
+          //               borderColor: "#10B981",
+          //             },
+          //           }}
+          //         >
+          //           {isSmallScreen ? 'Crypto' : 'Cryptocurrency'}
+          //         </Button>
 
-                </Box>
-              </Box>
+          //       </Box>
+          //     </Box>
 
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                // alignItems='center'
-                mt={3}
-              >
-                {/* Left text */}
-                <Typography
-                  variant="caption"
-                  color="#515151"
-                  fontWeight={400}
-                  fontSize={12}
-                  sx={{ textAlign: "left" }}
-                >
-                  If you need to continue later, save your {"\n"} Transaction
-                  ID:
-                </Typography>
+          //     <Box
+          //       display="flex"
+          //       justifyContent="space-between"
+          //       // alignItems='center'
+          //       mt={3}
+          //     >
+          //       {/* Left text */}
+          //       <Typography
+          //         variant="caption"
+          //         color="#515151"
+          //         fontWeight={400}
+          //         fontSize={12}
+          //         sx={{ textAlign: "left" }}
+          //       >
+          //         If you need to continue later, save your {"\n"} Transaction
+          //         ID:
+          //       </Typography>
 
-                {/* Right part: ID and copy icon */}
-                <Box display="flex" alignItems="center" gap={1}>
-                  <Typography
-                    variant="caption"
-                    fontWeight={400}
-                    fontSize={12}
+          //       {/* Right part: ID and copy icon */}
+          //       <Box display="flex" alignItems="center" gap={1}>
+          //         <Typography
+          //           variant="caption"
+          //           fontWeight={400}
+          //           fontSize={12}
 
-                    color="#515151"
-                  >
-                    #ABC123456
-                  </Typography>
+          //           color="#515151"
+          //         >
+          //           #ABC123456
+          //         </Typography>
 
-                  <IconButton
-                    size="small"
-                    sx={{
-                      bgcolor: "#EEF2FF",
-                      p: 0.5,
-                      borderRadius: 2,
-                      "&:hover": { bgcolor: "#E0E7FF" },
-                    }}
-                  >
-                    <FileCopyIcon fontSize="small" sx={{ color: "#4F46E5" }} />
-                  </IconButton>
-                </Box>
-              </Box>
-            </Paper>
-          </Box>
+          //         <IconButton
+          //           size="small"
+          //           sx={{
+          //             bgcolor: "#EEF2FF",
+          //             p: 0.5,
+          //             borderRadius: 2,
+          //             "&:hover": { bgcolor: "#E0E7FF" },
+          //           }}
+          //         >
+          //          <CopyIcon/>
+          //         </IconButton>
+          //       </Box>
+          //     </Box>
+          //   </Paper>
+          // </Box>
+          <UnderPayment/>
         ) : activeStep === 1 ? (
           transferMethod === "bank" ? (
             <BankTransferCompo

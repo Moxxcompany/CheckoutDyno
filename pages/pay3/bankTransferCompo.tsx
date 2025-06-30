@@ -14,6 +14,7 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import { ArrowBack, ContentCopy, ErrorOutline } from '@mui/icons-material'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
+import CopyIcon from '@/assets/Icons/CopyIcon'
 
 interface BankTransferCompoProps {
   activeStep: number
@@ -111,12 +112,11 @@ const BankTransferCompo = ({
                   color: '#444CE7',
                   bgcolor: '#E7EAFD',
                   borderRadius: '6px',
-                  fontFamily:"Space Grotesk"
+                  fontFamily: "Space Grotesk"
                 }}
               >
-                <FileCopyIcon
-                  sx={{ color: '#444CE7', mr: 1, fontSize: '12px' }}
-                />
+                <CopyIcon />
+
                 Copy
               </IconButton>
             </Tooltip>
