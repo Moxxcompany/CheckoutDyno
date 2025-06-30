@@ -54,9 +54,21 @@ const BankTransferCompo = ({
 
   const currencyList = ['EUR', 'GBP', 'NGN']
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(transferDetails?.transfer_account)
+ const handleCopy = () => {
+  const account = transferDetails?.transfer_account;
+
+  if (account) {
+    navigator.clipboard.writeText(account);
+  } else {
+    dispatch({
+      type: TOAST_SHOW,
+      payload: {
+        message: 'No account number to copy.',
+        severity: 'warning',
+      },
+    });
   }
+};
 
   useEffect(() => {
     if (walletState?.amount && walletState?.currency) {
