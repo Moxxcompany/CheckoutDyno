@@ -6,7 +6,7 @@ import { paymentTypes } from '@/utils/enums'
 import {
   CommonApiRes,
   CommonDetails,
-  currencyData,
+  currencyData
 } from '@/utils/types/paymentTypes'
 import {
   Box,
@@ -16,6 +16,7 @@ import {
   Menu,
   MenuItem,
   Paper,
+  Skeleton,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -42,10 +43,9 @@ import CryptoTransfer from '@/Components/Page/Pay3Components/cryptoTransfer'
 import BankTransferCompo from '@/Components/Page/Pay3Components/bankTransferCompo'
 import Pay3Layout from './layout'
 import Image from 'next/image'
-import USDIcon from '../../assets/Icons/flag/USD.png';
-import EURIcon from '../../assets/Icons/flag/EUR.png';
-import NGNIcon from '../../assets/Icons/flag/NGN.png';
-
+import USDIcon from '../../assets/Icons/flag/USD.png'
+import EURIcon from '../../assets/Icons/flag/EUR.png'
+import NGNIcon from '../../assets/Icons/flag/NGN.png'
 
 const currencyOptions = [
   {
@@ -185,7 +185,6 @@ const Payment = () => {
     setAccountDetails(data)
   }
 
-
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     if (anchorEl) {
       setAnchorEl(null) // Close if already open
@@ -218,7 +217,6 @@ const Payment = () => {
               justifyContent='center'
               px={2}
               minHeight={'calc(100vh - 340px)'}
-
             >
               <Paper
                 elevation={3}
@@ -301,7 +299,7 @@ const Payment = () => {
                       gap={1}
                       sx={{
                         cursor: 'pointer',
-                        borderColor: isOpen ? '#737373' : "transparent",
+                        borderColor: isOpen ? '#737373' : 'transparent',
                         '&:hover': {
                           border: '1px solid #D9D9D9'
                         },
@@ -311,17 +309,19 @@ const Payment = () => {
                       }}
                       onClick={handleClick}
                     >
-                      {currencyOptions?.find(
-                        c => c.code === currencyRates?.currency
-                      )?.icon ||
-                        currencyOptions.find(
-                          c => c.code === walletState?.currency
-                        )?.icon}
+                      {!loading? (
+                        <>
+                          {currencyOptions?.find(
+                            c => c.code === currencyRates?.currency
+                          )?.icon ||
+                            currencyOptions.find(
+                              c => c.code === walletState?.currency
+                            )?.icon}
 
-                      <Typography
-                        fontWeight={500}
-                        fontFamily='Space Grotesk'
-                        fontSize={25}
+                          <Typography
+                            fontWeight={500}
+                            fontFamily='Space Grotesk'
+                            fontSize={25}
                         sx={{
                           fontSize: {
                             xs: '12px', // for small screens
@@ -329,18 +329,31 @@ const Payment = () => {
                             md: '20px' // default
                           }
                         }}
-                      >
-                        {Number(
-                          currencyRates?.amount ?? walletState?.amount
-                        ).toFixed(2)}{' '}
-                        {currencyRates?.currency ?? walletState?.currency}
-                      </Typography>
-
-                      <Icon
-                        icon={isOpen ? 'solar:alt-arrow-up-linear' : 'solar:alt-arrow-down-linear'}
-                        width="17"
-                        height="17"
-                      />
+                          >
+                            {Number(
+                              currencyRates?.amount ?? walletState?.amount
+                            ).toFixed(2)}{' '}
+                            {currencyRates?.currency ?? walletState?.currency}
+                          </Typography>
+                          <Icon
+                            icon={
+                              isOpen
+                                ? 'solar:alt-arrow-up-linear'
+                                : 'solar:alt-arrow-down-linear'
+                            }
+                            width='17'
+                            height='17'
+                          />
+                        </>
+                      ) : (
+                        <Skeleton
+                          variant='rectangular'
+                          width={154}
+                          height={24}
+                          animation='wave'
+                          sx={{ borderRadius: '6px', background: '#F5F8FF' }}
+                        />
+                      )}
 
                       <Menu
                         anchorEl={anchorEl}
@@ -375,7 +388,7 @@ const Payment = () => {
                               borderRadius: '6px',
                               '&:hover': {
                                 backgroundColor: '#F5F8FF'
-                              },
+                              }
                             }}
                           >
                             <Box display='flex' alignItems='center' gap={1}>
@@ -397,7 +410,6 @@ const Payment = () => {
                         ))}
                       </Menu>
                     </Box>
-
                   </Box>
 
                   <Divider sx={{ mb: 2 }} />
@@ -419,7 +431,7 @@ const Payment = () => {
                         fontWeight: '500',
                         borderRadius: 30,
                         py: {
-                          xs: 1.2,
+                          xs: 1.2
                         },
                         fontSize: '14px',
                         minHeight: 48,
@@ -447,7 +459,7 @@ const Payment = () => {
                         borderRadius: 30,
                         fontFamily: 'Space Grotesk',
                         py: {
-                          xs: 1.2,
+                          xs: 1.2
                         },
                         fontSize: '14px',
                         minHeight: 48,

@@ -12,7 +12,8 @@ import {
   ListItemIcon,
   ListItemText,
   CircularProgress,
-  Tooltip
+  Tooltip,
+  Button
 } from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import CopyIcon from '@/assets/Icons/CopyIcon'
@@ -124,6 +125,8 @@ const CryptoTransfer = ({
   const [isRecived, setIsReceived] = useState(false)
   const [timeLeft, setTimeLeft] = useState(14 * 60 + 21)
 
+  const [isUrl, setIsUrl] = useState<string | null>('')
+
   const getSelectedOption = () =>
     cryptoOptions.find(opt => opt.value === selectedCrypto)
 
@@ -216,27 +219,6 @@ const CryptoTransfer = ({
     getCurrencyRateAndSubmit('USDT', network)
   }
 
-  const handleVerify = async () => {
-    try {
-      const {
-        data: { data }
-      } = await axiosBaseApi.post('/pay/verifyCryptoPayment', {
-        address: cryptoDetails?.address
-      })
-      window.location.replace(data)
-      console.log('data', data)
-    } catch (e: any) {
-      const message = e?.response?.data?.message ?? e?.message
-      dispatch({
-        type: TOAST_SHOW,
-        payload: {
-          message: message,
-          severity: 'error'
-        }
-      })
-    }
-  }
-
   useEffect(() => {
     if (timeLeft <= 0) return
 
@@ -251,7 +233,7 @@ const CryptoTransfer = ({
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [timeLeft])
+  }, [timeLeft, selectedCrypto])
 
   const formatTime = (seconds: number) => {
     const mins = String(Math.floor(seconds / 60)).padStart(2, '0')
@@ -276,18 +258,69 @@ const CryptoTransfer = ({
     return amount?.toString()
   }
 
-
   useEffect(() => {
     if (!selectedCrypto) return
 
     setIsReceived(false)
 
-    const timeout = setTimeout(() => {
-      setIsReceived(true)
-    }, 15000)
+    const pollInterval = setInterval(async () => {
+      try {
+        const {
+          data: { data }
+        } = await axiosBaseApi.post('/pay/verifyCryptoPayment', {
+          address: cryptoDetails?.address
+        })
 
-    return () => clearTimeout(timeout)
-  }, [selectedCrypto])
+        if (data) {
+          setIsReceived(true)
+          clearInterval(pollInterval)
+          setIsUrl(data)
+          // window.location.replace(data)
+        }
+      } catch (e: any) {
+        const message = e?.response?.data?.message ?? e?.message
+        // dispatch({
+        //   type: TOAST_SHOW,
+        //   payload: {
+        //     message,
+        //     severity: 'error'
+        //   }
+        // })
+      }
+    }, 10000)
+
+    return () => clearInterval(pollInterval)
+  }, [selectedCrypto, cryptoDetails?.address])
+
+  // const handleVerify = async () => {
+  //   try {
+  //     const {
+  //       data: { data }
+  //     } = await axiosBaseApi.post('/pay/verifyCryptoPayment', {
+  //       address: cryptoDetails?.address
+  //     })
+  //     window.location.replace(data)
+  //     console.log('data', data)
+  //   } catch (e: any) {
+  //     const message = e?.response?.data?.message ?? e?.message
+  //     dispatch({
+  //       type: TOAST_SHOW,
+  //       payload: {
+  //         message: message,
+  //         severity: 'error'
+  //       }
+  //     })
+  //   }
+  // }
+
+  const btnGotoWeb = () => {
+    if (isUrl) {
+      window.location.replace(isUrl)
+      // window.open(isUrl, '_blank', 'noopener,noreferrer')
+    } else {
+      console.log('No URL provided')
+    }
+  }
 
   return (
     <Box
@@ -747,6 +780,33 @@ const CryptoTransfer = ({
                 )}
               </Paper>
             </Box>
+
+            {isRecived && (
+              <Button
+                fullWidth
+                variant='outlined'
+                sx={{
+                  borderColor: '#4F46E5',
+                  color: '#4F46E5',
+                  textTransform: 'none',
+                  marginTop: '15px',
+                  borderRadius: 30,
+                  paddingTop: 2,
+                  paddingBottom: 2,
+                  // paddingX: 3,
+                  width: '100%',
+                  minWidth: 'auto',
+                  '&:hover': {
+                    backgroundColor: '#EEF2FF',
+                    borderColor: '#4F46E5'
+                  }
+                }}
+                endIcon={<span style={{ fontSize: '1.2rem' }}>→</span>}
+                onClick={() => btnGotoWeb()}
+              >
+                Go to Website
+              </Button>
+            )}
           </>
         )}
       </Paper>
