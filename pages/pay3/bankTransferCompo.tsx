@@ -384,17 +384,15 @@ const BankTransferCompo = ({
                     To Pay:
                   </Typography>
                   <Box textAlign={'end'}>
-                
-                      <Typography
-                        variant='h6'
-                        fontWeight='bold'
-                        color='primary'
-                        fontFamily='Space Grotesk'
-                      >
-                        {transferDetails?.transfer_amount}{' '}
-                        {selectedCurrency?.currency}
-                      </Typography>
-                  
+                    <Typography
+                      variant='h6'
+                      fontWeight='bold'
+                      color='primary'
+                      fontFamily='Space Grotesk'
+                    >
+                      {transferDetails?.transfer_amount}{' '}
+                      {selectedCurrency?.currency}
+                    </Typography>
 
                     <Typography
                       variant='caption'
@@ -441,8 +439,11 @@ const BankTransferCompo = ({
                     borderRadius: '99999px',
                     bgcolor: '#444CE7',
                     fontFamily: 'Space Grotesk',
-
-                    '&:hover': { bgcolor: '#444CE7' }
+                    boxShadow: 'none', // removes default shadow
+                    '&:hover': {
+                      bgcolor: '#444CE7',
+                      boxShadow: 'none' // removes hover shadow too
+                    }
                   }}
                 >
                   I’ve made the payment

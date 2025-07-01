@@ -11,7 +11,8 @@ import {
   Divider,
   ListItemIcon,
   ListItemText,
-  CircularProgress
+  CircularProgress,
+  Tooltip
 } from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import CopyIcon from '@/assets/Icons/CopyIcon'
@@ -109,8 +110,7 @@ const CryptoTransfer = ({
   const [loading, setLoading] = useState(false)
 
   const [isRecived, setIsReceived] = useState(false)
-    const [timeLeft, setTimeLeft] = useState(14 * 60 + 21);
-
+  const [timeLeft, setTimeLeft] = useState(14 * 60 + 21)
 
   const getSelectedOption = () =>
     cryptoOptions.find(opt => opt.value === selectedCrypto)
@@ -157,9 +157,9 @@ const CryptoTransfer = ({
 
       const rateData = rateResponse?.data?.data
 
-
-      const findRate = rateData?.find((item : any) => item.currency === baseCurrency)
-      
+      const findRate = rateData?.find(
+        (item: any) => item.currency === baseCurrency
+      )
 
       setCurrencyRates(rateData)
       setSelectedCurrency(findRate)
@@ -225,27 +225,44 @@ const CryptoTransfer = ({
     }
   }
 
-
-
-
-
   useEffect(() => {
-    if (timeLeft <= 0) return;
+    if (timeLeft <= 0) return
 
     const interval = setInterval(() => {
-      setTimeLeft(prev => prev - 1);
-    }, 1000);
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          clearInterval(interval)
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
 
-    return () => clearInterval(interval);
-  }, [timeLeft]);
+    return () => clearInterval(interval)
+  }, [timeLeft])
 
- 
   const formatTime = (seconds: number) => {
-    const mins = String(Math.floor(seconds / 60)).padStart(2, '0');
-    const secs = String(seconds % 60).padStart(2, '0');
-    return `${mins}:${secs}`;
-  };
+    const mins = String(Math.floor(seconds / 60)).padStart(2, '0')
+    const secs = String(seconds % 60).padStart(2, '0')
+    return `${mins}:${secs}`
+  }
 
+  function formatAmount (amount: any, currency: string): string {
+    const lowerCurrency = currency?.toLowerCase()
+
+    const cryptoCurrencies = new Set(['btc', 'eth', 'usdc', 'bnb', 'matic'])
+    const fiatCurrencies = new Set(['usd', 'eur', 'inr', 'usdt'])
+
+    if (cryptoCurrencies.has(lowerCurrency)) {
+      return amount?.toFixed(6)
+    }
+
+    if (fiatCurrencies.has(lowerCurrency)) {
+      return amount?.toFixed(2)
+    }
+
+    return amount?.toString()
+  }
 
   return (
     <Box
@@ -297,8 +314,9 @@ const CryptoTransfer = ({
         <Box mt={3} mb={1}>
           <Typography
             variant='subtitle2'
-            fontWeight='medium'
+            fontWeight={500}
             fontFamily='Space Grotesk'
+            color='#000'
           >
             Preferred Crypto
           </Typography>
@@ -317,7 +335,8 @@ const CryptoTransfer = ({
                 borderColor: '#D9D9D9 !important',
                 '& :focus-visible': {
                   outline: 'none !important'
-                }
+                },
+                py: '16.5px  !important'
               },
               '& .MuiList-padding': {
                 padding: '17px 20px !important'
@@ -334,7 +353,11 @@ const CryptoTransfer = ({
               if (!selected)
                 return (
                   <span
-                    style={{ color: '#757575', fontFamily: 'Space Grotesk' }}
+                    style={{
+                      color: '#1A1919',
+                      fontWeight: 500,
+                      fontFamily: 'Space Grotesk'
+                    }}
                   >
                     Select Crypto Type
                   </span>
@@ -356,7 +379,7 @@ const CryptoTransfer = ({
               )
             }}
           >
-            {cryptoOptions.map(option => (
+            {cryptoOptions?.map(option => (
               <MenuItem
                 key={option.value}
                 value={option.value}
@@ -459,18 +482,22 @@ const CryptoTransfer = ({
                 >
                   {cryptoDetails?.address}
                 </Typography>
-                <IconButton
-                  size='small'
-                  sx={{
-                    bgcolor: '#EEF2FF',
-                    p: 0.5,
-                    borderRadius: 2,
-                    '&:hover': { bgcolor: '#E0E7FF' }
-                  }}
-                  onClick={handleCopyAddress}
-                >
-                  <CopyIcon />
-                </IconButton>
+                <Tooltip title='Copy'>
+                  <IconButton
+                    size='small'
+                    sx={{
+                      bgcolor: '#E7EAFD',
+                      p: 0.5,
+                      height: '24px',
+                      width: '24px',
+                      borderRadius: '5px',
+                      '&:hover': { bgcolor: '#E0E7FF' }
+                    }}
+                    onClick={handleCopyAddress}
+                  >
+                    <CopyIcon />
+                  </IconButton>
+                </Tooltip>
               </Box>
               <Box display='flex' alignItems='center' gap={1}>
                 <InfoOutlinedIcon fontSize='small' />
@@ -500,14 +527,16 @@ const CryptoTransfer = ({
                 padding='20px'
                 borderRadius='10px'
                 bgcolor='#FFFFFF'
+                sx={{ opacity: 0.5 }}
               >
                 <Box display='flex' gap={2} justifyContent='space-between'>
                   <Typography
                     variant='h6'
-                    fontWeight='medium'
+                    fontWeight={500}
                     fontSize='20px'
                     fontFamily='Space Grotesk'
                     whiteSpace='nowrap'
+                    color='#1A1919'
                   >
                     To Pay:
                   </Typography>
@@ -516,38 +545,49 @@ const CryptoTransfer = ({
                       <Typography
                         variant='body1'
                         fontSize='25px'
-                        fontWeight='medium'
+                        fontWeight={500}
                         display='flex'
                         alignItems='center'
                         gap={1}
                         fontFamily='Space Grotesk'
                         whiteSpace='nowrap'
+                        color='#1A1919'
                       >
-                        {selectedCurrency?.amount} {selectedCurrency?.currency}
+                        {formatAmount(
+                          selectedCurrency?.amount || 0,
+                          selectedCurrency?.currency || ''
+                        )}{' '}
+                        {selectedCurrency?.currency}
                       </Typography>
                       <Typography
                         variant='body1'
                         color='#515151'
                         fontFamily='Space Grotesk'
                         whiteSpace='nowrap'
+                        fontSize='14px'
+                        fontWeight={500}
                       >
                         ={Number(walletState?.amount)?.toFixed(2)}{' '}
                         {walletState?.currency}
                       </Typography>
                     </Box>
-                    <IconButton
-                      size='small'
-                      sx={{
-                        bgcolor: '#EEF2FF',
-                        p: 0.5,
-                        borderRadius: 2,
-                        '&:hover': { bgcolor: '#E0E7FF' },
-                        mt: 1
-                      }}
-                      onClick={handleCopyAddress}
-                    >
-                      <CopyIcon />
-                    </IconButton>
+                    <Tooltip title='Copy'>
+                      <IconButton
+                        size='small'
+                        sx={{
+                          bgcolor: '#E7EAFD',
+                          p: 0.5,
+                          height: '24px',
+                          width: '24px',
+                          borderRadius: '5px',
+                          '&:hover': { bgcolor: '#E0E7FF' },
+                          mt: 1
+                        }}
+                        onClick={handleCopyAddress}
+                      >
+                        <CopyIcon />
+                      </IconButton>
+                    </Tooltip>
                   </Box>
                 </Box>
                 <Divider sx={{ my: 2 }} />
@@ -565,40 +605,48 @@ const CryptoTransfer = ({
                     fontFamily='Space Grotesk'
                     color='#000'
                   >
-                    invoice expires in: 14:21
+                    invoice expires in: {formatTime(timeLeft)}
                   </Typography>
                 </Box>
               </Box>
             )}
 
-            <Box>
+            <Box
+              sx={{ mt: 2 }}
+              border={1}
+              borderColor={'#B5D3C6'}
+              borderRadius={'12px'}
+            >
               <Paper
-                elevation={1}
+                // elevation={1}
                 sx={{
                   bgcolor: '#EBFFF6',
                   borderRadius: '12px',
                   p: 3,
-                  mt: 2,
                   textAlign: 'center',
-                  // width: 300,
                   mx: 'auto'
                 }}
               >
                 <Typography
                   variant='h5'
                   fontWeight={600}
-                  sx={{ color: isRecived ? '#13B76A' : '#7CAB96', mb: 2 }}
+                  sx={{ color: isRecived ? '#13B76A' : '#7CAB96' }}
                   fontFamily='Space Grotesk'
                 >
-                  {selectedCurrency?.amount} {selectedCurrency?.currency}
+                  {formatAmount(
+                    selectedCurrency?.amount || 0,
+                    selectedCurrency?.currency || ''
+                  )}{' '}
+                  {selectedCurrency?.currency}
                 </Typography>
 
                 {isRecived ? (
                   <>
                     <DoneIcon
                       sx={{
-                        fontSize: 48,
-                        color: '#13B76A'
+                        fontSize: 35,
+                        color: '#13B76A',
+                        my: '16px'
                       }}
                     />
 
@@ -614,19 +662,22 @@ const CryptoTransfer = ({
                   <>
                     <CircularProgress
                       size={30}
-                      sx={{ color: '#13B76A', mb: 2 }}
+                      sx={{ color: '#13B76A', my: '16px' }}
                     />
 
                     <Typography
                       variant='subtitle1'
-                      fontWeight={600}
+                      fontWeight={500}
                       fontFamily='Space Grotesk'
+                      fontSize={'15px'}
                     >
                       Payment detected, awaiting confirmation...
                     </Typography>
                     <Typography
                       variant='body2'
                       sx={{ color: '#444' }}
+                      fontSize={'12px'}
+                      fontWeight={400}
                       fontFamily='Space Grotesk'
                     >
                       We detected your payment in the blockchain. <br />

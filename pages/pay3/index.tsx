@@ -72,6 +72,7 @@ import OverPayment from '@/Components/UI/OverPayment/Index'
 import { Icon } from '@iconify/react'
 import BitCoinGreenIcon from '@/assets/Icons/BitCoinGreenIcon'
 import Loading from '@/Components/UI/Loading/Index'
+import Logo from '@/assets/Icons/Logo'
 
 const currencyOptions = [
   {
@@ -269,7 +270,7 @@ const Payment = () => {
                 }}
               >
                 <Box display='flex' justifyContent='center' mb={2}>
-                  <Image src='/logo2.png' alt='Logo' width={69} height={77} />
+                  <Logo />
                 </Box>
 
                 <Typography
@@ -534,18 +535,21 @@ const Payment = () => {
                     >
                       #ABC123456
                     </Typography>
-
-                    <IconButton
-                      size='small'
-                      sx={{
-                        bgcolor: '#EEF2FF',
-                        p: 0.5,
-                        borderRadius: 2,
-                        '&:hover': { bgcolor: '#E0E7FF' }
-                      }}
-                    >
-                      <CopyIcon />
-                    </IconButton>
+                    <Tooltip title='Copy'>
+                      <IconButton
+                        size='small'
+                        sx={{
+                          bgcolor: '#E7EAFD',
+                          p: 0.5,
+                          height: '24px',
+                          width: '24px',
+                          borderRadius: '5px',
+                          '&:hover': { bgcolor: '#E0E7FF' }
+                        }}
+                      >
+                        <CopyIcon />
+                      </IconButton>
+                    </Tooltip>
                   </Box>
                 </Box>
               </Paper>
@@ -568,7 +572,7 @@ const Payment = () => {
               />
             )
           ) : activeStep === 2 ? (
-            <TransferExpectedCard isTrue={isSuccess} type={transferMethod} />
+            <TransferExpectedCard isTrue={isSuccess} type={'bank'} />
           ) : null}
 
           <Box sx={{ width: '100%' }}>
