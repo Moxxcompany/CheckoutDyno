@@ -17,7 +17,7 @@ import CopyIcon from '@/assets/Icons/CopyIcon'
 import {
   BankTransferApiRes,
   currencyData,
-  transferDetails,
+  transferDetails
 } from '@/utils/types/paymentTypes'
 import axiosBaseApi from '@/axiosConfig'
 import { useDispatch } from 'react-redux'
@@ -313,13 +313,12 @@ const BankTransferCompo = ({
                   </IconButton>
                 </Tooltip>
               </Box>
-              <Box display='flex' alignItems='center'  gap={0.5}>
-                <Warning  />
+              <Box display='flex' alignItems='center' gap={0.5} mt={'8px'}>
+                <Warning />
                 <Typography
                   variant='caption'
                   color='#515151'
                   fontFamily='Space Grotesk'
-                  
                 >
                   This account number is unique for each transaction.
                 </Typography>
@@ -327,7 +326,7 @@ const BankTransferCompo = ({
 
               <Typography
                 variant='subtitle2'
-                mt={2}
+                mt={'16px'}
                 fontWeight='300'
                 fontFamily='Space Grotesk'
               >
@@ -358,6 +357,7 @@ const BankTransferCompo = ({
               <Typography
                 fontSize={14}
                 color={'#515151'}
+                fontWeight={500}
                 fontFamily='Space Grotesk'
               >
                 Secure bank transfer with automatic confirmation. No need to
@@ -437,6 +437,9 @@ const BankTransferCompo = ({
                     borderRadius: '99999px',
                     bgcolor: '#444CE7',
                     fontFamily: 'Space Grotesk',
+                    fontWeight: 500,
+                    py:'17px',
+                    textTransform: 'none',
                     boxShadow: 'none',
                     '&:hover': {
                       bgcolor: '#444CE7',

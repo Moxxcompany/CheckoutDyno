@@ -399,7 +399,20 @@ const CryptoTransfer = ({
         </FormControl>
 
         {selectedCrypto === 'USDT' && (
-          <Box mt={2} mb={3} display='flex' gap={1} alignItems='center'>
+          <Box mt={1}>
+            <Typography
+              variant='subtitle2'
+              fontWeight={500}
+              fontFamily='Space Grotesk'
+              color='#000'
+            >
+              Preferred Network
+            </Typography>
+          </Box>
+        )}
+
+        {selectedCrypto === 'USDT' && (
+          <Box mt={'10px'} mb={3} display='flex' gap={1} alignItems='center'>
             {['TRC20', 'ERC20'].map(net => (
               <Typography
                 key={net}
