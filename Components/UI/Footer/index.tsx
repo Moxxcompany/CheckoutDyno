@@ -1,36 +1,34 @@
 'use client'
 
-import { Box, Typography, IconButton } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import XIcon from '@mui/icons-material/X'
-import InstagramIcon from '@mui/icons-material/Instagram'
 import Link from 'next/link'
+import { Icon } from '@iconify/react/dist/iconify.js'
 export default function Footer() {
   return (
-    <Box component='footer' width='100%'>
+    <Box component='footer' width='100%' height='115px'>
       {/* Icon Row */}
       <Box
         display='flex'
         justifyContent='center'
-        // gap={1}
-        bgcolor='#F8FAFC'
         py={2}
       >
-          <IconButton>
-          <InstagramIcon sx={{ color: '#2D3282' }} />
+        <IconButton>
+          <Icon icon="icon-park-outline:telegram" width="24" height="24" color='#444CE7' style={{color:"#444CE7"}}/>
         </IconButton>
         <IconButton>
-          <XIcon sx={{ color: '#2D3282' }} />
+          <Icon icon="ic:round-email" width="24" height="24" style={{color:"#444CE7"}} />
         </IconButton>
-      
+
       </Box>
 
       {/* Footer Bar */}
-      <Box bgcolor='#2D3282' py={1} textAlign='center' sx={{ width: '100%', color: '#fff' }}>
-        <Link href={'pay3/terms-of-service'} style={{ color: '#fff',cursor:'pointer' }}>
+      <Box bgcolor='#2D3282' py={1} textAlign='center' sx={{ width: '100%', color: '#fff', height: '46px' }}>
+        <Link href={'pay3/terms-of-service'} style={{ color: '#fff', cursor: 'pointer',fontSize:'14px', fontWeight:"400" }}>
           Terms Of Service
         </Link>
         <span> | </span>
-        <Link href={'pay3/aml-policy'} style={{ color: '#fff',cursor:'pointer' }}>
+        <Link href={'pay3/aml-policy'} style={{ color: '#fff', cursor: 'pointer',fontSize:'14px', fontWeight:"400" }}>
           AML Policy
         </Link>
       </Box>

@@ -1,21 +1,3 @@
-// import { Box } from '@mui/material'
-// import React, { useState } from 'react'
-// import Header from './header'
-
-// const AMLPolicy = () => {
-//     const [darkMode, setDarkMode] = useState(false);
-//     const toggleDarkMode = () => setDarkMode(!darkMode);
-
-//     return (
-//         <Box>
-//             <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-//             <p>AMLPolicy</p>
-//         </Box>
-//     )
-// }
-
-// export default AMLPolicy
-
 import React from 'react';
 import {
   Box,

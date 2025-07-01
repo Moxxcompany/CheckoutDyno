@@ -19,13 +19,13 @@ import {
   useTheme
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
 import Notification from "@/assets/Icons/Nitification";
 import User from '@/assets/Images/user.png';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
 const Header = ({
@@ -37,16 +37,21 @@ const Header = ({
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
 
+  const [lang, setLang] = useState('EN');
+  const [open, setOpen] = useState(false); // track open/close
+
+  const handleChange = (event: any) => {
+    setLang(event.target.value as string);
+  };
+
   return (
     <>
-
       <AppBar
         position='static'
         sx={{
@@ -56,11 +61,10 @@ const Header = ({
           backgroundSize: 'contain, cover',
           padding: '0.5rem 1rem',
           boxShadow: 'none',
+          height: '92px'
         }}
-
-
       >
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <Toolbar sx={{ justifyContent: 'space-between', height: '100%' }}>
           {/* Left: Logo */}
           <Box display='flex' alignItems='center' gap={1}>
             <Image src='/Logo.png' alt='Dynopay' width={180} height={60} />
@@ -74,40 +78,56 @@ const Header = ({
           ) : (
             <Stack direction='row' spacing={3} alignItems='center'>
               <Button
-                startIcon={<AccountBalanceWalletIcon />}
+                startIcon={<Icon icon="solar:wallet-linear" width="24" height="24" />}
                 variant='contained'
                 sx={{
-                  backgroundColor: 'white',
-                  color: '#2b3bcf',
+                  backgroundColor: '#FFF',
+                  color: '#444CE7',
                   borderRadius: 20,
                   px: 2,
                   py: 2,
-                  right: "117px",
+                  right: { md: "30%", lg: "60%", xl: "100%" },
                   textTransform: 'none',
+                  fontSize: '14px',
                   fontFamily: "Space Grotesk",
-                  fontWeight: 'bold',
+                  fontWeight: '500',
                   boxShadow: 'none',
                   '&:hover': {
                     backgroundColor: '#f5f5f5'
-                  }
+                  },
+                  height: '44px'
                 }}
               >
                 Dynopay Wallet
               </Button>
 
-              <FormControl variant='standard'>
+              <FormControl variant="standard">
                 <Select
-                  defaultValue='EN'
+                  value={lang}
+                  onChange={handleChange}
+                  onOpen={() => setOpen(true)}
+                  onClose={() => setOpen(false)}
                   disableUnderline
+                  IconComponent={() => (
+                    <KeyboardArrowDownIcon
+                      sx={{
+                        color: 'white',
+                        transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+                        transition: 'transform 0.3s ease',
+                      }}
+                    />
+                  )}
                   sx={{
                     color: 'white',
                     fontFamily: 'Space Grotesk',
                     fontWeight: 600,
-                    '& .MuiSvgIcon-root': { color: 'white' }
+                    '& .MuiSelect-icon': {
+                      right: 8,
+                    },
                   }}
                 >
-                  <MenuItem value='EN'>EN</MenuItem>
-                  <MenuItem value='FR'>FR</MenuItem>
+                  <MenuItem value="EN">EN</MenuItem>
+                  <MenuItem value="FR">FR</MenuItem>
                 </Select>
               </FormControl>
 
@@ -132,53 +152,58 @@ const Header = ({
                   sx={{
                     width: 32,
                     height: 32,
-                    backgroundColor: !darkMode ?'#444CE7' :'#fff',
+                    backgroundColor: !darkMode ? '#444CE7' : '#fff',
                     borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',
                     color: 'white',
                     transition: 'all 0.3s ease',
-                    padding:'4px'
+                    padding: '4px'
 
                   }}
                 >
                   <WbSunnyIcon fontSize='small' sx={{
                     color: darkMode ? '#444CE7' : '#fff',
-                    width:'100%'
+                    width: '100%'
                   }} />
                 </Box>
                 <Box
                   sx={{
                     width: 32,
                     height: 32,
-                    backgroundColor: darkMode ?'#444CE7' :'#fff',
+                    backgroundColor: darkMode ? '#444CE7' : '#fff',
                     borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',
                     color: 'white',
                     transition: 'all 0.3s ease',
-                    padding:'4px'
+                    padding: '4px'
                   }}
                 >
                   <BedtimeIcon sx={{
                     color: darkMode ? '#fff' : '#444CE7',
-                    width:'100%'
+                    width: '100%'
                   }} fontSize='small' />
                 </Box>
               </Box>
 
               {/* Notifications */}
-              <IconButton sx={{ color: 'white' }}>
+              <IconButton sx={{ color: 'white', position: 'relative', }}>
                 <Badge
                   variant="dot"
                   sx={{
+                    position: 'absolute',
+                    top: 18,
+                    right: 18,
                     '& .MuiBadge-dot': {
+                      height: 11,
+                      width: 11,
                       backgroundColor: '#444CE7',
                     },
                   }}
                 >
-                  <Notification />
                 </Badge>
+                <Notification />
 
               </IconButton>
 

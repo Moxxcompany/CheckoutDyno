@@ -52,7 +52,6 @@ import { useRouter } from 'next/router'
 import { TOAST_SHOW } from '@/Redux/Actions/ToastAction'
 import jwt from 'jsonwebtoken'
 import WalletComponent from '@/Components/Page/Payment/WalletComponent'
-import Header from './header'
 import ProgressBar from '@/Components/UI/ProgressBar'
 import Image from 'next/image'
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin'
@@ -63,8 +62,6 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import FloatingChatButton from '@/Components/UI/ChatButton'
 
 import FileCopyIcon from '@mui/icons-material/FileCopy'
-import BankTransferCompo from './bankTransferCompo'
-import CryptoTransfer from './cryptoTransfer'
 import TransferExpectedCard from '@/Components/UI/TransferExpectedCard/Index'
 import CopyIcon from '@/assets/Icons/CopyIcon'
 import UnderPayment from '@/Components/UI/UnderPayment/Index'
@@ -73,6 +70,9 @@ import { Icon } from '@iconify/react'
 import BitCoinGreenIcon from '@/assets/Icons/BitCoinGreenIcon'
 import Loading from '@/Components/UI/Loading/Index'
 import Logo from '@/assets/Icons/Logo'
+import CryptoTransfer from '@/Components/Page/Pay3Components/cryptoTransfer'
+import BankTransferCompo from '@/Components/Page/Pay3Components/bankTransferCompo'
+import Pay3Layout from './layout'
 
 const currencyOptions = [
   {
@@ -108,7 +108,6 @@ const Payment = () => {
   const [selectedCurrency, setSelectedCurrency] = useState('USD')
   const [currencyRates, setCurrencyRates] = useState<currencyData>()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const [darkMode, setDarkMode] = useState(false)
   const [activeStep, setActiveStep] = useState<number>(0)
   const [tokenData, setTokenData] = useState({ email: '' })
   const [walletState, setWalletState] = useState<walletState>({
@@ -213,7 +212,6 @@ const Payment = () => {
     setAccountDetails(data)
   }
 
-  const toggleDarkMode = () => setDarkMode(!darkMode)
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     if (anchorEl) {
@@ -235,15 +233,9 @@ const Payment = () => {
   const isOpen = Boolean(anchorEl)
 
   return (
-    <Box>
-      <>
-        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-        <Box
-          sx={{
-            height: 'calc(100vh - 86px)',
-            overflowY: 'auto'
-          }}
-        >
+    <Pay3Layout>
+      <Box>
+        <Box>
           <ProgressBar activeStep={activeStep} />
 
           {activeStep === 0 ? (
@@ -251,9 +243,7 @@ const Payment = () => {
               display='flex'
               alignItems='center'
               justifyContent='center'
-              bgcolor='#F8FAFC'
               px={2}
-              minHeight={'calc(100vh - 340px)'}
             >
               <Paper
                 elevation={3}
@@ -274,9 +264,9 @@ const Payment = () => {
                 </Box>
 
                 <Typography
-                  variant='h6'
                   fontWeight={500}
                   fontSize={25}
+                  lineHeight='98%'
                   gutterBottom
                   fontFamily='Space Grotesk'
                 >
@@ -284,53 +274,57 @@ const Payment = () => {
                 </Typography>
 
                 <Typography
-                  variant='body2'
                   color='#000'
+                  fontWeight={400}
+                  fontSize={14}
+                  lineHeight='18px'
                   mb={3}
                   fontFamily='Space Grotesk'
                 >
-                  Choose a payment method below to finalize your transaction:
+                  <span>
+                    Choose a payment method below to finalize
+                    <br />
+                    your transaction:
+                  </span>
                 </Typography>
 
                 <Box
                   alignItems='center'
-                  border='1px solid #E2E8F0'
-                  borderRadius={2}
-                  px={2}
-                  mb={2}
+                  border='1px solid #DFDFDF'
+                  borderRadius={'10px'}
+                  px='21px'
+                  py='18px'
                 >
                   <Box
                     display='flex'
                     justifyContent='space-between'
                     alignItems='center'
-                    py={2}
+                    mb={2}
                   >
                     <Typography
                       variant='subtitle2'
-                      fontWeight={400}
-                      fontSize={25}
-                      sx={{
-                        fontSize: {
-                          xs: '12px', // for small screens
-                          sm: '18px',
-                          md: '20px' // default
-                        }
-                      }}
+                      fontFamily='Space Grotesk'
+                      fontWeight={500}
+                      fontSize={20}
                     >
                       To Pay:
                     </Typography>
+
                     <Box
                       display='flex'
                       alignItems='center'
                       border={1}
-                      borderRadius={'6px'}
+                      borderRadius='6px'
                       padding={1}
                       gap={1}
                       sx={{
                         cursor: 'pointer',
-                        borderColor: 'transparent',
+                        borderColor: isOpen ? '#737373' : "transparent",
                         '&:hover': {
-                          borderColor: '#737373' // or any hover color
+                          border: '1px solid #D9D9D9'
+                        },
+                        '&:active': {
+                          border: '1px solid #737373'
                         }
                       }}
                       onClick={handleClick}
@@ -341,28 +335,23 @@ const Payment = () => {
                         currencyOptions.find(
                           c => c.code === walletState?.currency
                         )?.icon}
+
                       <Typography
-                        fontWeight={400}
+                        fontWeight={500}
                         fontFamily='Space Grotesk'
                         fontSize={25}
-                        sx={{
-                          fontSize: {
-                            xs: '12px', // for small screens
-                            sm: '18px',
-                            md: '20px' // default
-                          }
-                        }}
                       >
                         {Number(
                           currencyRates?.amount ?? walletState?.amount
                         ).toFixed(2)}{' '}
                         {currencyRates?.currency ?? walletState?.currency}
                       </Typography>
-                      {isOpen ? (
-                        <ArrowDropUp fontSize='small' />
-                      ) : (
-                        <ArrowDropDown fontSize='small' />
-                      )}
+
+                      <Icon
+                        icon={isOpen ? 'solar:alt-arrow-up-linear' : 'solar:alt-arrow-down-linear'}
+                        width="17"
+                        height="17"
+                      />
 
                       <Menu
                         anchorEl={anchorEl}
@@ -371,7 +360,11 @@ const Payment = () => {
                         PaperProps={{
                           sx: {
                             border: '1px solid #737373',
-                            borderRadius: '10px'
+                            borderRadius: '10px',
+                            // padding: '15px',
+                            marginTop:'10px',
+                            py: '4px',
+                              px:'10px',
                           }
                         }}
                       >
@@ -380,27 +373,19 @@ const Payment = () => {
                             key={currency.code}
                             onClick={e => handleSelect(e, currency.code)}
                             sx={{
-                              px: {
-                                xs: 1.5,
-                                sm: 2,
-                                md: 2.5
+                              padding:'10px',
+                              borderRadius: '6px',
+                              '&:hover': {
+                                backgroundColor: '#F5F8FF'
                               },
-                              py: {
-                                xs: 1,
-                                sm: 1.2,
-                                md: 1.5
-                              }
                             }}
                           >
                             <Box display='flex' alignItems='center' gap={1}>
                               {currency.icon}
                               <Typography
                                 sx={{
-                                  fontSize: {
-                                    xs: '14px', // for small screens
-                                    sm: '18px',
-                                    md: '20px' // default
-                                  }
+                                  fontSize: '14px',
+                                  fontWeight:'500'
                                 }}
                               >
                                 {currency.label}
@@ -410,6 +395,7 @@ const Payment = () => {
                         ))}
                       </Menu>
                     </Box>
+
                   </Box>
 
                   <Divider sx={{ mb: 2 }} />
@@ -418,42 +404,26 @@ const Payment = () => {
                     <Button
                       fullWidth
                       variant='outlined'
-                      startIcon={<Icon icon='mingcute:bank-line' width='15' />}
+                      startIcon={<Icon icon='mingcute:bank-line' width='16' />}
                       onClick={() => {
                         setActiveStep(1)
                         setTransferMethod('bank')
                       }}
                       sx={{
-                        borderColor: '#4F46E5',
-                        color: '#4F46E5',
+                        borderColor: '#444CE7',
+                        color: '#444CE7',
                         textTransform: 'none',
                         fontFamily: 'Space Grotesk',
+                        fontWeight: '500',
                         borderRadius: 30,
-
-                        // Responsive padding
                         py: {
-                          xs: 1.2, // ~10px
-                          sm: 1.5,
-                          md: 2 // default
+                          xs: 1.2,
                         },
-
-                        // Responsive font size
-                        fontSize: {
-                          xs: '14px',
-                          sm: '16px',
-                          md: '18px'
-                        },
-
-                        // Optional: Responsive minHeight for better visual spacing
-                        minHeight: {
-                          xs: 40,
-                          sm: 48,
-                          md: 56
-                        },
-
+                        fontSize: '14px',
+                        minHeight: 48,
                         '&:hover': {
                           backgroundColor: '#EEF2FF',
-                          borderColor: '#4F46E5'
+                          borderColor: '#444CE7'
                         }
                       }}
                     >
@@ -469,36 +439,19 @@ const Payment = () => {
                         setTransferMethod('crypto')
                       }}
                       sx={{
-                        borderColor: '#10B981',
-                        color: '#10B981',
+                        borderColor: '#12B76A',
+                        color: '#12B76A',
                         textTransform: 'none',
                         borderRadius: 30,
                         fontFamily: 'Space Grotesk',
-
-                        // Responsive vertical padding
                         py: {
-                          xs: 1.2, // ~10px
-                          sm: 1.5,
-                          md: 2
+                          xs: 1.2,
                         },
-
-                        // Responsive font size
-                        fontSize: {
-                          xs: '14px',
-                          sm: '16px',
-                          md: '18px'
-                        },
-
-                        // Optional: consistent height across devices
-                        minHeight: {
-                          xs: 40,
-                          sm: 48,
-                          md: 56
-                        },
-
+                        fontSize: '14px',
+                        minHeight: 48,
                         '&:hover': {
                           backgroundColor: '#ECFDF5',
-                          borderColor: '#10B981'
+                          borderColor: '#12B76A'
                         }
                       }}
                     >
@@ -529,7 +482,7 @@ const Payment = () => {
                   <Box display='flex' alignItems='center' gap={1}>
                     <Typography
                       variant='caption'
-                      fontWeight={400}
+                      fontWeight={500}
                       fontSize={12}
                       color='#515151'
                     >
@@ -574,15 +527,10 @@ const Payment = () => {
           ) : activeStep === 2 ? (
             <TransferExpectedCard isTrue={isSuccess} type={'bank'} />
           ) : null}
-
-          <Box sx={{ width: '100%' }}>
-            <Footer />
-          </Box>
         </Box>
-
         <FloatingChatButton />
-      </>
-    </Box>
+      </Box>
+    </Pay3Layout>
   )
 }
 

@@ -56,20 +56,20 @@ const BankTransferCompo = ({
   const currencyList = ['EUR', 'GBP', 'NGN']
 
   const handleCopy = () => {
-    const account = transferDetails?.transfer_account
+    const account = transferDetails?.transfer_account;
 
     if (account) {
-      navigator.clipboard.writeText(account)
+      navigator.clipboard.writeText(account);
     } else {
       dispatch({
         type: TOAST_SHOW,
         payload: {
           message: 'No account number to copy.',
-          severity: 'warning'
-        }
-      })
+          severity: 'warning',
+        },
+      });
     }
-  }
+  };
 
   useEffect(() => {
     if (walletState?.amount && walletState?.currency) {
@@ -217,7 +217,7 @@ const BankTransferCompo = ({
           justifyContent='center'
           bgcolor='#F8FAFC'
           px={2}
-          // marginTop="50px"
+        // marginTop="50px"
         >
           <Paper
             elevation={3}
@@ -408,7 +408,6 @@ const BankTransferCompo = ({
                   </Box>
                 </Box>
                 <Divider sx={{ my: 2 }} />
-
                 <Box
                   display='flex'
                   alignItems='center'
@@ -426,7 +425,6 @@ const BankTransferCompo = ({
                     Invoice expires in: {formatTime(timeLeft)}
                   </Typography>
                 </Box>
-
                 <Button
                   variant='contained'
                   onClick={() => {
@@ -439,10 +437,10 @@ const BankTransferCompo = ({
                     borderRadius: '99999px',
                     bgcolor: '#444CE7',
                     fontFamily: 'Space Grotesk',
-                    boxShadow: 'none', // removes default shadow
+                    boxShadow: 'none',
                     '&:hover': {
                       bgcolor: '#444CE7',
-                      boxShadow: 'none' // removes hover shadow too
+                      boxShadow: 'none'
                     }
                   }}
                 >
