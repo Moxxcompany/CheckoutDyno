@@ -2,40 +2,20 @@ import axiosBaseApi from '@/axiosConfig'
 
 import paymentAuth from '@/Components/Page/Common/HOC/paymentAuth'
 import { createEncryption } from '@/helpers'
-import useTokenData from '@/hooks/useTokenData'
 import { paymentTypes } from '@/utils/enums'
-import { rootReducer } from '@/utils/types'
 import {
   CommonApiRes,
   CommonDetails,
   currencyData,
-  transferDetails
 } from '@/utils/types/paymentTypes'
-
-import {
-  AccountBalanceRounded,
-  ArrowBack,
-  ArrowDropDown,
-  ArrowDropUp,
-  ContentCopy,
-  CreditCardRounded,
-  CurrencyBitcoinRounded,
-  ErrorOutline,
-  FlagCircleOutlined,
-  WalletRounded
-} from '@mui/icons-material'
 import {
   Box,
   Button,
-  Card,
-  CardContent,
   Divider,
-  Grid,
   IconButton,
   Menu,
   MenuItem,
   Paper,
-  Select,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -43,32 +23,20 @@ import {
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import 'react-credit-cards-2/dist/es/styles-compiled.css'
-import { useDispatch, useSelector } from 'react-redux'
-import CyrptoComponent from '../../Components/Page/Payment/CryptoComponent'
-import BrandLogo from '@/Components/BrandLogo'
+import { useDispatch } from 'react-redux'
 import { walletState } from '../../utils/types/paymentTypes'
 
 import { useRouter } from 'next/router'
 import { TOAST_SHOW } from '@/Redux/Actions/ToastAction'
 import jwt from 'jsonwebtoken'
-import WalletComponent from '@/Components/Page/Payment/WalletComponent'
 import ProgressBar from '@/Components/UI/ProgressBar'
-import Image from 'next/image'
-import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin'
-import AssuredWorkloadIcon from '@mui/icons-material/AssuredWorkload'
-import Footer from '@/Components/UI/Footer'
 
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import FloatingChatButton from '@/Components/UI/ChatButton'
 
-import FileCopyIcon from '@mui/icons-material/FileCopy'
 import TransferExpectedCard from '@/Components/UI/TransferExpectedCard/Index'
 import CopyIcon from '@/assets/Icons/CopyIcon'
-import UnderPayment from '@/Components/UI/UnderPayment/Index'
-import OverPayment from '@/Components/UI/OverPayment/Index'
 import { Icon } from '@iconify/react'
 import BitCoinGreenIcon from '@/assets/Icons/BitCoinGreenIcon'
-import Loading from '@/Components/UI/Loading/Index'
 import Logo from '@/assets/Icons/Logo'
 import CryptoTransfer from '@/Components/Page/Pay3Components/cryptoTransfer'
 import BankTransferCompo from '@/Components/Page/Pay3Components/bankTransferCompo'
@@ -537,4 +505,3 @@ const Payment = () => {
 }
 
 export default paymentAuth(Payment)
-// export default Payment;

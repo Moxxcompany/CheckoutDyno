@@ -26,7 +26,7 @@ export default function Footer () {
         sx={{ width: '100%', color: '#fff', height: '46px' }}
       >
         <Link
-          href={'pay3/terms-of-service'}
+          href={'/pay3/terms-of-service'}
           style={{
             color: '#fff',
             cursor: 'pointer',
@@ -37,15 +37,7 @@ export default function Footer () {
           Terms Of Service
         </Link>
         <span> | </span>
-        <Link
-          href={'pay3/aml-policy'}
-          style={{
-            color: '#fff',
-            cursor: 'pointer',
-            fontSize: '14px',
-            fontWeight: '400'
-          }}
-        >
+        <Link href={'/pay3/aml-policy'} style={{ color: '#fff', cursor: 'pointer',fontSize:'14px', fontWeight:"400" }}>
           AML Policy
         </Link>
       </Box>

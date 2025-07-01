@@ -11,18 +11,13 @@ import {
   Typography
 } from '@mui/material'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
-import { ArrowBack, ContentCopy, ErrorOutline } from '@mui/icons-material'
-import FileCopyIcon from '@mui/icons-material/FileCopy'
+import { ArrowBack } from '@mui/icons-material'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import CopyIcon from '@/assets/Icons/CopyIcon'
 import {
   BankTransferApiRes,
-  CommonApiRes,
-  CommonDetails,
-  commonPayload,
   currencyData,
   transferDetails,
-  walletState
 } from '@/utils/types/paymentTypes'
 import axiosBaseApi from '@/axiosConfig'
 import { useDispatch } from 'react-redux'
