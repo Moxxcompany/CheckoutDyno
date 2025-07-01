@@ -51,19 +51,19 @@ const currencyOptions = [
   {
     code: 'USD',
     label: 'United States Dollar (USD)',
-    icon: <Image src={USDIcon} alt="USD" width={20} height={20}/>,
+    icon: <Image src={USDIcon} alt="USD" width={20} height={20} />,
     currency: 'USD'
   },
   {
     code: 'EUR',
     label: 'Euro (EUR)',
-    icon: <Image src={EURIcon} alt="EUR" width={20} height={20}/>,
+    icon: <Image src={EURIcon} alt="EUR" width={20} height={20} />,
     currency: 'EUR'
   },
   {
     code: 'NGN',
     label: 'Nigerian Naira (NGN)',
-    icon: <Image src={NGNIcon} alt="NGN" width={20} height={20}/>,
+    icon: <Image src={NGNIcon} alt="NGN" width={20} height={20} />,
     currency: 'NGN'
   }
 ]
@@ -281,6 +281,13 @@ const Payment = () => {
                       fontFamily='Space Grotesk'
                       fontWeight={500}
                       fontSize={20}
+                      sx={{
+                        fontSize: {
+                          xs: '12px', // for small screens
+                          sm: '18px',
+                          md: '20px' // default
+                        }
+                      }}
                     >
                       To Pay:
                     </Typography>
@@ -315,6 +322,13 @@ const Payment = () => {
                         fontWeight={500}
                         fontFamily='Space Grotesk'
                         fontSize={25}
+                        sx={{
+                          fontSize: {
+                            xs: '12px', // for small screens
+                            sm: '18px',
+                            md: '20px' // default
+                          }
+                        }}
                       >
                         {Number(
                           currencyRates?.amount ?? walletState?.amount
@@ -337,9 +351,9 @@ const Payment = () => {
                             border: '1px solid #737373',
                             borderRadius: '10px',
                             // padding: '15px',
-                            marginTop:'10px',
+                            marginTop: '10px',
                             py: '4px',
-                              px:'10px',
+                            px: '10px',
                           }
                         }}
                       >
@@ -348,7 +362,16 @@ const Payment = () => {
                             key={currency.code}
                             onClick={e => handleSelect(e, currency.code)}
                             sx={{
-                              padding:'10px',
+                              px: {
+                                xs: 1.5,
+                                sm: 2,
+                                md: 2.5
+                              },
+                              py: {
+                                xs: 1,
+                                sm: 1.2,
+                                md: 1.5
+                              },
                               borderRadius: '6px',
                               '&:hover': {
                                 backgroundColor: '#F5F8FF'
@@ -359,8 +382,12 @@ const Payment = () => {
                               {currency.icon}
                               <Typography
                                 sx={{
-                                  fontSize: '14px',
-                                  fontWeight:'500'
+                                  fontSize: {
+                                    xs: '14px', // for small screens
+                                    sm: '18px',
+                                    md: '20px' // default
+                                  },
+                                  fontWeight: '500'
                                 }}
                               >
                                 {currency.label}
@@ -483,25 +510,25 @@ const Payment = () => {
               </Paper>
             </Box>
           ) : // <UnderPayment/>
-          // <OverPayment/>
-          activeStep === 1 ? (
-            transferMethod === 'bank' ? (
-              <BankTransferCompo
-                activeStep={activeStep}
-                setActiveStep={setActiveStep}
-                walletState={walletState}
-                setIsSuccess={setIsSuccess}
-              />
-            ) : (
-              <CryptoTransfer
-                activeStep={activeStep}
-                setActiveStep={setActiveStep}
-                walletState={walletState}
-              />
-            )
-          ) : activeStep === 2 ? (
-            <TransferExpectedCard isTrue={isSuccess} type={'bank'} />
-          ) : null}
+            // <OverPayment/>
+            activeStep === 1 ? (
+              transferMethod === 'bank' ? (
+                <BankTransferCompo
+                  activeStep={activeStep}
+                  setActiveStep={setActiveStep}
+                  walletState={walletState}
+                  setIsSuccess={setIsSuccess}
+                />
+              ) : (
+                <CryptoTransfer
+                  activeStep={activeStep}
+                  setActiveStep={setActiveStep}
+                  walletState={walletState}
+                />
+              )
+            ) : activeStep === 2 ? (
+              <TransferExpectedCard isTrue={isSuccess} type={'bank'} />
+            ) : null}
         </Box>
         <FloatingChatButton />
       </Box>
