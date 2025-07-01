@@ -7,6 +7,7 @@ import {
   Divider,
   IconButton,
   Paper,
+  Skeleton,
   Tooltip,
   Typography
 } from '@mui/material'
@@ -213,7 +214,7 @@ const BankTransferCompo = ({
           justifyContent='center'
           bgcolor='#F8FAFC'
           px={2}
-          // marginTop="50px"
+        // marginTop="50px"
         >
           <Paper
             elevation={3}
@@ -267,17 +268,29 @@ const BankTransferCompo = ({
               >
                 Bank Name:
               </Typography>
-              <Typography
-                color='#2D3282'
-                fontWeight='bold'
-                display='flex'
-                alignItems='center'
-                gap={1}
-                fontFamily='Space Grotesk'
-              >
-                {transferDetails?.transfer_bank}
-                <AccountBalanceIcon />
-              </Typography>
+              <Box display="flex" alignItems="center" gap={1}>
+                {transferDetails?.transfer_bank ? (
+                  <Typography
+                    color="#2D3282"
+                    fontWeight="bold"
+                    display="flex"
+                    alignItems="center"
+                    gap={1}
+                    fontFamily="Space Grotesk"
+                  >
+                    {transferDetails.transfer_bank}
+                    <AccountBalanceIcon />
+                  </Typography>
+                ) : (
+                  <Skeleton
+                    variant="rectangular"
+                    width={154}
+                    height={24}
+                    animation="wave"
+                    sx={{ borderRadius: '6px', background: '#F5F8FF' }}
+                  />
+                )}
+              </Box>
 
               <Typography
                 variant='subtitle2'
@@ -288,13 +301,23 @@ const BankTransferCompo = ({
                 Account Number:
               </Typography>
               <Box display='flex' alignItems='center' gap={1} mb={'4px'}>
-                <Typography
-                  color='#2D3282'
-                  fontWeight='600'
-                  fontFamily='Space Grotesk'
-                >
-                  {transferDetails?.transfer_account}
-                </Typography>
+                {transferDetails?.transfer_account ? (
+                  <Typography
+                    color='#2D3282'
+                    fontWeight='600'
+                    fontFamily='Space Grotesk'
+                  >
+                    {transferDetails?.transfer_account}
+                  </Typography>
+                ) : (
+                  <Skeleton
+                    variant="rectangular"
+                    width={107}
+                    height={24}
+                    animation="wave"
+                    sx={{ borderRadius: '6px', background: '#F5F8FF' }}
+                  />
+                )}
                 <Tooltip title='Copy'>
                   <IconButton
                     onClick={handleCopy}
@@ -438,7 +461,7 @@ const BankTransferCompo = ({
                     bgcolor: '#444CE7',
                     fontFamily: 'Space Grotesk',
                     fontWeight: 500,
-                    py:'17px',
+                    py: '17px',
                     textTransform: 'none',
                     boxShadow: 'none',
                     '&:hover': {
