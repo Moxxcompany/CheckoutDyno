@@ -352,7 +352,9 @@ const Payment = () => {
                           }
                         }}
                       >
-                        {currencyRates?.amount ?? walletState?.amount}{' '}
+                        {Number(
+                          currencyRates?.amount ?? walletState?.amount
+                        ).toFixed(2)}{' '}
                         {currencyRates?.currency ?? walletState?.currency}
                       </Typography>
                       {isOpen ? (

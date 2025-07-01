@@ -54,21 +54,21 @@ const BankTransferCompo = ({
 
   const currencyList = ['EUR', 'GBP', 'NGN']
 
- const handleCopy = () => {
-  const account = transferDetails?.transfer_account;
+  const handleCopy = () => {
+    const account = transferDetails?.transfer_account
 
-  if (account) {
-    navigator.clipboard.writeText(account);
-  } else {
-    dispatch({
-      type: TOAST_SHOW,
-      payload: {
-        message: 'No account number to copy.',
-        severity: 'warning',
-      },
-    });
+    if (account) {
+      navigator.clipboard.writeText(account)
+    } else {
+      dispatch({
+        type: TOAST_SHOW,
+        payload: {
+          message: 'No account number to copy.',
+          severity: 'warning'
+        }
+      })
+    }
   }
-};
 
   useEffect(() => {
     if (walletState?.amount && walletState?.currency) {
@@ -397,7 +397,11 @@ const BankTransferCompo = ({
                       color='#515151'
                       fontFamily='Space Grotesk'
                     >
-                      = {walletState?.amount} {walletState?.currency}
+                      ={' '}
+                      {Number(
+                        walletState?.amount ?? walletState?.amount
+                      ).toFixed(2)}{' '}
+                      {walletState?.currency}
                     </Typography>
                   </Box>
                 </Box>
