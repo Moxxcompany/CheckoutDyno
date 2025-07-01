@@ -70,27 +70,26 @@ function StepIconComponent (props: any) {
 
 const steps = ['Order Info', 'Payment', 'Confirmation']
 
-export default function ProgressBar ({ activeStep }: { activeStep: number }) {
+export default function ProgressBar({ activeStep }: { activeStep: number }) {
   return (
     <Box
-      sx={{ width: '100%', px: 4, py: 3, bgcolor: '#F8FAFC' }}
-      // minHeight={'calc(100vh - 340px)'}
+      sx={{ width: '100%', px: 4, py: 3, }}
     >
-      {activeStep === 2 ? (
+      {/* {activeStep === 2 ? (
         <Box display='flex' alignItems='center' mb={2} height={35}>
       
         </Box>
       ) : (
-        <Box display='flex' alignItems='center' mb={2}>
-          <IconButton>
-            <ArrowBackIosNewIcon fontSize='small' />
-          </IconButton>
+        // <Box display='flex' alignItems='center' mb={2}>
+        //   <IconButton>
+        //     <ArrowBackIosNewIcon fontSize='small' />
+        //   </IconButton>
 
-          <Typography variant='body2' fontWeight={500}>
-            Back
-          </Typography>
-        </Box>
-      )}
+        //   <Typography variant='body2' sx={{ fontFamily: "Space Grotesk", fontWeight: '500', fontSize: '14px' }}>
+        //     Back
+        //   </Typography>
+        // </Box>
+      )} */}
       <Stepper
         alternativeLabel
         activeStep={activeStep}

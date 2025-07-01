@@ -11,18 +11,13 @@ import {
   Typography
 } from '@mui/material'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
-import { ArrowBack, ContentCopy, ErrorOutline } from '@mui/icons-material'
-import FileCopyIcon from '@mui/icons-material/FileCopy'
+import { ArrowBack } from '@mui/icons-material'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import CopyIcon from '@/assets/Icons/CopyIcon'
 import {
   BankTransferApiRes,
-  CommonApiRes,
-  CommonDetails,
-  commonPayload,
   currencyData,
-  transferDetails,
-  walletState
+  transferDetails
 } from '@/utils/types/paymentTypes'
 import axiosBaseApi from '@/axiosConfig'
 import { useDispatch } from 'react-redux'
@@ -31,6 +26,7 @@ import { paymentTypes } from '@/utils/enums'
 import { createEncryption, generateRedirectUrl } from '@/helpers'
 import Loading from '@/Components/UI/Loading/Index'
 import ClockIcon from '@/assets/Icons/ClockIcon'
+import Warning from '@/assets/Icons/Warning'
 
 interface BankTransferCompoProps {
   activeStep: number
@@ -82,8 +78,8 @@ const BankTransferCompo = ({
       const {
         data: { data }
       } = await axiosBaseApi.post('pay/getCurrencyRates', {
-        source: walletState.currency,
-        amount: walletState.amount,
+        source: walletState?.currency,
+        amount: walletState?.amount,
         currencyList: ['NGN']
       })
 
@@ -100,7 +96,7 @@ const BankTransferCompo = ({
       initiateBankTransfer(data?.[0])
       setLoading(false)
     } catch (e: any) {
-      const message = e.response.data.message ?? e.message
+      const message = e?.response?.data?.message ?? e?.message
       dispatch({
         type: TOAST_SHOW,
         payload: {
@@ -317,17 +313,20 @@ const BankTransferCompo = ({
                   </IconButton>
                 </Tooltip>
               </Box>
-              <Typography
-                variant='caption'
-                color='#515151'
-                fontFamily='Space Grotesk'
-              >
-                ⓘ This account number is unique for each transaction.
-              </Typography>
+              <Box display='flex' alignItems='center' gap={0.5} mt={'8px'}>
+                <Warning />
+                <Typography
+                  variant='caption'
+                  color='#515151'
+                  fontFamily='Space Grotesk'
+                >
+                  This account number is unique for each transaction.
+                </Typography>
+              </Box>
 
               <Typography
                 variant='subtitle2'
-                mt={2}
+                mt={'16px'}
                 fontWeight='300'
                 fontFamily='Space Grotesk'
               >
@@ -358,6 +357,7 @@ const BankTransferCompo = ({
               <Typography
                 fontSize={14}
                 color={'#515151'}
+                fontWeight={500}
                 fontFamily='Space Grotesk'
               >
                 Secure bank transfer with automatic confirmation. No need to
@@ -384,17 +384,15 @@ const BankTransferCompo = ({
                     To Pay:
                   </Typography>
                   <Box textAlign={'end'}>
-                
-                      <Typography
-                        variant='h6'
-                        fontWeight='bold'
-                        color='primary'
-                        fontFamily='Space Grotesk'
-                      >
-                        {transferDetails?.transfer_amount}{' '}
-                        {selectedCurrency?.currency}
-                      </Typography>
-                  
+                    <Typography
+                      variant='h6'
+                      fontWeight='bold'
+                      color='primary'
+                      fontFamily='Space Grotesk'
+                    >
+                      {transferDetails?.transfer_amount}{' '}
+                      {selectedCurrency?.currency}
+                    </Typography>
 
                     <Typography
                       variant='caption'
@@ -410,7 +408,6 @@ const BankTransferCompo = ({
                   </Box>
                 </Box>
                 <Divider sx={{ my: 2 }} />
-
                 <Box
                   display='flex'
                   alignItems='center'
@@ -428,7 +425,6 @@ const BankTransferCompo = ({
                     Invoice expires in: {formatTime(timeLeft)}
                   </Typography>
                 </Box>
-
                 <Button
                   variant='contained'
                   onClick={() => {
@@ -441,8 +437,14 @@ const BankTransferCompo = ({
                     borderRadius: '99999px',
                     bgcolor: '#444CE7',
                     fontFamily: 'Space Grotesk',
-
-                    '&:hover': { bgcolor: '#444CE7' }
+                    fontWeight: 500,
+                    py:'17px',
+                    textTransform: 'none',
+                    boxShadow: 'none',
+                    '&:hover': {
+                      bgcolor: '#444CE7',
+                      boxShadow: 'none'
+                    }
                   }}
                 >
                   I’ve made the payment

@@ -1,35 +1,14 @@
-// import { Box } from '@mui/material'
-// import React, { useState } from 'react'
-// import Header from './header'
-
-// const AMLPolicy = () => {
-//     const [darkMode, setDarkMode] = useState(false);
-//     const toggleDarkMode = () => setDarkMode(!darkMode);
-
-//     return (
-//         <Box>
-//             <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-//             <p>AMLPolicy</p>
-//         </Box>
-//     )
-// }
-
-// export default AMLPolicy
-
 import React from 'react';
 import {
   Box,
   Typography,
   Container,
-  Paper,
   List,
   ListItem,
   ListItemText,
-  Divider,
-  useTheme,
-  IconButton
 } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Pay3Layout from './layout';
+import BackButton from '@/Components/Page/Pay3Components/backButton';
 
 const policySections = [
   {
@@ -45,12 +24,12 @@ const policySections = [
   {
     title: '3. Know Your Customer (KYC)',
     description:
-      'We have established a comprehensive KYC (Know Your Customer) program to verify the identity of our users. Depending on the account type and transaction volume, KYC requirements may include:\n• Full name and date of birth\n• Government-issued identification\n• Proof of address\n• Source of funds (for higher-risk activities)\n\nKYC procedures apply to both fiat and crypto-related operations.',
+      'We have established a comprehensive KYC (Know Your Customer) program to verify the identity of our users. Depending on the account type and transaction volume, KYC requirements may include:\n\u00A0•\u00A0 Full name and date of birth\n\u00A0•\u00A0 Government-issued identification\n\u00A0•\u00A0 Proof of address\n\u00A0•\u00A0 Source of funds (for higher-risk activities)\n\nKYC procedures apply to both fiat and crypto-related operations.',
   },
   {
     title: '4. Ongoing Monitoring',
     description:
-      'All transactions processed through DynoPay are subject to ongoing monitoring to detect unusual or suspicious behavior. This includes, but is not limited to:\n• Unusual movement of funds\n• Use of high-risk jurisdictions\n• Use of anonymizing services or tools\n\nWe reserve the right to delay, block, or refuse transactions that raise red flags during monitoring.',
+      'All transactions processed through DynoPay are subject to ongoing monitoring to detect unusual or suspicious behavior. This includes, but is not limited to:\n\u00A0•\u00A0 Unusual movement of funds\n\u00A0•\u00A0 Use of high-risk jurisdictions\n\u00A0•\u00A0 Use of anonymizing services or tools\n\nWe reserve the right to delay, block, or refuse transactions that raise red flags during monitoring.',
   },
   {
     title: '5. Reporting Suspicious Activities',
@@ -80,70 +59,63 @@ const policySections = [
 ];
 
 const AMLPolicyPage = () => {
-  const theme = useTheme();
-
   return (
-    <Container maxWidth="md" sx={{ py: { xs: 2, sm: 4 } }}>
-      <Box display="flex" alignItems="center" gap={1} mb={2}>
-        <IconButton>
-          <ArrowBackIcon />
-        </IconButton>
-        <Typography variant="body2" fontWeight={500}>
-          Back
-        </Typography>
-      </Box>
+    <Pay3Layout>
+      <Container maxWidth="md" sx={{ py: { xs: 2, sm: 4 } }}>
+        <BackButton onClick={() => history.back()} />
 
-      <Box sx={{ mb: 3 }}>
-        <Typography
-          variant="h4"
-          fontWeight={700}
-          sx={{ color: '#2D3282', fontFamily:'Space Grotesk', fontSize: { xs: '35px', sm: '50px' } }}
-          gutterBottom
-        >
-          Anti-Money Laundering (AML) Policy
-        </Typography>
-        <Typography variant="body2" color="#707070">
-          Last Updated January 11, 2025
-        </Typography>
-      </Box>
+        <Box sx={{ mt: '26px' }}>
+          <Typography
+            variant="h4"
+            fontWeight={700}
+            sx={{ color: '#2D3282', fontFamily: 'Space Grotesk', fontSize: { xs: '36px', sm: '50px' } }}
+            gutterBottom
+          >
+            Anti-Money Laundering (AML) Policy
+          </Typography>
+          <Typography variant="body2" color="#707070" sx={{ mt: '12px' }}>
+            Last Updated January 11, 2025
+          </Typography>
+        </Box>
 
-      <Box>
-        <Typography variant="body1" mb={2} sx={{fontFamily:'Space Grotesk'}}>
-          At DynoPay, we are committed to upholding the highest standards in preventing money laundering and the
-          financing of terrorism. This Anti-Money Laundering (AML) Policy outlines the measures and procedures we have
-          implemented to detect, prevent, and report any suspicious activity across our services, including:
-        </Typography>
-        <List dense sx={{ listStyle: 'disc', pl: 4 }}>
-          <ListItem sx={{ display: 'list-item', py: 0 }}>
-            <ListItemText primary="Wallet balance management" />
-          </ListItem>
-          <ListItem sx={{ display: 'list-item', py: 0 }}>
-            <ListItemText primary="Bank transfers" />
-          </ListItem>
-          <ListItem sx={{ display: 'list-item', py: 0 }}>
-            <ListItemText primary="Cryptocurrency payments" />
-          </ListItem>
-        </List>
+        <Box sx={{ mt: '12px' }}>
+          <Typography variant="body1" sx={{ fontFamily: 'Space Grotesk' }}>
+            At DynoPay, we are committed to upholding the highest standards in preventing money laundering and the
+            financing of terrorism. This Anti-Money Laundering (AML) Policy outlines the measures and procedures we have
+            implemented to detect, prevent, and report any suspicious activity across our services, including:
+          </Typography>
+          <List dense sx={{ listStyle: 'disc', pl: 4, mb: 2, pt:0 }}>
+            <ListItem sx={{ display: 'list-item', py: 0 }}>
+              <ListItemText primary="Wallet balance management" />
+            </ListItem>
+            <ListItem sx={{ display: 'list-item', py: 0 }}>
+              <ListItemText primary="Bank transfers" />
+            </ListItem>
+            <ListItem sx={{ display: 'list-item', py: 0 }}>
+              <ListItemText primary="Cryptocurrency payments" />
+            </ListItem>
+          </List>
 
-        {policySections.map((section, index) => (
-          <Box key={index} sx={{ mt: 4 }}>
-            <Typography
-              variant="subtitle1"
-              fontWeight={600}
-              sx={{  mb: 1,fontFamily:'Space Grotesk' }}
-            >
-              {section.title}
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{ whiteSpace: 'pre-line', lineHeight: 1.6 ,fontFamily:'Space Grotesk'}}
-            >
-              {section.description}
-            </Typography>
-          </Box>
-        ))}
-      </Box>
-    </Container>
+          {policySections.map((section, index) => (
+            <Box key={index} sx={{ mt: '24px' }}>
+              <Typography
+                variant="subtitle1"
+                fontWeight={500}
+                sx={{ mb: '12px', fontFamily: 'Space Grotesk' }}
+              >
+                {section.title}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ whiteSpace: 'pre-line', fontSize: "16px", lineHeight: 1.6, fontFamily: 'Space Grotesk' }}
+              >
+                {section.description}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
+      </Container>
+    </Pay3Layout>
   );
 };
 
