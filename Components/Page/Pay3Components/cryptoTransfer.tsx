@@ -26,6 +26,7 @@ import { createEncryption } from '@/helpers'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import BitCoinGreenIcon from '@/assets/Icons/BitCoinGreenIcon'
 import DoneIcon from '@mui/icons-material/Done'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 interface CryptoTransferProps {
   activeStep: number
@@ -308,7 +309,7 @@ const CryptoTransfer = ({
           fontSize='27px'
           fontFamily='Space Grotesk'
         >
-          <BitCoinGreenIcon /> Cryptocurrency
+          <BitCoinGreenIcon />Cryptocurrency
         </Typography>
 
         <Box mt={3} mb={1}>
@@ -329,10 +330,11 @@ const CryptoTransfer = ({
             value={selectedCrypto}
             displayEmpty
             onChange={handleChange}
+            IconComponent={KeyboardArrowDownIcon}
             sx={{
               '& .MuiOutlinedInput-input': {
                 borderRadius: '10px !important',
-                borderColor: '#D9D9D9 !important',
+                borderColor: '#737373 !important',
                 '& :focus-visible': {
                   outline: 'none !important'
                 },
@@ -343,11 +345,29 @@ const CryptoTransfer = ({
               },
               '& fieldset': {
                 borderRadius: '10px !important',
-                borderColor: '#D9D9D9 !important',
+                borderColor: '#737373 !important',
                 '& :focus-visible': {
                   outline: 'none !important'
                 }
+              },
+              '& .MuiList-root':{
+                padding:'15px'
+              },
+              '& .MuiMenu-paper':{
+                padding:'15px'
               }
+            }}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  py: '10px',
+                  px:'20px',
+                  backgroundColor: '#fff',
+                  border:'1px solid #737373',
+                  boxShadow: 3,
+                  borderRadius: '10px',
+                },
+              },
             }}
             renderValue={selected => {
               if (!selected)
@@ -384,11 +404,13 @@ const CryptoTransfer = ({
                 key={option.value}
                 value={option.value}
                 sx={{
+                  borderRadius:'8px',
                   '&:hover': { backgroundColor: '#F5F8FF' },
                   '&.Mui-selected': {
                     backgroundColor: '#F5F8FF',
                     '&:hover': { backgroundColor: '#F5F8FF' }
-                  }
+                  },
+                  padding:'10px'
                 }}
               >
                 <ListItemIcon>{option.icon}</ListItemIcon>
