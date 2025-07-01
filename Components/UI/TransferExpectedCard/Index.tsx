@@ -53,8 +53,8 @@ export default function TransferExpectedCard ({
             sx={{
               py: 3,
               background: isTrue
-                ? 'radial-gradient(circle at top center, #e8f9f1, #ffffff 70%)'
-                : 'radial-gradient(circle at top center, #fff7e0, #ffffff 70%)'
+                ? 'radial-gradient(circle at top center, #e8f9f1, #ffffff 100%)'
+                : 'radial-gradient(circle at top center, #fff7e0, #ffffff 100%)'
             }}
           >
             {/* 12B76A45 */}
@@ -69,8 +69,8 @@ export default function TransferExpectedCard ({
             ) : (
               <AccessTimeOutlinedIcon
                 sx={{
-                  fontSize: 48,
-                  color: '#f5a623'
+                  fontSize: 50,
+                  color: '#FBBC05'
                 }}
               />
             )}

@@ -31,6 +31,7 @@ import { paymentTypes } from '@/utils/enums'
 import { createEncryption, generateRedirectUrl } from '@/helpers'
 import Loading from '@/Components/UI/Loading/Index'
 import ClockIcon from '@/assets/Icons/ClockIcon'
+import Warning from '@/assets/Icons/Warning'
 
 interface BankTransferCompoProps {
   activeStep: number
@@ -56,20 +57,20 @@ const BankTransferCompo = ({
   const currencyList = ['EUR', 'GBP', 'NGN']
 
   const handleCopy = () => {
-    const account = transferDetails?.transfer_account;
+    const account = transferDetails?.transfer_account
 
     if (account) {
-      navigator.clipboard.writeText(account);
+      navigator.clipboard.writeText(account)
     } else {
       dispatch({
         type: TOAST_SHOW,
         payload: {
           message: 'No account number to copy.',
-          severity: 'warning',
-        },
-      });
+          severity: 'warning'
+        }
+      })
     }
-  };
+  }
 
   useEffect(() => {
     if (walletState?.amount && walletState?.currency) {
@@ -82,8 +83,8 @@ const BankTransferCompo = ({
       const {
         data: { data }
       } = await axiosBaseApi.post('pay/getCurrencyRates', {
-        source: walletState.currency,
-        amount: walletState.amount,
+        source: walletState?.currency,
+        amount: walletState?.amount,
         currencyList: ['NGN']
       })
 
@@ -100,7 +101,7 @@ const BankTransferCompo = ({
       initiateBankTransfer(data?.[0])
       setLoading(false)
     } catch (e: any) {
-      const message = e.response.data.message ?? e.message
+      const message = e?.response?.data?.message ?? e?.message
       dispatch({
         type: TOAST_SHOW,
         payload: {
@@ -217,7 +218,7 @@ const BankTransferCompo = ({
           justifyContent='center'
           bgcolor='#F8FAFC'
           px={2}
-        // marginTop="50px"
+          // marginTop="50px"
         >
           <Paper
             elevation={3}
@@ -317,13 +318,17 @@ const BankTransferCompo = ({
                   </IconButton>
                 </Tooltip>
               </Box>
-              <Typography
-                variant='caption'
-                color='#515151'
-                fontFamily='Space Grotesk'
-              >
-                ⓘ This account number is unique for each transaction.
-              </Typography>
+              <Box display='flex' alignItems='center'  gap={0.5}>
+                <Warning  />
+                <Typography
+                  variant='caption'
+                  color='#515151'
+                  fontFamily='Space Grotesk'
+                  
+                >
+                  This account number is unique for each transaction.
+                </Typography>
+              </Box>
 
               <Typography
                 variant='subtitle2'
