@@ -244,6 +244,8 @@ const Payment = () => {
               alignItems='center'
               justifyContent='center'
               px={2}
+              minHeight={'calc(100vh - 340px)'}
+
             >
               <Paper
                 elevation={3}
