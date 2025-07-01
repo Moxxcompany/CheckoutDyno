@@ -398,7 +398,7 @@ const Payment = () => {
                                   fontSize: {
                                     xs: '14px', // for small screens
                                     sm: '18px',
-                                    md: '20px' // default
+                                    md: '14px' // default
                                   },
                                   fontWeight: '500'
                                 }}
