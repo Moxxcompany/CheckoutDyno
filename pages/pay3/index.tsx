@@ -41,24 +41,29 @@ import Logo from '@/assets/Icons/Logo'
 import CryptoTransfer from '@/Components/Page/Pay3Components/cryptoTransfer'
 import BankTransferCompo from '@/Components/Page/Pay3Components/bankTransferCompo'
 import Pay3Layout from './layout'
+import Image from 'next/image'
+import USDIcon from '../../assets/Icons/flag/USD.png';
+import EURIcon from '../../assets/Icons/flag/EUR.png';
+import NGNIcon from '../../assets/Icons/flag/NGN.png';
+
 
 const currencyOptions = [
   {
     code: 'USD',
     label: 'United States Dollar (USD)',
-    icon: <Icon icon='circle-flags:us-um' width={20} />,
+    icon: <Image src={USDIcon} alt="USD" width={20} height={20}/>,
     currency: 'USD'
   },
   {
     code: 'EUR',
     label: 'Euro (EUR)',
-    icon: <Icon icon='circle-flags:european-union' width={20} />,
+    icon: <Image src={EURIcon} alt="EUR" width={20} height={20}/>,
     currency: 'EUR'
   },
   {
     code: 'NGN',
     label: 'Nigerian Naira (NGN)',
-    icon: <Icon icon='circle-flags:ng' width={20} />,
+    icon: <Image src={NGNIcon} alt="NGN" width={20} height={20}/>,
     currency: 'NGN'
   }
 ]

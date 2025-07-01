@@ -27,6 +27,17 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import BitCoinGreenIcon from '@/assets/Icons/BitCoinGreenIcon'
 import DoneIcon from '@mui/icons-material/Done'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import USDT from '@/assets/Icons/coins/USDT'
+import BTC from '@/assets/Icons/coins/BTC'
+import ETH from '@/assets/Icons/coins/ETH'
+import BNB from '@/assets/Icons/coins/BNB'
+import Image from 'next/image'
+
+import LTCicon from '../../../assets/Icons/coins/LTC.png';
+import BCHicon from '../../../assets/Icons/coins/BCH.png';
+import DOGEicon from '../../../assets/Icons/coins/DOGE.png';
+import TRXicon from '../../../assets/Icons/coins/TRX.png';
+
 
 interface CryptoTransferProps {
   activeStep: number
@@ -38,48 +49,48 @@ const cryptoOptions = [
   {
     value: 'USDT',
     label: 'USDT (TRC-20, ERC-20)',
-    icon: <Icon icon='cryptocurrency-color:usdt' width='24' />
+    icon: <USDT />
   },
   {
     value: 'BTC',
     label: 'Bitcoin (BTC)',
-    icon: <Icon icon='logos:bitcoin' width='24' />,
+    icon: <BTC />,
     currency: 'BTC'
   },
   {
     value: 'ETH',
     label: 'Ethereum (ETH)',
-    icon: <Icon icon='cryptocurrency-color:eth' width='24' />,
+    icon: <ETH />,
     currency: 'ETH'
   },
   {
     value: 'BSC',
     label: 'BNB',
-    icon: <Icon icon='cryptocurrency-color:bnb' width='24' />,
+    icon: <BNB />,
     currency: 'BSC'
   },
   {
     value: 'LTC',
     label: 'Litecoin (LTC)',
-    icon: <Icon icon='token-branded:ltc' width='24' />,
+    icon: <Image src={LTCicon} alt="USD" width={20} height={20}/>,
     currency: 'LTC'
   },
   {
     value: 'DOGE',
     label: 'Dogecoin (DOGE)',
-    icon: <Icon icon='cryptocurrency-color:doge' width='24' />,
+    icon: <Image src={DOGEicon} alt="USD" width={20} height={20}/>,
     currency: 'DOGE'
   },
   {
     value: 'BCH',
     label: 'Bitcoin Cash (BCH)',
-    icon: <Icon icon='cryptocurrency-color:bch' width='24' />,
+    icon: <Image src={BCHicon} alt="USD" width={20} height={20}/>,
     currency: 'BCH'
   },
   {
     value: 'TRX',
     label: 'Tron (TRX)',
-    icon: <Icon icon='cryptocurrency-color:trx' width='24' />,
+    icon: <Image src={TRXicon} alt="USD" width={20} height={20}/>,
     currency: 'TRX'
   }
 ]
