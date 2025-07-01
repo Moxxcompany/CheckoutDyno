@@ -123,7 +123,7 @@ const OverPayment = () => {
             mb={3}
             fontFamily='Space Grotesk'
           >
-            Thanks! You've paid a bit extra.
+            Thanks! You&apos;ve paid a bit extra.
           </Typography>
 
           <Box
@@ -279,7 +279,7 @@ const OverPayment = () => {
                 fontSize={14}
                 color={'#515151'}
                 fontFamily='Space Grotesk'
-                textAlign="justify"
+                textAlign='justify'
                 fontWeight={500}
               >
                 Excess amount will be refunded to your Wallet of the store you

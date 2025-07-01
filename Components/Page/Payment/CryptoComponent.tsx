@@ -123,6 +123,9 @@ const CyrptoComponent = ({ walletState }: commonPayload) => {
         amount: selectedCurrency?.amount,
         paymentType: paymentTypes.CRYPTO,
       };
+
+      console.log("finalPayload",finalPayload)
+
       const res = createEncryption(JSON.stringify(finalPayload));
       setCheckVerify(true);
       setLoading2(true);

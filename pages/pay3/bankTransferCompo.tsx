@@ -30,6 +30,7 @@ import { TOAST_SHOW } from '@/Redux/Actions/ToastAction'
 import { paymentTypes } from '@/utils/enums'
 import { createEncryption, generateRedirectUrl } from '@/helpers'
 import Loading from '@/Components/UI/Loading/Index'
+import ClockIcon from '@/assets/Icons/ClockIcon'
 
 interface BankTransferCompoProps {
   activeStep: number
@@ -383,15 +384,18 @@ const BankTransferCompo = ({
                     To Pay:
                   </Typography>
                   <Box textAlign={'end'}>
-                    <Typography
-                      variant='h6'
-                      fontWeight='bold'
-                      color='primary'
-                      fontFamily='Space Grotesk'
-                    >
-                      {transferDetails?.transfer_amount}{' '}
-                      {selectedCurrency?.currency}
-                    </Typography>
+                
+                      <Typography
+                        variant='h6'
+                        fontWeight='bold'
+                        color='primary'
+                        fontFamily='Space Grotesk'
+                      >
+                        {transferDetails?.transfer_amount}{' '}
+                        {selectedCurrency?.currency}
+                      </Typography>
+                  
+
                     <Typography
                       variant='caption'
                       color='#515151'
@@ -406,14 +410,25 @@ const BankTransferCompo = ({
                   </Box>
                 </Box>
                 <Divider sx={{ my: 2 }} />
-                <Typography
-                  gutterBottom
-                  textAlign={'center'}
-                  fontSize={'13px'}
-                  fontFamily='Space Grotesk'
+
+                <Box
+                  display='flex'
+                  alignItems='center'
+                  justifyContent='center'
+                  gap={1}
                 >
-                  🕒 Invoice expires in: {formatTime(timeLeft)}
-                </Typography>
+                  <ClockIcon />
+                  <Typography
+                    variant='body2'
+                    fontWeight='normal'
+                    fontSize='13px'
+                    fontFamily='Space Grotesk'
+                    color='#000'
+                  >
+                    Invoice expires in: {formatTime(timeLeft)}
+                  </Typography>
+                </Box>
+
                 <Button
                   variant='contained'
                   onClick={() => {

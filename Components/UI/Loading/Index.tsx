@@ -20,7 +20,7 @@ const Loading = () => {
         mt={2}
         fontFamily="Space Grotesk"
       >
-        Please wait, we're loading your data...
+        Please wait, we&apos;re loading your data...
       </Typography>
     </Box>
   );
