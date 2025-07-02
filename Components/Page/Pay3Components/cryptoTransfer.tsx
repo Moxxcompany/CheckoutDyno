@@ -266,7 +266,7 @@ const CryptoTransfer = ({
     return `${mins}:${secs}`
   }
 
-  function formatAmount(amount: any, currency: string): string {
+  function formatAmount (amount: any, currency: string): string {
     const lowerCurrency = currency?.toLowerCase()
 
     const cryptoCurrencies = new Set(['btc', 'eth', 'usdc', 'bnb', 'matic'])
@@ -284,7 +284,14 @@ const CryptoTransfer = ({
   }
 
   useEffect(() => {
-    if (!selectedCrypto) return
+    // if (!selectedCrypto) return
+
+    const isValidSelection =
+      selectedCrypto &&
+      (selectedCrypto !== 'USDT' ||
+        ['TRC20', 'ERC20'] .includes(selectedNetwork))
+
+    if (!isValidSelection) return
 
     setIsReceived(false)
 
@@ -493,11 +500,15 @@ const CryptoTransfer = ({
                     backgroundColor: '#F5F8FF',
                     '&:hover': { backgroundColor: '#F5F8FF' }
                   },
-                  padding: '10px',
+                  padding: '10px'
                 }}
               >
-                <ListItemIcon style={{ height: '26px', width: '25px' }}>{option.icon}</ListItemIcon>
-                <ListItemText style={{ height: '24px', width: '24px' }}>{option.label}</ListItemText>
+                <ListItemIcon style={{ height: '26px', width: '25px' }}>
+                  {option.icon}
+                </ListItemIcon>
+                <ListItemText style={{ height: '24px', width: '24px' }}>
+                  {option.label}
+                </ListItemText>
               </MenuItem>
             ))}
           </Select>
@@ -521,8 +532,9 @@ const CryptoTransfer = ({
             {['TRC20', 'ERC20'].map(net => (
               <Typography
                 key={net}
-                border={`1px solid ${selectedNetwork === net ? '#86A4F9' : '#E7EAFD'
-                  }`}
+                border={`1px solid ${
+                  selectedNetwork === net ? '#86A4F9' : '#E7EAFD'
+                }`}
                 padding='5px 10px'
                 fontSize='small'
                 bgcolor={selectedNetwork === net ? '#E7EAFD' : '#F5F8FF'}
@@ -537,305 +549,307 @@ const CryptoTransfer = ({
           </Box>
         )}
 
-        {selectedCrypto && (selectedCrypto !== 'USDT' || ['TRC20', 'ERC20'].includes(selectedNetwork))  && (
-          <>
-            <Typography
-              variant='h6'
-              fontWeight='medium'
-              my={1}
-              fontSize='small'
-              fontFamily='Space Grotesk'
-            >
-              Send {selectedCrypto}{' '}
-              {selectedCrypto === 'USDT' ? `(${selectedNetwork})` : ''} to This
-              Address
-            </Typography>
-            <Box
-              textAlign='center'
-              border='1px solid #A4BCFD'
-              padding='20px'
-              borderRadius='20px'
-              bgcolor='#F5F8FF'
-            >
-              <Box
-                sx={{
-                  bgcolor: 'white',
-                  borderRadius: '10px',
-                  border: '1px solid #E7EAFD',
-                  mb: 2
-                }}
+        {selectedCrypto &&
+          (selectedCrypto !== 'USDT' ||
+            ['TRC20', 'ERC20'].includes(selectedNetwork)) && (
+            <>
+              <Typography
+                variant='h6'
+                fontWeight='medium'
+                my={1}
+                fontSize='small'
+                fontFamily='Space Grotesk'
               >
-                {loading ? (
-                  <Box sx={{ padding: 2 }}>
-                    <CircularProgress />
-                  </Box>
-                ) : (
-                  <img
-                    src={cryptoDetails?.qr_code}
-                    width={'100%'}
-                    height={'100%'}
-                  />
-                )}
-              </Box>
+                Send {selectedCrypto}{' '}
+                {selectedCrypto === 'USDT' ? `(${selectedNetwork})` : ''} to
+                This Address
+              </Typography>
               <Box
-                display='flex'
-                alignItems='center'
-                justifyContent='space-between'
-                border='1px solid #E7EAFD'
-                padding='10px'
-                borderRadius='8px'
-                bgcolor='#FFFFFF'
+                textAlign='center'
+                border='1px solid #A4BCFD'
+                padding='20px'
+                borderRadius='20px'
+                bgcolor='#F5F8FF'
               >
-                <Typography
-                  variant='body2'
-                  sx={{ color: '#444CE7' }}
-                  fontWeight='400'
-                  fontSize='11px'
-                  maxWidth='88%'
-                  overflow='hidden'
-                  textOverflow='ellipsis'
-                  whiteSpace='nowrap'
+                <Box
+                  sx={{
+                    bgcolor: 'white',
+                    borderRadius: '10px',
+                    border: '1px solid #E7EAFD',
+                    mb: 2
+                  }}
                 >
-                  {cryptoDetails?.address}
-                </Typography>
-                <Tooltip title='Copy'>
-                  <IconButton
-                    size='small'
-                    sx={{
-                      bgcolor: '#E7EAFD',
-                      p: 0.5,
-                      height: '24px',
-                      width: '24px',
-                      borderRadius: '5px',
-                      '&:hover': { bgcolor: '#E0E7FF' }
-                    }}
-                    onClick={handleCopyAddress}
-                  >
-                    <CopyIcon />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-              <Box display='flex' alignItems='center' gap={1}>
-                <InfoOutlinedIcon fontSize='small' />
-                <Typography
-                  variant='h6'
-                  fontWeight='400'
-                  mt={1}
-                  color='#1A1919'
-                  fontSize='small'
-                  textAlign='left'
-                  lineHeight='18px'
-                  fontFamily='Space Grotesk'
-                >
-                  Send only {selectedCrypto} in{' '}
-                  {selectedCrypto === 'USDT'
-                    ? `(${selectedNetwork}) network`
-                    : ''}{' '}
-                  to this address, or your funds will be lost.
-                </Typography>
-              </Box>
-            </Box>
-
-            {!isRecived && (
-              <Box
-                mt={3}
-                border='1px solid #DFDFDF'
-                padding='18px 21px'
-                borderRadius='10px'
-                bgcolor='#FFFFFF'
-                height={'129px'}
-                sx={{ opacity: isStart ? 0.5 : 1 }}
-              >
-                <Box display='flex' gap={2} justifyContent='space-between'>
-                  <Typography
-                    variant='h6'
-                    fontWeight={500}
-                    fontSize='20px'
-                    fontFamily='Space Grotesk'
-                    whiteSpace='nowrap'
-                    color='#1A1919'
-                  >
-                    To Pay:
-                  </Typography>
-                  <Box display='flex' alignItems='start' gap={1}>
-                    <Box textAlign='end'>
-                      <Typography
-                        variant='body1'
-                        fontSize='25px'
-                        fontWeight={500}
-                        display='flex'
-                        alignItems='center'
-                        gap={1}
-                        fontFamily='Space Grotesk'
-                        // lineHeight='130%'
-                        whiteSpace='nowrap'
-                        color='#1A1919'
-                      >
-                        {formatAmount(
-                          selectedCurrency?.amount || 0,
-                          selectedCurrency?.currency || ''
-                        )}{' '}
-                        {selectedCurrency?.currency}
-                      </Typography>
-                      <Typography
-                        variant='body1'
-                        color='#515151'
-                        fontFamily='Space Grotesk'
-                        whiteSpace='nowrap'
-                        fontSize='14px'
-                        fontWeight={500}
-                      >
-                        ={Number(walletState?.amount)?.toFixed(2)}{' '}
-                        {walletState?.currency}
-                      </Typography>
+                  {loading ? (
+                    <Box sx={{ padding: 2 }}>
+                      <CircularProgress />
                     </Box>
-                    <Tooltip title='Copy'>
-                      <IconButton
-                        size='small'
-                        sx={{
-                          bgcolor: '#E7EAFD',
-                          p: 0.5,
-                          height: '24px',
-                          width: '24px',
-                          borderRadius: '5px',
-                          '&:hover': { bgcolor: '#E0E7FF' },
-                          mt: 1
-                        }}
-                        onClick={handleCopyAddress}
-                      >
-                        <CopyIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
+                  ) : (
+                    <img
+                      src={cryptoDetails?.qr_code}
+                      width={'100%'}
+                      height={'100%'}
+                    />
+                  )}
                 </Box>
-                <Divider sx={{ my: '10px' }} />
                 <Box
                   display='flex'
                   alignItems='center'
-                  justifyContent='center'
-                  gap={1}
+                  justifyContent='space-between'
+                  border='1px solid #E7EAFD'
+                  padding='10px'
+                  borderRadius='8px'
+                  bgcolor='#FFFFFF'
                 >
-                  <ClockIcon />
                   <Typography
                     variant='body2'
-                    fontWeight='normal'
-                    fontSize='13px'
-                    fontFamily='Space Grotesk'
-                    color='#000'
+                    sx={{ color: '#444CE7' }}
+                    fontWeight='400'
+                    fontSize='11px'
+                    maxWidth='88%'
+                    overflow='hidden'
+                    textOverflow='ellipsis'
+                    whiteSpace='nowrap'
                   >
-                    invoice expires in: {formatTime(timeLeft)}
+                    {cryptoDetails?.address}
+                  </Typography>
+                  <Tooltip title='Copy'>
+                    <IconButton
+                      size='small'
+                      sx={{
+                        bgcolor: '#E7EAFD',
+                        p: 0.5,
+                        height: '24px',
+                        width: '24px',
+                        borderRadius: '5px',
+                        '&:hover': { bgcolor: '#E0E7FF' }
+                      }}
+                      onClick={handleCopyAddress}
+                    >
+                      <CopyIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+                <Box display='flex' alignItems='center' gap={1}>
+                  <InfoOutlinedIcon fontSize='small' />
+                  <Typography
+                    variant='h6'
+                    fontWeight='400'
+                    mt={1}
+                    color='#1A1919'
+                    fontSize='small'
+                    textAlign='left'
+                    lineHeight='18px'
+                    fontFamily='Space Grotesk'
+                  >
+                    Send only {selectedCrypto} in{' '}
+                    {selectedCrypto === 'USDT'
+                      ? `(${selectedNetwork}) network`
+                      : ''}{' '}
+                    to this address, or your funds will be lost.
                   </Typography>
                 </Box>
               </Box>
-            )}
 
-            {isStart && (
-              <Box
-                sx={{ mt: 2 }}
-                border={1}
-                borderColor={'#B5D3C6'}
-                borderRadius={'12px'}
-              >
-                <Paper
-                  // elevation={1}
-                  sx={{
-                    bgcolor: '#EBFFF6',
-                    borderRadius: '12px',
-                    p: 3,
-                    textAlign: 'center',
-                    mx: 'auto'
-                  }}
+              {!isRecived && (
+                <Box
+                  mt={3}
+                  border='1px solid #DFDFDF'
+                  padding='18px 21px'
+                  borderRadius='10px'
+                  bgcolor='#FFFFFF'
+                  height={'129px'}
+                  sx={{ opacity: isStart ? 0.5 : 1 }}
                 >
-                  <Typography
-                    variant='h5'
-                    fontWeight={600}
-                    sx={{ color: isRecived ? '#13B76A' : '#7CAB96' }}
-                    fontFamily='Space Grotesk'
+                  <Box display='flex' gap={2} justifyContent='space-between'>
+                    <Typography
+                      variant='h6'
+                      fontWeight={500}
+                      fontSize='20px'
+                      fontFamily='Space Grotesk'
+                      whiteSpace='nowrap'
+                      color='#1A1919'
+                    >
+                      To Pay:
+                    </Typography>
+                    <Box display='flex' alignItems='start' gap={1}>
+                      <Box textAlign='end'>
+                        <Typography
+                          variant='body1'
+                          fontSize='25px'
+                          fontWeight={500}
+                          display='flex'
+                          alignItems='center'
+                          gap={1}
+                          fontFamily='Space Grotesk'
+                          // lineHeight='130%'
+                          whiteSpace='nowrap'
+                          color='#1A1919'
+                        >
+                          {formatAmount(
+                            selectedCurrency?.amount || 0,
+                            selectedCurrency?.currency || ''
+                          )}{' '}
+                          {selectedCurrency?.currency}
+                        </Typography>
+                        <Typography
+                          variant='body1'
+                          color='#515151'
+                          fontFamily='Space Grotesk'
+                          whiteSpace='nowrap'
+                          fontSize='14px'
+                          fontWeight={500}
+                        >
+                          ={Number(walletState?.amount)?.toFixed(2)}{' '}
+                          {walletState?.currency}
+                        </Typography>
+                      </Box>
+                      <Tooltip title='Copy'>
+                        <IconButton
+                          size='small'
+                          sx={{
+                            bgcolor: '#E7EAFD',
+                            p: 0.5,
+                            height: '24px',
+                            width: '24px',
+                            borderRadius: '5px',
+                            '&:hover': { bgcolor: '#E0E7FF' },
+                            mt: 1
+                          }}
+                          onClick={handleCopyAddress}
+                        >
+                          <CopyIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </Box>
+                  <Divider sx={{ my: '10px' }} />
+                  <Box
+                    display='flex'
+                    alignItems='center'
+                    justifyContent='center'
+                    gap={1}
                   >
-                    {formatAmount(
-                      selectedCurrency?.amount || 0,
-                      selectedCurrency?.currency || ''
-                    )}{' '}
-                    {selectedCurrency?.currency}
-                  </Typography>
+                    <ClockIcon />
+                    <Typography
+                      variant='body2'
+                      fontWeight='normal'
+                      fontSize='13px'
+                      fontFamily='Space Grotesk'
+                      color='#000'
+                    >
+                      invoice expires in: {formatTime(timeLeft)}
+                    </Typography>
+                  </Box>
+                </Box>
+              )}
 
-                  {isRecived ? (
-                    <>
-                      <DoneIcon
-                        sx={{
-                          fontSize: 35,
-                          color: '#13B76A',
-                          my: '16px'
-                        }}
-                      />
+              {isStart && (
+                <Box
+                  sx={{ mt: 2 }}
+                  border={1}
+                  borderColor={'#B5D3C6'}
+                  borderRadius={'12px'}
+                >
+                  <Paper
+                    // elevation={1}
+                    sx={{
+                      bgcolor: '#EBFFF6',
+                      borderRadius: '12px',
+                      p: 3,
+                      textAlign: 'center',
+                      mx: 'auto'
+                    }}
+                  >
+                    <Typography
+                      variant='h5'
+                      fontWeight={600}
+                      sx={{ color: isRecived ? '#13B76A' : '#7CAB96' }}
+                      fontFamily='Space Grotesk'
+                    >
+                      {formatAmount(
+                        selectedCurrency?.amount || 0,
+                        selectedCurrency?.currency || ''
+                      )}{' '}
+                      {selectedCurrency?.currency}
+                    </Typography>
 
-                      <Typography
-                        variant='subtitle1'
-                        fontWeight={600}
-                        fontFamily='Space Grotesk'
-                      >
-                        Payment Confirmed!
-                      </Typography>
-                    </>
-                  ) : (
-                    <>
-                      <CircularProgress
-                        size={30}
-                        sx={{ color: '#13B76A', my: '16px' }}
-                      />
+                    {isRecived ? (
+                      <>
+                        <DoneIcon
+                          sx={{
+                            fontSize: 35,
+                            color: '#13B76A',
+                            my: '16px'
+                          }}
+                        />
 
-                      <Typography
-                        variant='subtitle1'
-                        fontWeight={500}
-                        fontFamily='Space Grotesk'
-                        fontSize={'15px'}
-                      >
-                        Payment detected, awaiting confirmation...
-                      </Typography>
-                      <Typography
-                        variant='body2'
-                        sx={{ color: '#444' }}
-                        fontSize={'12px'}
-                        fontWeight={400}
-                        fontFamily='Space Grotesk'
-                      >
-                        We detected your payment in the blockchain. <br />
-                        Waiting for 1 confirmation...
-                      </Typography>
-                    </>
-                  )}
-                </Paper>
-              </Box>
-            )}
+                        <Typography
+                          variant='subtitle1'
+                          fontWeight={600}
+                          fontFamily='Space Grotesk'
+                        >
+                          Payment Confirmed!
+                        </Typography>
+                      </>
+                    ) : (
+                      <>
+                        <CircularProgress
+                          size={30}
+                          sx={{ color: '#13B76A', my: '16px' }}
+                        />
 
-            {isRecived && (
-              <Button
-                fullWidth
-                variant='outlined'
-                sx={{
-                  borderColor: '#4F46E5',
-                  color: '#4F46E5',
-                  textTransform: 'none',
-                  marginTop: '15px',
-                  borderRadius: 30,
-                  paddingTop: 2,
-                  paddingBottom: 2,
-                  // paddingX: 3,
-                  width: '100%',
-                  minWidth: 'auto',
-                  '&:hover': {
-                    backgroundColor: '#EEF2FF',
-                    borderColor: '#4F46E5'
-                  }
-                }}
-                endIcon={<span style={{ fontSize: '1.2rem' }}>→</span>}
-                onClick={() => btnGotoWeb()}
-              >
-                Go to Website
-              </Button>
-            )}
-          </>
-        )}
+                        <Typography
+                          variant='subtitle1'
+                          fontWeight={500}
+                          fontFamily='Space Grotesk'
+                          fontSize={'15px'}
+                        >
+                          Payment detected, awaiting confirmation...
+                        </Typography>
+                        <Typography
+                          variant='body2'
+                          sx={{ color: '#444' }}
+                          fontSize={'12px'}
+                          fontWeight={400}
+                          fontFamily='Space Grotesk'
+                        >
+                          We detected your payment in the blockchain. <br />
+                          Waiting for 1 confirmation...
+                        </Typography>
+                      </>
+                    )}
+                  </Paper>
+                </Box>
+              )}
+
+              {isRecived && (
+                <Button
+                  fullWidth
+                  variant='outlined'
+                  sx={{
+                    borderColor: '#4F46E5',
+                    color: '#4F46E5',
+                    textTransform: 'none',
+                    marginTop: '15px',
+                    borderRadius: 30,
+                    paddingTop: 2,
+                    paddingBottom: 2,
+                    // paddingX: 3,
+                    width: '100%',
+                    minWidth: 'auto',
+                    '&:hover': {
+                      backgroundColor: '#EEF2FF',
+                      borderColor: '#4F46E5'
+                    }
+                  }}
+                  endIcon={<span style={{ fontSize: '1.2rem' }}>→</span>}
+                  onClick={() => btnGotoWeb()}
+                >
+                  Go to Website
+                </Button>
+              )}
+            </>
+          )}
       </Paper>
     </Box>
   )
