@@ -34,13 +34,15 @@ interface BankTransferCompoProps {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>
   walletState: any
   setIsSuccess: any
+  setIsBank: any
 }
 
 const BankTransferCompo = ({
   activeStep,
   setActiveStep,
   walletState,
-  setIsSuccess
+  setIsSuccess,
+  setIsBank
 }: BankTransferCompoProps) => {
   const [currencyRates, setCurrencyRates] = useState<currencyData[]>()
   const [selectedCurrency, setSelectedCurrency] = useState<currencyData>()
@@ -178,7 +180,9 @@ const BankTransferCompo = ({
       if (data?.success) {
         setIsSuccess(true)
         const redirectUri = generateRedirectUrl(data)
-        window.location.replace(redirectUri)
+        setIsBank(redirectUri)
+
+        // window.location.replace(redirectUri)
       } else {
         setIsSuccess(false)
         // In case API call is 200 but payment failed
@@ -214,7 +218,7 @@ const BankTransferCompo = ({
           justifyContent='center'
           bgcolor='#F8FAFC'
           px={2}
-        // marginTop="50px"
+          // marginTop="50px"
         >
           <Paper
             elevation={3}
@@ -268,25 +272,25 @@ const BankTransferCompo = ({
               >
                 Bank Name:
               </Typography>
-              <Box display="flex" alignItems="center" gap={1}>
+              <Box display='flex' alignItems='center' gap={1}>
                 {transferDetails?.transfer_bank ? (
                   <Typography
-                    color="#2D3282"
-                    fontWeight="bold"
-                    display="flex"
-                    alignItems="center"
+                    color='#2D3282'
+                    fontWeight='bold'
+                    display='flex'
+                    alignItems='center'
                     gap={1}
-                    fontFamily="Space Grotesk"
+                    fontFamily='Space Grotesk'
                   >
                     {transferDetails.transfer_bank}
                     <AccountBalanceIcon />
                   </Typography>
                 ) : (
                   <Skeleton
-                    variant="rectangular"
+                    variant='rectangular'
                     width={154}
                     height={24}
-                    animation="wave"
+                    animation='wave'
                     sx={{ borderRadius: '6px', background: '#F5F8FF' }}
                   />
                 )}
@@ -311,10 +315,10 @@ const BankTransferCompo = ({
                   </Typography>
                 ) : (
                   <Skeleton
-                    variant="rectangular"
+                    variant='rectangular'
                     width={107}
                     height={24}
-                    animation="wave"
+                    animation='wave'
                     sx={{ borderRadius: '6px', background: '#F5F8FF' }}
                   />
                 )}

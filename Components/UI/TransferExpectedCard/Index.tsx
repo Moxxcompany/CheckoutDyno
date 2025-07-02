@@ -5,12 +5,23 @@ import DoneIcon from '@mui/icons-material/Done'
 
 export default function TransferExpectedCard ({
   isTrue,
-  type
+  type,
+  dataUrl
 }: {
   isTrue?: boolean
   type: string
+  dataUrl: string
 }) {
   const theme = useTheme()
+
+  const btnGotoWeb = () => {
+    if (dataUrl) {
+      window.location.replace(dataUrl)
+      // window.open(isUrl, '_blank', 'noopener,noreferrer')
+    } else {
+      console.log('No URL provided')
+    }
+  }
 
   return (
     <Box
@@ -26,7 +37,7 @@ export default function TransferExpectedCard ({
         sx={{
           width: 400,
           borderRadius: '16px',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.05)',
+          boxShadow: '0 45px 65px rgba(13, 3, 35, 0.06)',
           overflow: 'hidden',
           textAlign: 'center'
         }}
@@ -52,13 +63,27 @@ export default function TransferExpectedCard ({
           <Box
             sx={{
               py: 3,
-              background: isTrue
-                ? 'radial-gradient(circle at top center, #e8f9f1, #ffffff 100%)'
-                : 'radial-gradient(circle at top center, #fff7e0, #ffffff 100%)'
+              // background: isTrue
+              //   ? 'radial-gradient(circle at top center, #e8f9f1, #ffffff 100%)'
+              //   : 'radial-gradient(circle at top center, #fff7e0, #ffffff 100%)',
+              position: 'relative'
+              // background: 'radial-gradient(circle, rgba(251, 188, 5, 0.27) 0%, rgba(251, 188, 5, 0.0) 100%)',
             }}
           >
-            {/* 12B76A45 */}
-
+            <Box
+              sx={{
+                position: 'absolute',
+                // top: '-198%',
+                bottom: '0',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '400px',
+                height: '530px',
+                background:
+                  'radial-gradient(circle, rgba(251, 188, 5, 0.27) 0%, rgba(251, 188, 5, 0.0) 70%)',
+                zIndex: 1
+              }}
+            ></Box>
             {isTrue ? (
               <DoneIcon
                 sx={{
@@ -116,15 +141,16 @@ export default function TransferExpectedCard ({
               borderRadius: 30,
               paddingTop: 2,
               paddingBottom: 2,
-              paddingX: 3, 
-              width: 'auto', 
-              minWidth: 'auto', 
+              paddingX: 3,
+              width: 'auto',
+              minWidth: 'auto',
               '&:hover': {
                 backgroundColor: '#EEF2FF',
                 borderColor: '#4F46E5'
               }
             }}
             endIcon={<span style={{ fontSize: '1.2rem' }}>→</span>}
+            onClick={() => btnGotoWeb()}
           >
             Go to Website
           </Button>

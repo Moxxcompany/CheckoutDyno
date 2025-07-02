@@ -34,11 +34,10 @@ import ETH from '@/assets/Icons/coins/ETH'
 import BNB from '@/assets/Icons/coins/BNB'
 import Image from 'next/image'
 
-import LTCicon from '../../../assets/Icons/coins/LTC.png';
-import BCHicon from '../../../assets/Icons/coins/BCH.png';
-import DOGEicon from '../../../assets/Icons/coins/DOGE.png';
-import TRXicon from '../../../assets/Icons/coins/TRX.png';
-
+import LTCicon from '../../../assets/Icons/coins/LTC.png'
+import BCHicon from '../../../assets/Icons/coins/BCH.png'
+import DOGEicon from '../../../assets/Icons/coins/DOGE.png'
+import TRXicon from '../../../assets/Icons/coins/TRX.png'
 
 interface CryptoTransferProps {
   activeStep: number
@@ -73,25 +72,25 @@ const cryptoOptions = [
   {
     value: 'LTC',
     label: 'Litecoin (LTC)',
-    icon: <Image src={LTCicon} alt="USD" width={20} height={20}/>,
+    icon: <Image src={LTCicon} alt='USD' width={20} height={20} />,
     currency: 'LTC'
   },
   {
     value: 'DOGE',
     label: 'Dogecoin (DOGE)',
-    icon: <Image src={DOGEicon} alt="USD" width={20} height={20}/>,
+    icon: <Image src={DOGEicon} alt='USD' width={20} height={20} />,
     currency: 'DOGE'
   },
   {
     value: 'BCH',
     label: 'Bitcoin Cash (BCH)',
-    icon: <Image src={BCHicon} alt="USD" width={20} height={20}/>,
+    icon: <Image src={BCHicon} alt='USD' width={20} height={20} />,
     currency: 'BCH'
   },
   {
     value: 'TRX',
     label: 'Tron (TRX)',
-    icon: <Image src={TRXicon} alt="USD" width={20} height={20}/>,
+    icon: <Image src={TRXicon} alt='USD' width={20} height={20} />,
     currency: 'TRX'
   }
 ]
@@ -109,9 +108,10 @@ const CryptoTransfer = ({
 }: CryptoTransferProps) => {
   const dispatch = useDispatch()
   const [selectedCrypto, setSelectedCrypto] = useState('')
-  const [selectedNetwork, setSelectedNetwork] = useState<'TRC20' | 'ERC20'>(
-    'TRC20'
-  )
+  const [selectedNetwork, setSelectedNetwork] = useState<
+    '' | 'TRC20' | 'ERC20'
+  >('')
+
   const [copied, setCopied] = useState(false)
   const [currencyRates, setCurrencyRates] = useState<currencyData[]>()
   const [selectedCurrency, setSelectedCurrency] = useState<currencyData>()
@@ -126,6 +126,12 @@ const CryptoTransfer = ({
   const [timeLeft, setTimeLeft] = useState(14 * 60 + 21)
 
   const [isUrl, setIsUrl] = useState<string | null>('')
+
+  const [isNetwork, setIsNetwork] = useState('')
+
+  const [isStart, setIsStart] = useState(false)
+
+  console.log("isStart",isStart)
 
   const getSelectedOption = () =>
     cryptoOptions.find(opt => opt.value === selectedCrypto)
@@ -193,6 +199,10 @@ const CryptoTransfer = ({
         data: encrypted
       })
 
+      setTimeout(() => {
+        setIsStart(true)
+      }, 10000)
+
       const result = submitResponse?.data?.data
 
       if (result?.redirect) {
@@ -210,12 +220,29 @@ const CryptoTransfer = ({
 
   const handleChange = (event: any) => {
     const value = event.target.value
-    if (value === 'USDT') setSelectedNetwork('TRC20')
-    getCurrencyRateAndSubmit(value, value === 'USDT' ? 'TRC20' : undefined)
+    setIsNetwork(value)
+    if (value === 'USDT') {
+      // setSelectedNetwork('TRC20')
+      setSelectedCrypto('')
+      setIsStart(false)
+      checkNetwork(value)
+    } else {
+      setSelectedNetwork('')
+      setIsStart(false)
+      getCurrencyRateAndSubmit(value, value === 'USDT' ? 'TRC20' : undefined)
+    }
+  }
+
+  const checkNetwork = (value: any) => {
+    if (selectedNetwork) {
+      setIsStart(false)
+      getCurrencyRateAndSubmit(value, value === 'USDT' ? 'TRC20' : undefined)
+    }
   }
 
   const handleNetworkChange = (network: 'TRC20' | 'ERC20') => {
     setSelectedNetwork(network)
+    setIsStart(false)
     getCurrencyRateAndSubmit('USDT', network)
   }
 
@@ -287,7 +314,7 @@ const CryptoTransfer = ({
         //   }
         // })
       }
-    }, 10000)
+    }, 15000)
 
     return () => clearInterval(pollInterval)
   }, [selectedCrypto, cryptoDetails?.address])
@@ -478,7 +505,7 @@ const CryptoTransfer = ({
           </Select>
         </FormControl>
 
-        {selectedCrypto === 'USDT' && (
+        {isNetwork === 'USDT' && (
           <Box mt={1}>
             <Typography
               variant='subtitle2'
@@ -491,7 +518,7 @@ const CryptoTransfer = ({
           </Box>
         )}
 
-        {selectedCrypto === 'USDT' && (
+        {isNetwork === 'USDT' && (
           <Box mt={'10px'} mb={3} display='flex' gap={1} alignItems='center'>
             {['TRC20', 'ERC20'].map(net => (
               <Typography
@@ -541,7 +568,6 @@ const CryptoTransfer = ({
                   mb: 2
                 }}
               >
-                {/* <QRCode value={cryptoDetails?.qr_code} /> */}
                 {loading ? (
                   <Box sx={{ padding: 2 }}>
                     <CircularProgress />
@@ -620,7 +646,7 @@ const CryptoTransfer = ({
                 padding='20px'
                 borderRadius='10px'
                 bgcolor='#FFFFFF'
-                sx={{ opacity: 0.5 }}
+                sx={{ opacity: isStart ? 0.5 : 1 }}
               >
                 <Box display='flex' gap={2} justifyContent='space-between'>
                   <Typography
@@ -643,6 +669,7 @@ const CryptoTransfer = ({
                         alignItems='center'
                         gap={1}
                         fontFamily='Space Grotesk'
+                        // lineHeight='130%'
                         whiteSpace='nowrap'
                         color='#1A1919'
                       >
@@ -704,82 +731,84 @@ const CryptoTransfer = ({
               </Box>
             )}
 
-            <Box
-              sx={{ mt: 2 }}
-              border={1}
-              borderColor={'#B5D3C6'}
-              borderRadius={'12px'}
-            >
-              <Paper
-                // elevation={1}
-                sx={{
-                  bgcolor: '#EBFFF6',
-                  borderRadius: '12px',
-                  p: 3,
-                  textAlign: 'center',
-                  mx: 'auto'
-                }}
+            {isStart && (
+              <Box
+                sx={{ mt: 2 }}
+                border={1}
+                borderColor={'#B5D3C6'}
+                borderRadius={'12px'}
               >
-                <Typography
-                  variant='h5'
-                  fontWeight={600}
-                  sx={{ color: isRecived ? '#13B76A' : '#7CAB96' }}
-                  fontFamily='Space Grotesk'
+                <Paper
+                  // elevation={1}
+                  sx={{
+                    bgcolor: '#EBFFF6',
+                    borderRadius: '12px',
+                    p: 3,
+                    textAlign: 'center',
+                    mx: 'auto'
+                  }}
                 >
-                  {formatAmount(
-                    selectedCurrency?.amount || 0,
-                    selectedCurrency?.currency || ''
-                  )}{' '}
-                  {selectedCurrency?.currency}
-                </Typography>
+                  <Typography
+                    variant='h5'
+                    fontWeight={600}
+                    sx={{ color: isRecived ? '#13B76A' : '#7CAB96' }}
+                    fontFamily='Space Grotesk'
+                  >
+                    {formatAmount(
+                      selectedCurrency?.amount || 0,
+                      selectedCurrency?.currency || ''
+                    )}{' '}
+                    {selectedCurrency?.currency}
+                  </Typography>
 
-                {isRecived ? (
-                  <>
-                    <DoneIcon
-                      sx={{
-                        fontSize: 35,
-                        color: '#13B76A',
-                        my: '16px'
-                      }}
-                    />
+                  {isRecived ? (
+                    <>
+                      <DoneIcon
+                        sx={{
+                          fontSize: 35,
+                          color: '#13B76A',
+                          my: '16px'
+                        }}
+                      />
 
-                    <Typography
-                      variant='subtitle1'
-                      fontWeight={600}
-                      fontFamily='Space Grotesk'
-                    >
-                      Payment Confirmed!
-                    </Typography>
-                  </>
-                ) : (
-                  <>
-                    <CircularProgress
-                      size={30}
-                      sx={{ color: '#13B76A', my: '16px' }}
-                    />
+                      <Typography
+                        variant='subtitle1'
+                        fontWeight={600}
+                        fontFamily='Space Grotesk'
+                      >
+                        Payment Confirmed!
+                      </Typography>
+                    </>
+                  ) : (
+                    <>
+                      <CircularProgress
+                        size={30}
+                        sx={{ color: '#13B76A', my: '16px' }}
+                      />
 
-                    <Typography
-                      variant='subtitle1'
-                      fontWeight={500}
-                      fontFamily='Space Grotesk'
-                      fontSize={'15px'}
-                    >
-                      Payment detected, awaiting confirmation...
-                    </Typography>
-                    <Typography
-                      variant='body2'
-                      sx={{ color: '#444' }}
-                      fontSize={'12px'}
-                      fontWeight={400}
-                      fontFamily='Space Grotesk'
-                    >
-                      We detected your payment in the blockchain. <br />
-                      Waiting for 1 confirmation...
-                    </Typography>
-                  </>
-                )}
-              </Paper>
-            </Box>
+                      <Typography
+                        variant='subtitle1'
+                        fontWeight={500}
+                        fontFamily='Space Grotesk'
+                        fontSize={'15px'}
+                      >
+                        Payment detected, awaiting confirmation...
+                      </Typography>
+                      <Typography
+                        variant='body2'
+                        sx={{ color: '#444' }}
+                        fontSize={'12px'}
+                        fontWeight={400}
+                        fontFamily='Space Grotesk'
+                      >
+                        We detected your payment in the blockchain. <br />
+                        Waiting for 1 confirmation...
+                      </Typography>
+                    </>
+                  )}
+                </Paper>
+              </Box>
+            )}
 
             {isRecived && (
               <Button

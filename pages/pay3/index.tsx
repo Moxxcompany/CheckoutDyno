@@ -51,19 +51,19 @@ const currencyOptions = [
   {
     code: 'USD',
     label: 'United States Dollar (USD)',
-    icon: <Image src={USDIcon} alt="USD" width={20} height={20} />,
+    icon: <Image src={USDIcon} alt='USD' width={20} height={20} />,
     currency: 'USD'
   },
   {
     code: 'EUR',
     label: 'Euro (EUR)',
-    icon: <Image src={EURIcon} alt="EUR" width={20} height={20} />,
+    icon: <Image src={EURIcon} alt='EUR' width={20} height={20} />,
     currency: 'EUR'
   },
   {
     code: 'NGN',
     label: 'Nigerian Naira (NGN)',
-    icon: <Image src={NGNIcon} alt="NGN" width={20} height={20} />,
+    icon: <Image src={NGNIcon} alt='NGN' width={20} height={20} />,
     currency: 'NGN'
   }
 ]
@@ -90,6 +90,7 @@ const Payment = () => {
   const [transferMethod, setTransferMethod] = useState('')
   const [loading, setLoading] = useState(true)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [isBank, setIsBank] = useState()
 
   useEffect(() => {
     if (
@@ -309,7 +310,7 @@ const Payment = () => {
                       }}
                       onClick={handleClick}
                     >
-                      {!loading? (
+                      {!loading ? (
                         <>
                           {currencyOptions?.find(
                             c => c.code === currencyRates?.currency
@@ -322,13 +323,13 @@ const Payment = () => {
                             fontWeight={500}
                             fontFamily='Space Grotesk'
                             fontSize={25}
-                        sx={{
-                          fontSize: {
-                            xs: '12px', // for small screens
-                            sm: '18px',
-                            md: '20px' // default
-                          }
-                        }}
+                            sx={{
+                              fontSize: {
+                                xs: '12px', // for small screens
+                                sm: '18px',
+                                md: '20px' // default
+                              }
+                            }}
                           >
                             {Number(
                               currencyRates?.amount ?? walletState?.amount
@@ -366,7 +367,7 @@ const Payment = () => {
                             // padding: '15px',
                             marginTop: '10px',
                             py: '4px',
-                            px: '10px',
+                            px: '10px'
                           }
                         }}
                       >
@@ -522,25 +523,30 @@ const Payment = () => {
               </Paper>
             </Box>
           ) : // <UnderPayment/>
-            // <OverPayment/>
-            activeStep === 1 ? (
-              transferMethod === 'bank' ? (
-                <BankTransferCompo
-                  activeStep={activeStep}
-                  setActiveStep={setActiveStep}
-                  walletState={walletState}
-                  setIsSuccess={setIsSuccess}
-                />
-              ) : (
-                <CryptoTransfer
-                  activeStep={activeStep}
-                  setActiveStep={setActiveStep}
-                  walletState={walletState}
-                />
-              )
-            ) : activeStep === 2 ? (
-              <TransferExpectedCard isTrue={isSuccess} type={'bank'} />
-            ) : null}
+          // <OverPayment/>
+          activeStep === 1 ? (
+            transferMethod === 'bank' ? (
+              <BankTransferCompo
+                activeStep={activeStep}
+                setActiveStep={setActiveStep}
+                walletState={walletState}
+                setIsSuccess={setIsSuccess}
+                setIsBank={setIsBank}
+              />
+            ) : (
+              <CryptoTransfer
+                activeStep={activeStep}
+                setActiveStep={setActiveStep}
+                walletState={walletState}
+              />
+            )
+          ) : activeStep === 2 ? (
+            <TransferExpectedCard
+              isTrue={isSuccess}
+              dataUrl={isBank || ''}
+              type={'bank'}
+            />
+          ) : null}
         </Box>
         <FloatingChatButton />
       </Box>
