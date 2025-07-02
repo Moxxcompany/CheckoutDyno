@@ -4,7 +4,7 @@ interface IconProps extends React.SVGProps<SVGSVGElement> { }
 
 const ETH: React.FC<IconProps> = (props) => {
     return (
-        <svg width={props.width || 24}
+        <svg width={props.width || 24} overflow={'visible'}
             height={props.height || 24} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z" fill="#627EEA" />
             <path d="M12.3735 3V9.6525L17.9963 12.165L12.3735 3Z" fill="white" fill-opacity="0.602" />

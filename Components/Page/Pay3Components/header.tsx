@@ -58,7 +58,7 @@ const Header = ({
           backgroundImage: `url('/wave.png'), linear-gradient(90deg, #101EF7 0%, #4B50E6 50%, #7C5CF0 100%)`,
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'top right',
-          backgroundSize: 'contain, cover',
+          backgroundSize: 'auto',
           padding: '0.5rem 1rem',
           boxShadow: 'none',
           height: '92px'

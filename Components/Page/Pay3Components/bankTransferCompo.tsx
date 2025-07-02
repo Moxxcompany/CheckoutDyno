@@ -216,7 +216,6 @@ const BankTransferCompo = ({
           display='flex'
           alignItems='center'
           justifyContent='center'
-          bgcolor='#F8FAFC'
           px={2}
           // marginTop="50px"
         >

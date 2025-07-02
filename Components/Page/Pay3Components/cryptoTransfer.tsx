@@ -49,24 +49,24 @@ const cryptoOptions = [
   {
     value: 'USDT',
     label: 'USDT (TRC-20, ERC-20)',
-    icon: <USDT width={25} height={25}/>
+    icon: <USDT width={25} height={25} />
   },
   {
     value: 'BTC',
     label: 'Bitcoin (BTC)',
-    icon: <BTC width={25} height={25}/>,
+    icon: <BTC width={25} height={25} />,
     currency: 'BTC'
   },
   {
     value: 'ETH',
     label: 'Ethereum (ETH)',
-    icon: <ETH width={25} height={25}/>,
+    icon: <ETH width={25} height={25} />,
     currency: 'ETH'
   },
   {
     value: 'BSC',
     label: 'BNB',
-    icon: <BNB width={25} height={25}/>,
+    icon: <BNB width={25} height={25} />,
     currency: 'BSC'
   },
   {
@@ -352,7 +352,6 @@ const CryptoTransfer = ({
       display='flex'
       alignItems='center'
       justifyContent='center'
-      bgcolor='#F8FAFC'
       px={2}
       minHeight='calc(100vh - 340px)'
     >
