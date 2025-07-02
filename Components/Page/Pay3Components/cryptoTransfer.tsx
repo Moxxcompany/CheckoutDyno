@@ -221,7 +221,7 @@ const CryptoTransfer = ({
     setIsNetwork(value)
     if (value === 'USDT') {
       // setSelectedNetwork('TRC20')
-      setSelectedCrypto('')
+      setSelectedCrypto('USDT')
       setIsStart(false)
       checkNetwork(value)
     } else {
@@ -537,7 +537,7 @@ const CryptoTransfer = ({
           </Box>
         )}
 
-        {selectedCrypto && (
+        {selectedCrypto && (selectedCrypto !== 'USDT' || ['TRC20', 'ERC20'].includes(selectedNetwork))  && (
           <>
             <Typography
               variant='h6'
