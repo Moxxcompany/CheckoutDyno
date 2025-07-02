@@ -359,7 +359,7 @@ const CryptoTransfer = ({
         elevation={3}
         sx={{
           borderRadius: 4,
-          p: 4,
+          p: '34px',
           width: '100%',
           maxWidth: 450,
           marginTop: 0,
@@ -370,7 +370,7 @@ const CryptoTransfer = ({
         <IconButton
           onClick={() => setActiveStep(activeStep - 1)}
           sx={{
-            backgroundColor: '#f5f7ff',
+            backgroundColor: '#F5F8FF',
             color: '#444CE7',
             borderRadius: '50%',
             padding: '10px',
@@ -554,7 +554,7 @@ const CryptoTransfer = ({
               textAlign='center'
               border='1px solid #A4BCFD'
               padding='20px'
-              borderRadius='20px'
+              borderRadius='10px'
               bgcolor='#F5F8FF'
             >
               <Box
@@ -616,18 +616,18 @@ const CryptoTransfer = ({
                 </Tooltip>
               </Box>
               <Box display='flex' alignItems='center' gap={1}>
-                <InfoOutlinedIcon fontSize='small' />
+                <Icon icon="mage:exclamation-circle" width="11" height="11"  style={{color: "#1A1919"}} />
                 <Typography
                   variant='h6'
                   fontWeight='400'
                   mt={1}
                   color='#1A1919'
-                  fontSize='small'
+                  fontSize='12px'
                   textAlign='left'
-                  lineHeight='18px'
+                  lineHeight='127%'
                   fontFamily='Space Grotesk'
                 >
-                  Send only {selectedCrypto} in{' '}
+                  Send only {selectedCrypto} 
                   {selectedCrypto === 'USDT'
                     ? `(${selectedNetwork}) network`
                     : ''}{' '}
@@ -638,7 +638,7 @@ const CryptoTransfer = ({
 
             {!isRecived && (
               <Box
-                mt={3}
+                mt={'13px'}
                 border='1px solid #DFDFDF'
                 padding='18px 21px'
                 borderRadius='10px'
@@ -731,10 +731,10 @@ const CryptoTransfer = ({
 
             {isStart && (
               <Box
-                sx={{ mt: 2 }}
+                sx={{ mt: '12px' }}
                 border={1}
                 borderColor={'#B5D3C6'}
-                borderRadius={'12px'}
+                borderRadius={'10px'}
               >
                 <Paper
                   // elevation={1}

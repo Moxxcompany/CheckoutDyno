@@ -47,7 +47,7 @@ import USDIcon from '../../assets/Icons/flag/USD.png'
 import EURIcon from '../../assets/Icons/flag/EUR.png'
 import NGNIcon from '../../assets/Icons/flag/NGN.png'
 
-const currencyOptions = [
+export const currencyOptions = [
   {
     code: 'USD',
     label: 'United States Dollar (USD)',
