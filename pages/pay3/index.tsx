@@ -415,7 +415,7 @@ const Payment = () => {
 
                   <Divider sx={{ mb: 2 }} />
 
-                  <Box display='flex' gap={2} mb={2}>
+                  <Box display='flex' gap={2}>
                     <Button
                       fullWidth
                       variant='outlined'

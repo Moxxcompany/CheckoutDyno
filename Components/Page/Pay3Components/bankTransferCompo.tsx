@@ -396,16 +396,17 @@ const BankTransferCompo = ({
             <Card
               sx={{
                 mt: 2,
-                borderRadius: 2,
-                border: '1px solid #d5d5d5',
+                borderRadius: '10px',
+                border: '1px solid rgba(223, 223, 223, 1)',
                 boxShadow: 'none'
               }}
             >
-              <CardContent>
+              <CardContent style={{padding:'18px 21px'}}>
                 <Box display={'flex'} justifyContent={'space-between'}>
                   <Typography
                     variant='body2'
                     fontSize={'20px'}
+                    fontWeight='500'
                     fontFamily='Space Grotesk'
                   >
                     To Pay:
@@ -413,9 +414,11 @@ const BankTransferCompo = ({
                   <Box textAlign={'end'}>
                     <Typography
                       variant='h6'
-                      fontWeight='bold'
+                      fontWeight='500'
                       color='primary'
                       fontFamily='Space Grotesk'
+                      fontSize={25}
+                      lineHeight={'130%'}
                     >
                       {transferDetails?.transfer_amount}{' '}
                       {selectedCurrency?.currency}
@@ -425,6 +428,7 @@ const BankTransferCompo = ({
                       variant='caption'
                       color='#515151'
                       fontFamily='Space Grotesk'
+                      fontSize={14}
                     >
                       ={' '}
                       {Number(
@@ -434,7 +438,7 @@ const BankTransferCompo = ({
                     </Typography>
                   </Box>
                 </Box>
-                <Divider sx={{ my: 2 }} />
+               <Divider sx={{ my: '10px' }} />
                 <Box
                   display='flex'
                   alignItems='center'

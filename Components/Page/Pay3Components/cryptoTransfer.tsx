@@ -49,48 +49,48 @@ const cryptoOptions = [
   {
     value: 'USDT',
     label: 'USDT (TRC-20, ERC-20)',
-    icon: <USDT />
+    icon: <USDT width={25} height={25}/>
   },
   {
     value: 'BTC',
     label: 'Bitcoin (BTC)',
-    icon: <BTC />,
+    icon: <BTC width={25} height={25}/>,
     currency: 'BTC'
   },
   {
     value: 'ETH',
     label: 'Ethereum (ETH)',
-    icon: <ETH />,
+    icon: <ETH width={25} height={25}/>,
     currency: 'ETH'
   },
   {
     value: 'BSC',
     label: 'BNB',
-    icon: <BNB />,
+    icon: <BNB width={25} height={25}/>,
     currency: 'BSC'
   },
   {
     value: 'LTC',
     label: 'Litecoin (LTC)',
-    icon: <Image src={LTCicon} alt='USD' width={20} height={20} />,
+    icon: <Image src={LTCicon} alt='USD' width={25} height={25} />,
     currency: 'LTC'
   },
   {
     value: 'DOGE',
     label: 'Dogecoin (DOGE)',
-    icon: <Image src={DOGEicon} alt='USD' width={20} height={20} />,
+    icon: <Image src={DOGEicon} alt='USD' width={25} height={25} />,
     currency: 'DOGE'
   },
   {
     value: 'BCH',
     label: 'Bitcoin Cash (BCH)',
-    icon: <Image src={BCHicon} alt='USD' width={20} height={20} />,
+    icon: <Image src={BCHicon} alt='USD' width={25} height={25} />,
     currency: 'BCH'
   },
   {
     value: 'TRX',
     label: 'Tron (TRX)',
-    icon: <Image src={TRXicon} alt='USD' width={20} height={20} />,
+    icon: <Image src={TRXicon} alt='USD' width={25} height={25} />,
     currency: 'TRX'
   }
 ]
@@ -130,8 +130,6 @@ const CryptoTransfer = ({
   const [isNetwork, setIsNetwork] = useState('')
 
   const [isStart, setIsStart] = useState(false)
-
-  console.log("isStart",isStart)
 
   const getSelectedOption = () =>
     cryptoOptions.find(opt => opt.value === selectedCrypto)
@@ -268,7 +266,7 @@ const CryptoTransfer = ({
     return `${mins}:${secs}`
   }
 
-  function formatAmount (amount: any, currency: string): string {
+  function formatAmount(amount: any, currency: string): string {
     const lowerCurrency = currency?.toLowerCase()
 
     const cryptoCurrencies = new Set(['btc', 'eth', 'usdc', 'bnb', 'matic'])
@@ -475,7 +473,8 @@ const CryptoTransfer = ({
                     alignItems: 'center',
                     gap: 1,
                     color: '#1A1919',
-                    fontWeight: 'medium'
+                    fontWeight: 'medium',
+                    height: '24px'
                   }}
                 >
                   {option?.icon}
@@ -495,11 +494,11 @@ const CryptoTransfer = ({
                     backgroundColor: '#F5F8FF',
                     '&:hover': { backgroundColor: '#F5F8FF' }
                   },
-                  padding: '10px'
+                  padding: '10px',
                 }}
               >
-                <ListItemIcon>{option.icon}</ListItemIcon>
-                <ListItemText>{option.label}</ListItemText>
+                <ListItemIcon style={{ height: '26px', width: '25px' }}>{option.icon}</ListItemIcon>
+                <ListItemText style={{ height: '24px', width: '24px' }}>{option.label}</ListItemText>
               </MenuItem>
             ))}
           </Select>
@@ -523,9 +522,8 @@ const CryptoTransfer = ({
             {['TRC20', 'ERC20'].map(net => (
               <Typography
                 key={net}
-                border={`1px solid ${
-                  selectedNetwork === net ? '#86A4F9' : '#E7EAFD'
-                }`}
+                border={`1px solid ${selectedNetwork === net ? '#86A4F9' : '#E7EAFD'
+                  }`}
                 padding='5px 10px'
                 fontSize='small'
                 bgcolor={selectedNetwork === net ? '#E7EAFD' : '#F5F8FF'}
@@ -623,7 +621,7 @@ const CryptoTransfer = ({
                 <Typography
                   variant='h6'
                   fontWeight='400'
-                  my={1}
+                  mt={1}
                   color='#1A1919'
                   fontSize='small'
                   textAlign='left'
@@ -643,9 +641,10 @@ const CryptoTransfer = ({
               <Box
                 mt={3}
                 border='1px solid #DFDFDF'
-                padding='20px'
+                padding='18px 21px'
                 borderRadius='10px'
                 bgcolor='#FFFFFF'
+                height={'129px'}
                 sx={{ opacity: isStart ? 0.5 : 1 }}
               >
                 <Box display='flex' gap={2} justifyContent='space-between'>
@@ -710,7 +709,7 @@ const CryptoTransfer = ({
                     </Tooltip>
                   </Box>
                 </Box>
-                <Divider sx={{ my: 2 }} />
+                <Divider sx={{ my: '10px' }} />
                 <Box
                   display='flex'
                   alignItems='center'
