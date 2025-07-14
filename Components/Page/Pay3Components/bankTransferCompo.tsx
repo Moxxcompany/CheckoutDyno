@@ -28,6 +28,8 @@ import { createEncryption, generateRedirectUrl } from '@/helpers'
 import Loading from '@/Components/UI/Loading/Index'
 import ClockIcon from '@/assets/Icons/ClockIcon'
 import Warning from '@/assets/Icons/Warning'
+import { Icon } from '@iconify/react/dist/iconify.js'
+import { currencyOptions } from '@/pages/pay3'
 
 interface BankTransferCompoProps {
   activeStep: number
@@ -217,13 +219,13 @@ const BankTransferCompo = ({
           alignItems='center'
           justifyContent='center'
           px={2}
-          // marginTop="50px"
+        // marginTop="50px"
         >
           <Paper
             elevation={3}
             sx={{
               borderRadius: 4,
-              p: 4,
+              p: '34px',
               width: '100%',
               maxWidth: 450,
               marginTop: 10,
@@ -236,12 +238,12 @@ const BankTransferCompo = ({
             <IconButton
               onClick={() => setActiveStep(activeStep - 1)}
               sx={{
-                backgroundColor: '#f5f7ff', // light blue tint
-                color: '#444CE7', // arrow color
+                backgroundColor: '#F5F8FF',
+                color: '#444CE7',
                 borderRadius: '50%',
                 padding: '10px',
                 '&:hover': {
-                  backgroundColor: '#ebefff' // slightly darker on hover
+                  backgroundColor: '#ebefff'
                 }
               }}
             >
@@ -259,7 +261,8 @@ const BankTransferCompo = ({
               fontFamily='Space Grotesk'
               fontSize={'27px'}
             >
-              <AccountBalanceIcon sx={{ color: '#444CE7' }} /> NGN Bank Transfer
+              <Icon icon='mingcute:bank-line' width='26' height='29' style={{ color: '#444CE7' }} />
+              NGN Bank Transfer
             </Typography>
 
             {/* Bank Details */}
@@ -280,9 +283,10 @@ const BankTransferCompo = ({
                     alignItems='center'
                     gap={1}
                     fontFamily='Space Grotesk'
+                    fontSize={'18px'}
                   >
                     {transferDetails.transfer_bank}
-                    <AccountBalanceIcon />
+                    <Icon icon='mingcute:bank-line' width='26' />
                   </Typography>
                 ) : (
                   <Skeleton
@@ -370,21 +374,24 @@ const BankTransferCompo = ({
 
             {/* Alert Box */}
             <Box
-              mt={1}
-              borderRadius={2}
+              mt='16px'
+              borderRadius='8px'
               display='flex'
               alignItems='center'
               bgcolor={'#F5F8FF'}
               gap={1}
-              px={2}
-              py={1}
+              px='9px'
+              py='8px'
             >
-              <WarningAmberIcon color='error' fontSize='small' />
+              <div className='w-[16px] h-[16px]'>
+                <Icon icon="si:alert-line" width="16" height="16" style={{ color: " #FF3B30" }} />
+              </div>
               <Typography
                 fontSize={14}
                 color={'#515151'}
                 fontWeight={500}
                 fontFamily='Space Grotesk'
+                lineHeight='100%'
               >
                 Secure bank transfer with automatic confirmation. No need to
                 notify us!
@@ -394,13 +401,13 @@ const BankTransferCompo = ({
             {/* Payment Card */}
             <Card
               sx={{
-                mt: 2,
+                mt: '20px',
                 borderRadius: '10px',
-                border: '1px solid rgba(223, 223, 223, 1)',
+                border: '1px solid #DFDFDF',
                 boxShadow: 'none'
               }}
             >
-              <CardContent style={{padding:'18px 21px'}}>
+              <CardContent style={{ padding: '18px 21px' }}>
                 <Box display={'flex'} justifyContent={'space-between'}>
                   <Typography
                     variant='body2'
@@ -411,17 +418,30 @@ const BankTransferCompo = ({
                     To Pay:
                   </Typography>
                   <Box textAlign={'end'}>
-                    <Typography
-                      variant='h6'
-                      fontWeight='500'
-                      color='primary'
-                      fontFamily='Space Grotesk'
-                      fontSize={25}
-                      lineHeight={'130%'}
-                    >
-                      {transferDetails?.transfer_amount}{' '}
-                      {selectedCurrency?.currency}
-                    </Typography>
+                    {transferDetails?.transfer_amount ?
+                      <>
+                        <Typography
+                          variant='h6'
+                          fontWeight='500'
+                          color='primary'
+                          fontFamily='Space Grotesk'
+                          fontSize={25}
+                          lineHeight={'130%'}
+                          >
+                          {currencyOptions?.find(item => item?.currency === selectedCurrency?.currency)?.icon}{' '}
+                          {transferDetails?.transfer_amount}{' '}
+                          {selectedCurrency?.currency}
+                        </Typography>
+                      </>
+                      :
+                      <Skeleton
+                        variant='rectangular'
+                        width={150}
+                        height={32}
+                        animation='wave'
+                        sx={{ borderRadius: '6px', background: '#F5F8FF' }}
+                      />
+                    }
 
                     <Typography
                       variant='caption'
@@ -429,7 +449,7 @@ const BankTransferCompo = ({
                       fontFamily='Space Grotesk'
                       fontSize={14}
                     >
-                      ={' '}
+                      =
                       {Number(
                         walletState?.amount ?? walletState?.amount
                       ).toFixed(2)}{' '}
@@ -437,7 +457,7 @@ const BankTransferCompo = ({
                     </Typography>
                   </Box>
                 </Box>
-               <Divider sx={{ my: '10px' }} />
+                <Divider sx={{ my: '10px' }} />
                 <Box
                   display='flex'
                   alignItems='center'

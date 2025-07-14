@@ -366,7 +366,7 @@ const CryptoTransfer = ({
         elevation={3}
         sx={{
           borderRadius: 4,
-          p: 4,
+          p: '34px',
           width: '100%',
           maxWidth: 450,
           marginTop: 0,
@@ -377,7 +377,7 @@ const CryptoTransfer = ({
         <IconButton
           onClick={() => setActiveStep(activeStep - 1)}
           sx={{
-            backgroundColor: '#f5f7ff',
+            backgroundColor: '#F5F8FF',
             color: '#444CE7',
             borderRadius: '50%',
             padding: '10px',
