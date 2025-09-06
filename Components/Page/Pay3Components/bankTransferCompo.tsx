@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -9,34 +9,34 @@ import {
   Paper,
   Skeleton,
   Tooltip,
-  Typography
-} from '@mui/material'
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
-import { ArrowBack } from '@mui/icons-material'
-import WarningAmberIcon from '@mui/icons-material/WarningAmber'
-import CopyIcon from '@/assets/Icons/CopyIcon'
+  Typography,
+} from "@mui/material";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import { ArrowBack } from "@mui/icons-material";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import CopyIcon from "@/assets/Icons/CopyIcon";
 import {
   BankTransferApiRes,
   currencyData,
-  transferDetails
-} from '@/utils/types/paymentTypes'
-import axiosBaseApi from '@/axiosConfig'
-import { useDispatch } from 'react-redux'
-import { TOAST_SHOW } from '@/Redux/Actions/ToastAction'
-import { paymentTypes } from '@/utils/enums'
-import { createEncryption, generateRedirectUrl } from '@/helpers'
-import Loading from '@/Components/UI/Loading/Index'
-import ClockIcon from '@/assets/Icons/ClockIcon'
-import Warning from '@/assets/Icons/Warning'
-import { Icon } from '@iconify/react/dist/iconify.js'
-import { currencyOptions } from '@/pages/pay3'
+  transferDetails,
+} from "@/utils/types/paymentTypes";
+import axiosBaseApi from "@/axiosConfig";
+import { useDispatch } from "react-redux";
+import { TOAST_SHOW } from "@/Redux/Actions/ToastAction";
+import { paymentTypes } from "@/utils/enums";
+import { createEncryption, generateRedirectUrl } from "@/helpers";
+import Loading from "@/Components/UI/Loading/Index";
+import ClockIcon from "@/assets/Icons/ClockIcon";
+import Warning from "@/assets/Icons/Warning";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { currencyOptions } from "@/pages/pay";
 
 interface BankTransferCompoProps {
-  activeStep: number
-  setActiveStep: React.Dispatch<React.SetStateAction<number>>
-  walletState: any
-  setIsSuccess: any
-  setIsBank: any
+  activeStep: number;
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
+  walletState: any;
+  setIsSuccess: any;
+  setIsBank: any;
 }
 
 const BankTransferCompo = ({
@@ -44,49 +44,49 @@ const BankTransferCompo = ({
   setActiveStep,
   walletState,
   setIsSuccess,
-  setIsBank
+  setIsBank,
 }: BankTransferCompoProps) => {
-  const [currencyRates, setCurrencyRates] = useState<currencyData[]>()
-  const [selectedCurrency, setSelectedCurrency] = useState<currencyData>()
-  const [transferDetails, setTransferDetails] = useState<transferDetails>()
-  const [timeLeft, setTimeLeft] = useState(30 * 60) // 30 minutes in seconds
+  const [currencyRates, setCurrencyRates] = useState<currencyData[]>();
+  const [selectedCurrency, setSelectedCurrency] = useState<currencyData>();
+  const [transferDetails, setTransferDetails] = useState<transferDetails>();
+  const [timeLeft, setTimeLeft] = useState(30 * 60); // 30 minutes in seconds
 
-  const [loading, setLoading] = useState(true)
-  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
-  const currencyList = ['EUR', 'GBP', 'NGN']
+  const currencyList = ["EUR", "GBP", "NGN"];
 
   const handleCopy = () => {
-    const account = transferDetails?.transfer_account
+    const account = transferDetails?.transfer_account;
 
     if (account) {
-      navigator.clipboard.writeText(account)
+      navigator.clipboard.writeText(account);
     } else {
       dispatch({
         type: TOAST_SHOW,
         payload: {
-          message: 'No account number to copy.',
-          severity: 'warning'
-        }
-      })
+          message: "No account number to copy.",
+          severity: "warning",
+        },
+      });
     }
-  }
+  };
 
   useEffect(() => {
     if (walletState?.amount && walletState?.currency) {
-      getCurrencyRate()
+      getCurrencyRate();
     }
-  }, [walletState?.amount])
+  }, [walletState?.amount]);
 
   const getCurrencyRate = async () => {
     try {
       const {
-        data: { data }
-      } = await axiosBaseApi.post('pay/getCurrencyRates', {
+        data: { data },
+      } = await axiosBaseApi.post("pay/getCurrencyRates", {
         source: walletState?.currency,
         amount: walletState?.amount,
-        currencyList: ['NGN']
-      })
+        currencyList: ["NGN"],
+      });
 
       // const {
       //   data: { data }
@@ -96,118 +96,118 @@ const BankTransferCompo = ({
       //   currencyList: ['NGN']
       // })
 
-      setCurrencyRates(data)
-      setSelectedCurrency(data?.[0])
-      initiateBankTransfer(data?.[0])
-      setLoading(false)
+      setCurrencyRates(data);
+      setSelectedCurrency(data?.[0]);
+      initiateBankTransfer(data?.[0]);
+      setLoading(false);
     } catch (e: any) {
-      const message = e?.response?.data?.message ?? e?.message
+      const message = e?.response?.data?.message ?? e?.message;
       dispatch({
         type: TOAST_SHOW,
         payload: {
           message: message,
-          severity: 'error'
-        }
-      })
+          severity: "error",
+        },
+      });
     }
-  }
+  };
 
   const initiateBankTransfer = async (dataCount: {
-    currency: string
-    amount: number
+    currency: string;
+    amount: number;
   }) => {
     try {
       const finalPayload = {
         paymentType: paymentTypes.BANK_TRANSFER,
         currency: dataCount?.currency,
-        amount: dataCount?.amount
-      }
+        amount: dataCount?.amount,
+      };
 
-      const res = createEncryption(JSON.stringify(finalPayload))
+      const res = createEncryption(JSON.stringify(finalPayload));
 
       const {
-        data: { data }
+        data: { data },
       }: { data: BankTransferApiRes } = await axiosBaseApi.post(
-        'pay/addPayment',
+        "pay/addPayment",
         {
-          data: res
+          data: res,
         }
-      )
+      );
 
-      setTransferDetails(data)
+      setTransferDetails(data);
     } catch (error: any) {
       const message =
         error?.response?.data?.message ??
         error.message ??
-        'Something went wrong'
+        "Something went wrong";
       dispatch({
         type: TOAST_SHOW,
         payload: {
           message,
-          severity: 'error'
-        }
-      })
-      console.error('initiateBankTransfer error:', error)
+          severity: "error",
+        },
+      });
+      console.error("initiateBankTransfer error:", error);
     }
-  }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft(prev => {
+      setTimeLeft((prev) => {
         if (prev <= 1) {
-          clearInterval(timer)
-          return 0
+          clearInterval(timer);
+          return 0;
         }
-        return prev - 1
-      })
-    }, 1000)
+        return prev - 1;
+      });
+    }, 1000);
 
-    return () => clearInterval(timer)
-  }, [])
+    return () => clearInterval(timer);
+  }, []);
 
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
-  }
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+  };
 
   const handleSubmit = async () => {
     try {
       const {
-        data: { data }
-      } = await axiosBaseApi.post('pay/verifyPayment', {
-        uniqueRef: transferDetails?.hash
-      })
+        data: { data },
+      } = await axiosBaseApi.post("pay/verifyPayment", {
+        uniqueRef: transferDetails?.hash,
+      });
 
       if (data?.success) {
-        setIsSuccess(true)
-        const redirectUri = generateRedirectUrl(data)
-        setIsBank(redirectUri)
+        setIsSuccess(true);
+        const redirectUri = generateRedirectUrl(data);
+        setIsBank(redirectUri);
 
         // window.location.replace(redirectUri)
       } else {
-        setIsSuccess(false)
+        setIsSuccess(false);
         // In case API call is 200 but payment failed
         dispatch({
           type: TOAST_SHOW,
           payload: {
-            message: 'Payment not verified.',
-            severity: 'error'
-          }
-        })
+            message: "Payment not verified.",
+            severity: "error",
+          },
+        });
       }
     } catch (e: any) {
-      setIsSuccess(false)
-      const message = e.response?.data?.message ?? e.message
+      setIsSuccess(false);
+      const message = e.response?.data?.message ?? e.message;
       dispatch({
         type: TOAST_SHOW,
         payload: {
           message: message,
-          severity: 'error'
-        }
-      })
+          severity: "error",
+        },
+      });
     }
-  }
+  };
 
   return (
     <>
@@ -215,127 +215,132 @@ const BankTransferCompo = ({
         <Loading />
       ) : (
         <Box
-          display='flex'
-          alignItems='center'
-          justifyContent='center'
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
           px={2}
-        // marginTop="50px"
+          // marginTop="50px"
         >
           <Paper
             elevation={3}
             sx={{
               borderRadius: 4,
-              p: '34px',
-              width: '100%',
+              p: "34px",
+              width: "100%",
               maxWidth: 450,
               marginTop: 10,
               margin: 0,
-              border: '1px solid #E7EAFD',
-              boxShadow: '0px 45px 64px 0px #0D03230F'
+              border: "1px solid #E7EAFD",
+              boxShadow: "0px 45px 64px 0px #0D03230F",
             }}
           >
             {/* Back Button */}
             <IconButton
               onClick={() => setActiveStep(activeStep - 1)}
               sx={{
-                backgroundColor: '#F5F8FF',
-                color: '#444CE7',
-                borderRadius: '50%',
-                padding: '10px',
-                '&:hover': {
-                  backgroundColor: '#ebefff'
-                }
+                backgroundColor: "#F5F8FF",
+                color: "#444CE7",
+                borderRadius: "50%",
+                padding: "10px",
+                "&:hover": {
+                  backgroundColor: "#ebefff",
+                },
               }}
             >
-              <ArrowBack sx={{ color: '#444CE7' }} />
+              <ArrowBack sx={{ color: "#444CE7" }} />
             </IconButton>
 
             {/* Title */}
             <Typography
-              variant='h6'
-              fontWeight='medium'
+              variant="h6"
+              fontWeight="medium"
               mt={2}
-              display='flex'
-              alignItems='center'
+              display="flex"
+              alignItems="center"
               gap={1}
-              fontFamily='Space Grotesk'
-              fontSize={'27px'}
+              fontFamily="Space Grotesk"
+              fontSize={"27px"}
             >
-              <Icon icon='mingcute:bank-line' width='26' height='29' style={{ color: '#444CE7' }} />
+              <Icon
+                icon="mingcute:bank-line"
+                width="26"
+                height="29"
+                style={{ color: "#444CE7" }}
+              />
               NGN Bank Transfer
             </Typography>
 
             {/* Bank Details */}
             <Box mt={3}>
               <Typography
-                variant='subtitle2'
-                fontWeight='300'
-                fontFamily='Space Grotesk'
+                variant="subtitle2"
+                fontWeight="300"
+                fontFamily="Space Grotesk"
               >
                 Bank Name:
               </Typography>
-              <Box display='flex' alignItems='center' gap={1}>
+              <Box display="flex" alignItems="center" gap={1}>
                 {transferDetails?.transfer_bank ? (
                   <Typography
-                    color='#2D3282'
-                    fontWeight='bold'
-                    display='flex'
-                    alignItems='center'
+                    color="#2D3282"
+                    fontWeight="bold"
+                    display="flex"
+                    alignItems="center"
                     gap={1}
-                    fontFamily='Space Grotesk'
-                    fontSize={'18px'}
+                    fontFamily="Space Grotesk"
+                    fontSize={"18px"}
                   >
                     {transferDetails.transfer_bank}
-                    <Icon icon='mingcute:bank-line' width='26' />
+                    <Icon icon="mingcute:bank-line" width="26" />
                   </Typography>
                 ) : (
                   <Skeleton
-                    variant='rectangular'
+                    variant="rectangular"
                     width={154}
                     height={24}
-                    animation='wave'
-                    sx={{ borderRadius: '6px', background: '#F5F8FF' }}
+                    animation="wave"
+                    sx={{ borderRadius: "6px", background: "#F5F8FF" }}
                   />
                 )}
               </Box>
 
               <Typography
-                variant='subtitle2'
+                variant="subtitle2"
                 mt={2}
-                fontWeight='300'
-                fontFamily='Space Grotesk'
+                fontWeight="300"
+                fontFamily="Space Grotesk"
               >
                 Account Number:
               </Typography>
-              <Box display='flex' alignItems='center' gap={1} mb={'4px'}>
+              <Box display="flex" alignItems="center" gap={1} mb={"4px"}>
                 {transferDetails?.transfer_account ? (
                   <Typography
-                    color='#2D3282'
-                    fontWeight='600'
-                    fontFamily='Space Grotesk'
+                    color="#2D3282"
+                    fontWeight="600"
+                    fontFamily="Space Grotesk"
                   >
                     {transferDetails?.transfer_account}
                   </Typography>
                 ) : (
                   <Skeleton
-                    variant='rectangular'
+                    variant="rectangular"
                     width={107}
                     height={24}
-                    animation='wave'
-                    sx={{ borderRadius: '6px', background: '#F5F8FF' }}
+                    animation="wave"
+                    sx={{ borderRadius: "6px", background: "#F5F8FF" }}
                   />
                 )}
-                <Tooltip title='Copy'>
+                <Tooltip title="Copy">
                   <IconButton
                     onClick={handleCopy}
-                    size='small'
+                    size="small"
                     sx={{
-                      fontSize: '12px',
-                      color: '#444CE7',
-                      bgcolor: '#E7EAFD',
-                      borderRadius: '6px',
-                      fontFamily: 'Space Grotesk',
-                      gap: '4px'
+                      fontSize: "12px",
+                      color: "#444CE7",
+                      bgcolor: "#E7EAFD",
+                      borderRadius: "6px",
+                      fontFamily: "Space Grotesk",
+                      gap: "4px",
                     }}
                   >
                     <CopyIcon />
@@ -343,30 +348,30 @@ const BankTransferCompo = ({
                   </IconButton>
                 </Tooltip>
               </Box>
-              <Box display='flex' alignItems='center' gap={0.5} mt={'8px'}>
+              <Box display="flex" alignItems="center" gap={0.5} mt={"8px"}>
                 <Warning />
                 <Typography
-                  variant='caption'
-                  color='#515151'
-                  fontFamily='Space Grotesk'
+                  variant="caption"
+                  color="#515151"
+                  fontFamily="Space Grotesk"
                 >
                   This account number is unique for each transaction.
                 </Typography>
               </Box>
 
               <Typography
-                variant='subtitle2'
-                mt={'16px'}
-                fontWeight='300'
-                fontFamily='Space Grotesk'
+                variant="subtitle2"
+                mt={"16px"}
+                fontWeight="300"
+                fontFamily="Space Grotesk"
               >
                 Recipient:
               </Typography>
               <Typography
-                fontWeight='600'
-                color='#2D3282'
-                fontSize={'18px'}
-                fontFamily='Space Grotesk'
+                fontWeight="600"
+                color="#2D3282"
+                fontSize={"18px"}
+                fontFamily="Space Grotesk"
               >
                 Dynopay Payments Ltd.
               </Typography>
@@ -374,24 +379,29 @@ const BankTransferCompo = ({
 
             {/* Alert Box */}
             <Box
-              mt='16px'
-              borderRadius='8px'
-              display='flex'
-              alignItems='center'
-              bgcolor={'#F5F8FF'}
+              mt="16px"
+              borderRadius="8px"
+              display="flex"
+              alignItems="center"
+              bgcolor={"#F5F8FF"}
               gap={1}
-              px='9px'
-              py='8px'
+              px="9px"
+              py="8px"
             >
-              <div className='w-[16px] h-[16px]'>
-                <Icon icon="si:alert-line" width="16" height="16" style={{ color: " #FF3B30" }} />
+              <div className="w-[16px] h-[16px]">
+                <Icon
+                  icon="si:alert-line"
+                  width="16"
+                  height="16"
+                  style={{ color: " #FF3B30" }}
+                />
               </div>
               <Typography
                 fontSize={14}
-                color={'#515151'}
+                color={"#515151"}
                 fontWeight={500}
-                fontFamily='Space Grotesk'
-                lineHeight='100%'
+                fontFamily="Space Grotesk"
+                lineHeight="100%"
               >
                 Secure bank transfer with automatic confirmation. No need to
                 notify us!
@@ -401,100 +411,105 @@ const BankTransferCompo = ({
             {/* Payment Card */}
             <Card
               sx={{
-                mt: '20px',
-                borderRadius: '10px',
-                border: '1px solid #DFDFDF',
-                boxShadow: 'none'
+                mt: "20px",
+                borderRadius: "10px",
+                border: "1px solid #DFDFDF",
+                boxShadow: "none",
               }}
             >
-              <CardContent style={{ padding: '18px 21px' }}>
-                <Box display={'flex'} justifyContent={'space-between'}>
+              <CardContent style={{ padding: "18px 21px" }}>
+                <Box display={"flex"} justifyContent={"space-between"}>
                   <Typography
-                    variant='body2'
-                    fontSize={'20px'}
-                    fontWeight='500'
-                    fontFamily='Space Grotesk'
+                    variant="body2"
+                    fontSize={"20px"}
+                    fontWeight="500"
+                    fontFamily="Space Grotesk"
                   >
                     To Pay:
                   </Typography>
-                  <Box textAlign={'end'}>
-                    {transferDetails?.transfer_amount ?
+                  <Box textAlign={"end"}>
+                    {transferDetails?.transfer_amount ? (
                       <>
                         <Typography
-                          variant='h6'
-                          fontWeight='500'
-                          color='primary'
-                          fontFamily='Space Grotesk'
+                          variant="h6"
+                          fontWeight="500"
+                          color="primary"
+                          fontFamily="Space Grotesk"
                           fontSize={25}
-                          lineHeight={'130%'}
-                          >
-                          {currencyOptions?.find(item => item?.currency === selectedCurrency?.currency)?.icon}{' '}
-                          {transferDetails?.transfer_amount}{' '}
+                          lineHeight={"130%"}
+                        >
+                          {
+                            currencyOptions?.find(
+                              (item) =>
+                                item?.currency === selectedCurrency?.currency
+                            )?.icon
+                          }{" "}
+                          {transferDetails?.transfer_amount}{" "}
                           {selectedCurrency?.currency}
                         </Typography>
                       </>
-                      :
+                    ) : (
                       <Skeleton
-                        variant='rectangular'
+                        variant="rectangular"
                         width={150}
                         height={32}
-                        animation='wave'
-                        sx={{ borderRadius: '6px', background: '#F5F8FF' }}
+                        animation="wave"
+                        sx={{ borderRadius: "6px", background: "#F5F8FF" }}
                       />
-                    }
+                    )}
 
                     <Typography
-                      variant='caption'
-                      color='#515151'
-                      fontFamily='Space Grotesk'
+                      variant="caption"
+                      color="#515151"
+                      fontFamily="Space Grotesk"
                       fontSize={14}
                     >
                       =
                       {Number(
                         walletState?.amount ?? walletState?.amount
-                      ).toFixed(2)}{' '}
+                      ).toFixed(2)}{" "}
                       {walletState?.currency}
                     </Typography>
                   </Box>
                 </Box>
-                <Divider sx={{ my: '10px' }} />
+                <Divider sx={{ my: "10px" }} />
                 <Box
-                  display='flex'
-                  alignItems='center'
-                  justifyContent='center'
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
                   gap={1}
                 >
                   <ClockIcon />
                   <Typography
-                    variant='body2'
-                    fontWeight='normal'
-                    fontSize='13px'
-                    fontFamily='Space Grotesk'
-                    color='#000'
+                    variant="body2"
+                    fontWeight="normal"
+                    fontSize="13px"
+                    fontFamily="Space Grotesk"
+                    color="#000"
                   >
                     Invoice expires in: {formatTime(timeLeft)}
                   </Typography>
                 </Box>
                 <Button
-                  variant='contained'
+                  variant="contained"
                   onClick={() => {
-                    handleSubmit()
-                    setActiveStep(activeStep + 1)
+                    handleSubmit();
+                    setActiveStep(activeStep + 1);
                   }}
                   fullWidth
                   sx={{
                     mt: 1,
-                    borderRadius: '99999px',
-                    bgcolor: '#444CE7',
-                    fontFamily: 'Space Grotesk',
+                    borderRadius: "99999px",
+                    bgcolor: "#444CE7",
+                    fontFamily: "Space Grotesk",
                     fontWeight: 500,
-                    py: '17px',
-                    textTransform: 'none',
-                    boxShadow: 'none',
-                    '&:hover': {
-                      bgcolor: '#444CE7',
-                      boxShadow: 'none'
-                    }
+                    py: "17px",
+                    textTransform: "none",
+                    boxShadow: "none",
+                    "&:hover": {
+                      bgcolor: "#444CE7",
+                      boxShadow: "none",
+                    },
                   }}
                 >
                   I’ve made the payment
@@ -505,7 +520,7 @@ const BankTransferCompo = ({
         </Box>
       )}
     </>
-  )
-}
+  );
+};
 
-export default BankTransferCompo
+export default BankTransferCompo;
