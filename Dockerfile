@@ -17,5 +17,5 @@ ENV NEXT_PUBLIC_CYPHER_KEY=$NEXT_PUBLIC_CYPHER_KEY
 
 RUN npm run build
 
-EXPOSE 3001
-CMD ["npm","start","--","-p","3001"]
+EXPOSE 3000
+CMD ["npm", "start"]
