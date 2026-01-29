@@ -334,6 +334,7 @@ const CryptoTransfer = ({
         if (rateData) {
           setPrefetchedRates(rateData);
           setRatesFetchedAt(Date.now());
+          setCachedFeePayer(feePayer || '');  // Track fee_payer used for this cache
         }
       }
 
