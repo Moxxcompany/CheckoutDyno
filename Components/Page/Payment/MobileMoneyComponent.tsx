@@ -59,7 +59,8 @@ const MobileMoneyComponent = ({ walletState }: commonPayload) => {
     if (walletState.amount && walletState.currency) {
       getCurrencyRate();
     }
-  }, [walletState.amount]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [walletState.amount, walletState.currency]);
 
   const getCurrencyRate = async () => {
     try {
