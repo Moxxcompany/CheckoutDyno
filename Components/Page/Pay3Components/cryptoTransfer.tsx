@@ -926,6 +926,7 @@ const CryptoTransfer = ({
                       </Typography>
                     </Box>
                   ) : (
+                    /* eslint-disable-next-line @next/next/no-img-element */
                     <img
                       src={cryptoDetails?.qr_code}
                       width={"100%"}

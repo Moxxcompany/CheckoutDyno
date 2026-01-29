@@ -36,6 +36,7 @@ const FloatingChatButton = () => {
           height: '100%',
         }}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={ChatIcon.src}
           alt="Chat"

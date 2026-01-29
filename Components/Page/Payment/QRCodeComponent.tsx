@@ -228,6 +228,7 @@ const QRCodeComponent = ({ walletState }: commonPayload) => {
               }}
             >
               <Box sx={{ "& img": { maxHeight: "250px", width: "100%" } }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={accountDetails?.qr_image} alt="QR Code" />
               </Box>
               <Typography textAlign={"center"}>

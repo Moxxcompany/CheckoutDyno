@@ -26,6 +26,7 @@ const NoData = ({
         },
       }}
     >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={NoDataImage.src} alt="no data" />
       <Typography fontWeight={500} fontSize={20} marginTop={2.5}>
         {customText ?? "No Data Available"}

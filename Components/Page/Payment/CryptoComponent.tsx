@@ -373,6 +373,7 @@ const CyrptoComponent = ({ walletState }: commonPayload) => {
                         },
                       }}
                     >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={cryptoDetails?.qr_code} alt="Crypto QR Code" />
                     </Box>
                     <Box sx={{ width: "100%" }}>
