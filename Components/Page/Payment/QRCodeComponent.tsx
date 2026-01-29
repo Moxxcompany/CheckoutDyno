@@ -49,12 +49,14 @@ const QRCodeComponent = ({ walletState }: commonPayload) => {
         });
       }
     }
-  }, [walletState.amount]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [walletState.amount, walletState.currency]);
 
   useEffect(() => {
     if (selectedCurrency?.currency) {
       initiateQRCodeTransfer();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCurrency]);
 
   const getCurrencyRate = async () => {
@@ -226,7 +228,7 @@ const QRCodeComponent = ({ walletState }: commonPayload) => {
               }}
             >
               <Box sx={{ "& img": { maxHeight: "250px", width: "100%" } }}>
-                <img src={accountDetails?.qr_image} />
+                <img src={accountDetails?.qr_image} alt="QR Code" />
               </Box>
               <Typography textAlign={"center"}>
                 Scan the QR Code above on your Bank’s mobile app to complete the
