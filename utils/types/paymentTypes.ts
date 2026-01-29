@@ -130,11 +130,21 @@ export interface transferDetails {
 
 export interface currencyData {
   currency: string;
-  amount: string;
-  transferRate: string;
-  total_amount?: string;
-  total_amount_source?: string;  // Total amount in source currency (USD) including fees
-  fee_amount?: string;           // Fee amount in source currency
+  amount: string | number;
+  transferRate?: string;
+  total_amount?: string | number;
+  total_amount_source?: string | number;  // Total amount in source currency (USD) including fees
+  total_amount_usd?: string | number;     // Total amount in USD
+  base_amount?: string | number;          // Original amount without fees
+  base_amount_usd?: string | number;      // Original amount in USD
+  fee_payer?: string;
+  fees?: {
+    fixed_fee_usd?: number;
+    transaction_fee_usd?: number;
+    buffer_fee_usd?: number;
+    network_fee_usd?: number;
+    total_fees_usd?: number;
+  };
 }
 
 export interface walletState {
