@@ -342,6 +342,9 @@ const CryptoTransfer = ({
         (item: any) => item.currency === baseCurrency
       );
 
+      console.log("findRate for", baseCurrency, ":", findRate);
+      console.log("total_amount_source:", findRate?.total_amount_source);
+
       setCurrencyRates(rateData || undefined);
       setSelectedCurrency(findRate);
       setSelectedCrypto(cryptoValue);
