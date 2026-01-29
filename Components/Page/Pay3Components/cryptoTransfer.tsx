@@ -311,7 +311,8 @@ const CryptoTransfer = ({
       
       // Check if we have fresh cached rates
       const isCacheValid = prefetchedRates && 
-        (Date.now() - ratesFetchedAt) < RATE_CACHE_DURATION_MS;
+        (Date.now() - ratesFetchedAt) < RATE_CACHE_DURATION_MS &&
+        cachedFeePayer === (feePayer || '');  // Invalidate cache if fee_payer changed
       
       if (isCacheValid) {
         console.log("Using cached rates");
