@@ -159,6 +159,39 @@ const Payment = () => {
       setTokenData(tempToken)
       setFeePayer(data.fee_payer || '')
       setLinkId(tempToken?.transaction_id || '')
+      
+      // Fetch rates with fees immediately after getting initial data
+      if (data.amount && data.base_currency) {
+        try {
+          const ratesResponse = await axiosBaseApi.post('/pay/getCurrencyRates', {
+            source: data.base_currency,
+            amount: data.amount,
+            currencyList: [data.base_currency],
+            fixedDecimal: false,
+            fee_payer: data.fee_payer || undefined
+          });
+          if (ratesResponse?.data?.data && ratesResponse.data.data[0]) {
+            setCurrencyRates(ratesResponse.data.data[0]);
+          }
+        } catch (rateError: any) {
+          console.log('Failed to fetch initial rates:', rateError?.message);
+        }
+      }
+      
+      setLoading(false)
+    } catch (e: any) {
+      setLoading(false)
+      const message = e?.response?.data?.message ?? e.message
+      dispatch({
+        type: TOAST_SHOW,
+        payload: {
+          message: message,
+          severity: 'error'
+        }
+      })
+    }
+  }
+      setLinkId(tempToken?.transaction_id || '')
       setLoading(false)
     } catch (e: any) {
       setLoading(false)
