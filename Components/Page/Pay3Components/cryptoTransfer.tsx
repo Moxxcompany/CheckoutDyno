@@ -303,24 +303,46 @@ const CryptoTransfer = ({
       console.log("displayCurrency:", displayCurrency);
       console.log("baseCurrency (lookup key):", baseCurrency);
 
-      const rateResponse = await axiosBaseApi.post("/pay/getCurrencyRates", {
-        source: walletState?.currency,
-        amount: walletState?.amount,
-        currencyList: cryptoOptions.map((x) => x.value),
-        fixedDecimal: false,
-        fee_payer: feePayer,
-      });
+      let rateData: currencyData[] | null = null;
+      
+      // Check if we have fresh cached rates
+      const isCacheValid = prefetchedRates && 
+        (Date.now() - ratesFetchedAt) < RATE_CACHE_DURATION_MS;
+      
+      if (isCacheValid) {
+        console.log("Using cached rates");
+        rateData = prefetchedRates;
+      } else {
+        // Fetch fresh rates
+        setLoadingStep('rates');
+        const rateResponse = await axiosBaseApi.post("/pay/getCurrencyRates", {
+          source: walletState?.currency,
+          amount: walletState?.amount,
+          currencyList: cryptoOptions.map((x) => x.value),
+          fixedDecimal: false,
+          fee_payer: feePayer,
+        });
 
-      const rateData = rateResponse?.data?.data;
+        rateData = rateResponse?.data?.data;
+        
+        // Update cache
+        if (rateData) {
+          setPrefetchedRates(rateData);
+          setRatesFetchedAt(Date.now());
+        }
+      }
 
       const findRate = rateData?.find(
         (item: any) => item.currency === baseCurrency
       );
 
-      setCurrencyRates(rateData);
+      setCurrencyRates(rateData || undefined);
       setSelectedCurrency(findRate);
       setSelectedCrypto(cryptoValue);
 
+      // Create payment
+      setLoadingStep('payment');
+      
       const finalPayload = {
         currency: displayCurrency, // e.g., "USDT-TRC20"
         amount: findRate?.total_amount || findRate?.amount, // use total_amount when customer pays fees
