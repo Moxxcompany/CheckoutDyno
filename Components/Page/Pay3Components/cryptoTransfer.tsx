@@ -150,6 +150,11 @@ const CryptoTransfer = ({
 
   const [isStart, setIsStart] = useState(false);
 
+  // New state for payment status handling
+  const [paymentStatus, setPaymentStatus] = useState<PaymentStatusType>("waiting");
+  const [partialPaymentData, setPartialPaymentData] = useState<PartialPaymentData | null>(null);
+  const [overpaymentData, setOverpaymentData] = useState<OverpaymentData | null>(null);
+
   const getSelectedOption = () =>
     cryptoOptions.find((opt) => opt.value === selectedCrypto);
 
