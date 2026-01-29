@@ -48,6 +48,7 @@ const TextArea = ({
         // }
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [textareaRef, isDynamic]);
 
   const autoExpandTextarea = (textarea: any) => {
