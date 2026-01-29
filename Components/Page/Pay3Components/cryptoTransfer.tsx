@@ -68,6 +68,7 @@ interface CryptoTransferProps {
   activeStep: number;
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
   walletState: walletState;
+  feePayer?: string;
 }
 
 const cryptoOptions = [
@@ -124,6 +125,7 @@ const CryptoTransfer = ({
   activeStep,
   setActiveStep,
   walletState,
+  feePayer,
 }: CryptoTransferProps) => {
   const dispatch = useDispatch();
   const [selectedCrypto, setSelectedCrypto] = useState("");
@@ -270,6 +272,7 @@ const CryptoTransfer = ({
         amount: walletState?.amount,
         currencyList: cryptoOptions.map((x) => x.value),
         fixedDecimal: false,
+        fee_payer: feePayer,
       });
 
       const rateData = rateResponse?.data?.data;
