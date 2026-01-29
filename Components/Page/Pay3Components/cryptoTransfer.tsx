@@ -191,10 +191,6 @@ const CryptoTransfer = ({
         data: encrypted,
       });
 
-      setTimeout(() => {
-        setIsStart(true);
-      }, 10000);
-
       const result = submitResponse?.data?.data;
 
       if (result?.redirect) {
@@ -291,17 +287,20 @@ const CryptoTransfer = ({
 
     const pollInterval = setInterval(async () => {
       try {
-        const {
-          data: { data },
-        } = await axiosBaseApi.post("/pay/verifyCryptoPayment", {
+        const response = await axiosBaseApi.post("/pay/verifyCryptoPayment", {
           address: cryptoDetails?.address,
         });
+        const paymentStatus = response?.data?.data?.status;
+        const redirectUrl = response?.data?.data?.redirect;
 
-        if (data) {
-          setIsReceived(true);
+        if (paymentStatus === "pending") {
+          setIsStart(true);      // Show "Payment detected..."
+          setIsReceived(false);
+        } else if (paymentStatus === "confirmed") {
+          setIsStart(true);
+          setIsReceived(true);   // Show "Payment Confirmed!"
+          setIsUrl(redirectUrl);
           clearInterval(pollInterval);
-          setIsUrl(data);
-          // window.location.replace(data)
         }
       } catch (e: any) {
         const message = e?.response?.data?.message ?? e?.message;
