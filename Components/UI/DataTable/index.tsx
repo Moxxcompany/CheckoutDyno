@@ -43,6 +43,7 @@ const DataTable = ({
 
   useEffect(() => {
     handleAllOperation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paginationOptions, data]);
 
   useEffect(() => {
@@ -50,6 +51,7 @@ const DataTable = ({
       ...paginationOptions,
       searchValue: searchValue ?? "",
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue]);
 
   const handleSorting = (tempData: any[]) => {
