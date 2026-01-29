@@ -956,7 +956,7 @@ const CryptoTransfer = ({
                           color="#1A1919"
                         >
                           {formatAmount(
-                            selectedCurrency?.amount || 0,
+                            selectedCurrency?.total_amount || selectedCurrency?.amount || 0,
                             selectedCurrency?.currency || ""
                           )}{" "}
                           {selectedCurrency?.currency}
@@ -1037,7 +1037,7 @@ const CryptoTransfer = ({
                       fontFamily="Space Grotesk"
                     >
                       {formatAmount(
-                        selectedCurrency?.amount || 0,
+                        selectedCurrency?.total_amount || selectedCurrency?.amount || 0,
                         selectedCurrency?.currency || ""
                       )}{" "}
                       {selectedCurrency?.currency}
