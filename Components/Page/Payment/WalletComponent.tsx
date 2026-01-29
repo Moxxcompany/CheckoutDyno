@@ -34,7 +34,8 @@ const WalletComponent = ({ walletState }: commonPayload) => {
     if (walletState.amount && walletState.currency) {
       getBalance();
     }
-  }, [walletState.amount]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [walletState.amount, walletState.currency]);
 
   const getBalance = async () => {
     try {
