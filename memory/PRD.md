@@ -32,3 +32,13 @@ Set up environment variables and install dependencies for Next.js payment checko
 ## Next Tasks
 - Test development server runs correctly
 - Verify API connectivity to Railway backend
+
+## Updates - Jan 2026
+
+### Bug Fixes Implemented
+1. **Fee Calculation Fix**: Added `fee_payer` parameter to `getCurrencyRates` API call in crypto transfer flow. Now uses `total_amount` when customer pays fees.
+2. **Link ID Fix**: Replaced hardcoded `#ABC123456` with dynamic transaction ID from JWT token.
+
+### Files Modified
+- `/app/pages/pay/index.tsx` - Added feePayer and linkId state management
+- `/app/Components/Page/Pay3Components/cryptoTransfer.tsx` - Added feePayer prop and API parameter
