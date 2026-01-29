@@ -287,7 +287,7 @@ const CryptoTransfer = ({
 
       const finalPayload = {
         currency: displayCurrency, // e.g., "USDT-TRC20"
-        amount: findRate?.amount, // from normalized key lookup
+        amount: findRate?.total_amount || findRate?.amount, // use total_amount when customer pays fees
         paymentType: paymentTypes.CRYPTO,
       };
 
