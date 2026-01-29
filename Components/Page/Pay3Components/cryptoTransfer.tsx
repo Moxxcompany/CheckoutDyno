@@ -814,7 +814,7 @@ const CryptoTransfer = ({
               </Typography>
             </Box>
           )
-        )]
+        )}
 
         {selectedCrypto &&
           (selectedCrypto !== "USDT" ||
