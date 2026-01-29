@@ -113,6 +113,14 @@ const Payment = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query])
 
+  // Fetch rates with fees after initial data is loaded
+  useEffect(() => {
+    if (walletState?.amount && walletState?.currency && feePayer) {
+      getCurrencyRateWithFees(walletState.currency)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [walletState?.amount, walletState?.currency, feePayer])
+
   const getQueryData = async () => {
     try {
       const query_data = router.query.d
