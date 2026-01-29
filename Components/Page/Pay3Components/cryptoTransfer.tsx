@@ -314,23 +314,84 @@ const CryptoTransfer = ({
     if (!isValidSelection) return;
 
     setIsReceived(false);
+    setPaymentStatus("waiting");
 
     const pollInterval = setInterval(async () => {
       try {
         const response = await axiosBaseApi.post("/pay/verifyCryptoPayment", {
           address: cryptoDetails?.address,
         });
-        const paymentStatus = response?.data?.data?.status;
-        const redirectUrl = response?.data?.data?.redirect;
+        const data = response?.data?.data;
+        const status = data?.status as PaymentStatusType;
+        const redirectUrl = data?.redirect;
 
-        if (paymentStatus === "pending") {
-          setIsStart(true);      // Show "Payment detected..."
-          setIsReceived(false);
-        } else if (paymentStatus === "confirmed") {
-          setIsStart(true);
-          setIsReceived(true);   // Show "Payment Confirmed!"
-          setIsUrl(redirectUrl);
-          clearInterval(pollInterval);
+        setPaymentStatus(status);
+
+        switch (status) {
+          case "waiting":
+            // No payment detected yet - keep waiting
+            setIsStart(false);
+            setIsReceived(false);
+            break;
+
+          case "pending":
+            // Payment detected, awaiting confirmation
+            setIsStart(true);
+            setIsReceived(false);
+            break;
+
+          case "confirmed":
+            // Payment confirmed successfully
+            setIsStart(true);
+            setIsReceived(true);
+            setIsUrl(redirectUrl);
+            clearInterval(pollInterval);
+            break;
+
+          case "underpaid":
+            // Partial payment received
+            setIsStart(true);
+            setIsReceived(false);
+            setPartialPaymentData({
+              paidAmount: data?.paidAmount || 0,
+              expectedAmount: data?.expectedAmount || 0,
+              remainingAmount: data?.remainingAmount || 0,
+              currency: data?.currency || walletState?.currency || "USD",
+            });
+            clearInterval(pollInterval);
+            break;
+
+          case "overpaid":
+            // More than expected was paid
+            setIsStart(true);
+            setIsReceived(true);
+            setOverpaymentData({
+              paidAmount: data?.paidAmount || 0,
+              expectedAmount: data?.expectedAmount || 0,
+              excessAmount: data?.excessAmount || 0,
+              currency: data?.currency || walletState?.currency || "USD",
+            });
+            setIsUrl(redirectUrl);
+            clearInterval(pollInterval);
+            break;
+
+          case "expired":
+            // Payment window expired
+            setIsStart(false);
+            setIsReceived(false);
+            clearInterval(pollInterval);
+            dispatch({
+              type: TOAST_SHOW,
+              payload: {
+                message: "Payment window has expired. Please try again.",
+                severity: "error",
+              },
+            });
+            break;
+
+          default:
+            // Unknown status - handle gracefully
+            break;
         }
       } catch (e: any) {
         const message = e?.response?.data?.message ?? e?.message;
