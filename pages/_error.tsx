@@ -6,8 +6,10 @@ import { useRouter } from "next/router";
 const Error = ({ statusCode, setPageName }: any) => {
   const router = useRouter();
   useEffect(() => {
-    setPageName();
-  }, []);
+    if (setPageName) {
+      setPageName();
+    }
+  }, [setPageName]);
   return (
     <Box
       sx={{
@@ -25,7 +27,7 @@ const Error = ({ statusCode, setPageName }: any) => {
         },
       }}
     >
-      <img src={NoAccess.src} />
+      <img src={NoAccess.src} alt="Error" />
       <Typography color="primary" variant="h5">
         {statusCode
           ? `An error ${statusCode} occurred on server`
