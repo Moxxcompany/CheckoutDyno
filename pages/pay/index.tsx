@@ -113,29 +113,8 @@ const Payment = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query])
 
-  // Fetch rates with fees after initial data is loaded
-  useEffect(() => {
-    const fetchRatesWithFees = async () => {
-      if (!walletState?.amount || !walletState?.currency) return;
-      
-      try {
-        const { data: { data } } = await axiosBaseApi.post('/pay/getCurrencyRates', {
-          source: walletState.currency,
-          amount: walletState.amount,
-          currencyList: [walletState.currency],
-          fixedDecimal: false,
-          fee_payer: feePayer || undefined  // Send undefined if empty string
-        });
-        if (data && data[0]) {
-          setCurrencyRates(data[0]);
-        }
-      } catch (e: any) {
-        console.log('Failed to fetch rates with fees:', e?.message);
-      }
-    };
-    
-    fetchRatesWithFees();
-  }, [walletState?.amount, walletState?.currency, feePayer])
+  // Note: Rates are fetched directly in getQueryData after getting initial data
+  // This ensures we have the correct fee_payer value before making the API call
 
   const getQueryData = async () => {
     try {
