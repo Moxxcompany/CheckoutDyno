@@ -234,6 +234,34 @@ const CryptoTransfer = ({
     fetchConfiguredCurrencies();
   }, []);
 
+  // Prefetch currency rates when component mounts
+  useEffect(() => {
+    const prefetchRates = async () => {
+      if (!walletState?.amount || !walletState?.currency) return;
+      
+      try {
+        const rateResponse = await axiosBaseApi.post("/pay/getCurrencyRates", {
+          source: walletState?.currency,
+          amount: walletState?.amount,
+          currencyList: cryptoOptions.map((x) => x.value),
+          fixedDecimal: false,
+          fee_payer: feePayer,
+        });
+        
+        const rateData = rateResponse?.data?.data;
+        if (rateData) {
+          setPrefetchedRates(rateData);
+          setRatesFetchedAt(Date.now());
+        }
+      } catch (e) {
+        // Silent fail for prefetch - will fetch again when needed
+        console.log("Rate prefetch failed, will fetch on demand");
+      }
+    };
+    
+    prefetchRates();
+  }, [walletState?.amount, walletState?.currency, feePayer]);
+
   // Filter crypto options based on available currencies
   const filteredCryptoOptions = cryptoOptions.filter(opt => 
     availableCryptos.includes(opt.value)
