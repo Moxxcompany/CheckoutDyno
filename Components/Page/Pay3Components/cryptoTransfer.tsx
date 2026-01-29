@@ -171,6 +171,8 @@ const CryptoTransfer = ({
   const [prefetchedRates, setPrefetchedRates] = useState<currencyData[] | null>(null);
   const [ratesFetchedAt, setRatesFetchedAt] = useState<number>(0);
   const [loadingStep, setLoadingStep] = useState<'rates' | 'payment' | null>(null);
+  // Track which fee_payer value was used for cached rates
+  const [cachedFeePayer, setCachedFeePayer] = useState<string>('');
 
   // Fetch configured currencies on mount
   useEffect(() => {
