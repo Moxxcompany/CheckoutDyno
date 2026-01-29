@@ -155,6 +155,80 @@ const CryptoTransfer = ({
   const [partialPaymentData, setPartialPaymentData] = useState<PartialPaymentData | null>(null);
   const [overpaymentData, setOverpaymentData] = useState<OverpaymentData | null>(null);
 
+  // State for configured currencies
+  const [availableCryptos, setAvailableCryptos] = useState<string[]>([]);
+  const [availableUSDTNetworks, setAvailableUSDTNetworks] = useState<('TRC20' | 'ERC20')[]>([]);
+  const [loadingCurrencies, setLoadingCurrencies] = useState(true);
+  const [skipSelection, setSkipSelection] = useState(false);
+  const [currencyError, setCurrencyError] = useState<string | null>(null);
+
+  // Fetch configured currencies on mount
+  useEffect(() => {
+    const fetchConfiguredCurrencies = async () => {
+      try {
+        setLoadingCurrencies(true);
+        setCurrencyError(null);
+        
+        const response = await axiosBaseApi.get("/wallet/configured-currencies");
+        const data = response?.data?.data || response?.data;
+        
+        const configuredCurrencies: string[] = data?.configured_currencies || [];
+        const shouldSkipSelection = data?.skip_selection || false;
+        
+        // Parse currencies - separate base currencies and USDT networks
+        const baseCryptos: string[] = [];
+        const usdtNetworks: ('TRC20' | 'ERC20')[] = [];
+        
+        configuredCurrencies.forEach((currency: string) => {
+          if (currency.startsWith('USDT-')) {
+            const network = currency.replace('USDT-', '') as 'TRC20' | 'ERC20';
+            if (network === 'TRC20' || network === 'ERC20') {
+              usdtNetworks.push(network);
+              if (!baseCryptos.includes('USDT')) {
+                baseCryptos.push('USDT');
+              }
+            }
+          } else {
+            baseCryptos.push(currency);
+          }
+        });
+        
+        setAvailableCryptos(baseCryptos);
+        setAvailableUSDTNetworks(usdtNetworks);
+        setSkipSelection(shouldSkipSelection);
+        
+        // Auto-select if skip_selection is true and only one option
+        if (shouldSkipSelection && baseCryptos.length === 1) {
+          const autoSelectedCrypto = baseCryptos[0];
+          setSelectedCrypto(autoSelectedCrypto);
+          setIsNetwork(autoSelectedCrypto);
+          
+          if (autoSelectedCrypto === 'USDT' && usdtNetworks.length === 1) {
+            setSelectedNetwork(usdtNetworks[0]);
+            getCurrencyRateAndSubmit('USDT', usdtNetworks[0]);
+          } else if (autoSelectedCrypto !== 'USDT') {
+            getCurrencyRateAndSubmit(autoSelectedCrypto);
+          }
+        }
+      } catch (e: any) {
+        const message = e?.response?.data?.message ?? e?.message ?? "Failed to load currencies";
+        setCurrencyError(message);
+        // Set defaults if API fails - show all currencies
+        setAvailableCryptos(cryptoOptions.map(opt => opt.value));
+        setAvailableUSDTNetworks(['TRC20', 'ERC20']);
+      } finally {
+        setLoadingCurrencies(false);
+      }
+    };
+    
+    fetchConfiguredCurrencies();
+  }, []);
+
+  // Filter crypto options based on available currencies
+  const filteredCryptoOptions = cryptoOptions.filter(opt => 
+    availableCryptos.includes(opt.value)
+  );
+
   const getSelectedOption = () =>
     cryptoOptions.find((opt) => opt.value === selectedCrypto);
 
