@@ -40,6 +40,7 @@ const GooglePayComponent = ({
     if (checkVerify) {
       verifyStatus();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkVerify]);
 
   const verifyStatus = async () => {
