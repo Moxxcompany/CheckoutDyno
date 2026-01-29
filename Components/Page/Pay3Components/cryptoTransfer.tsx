@@ -242,6 +242,8 @@ const CryptoTransfer = ({
     const prefetchRates = async () => {
       if (!walletState?.amount || !walletState?.currency) return;
       
+      console.log("Prefetching rates with feePayer:", feePayer);
+      
       try {
         const rateResponse = await axiosBaseApi.post("/pay/getCurrencyRates", {
           source: walletState?.currency,
@@ -252,6 +254,7 @@ const CryptoTransfer = ({
         });
         
         const rateData = rateResponse?.data?.data;
+        console.log("Prefetch response:", rateData);
         if (rateData) {
           setPrefetchedRates(rateData);
           setRatesFetchedAt(Date.now());
