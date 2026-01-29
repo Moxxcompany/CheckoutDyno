@@ -116,7 +116,7 @@ const Payment = () => {
   // Fetch rates with fees after initial data is loaded
   useEffect(() => {
     const fetchRatesWithFees = async () => {
-      if (!walletState?.amount || !walletState?.currency || !feePayer) return;
+      if (!walletState?.amount || !walletState?.currency) return;
       
       try {
         const { data: { data } } = await axiosBaseApi.post('/pay/getCurrencyRates', {
@@ -124,7 +124,7 @@ const Payment = () => {
           amount: walletState.amount,
           currencyList: [walletState.currency],
           fixedDecimal: false,
-          fee_payer: feePayer
+          fee_payer: feePayer || undefined  // Send undefined if empty string
         });
         if (data && data[0]) {
           setCurrencyRates(data[0]);
