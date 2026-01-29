@@ -438,6 +438,52 @@ const CryptoTransfer = ({
     }
   };
 
+  // Handler for paying remaining amount in underpayment scenario
+  const handlePayRemaining = (method: "bank" | "crypto") => {
+    // Reset states and allow user to pay remaining
+    setPaymentStatus("waiting");
+    setPartialPaymentData(null);
+    if (method === "bank") {
+      setActiveStep(1);
+      // User would need to select bank transfer method
+    } else {
+      // Stay on crypto, reset for new payment
+      setIsStart(false);
+      setIsReceived(false);
+    }
+  };
+
+  // Handler for going to website after overpayment
+  const handleOverpaymentGoToWebsite = () => {
+    btnGotoWeb();
+  };
+
+  // Render UnderPayment component
+  if (paymentStatus === "underpaid" && partialPaymentData) {
+    return (
+      <UnderPayment
+        paidAmount={partialPaymentData.paidAmount}
+        expectedAmount={partialPaymentData.expectedAmount}
+        remainingAmount={partialPaymentData.remainingAmount}
+        currency={partialPaymentData.currency}
+        onPayRemaining={handlePayRemaining}
+      />
+    );
+  }
+
+  // Render OverPayment component
+  if (paymentStatus === "overpaid" && overpaymentData) {
+    return (
+      <OverPayment
+        paidAmount={overpaymentData.paidAmount}
+        expectedAmount={overpaymentData.expectedAmount}
+        excessAmount={overpaymentData.excessAmount}
+        currency={overpaymentData.currency}
+        onGoToWebsite={handleOverpaymentGoToWebsite}
+      />
+    );
+  }
+
   return (
     <Box
       display="flex"
