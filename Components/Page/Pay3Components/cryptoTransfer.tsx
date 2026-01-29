@@ -909,8 +909,19 @@ const CryptoTransfer = ({
                   }}
                 >
                   {loading ? (
-                    <Box sx={{ padding: 2 }}>
+                    <Box sx={{ padding: 2, textAlign: 'center' }}>
                       <CircularProgress />
+                      <Typography 
+                        variant="body2" 
+                        sx={{ mt: 1, color: '#515151' }}
+                        fontFamily="Space Grotesk"
+                      >
+                        {loadingStep === 'rates' 
+                          ? 'Getting exchange rates...' 
+                          : loadingStep === 'payment' 
+                            ? 'Creating payment...' 
+                            : 'Loading...'}
+                      </Typography>
                     </Box>
                   ) : (
                     <img
