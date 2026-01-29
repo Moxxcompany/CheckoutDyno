@@ -49,12 +49,14 @@ const BankTransferComponent = ({ walletState }: commonPayload) => {
         });
       }
     }
-  }, [walletState.amount]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [walletState.amount, walletState.currency]);
 
   useEffect(() => {
     if (selectedCurrency?.currency) {
       initiateBankTransfer();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCurrency]);
 
   const getCurrencyRate = async () => {
