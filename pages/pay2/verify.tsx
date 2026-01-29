@@ -15,6 +15,7 @@ const Verify = () => {
       console.log(successRes);
       getConfirmStatus();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query]);
 
   const getConfirmStatus = async () => {
