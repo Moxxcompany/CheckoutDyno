@@ -1048,7 +1048,7 @@ const CryptoTransfer = ({
                           fontSize="14px"
                           fontWeight={500}
                         >
-                          ={Number(selectedCurrency?.total_amount || selectedCurrency?.amount || walletState?.amount)?.toFixed(2)}{" "}
+                          ={Number(selectedCurrency?.total_amount_source || walletState?.amount)?.toFixed(2)}{" "}
                           {walletState?.currency}
                         </Typography>
                       </Box>
