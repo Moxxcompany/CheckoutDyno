@@ -85,7 +85,8 @@ const USSDComponent = ({ walletState }: commonPayload) => {
         });
       }
     }
-  }, [walletState.amount]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [walletState.amount, walletState.currency]);
 
   const getCurrencyRate = async () => {
     try {
