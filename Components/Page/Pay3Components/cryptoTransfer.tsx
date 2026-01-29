@@ -777,26 +777,44 @@ const CryptoTransfer = ({
         )}
 
         {isNetwork === "USDT" && (
-          <Box mt={"10px"} mb={3} display="flex" gap={1} alignItems="center">
-            {["TRC20", "ERC20"].map((net) => (
-              <Typography
-                key={net}
-                border={`1px solid ${
-                  selectedNetwork === net ? "#86A4F9" : "#E7EAFD"
-                }`}
-                padding="5px 10px"
-                fontSize="small"
-                bgcolor={selectedNetwork === net ? "#E7EAFD" : "#F5F8FF"}
-                borderRadius="5px"
-                sx={{ cursor: "pointer" }}
-                onClick={() => handleNetworkChange(net as "TRC20" | "ERC20")}
-                fontFamily="Space Grotesk"
-              >
-                {net}
+          availableUSDTNetworks.length > 0 ? (
+            <Box mt={"10px"} mb={3} display="flex" gap={1} alignItems="center">
+              {availableUSDTNetworks.map((net) => (
+                <Typography
+                  key={net}
+                  border={`1px solid ${
+                    selectedNetwork === net ? "#86A4F9" : "#E7EAFD"
+                  }`}
+                  padding="5px 10px"
+                  fontSize="small"
+                  bgcolor={selectedNetwork === net ? "#E7EAFD" : "#F5F8FF"}
+                  borderRadius="5px"
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => handleNetworkChange(net)}
+                  fontFamily="Space Grotesk"
+                >
+                  {net}
+                </Typography>
+              ))}
+            </Box>
+          ) : (
+            <Box 
+              mt={"10px"} 
+              mb={3} 
+              display="flex" 
+              alignItems="center"
+              py={1}
+              px={2}
+              border="1px solid #f59e0b"
+              borderRadius="8px"
+              bgcolor="#fffbeb"
+            >
+              <Typography fontFamily="Space Grotesk" color="#b45309" fontSize="small">
+                No USDT networks configured. Please select another cryptocurrency.
               </Typography>
-            ))}
-          </Box>
-        )}
+            </Box>
+          )
+        )]
 
         {selectedCrypto &&
           (selectedCrypto !== "USDT" ||
