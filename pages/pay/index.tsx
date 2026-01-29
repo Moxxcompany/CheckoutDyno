@@ -91,6 +91,8 @@ const Payment = () => {
   const [loading, setLoading] = useState(true)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isBank, setIsBank] = useState()
+  const [feePayer, setFeePayer] = useState<string>('')
+  const [linkId, setLinkId] = useState<string>('')
 
   useEffect(() => {
     if (
@@ -129,6 +131,8 @@ const Payment = () => {
       localStorage.setItem('token', data.token)
       const tempToken: any = jwt.decode(data.token)
       setTokenData(tempToken)
+      setFeePayer(data.fee_payer || '')
+      setLinkId(tempToken?.transaction_id || '')
       setLoading(false)
     } catch (e: any) {
       setLoading(false)
@@ -501,7 +505,7 @@ const Payment = () => {
                       fontSize={12}
                       color='#515151'
                     >
-                      #ABC123456
+                      #{linkId || 'Loading...'}
                     </Typography>
                     <Tooltip title='Copy'>
                       <IconButton
@@ -538,6 +542,7 @@ const Payment = () => {
                 activeStep={activeStep}
                 setActiveStep={setActiveStep}
                 walletState={walletState}
+                feePayer={feePayer}
               />
             )
           ) : activeStep === 2 ? (
