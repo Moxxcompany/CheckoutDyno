@@ -133,6 +133,8 @@ export interface currencyData {
   amount: string;
   transferRate: string;
   total_amount?: string;
+  total_amount_source?: string;  // Total amount in source currency (USD) including fees
+  fee_amount?: string;           // Fee amount in source currency
 }
 
 export interface walletState {
