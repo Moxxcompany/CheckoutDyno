@@ -33,11 +33,36 @@ import BTC from "@/assets/Icons/coins/BTC";
 import ETH from "@/assets/Icons/coins/ETH";
 import BNB from "@/assets/Icons/coins/BNB";
 import Image from "next/image";
+import UnderPayment from "@/Components/UI/UnderPayment/Index";
+import OverPayment from "@/Components/UI/OverPayment/Index";
 
 import LTCicon from "../../../assets/Icons/coins/LTC.png";
 import BCHicon from "../../../assets/Icons/coins/BCH.png";
 import DOGEicon from "../../../assets/Icons/coins/DOGE.png";
 import TRXicon from "../../../assets/Icons/coins/TRX.png";
+
+// Payment status types
+type PaymentStatusType = 
+  | "waiting"      // No payment detected yet
+  | "pending"      // Payment detected, awaiting confirmation
+  | "confirmed"    // Payment confirmed successfully
+  | "underpaid"    // Partial payment received
+  | "overpaid"     // More than expected was paid
+  | "expired";     // Payment window expired
+
+interface PartialPaymentData {
+  paidAmount: number;
+  expectedAmount: number;
+  remainingAmount: number;
+  currency: string;
+}
+
+interface OverpaymentData {
+  paidAmount: number;
+  expectedAmount: number;
+  excessAmount: number;
+  currency: string;
+}
 
 interface CryptoTransferProps {
   activeStep: number;
