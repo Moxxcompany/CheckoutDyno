@@ -167,6 +167,11 @@ const CryptoTransfer = ({
   const [skipSelection, setSkipSelection] = useState(false);
   const [currencyError, setCurrencyError] = useState<string | null>(null);
 
+  // Rate caching state
+  const [prefetchedRates, setPrefetchedRates] = useState<currencyData[] | null>(null);
+  const [ratesFetchedAt, setRatesFetchedAt] = useState<number>(0);
+  const [loadingStep, setLoadingStep] = useState<'rates' | 'payment' | null>(null);
+
   // Fetch configured currencies on mount
   useEffect(() => {
     const fetchConfiguredCurrencies = async () => {
