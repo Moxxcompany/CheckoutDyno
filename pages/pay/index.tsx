@@ -125,7 +125,7 @@ const Payment = () => {
         data: query_data
       })
       setWalletState({
-        amount: data.amount,
+        amount: Number(data.amount),
         currency: data.base_currency
       })
       setPaymentMode(data.payment_mode)
