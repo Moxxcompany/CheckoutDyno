@@ -132,6 +132,7 @@ export interface currencyData {
   currency: string;
   amount: string;
   transferRate: string;
+  total_amount?: string;
 }
 
 export interface walletState {
