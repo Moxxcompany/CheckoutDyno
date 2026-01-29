@@ -191,20 +191,6 @@ const Payment = () => {
       })
     }
   }
-      setLinkId(tempToken?.transaction_id || '')
-      setLoading(false)
-    } catch (e: any) {
-      setLoading(false)
-      const message = e?.response?.data?.message ?? e.message
-      dispatch({
-        type: TOAST_SHOW,
-        payload: {
-          message: message,
-          severity: 'error'
-        }
-      })
-    }
-  }
 
   const getCurrencyRate = async (selectedCurrency: string) => {
     try {
