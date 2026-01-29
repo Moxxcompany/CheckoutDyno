@@ -7,36 +7,46 @@ import {
 import {
   Box,
   Button,
-  Card,
-  CardContent,
   Divider,
-  Grid,
   IconButton,
   Menu,
   MenuItem,
   Paper,
-  Select,
-  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import Image from "next/image";
 import CurrencyBitcoinIcon from "@mui/icons-material/CurrencyBitcoin";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
 import CopyIcon from "@/assets/Icons/CopyIcon";
 import UnderPaymentIcon from "@/assets/Icons/UnderPaymentIcon";
 
-const UnderPayment = () => {
-  const [selectedCurrency, setSelectedCurrency] = useState("USD");
+interface UnderPaymentProps {
+  paidAmount: number;
+  expectedAmount: number;
+  remainingAmount: number;
+  currency: string;
+  onPayRemaining: (method: "bank" | "crypto") => void;
+  transactionId?: string;
+}
+
+const UnderPayment = ({
+  paidAmount,
+  expectedAmount,
+  remainingAmount,
+  currency,
+  onPayRemaining,
+  transactionId = "ABC123456",
+}: UnderPaymentProps) => {
+  const [selectedCurrency, setSelectedCurrency] = useState(currency);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const theme = useTheme();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     if (anchorEl) {
-      setAnchorEl(null); // Close if already open
+      setAnchorEl(null);
     } else {
-      setAnchorEl(event.currentTarget); // Open
+      setAnchorEl(event.currentTarget);
     }
   };
 
@@ -54,7 +64,7 @@ const UnderPayment = () => {
       code: "USD",
       label: "United States Dollar (USD)",
       icon: <FlagCircleOutlined sx={{ fontSize: 18 }} />,
-      rate: 1, // Base currency
+      rate: 1,
     },
     {
       code: "EUR",
@@ -71,11 +81,15 @@ const UnderPayment = () => {
   ];
 
   const isOpen = Boolean(anchorEl);
-
-  const basePriceUSD = 129.0;
   const selected = currencyOptions.find((c) => c.code === selectedCurrency);
-  const convertedPrice = (basePriceUSD * (selected?.rate || 1)).toFixed(2);
+  const baseRate = currencyOptions.find((c) => c.code === currency)?.rate || 1;
+  const targetRate = selected?.rate || 1;
+  const convertedRemaining = ((remainingAmount / baseRate) * targetRate).toFixed(2);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleCopyTransactionId = () => {
+    navigator.clipboard.writeText(transactionId);
+  };
 
   return (
     <>
@@ -143,12 +157,11 @@ const UnderPayment = () => {
                 fontSize={16}
                 color="#515151"
                 fontFamily="Space Grotesk"
-
                 sx={{
                   fontSize: {
-                    xs: "12px", // for small screens
+                    xs: "12px",
                     sm: "14px",
-                    md: "16px", // default
+                    md: "16px",
                   },
                 }}
               >
@@ -161,16 +174,15 @@ const UnderPayment = () => {
                 color="#515151"
                 fontSize={16}
                 fontFamily="Space Grotesk"
-
                 sx={{
                   fontSize: {
-                    xs: "12px", // for small screens
+                    xs: "12px",
                     sm: "14px",
-                    md: "16px", // default
+                    md: "16px",
                   },
                 }}
               >
-                120.00 USD
+                {paidAmount.toFixed(2)} {currency}
               </Typography>
             </Box>
 
@@ -178,7 +190,6 @@ const UnderPayment = () => {
               display="flex"
               justifyContent="space-between"
               alignItems="center"
-              // py={2}
             >
               <Typography
                 variant="subtitle2"
@@ -188,9 +199,9 @@ const UnderPayment = () => {
                 fontFamily="Space Grotesk"
                 sx={{
                   fontSize: {
-                    xs: "12px", // for small screens
+                    xs: "12px",
                     sm: "18px",
-                    md: "20px", // default
+                    md: "20px",
                   },
                 }}
               >
@@ -207,7 +218,7 @@ const UnderPayment = () => {
                   cursor: "pointer",
                   borderColor: "transparent",
                   "&:hover": {
-                    borderColor: "#737373", // or any hover color
+                    borderColor: "#737373",
                   },
                 }}
                 onClick={handleClick}
@@ -217,17 +228,16 @@ const UnderPayment = () => {
                   fontWeight={400}
                   fontFamily="Space Grotesk"
                   fontSize={25}
-                color="#000"
-
+                  color="#000"
                   sx={{
                     fontSize: {
-                      xs: "12px", // for small screens
+                      xs: "12px",
                       sm: "18px",
-                      md: "20px", // default
+                      md: "20px",
                     },
                   }}
                 >
-                  {convertedPrice} {selected?.code}
+                  {convertedRemaining} {selected?.code}
                 </Typography>
                 {isOpen ? (
                   <ArrowDropUp fontSize="small" />
@@ -246,10 +256,10 @@ const UnderPayment = () => {
                     },
                   }}
                 >
-                  {currencyOptions.map((currency) => (
+                  {currencyOptions.map((currencyOpt) => (
                     <MenuItem
-                      key={currency.code}
-                      onClick={(e) => handleSelect(e, currency.code)}
+                      key={currencyOpt.code}
+                      onClick={(e) => handleSelect(e, currencyOpt.code)}
                       sx={{
                         px: {
                           xs: 1.5,
@@ -264,17 +274,17 @@ const UnderPayment = () => {
                       }}
                     >
                       <Box display="flex" alignItems="center" gap={1}>
-                        {currency.icon}
+                        {currencyOpt.icon}
                         <Typography
                           sx={{
                             fontSize: {
-                              xs: "14px", // for small screens
+                              xs: "14px",
                               sm: "18px",
-                              md: "20px", // default
+                              md: "20px",
                             },
                           }}
                         >
-                          {currency.label}
+                          {currencyOpt.label}
                         </Typography>
                       </Box>
                     </MenuItem>
@@ -290,38 +300,28 @@ const UnderPayment = () => {
                 fullWidth
                 variant="outlined"
                 startIcon={<AssuredWorkloadIcon />}
-                onClick={() => {
-                  // setActiveStep(1);
-                  // setTransferMethod("bank");
-                }}
+                onClick={() => onPayRemaining("bank")}
                 sx={{
                   borderColor: "#4F46E5",
                   color: "#4F46E5",
                   textTransform: "none",
                   fontFamily: "Space Grotesk",
                   borderRadius: 30,
-
-                  // Responsive padding
                   py: {
-                    xs: 1.2, // ~10px
+                    xs: 1.2,
                     sm: 1.5,
-                    md: 2, // default
+                    md: 2,
                   },
-
-                  // Responsive font size
                   fontSize: {
                     xs: "14px",
                     sm: "16px",
                     md: "18px",
                   },
-
-                  // Optional: Responsive minHeight for better visual spacing
                   minHeight: {
                     xs: 40,
                     sm: 48,
                     md: 56,
                   },
-
                   "&:hover": {
                     backgroundColor: "#EEF2FF",
                     borderColor: "#4F46E5",
@@ -335,38 +335,28 @@ const UnderPayment = () => {
                 fullWidth
                 variant="outlined"
                 startIcon={<CurrencyBitcoinIcon />}
-                onClick={() => {
-                  // setActiveStep(1);
-                  // setTransferMethod("crypto");
-                }}
+                onClick={() => onPayRemaining("crypto")}
                 sx={{
                   borderColor: "#10B981",
                   color: "#10B981",
                   textTransform: "none",
                   borderRadius: 30,
                   fontFamily: "Space Grotesk",
-
-                  // Responsive vertical padding
                   py: {
-                    xs: 1.2, // ~10px
+                    xs: 1.2,
                     sm: 1.5,
                     md: 2,
                   },
-
-                  // Responsive font size
                   fontSize: {
                     xs: "14px",
                     sm: "16px",
                     md: "18px",
                   },
-
-                  // Optional: consistent height across devices
                   minHeight: {
                     xs: 40,
                     sm: 48,
                     md: 56,
                   },
-
                   "&:hover": {
                     backgroundColor: "#ECFDF5",
                     borderColor: "#10B981",
@@ -381,10 +371,8 @@ const UnderPayment = () => {
           <Box
             display="flex"
             justifyContent="space-between"
-            // alignItems='center'
             mt={3}
           >
-            {/* Left text */}
             <Typography
               variant="caption"
               color="#515151"
@@ -395,7 +383,6 @@ const UnderPayment = () => {
               If you need to continue later, save your {"\n"} Transaction ID:
             </Typography>
 
-            {/* Right part: ID and copy icon */}
             <Box display="flex" alignItems="center" gap={1}>
               <Typography
                 variant="caption"
@@ -403,11 +390,12 @@ const UnderPayment = () => {
                 fontSize={12}
                 color="#515151"
               >
-                #ABC123456
+                #{transactionId}
               </Typography>
 
               <IconButton
                 size="small"
+                onClick={handleCopyTransactionId}
                 sx={{
                   bgcolor: "#EEF2FF",
                   p: 0.5,
