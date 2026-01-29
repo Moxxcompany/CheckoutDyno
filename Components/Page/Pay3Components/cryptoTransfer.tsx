@@ -232,6 +232,7 @@ const CryptoTransfer = ({
     };
     
     fetchConfiguredCurrencies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Prefetch currency rates when component mounts
@@ -542,7 +543,8 @@ const CryptoTransfer = ({
     }, 15000);
 
     return () => clearInterval(pollInterval);
-  }, [selectedCrypto, cryptoDetails?.address]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCrypto, cryptoDetails?.address, dispatch, selectedNetwork, walletState?.currency]);
 
   // const handleVerify = async () => {
   //   try {

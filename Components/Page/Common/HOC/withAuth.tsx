@@ -19,7 +19,7 @@ const withAuth = (WrappedComponent: any) => {
       }
 
       // Router.replace("/maintenance");
-    }, [Router.pathname]);
+    }, [Router.pathname, Router]);
 
     return accessToken ? <WrappedComponent {...props} /> : <Loading />;
   };
