@@ -368,6 +368,7 @@ const CryptoTransfer = ({
       dispatch({ type: TOAST_SHOW, payload: { message, severity: "error" } });
     } finally {
       setLoading(false);
+      setLoadingStep(null);
     }
   };
 
