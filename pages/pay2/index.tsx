@@ -76,6 +76,7 @@ const Payment = () => {
     ) {
       initiateGoogleApplyPayTransfer();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paymentType]);
 
   useEffect(() => {
@@ -84,6 +85,7 @@ const Payment = () => {
     } else {
       setLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query]);
 
   const getQueryData = async () => {
