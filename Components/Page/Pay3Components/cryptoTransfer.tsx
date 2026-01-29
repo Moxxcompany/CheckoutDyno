@@ -169,7 +169,7 @@ const CryptoTransfer = ({
         setLoadingCurrencies(true);
         setCurrencyError(null);
         
-        const response = await axiosBaseApi.get("/wallet/configured-currencies");
+        const response = await axiosBaseApi.get("/pay/configured-currencies");
         const data = response?.data?.data || response?.data;
         
         const configuredCurrencies: string[] = data?.configured_currencies || [];
