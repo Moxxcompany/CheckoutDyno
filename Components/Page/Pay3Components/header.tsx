@@ -212,7 +212,7 @@ const Header = ({
                 <Avatar
                   sx={{ bgcolor: 'white', color: '#2b3bcf', width: 48, height: 48 }}
                 >
-                  <img src={User.src} alt='User' width={28} height={28} />
+                  <Image src={User.src} alt='User' width={28} height={28} />
                 </Avatar>
                 <Box
                   sx={{

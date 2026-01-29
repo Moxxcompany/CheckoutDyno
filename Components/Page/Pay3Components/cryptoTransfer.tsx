@@ -930,6 +930,7 @@ const CryptoTransfer = ({
                       src={cryptoDetails?.qr_code}
                       width={"100%"}
                       height={"100%"}
+                      alt="Payment QR Code"
                     />
                   )}
                 </Box>
