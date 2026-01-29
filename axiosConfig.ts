@@ -1,8 +1,10 @@
 import axios from "axios";
+
 const apiBaseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 console.log("baseUrl", apiBaseUrl);
+
 const axiosBaseApi = axios.create({
-  baseURL: apiBaseUrl + "api/",
+  baseURL: new URL('/api/', apiBaseUrl).href,
   headers: {
     "Content-Type": "application/json",
   },
