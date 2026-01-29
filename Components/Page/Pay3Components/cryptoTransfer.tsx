@@ -71,6 +71,9 @@ interface CryptoTransferProps {
   feePayer?: string;
 }
 
+// Cache duration for rate prefetching
+const RATE_CACHE_DURATION_MS = 30000; // 30 seconds
+
 const cryptoOptions = [
   {
     value: "USDT",
