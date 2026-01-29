@@ -161,17 +161,20 @@ const Payment = () => {
       setLinkId(tempToken?.transaction_id || '')
       
       // Fetch rates with fees immediately after getting initial data
-      if (data.amount && data.base_currency) {
+      const amount = Number(data.amount)
+      if (amount && data.base_currency) {
         try {
           const ratesResponse = await axiosBaseApi.post('/pay/getCurrencyRates', {
             source: data.base_currency,
-            amount: data.amount,
+            amount: amount,
             currencyList: [data.base_currency],
             fixedDecimal: false,
             fee_payer: data.fee_payer || undefined
           });
+          console.log('Rates response:', ratesResponse?.data);
           if (ratesResponse?.data?.data && ratesResponse.data.data[0]) {
             setCurrencyRates(ratesResponse.data.data[0]);
+            console.log('Set currencyRates to:', ratesResponse.data.data[0]);
           }
         } catch (rateError: any) {
           console.log('Failed to fetch initial rates:', rateError?.message);
