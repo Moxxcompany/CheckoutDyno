@@ -183,6 +183,27 @@ const Payment = () => {
     }
   }
 
+  // Fetch rates for the source currency to get total with fees
+  const getCurrencyRateWithFees = async (sourceCurrency: string) => {
+    try {
+      const {
+        data: { data }
+      } = await axiosBaseApi.post('/pay/getCurrencyRates', {
+        source: sourceCurrency,
+        amount: walletState?.amount,
+        currencyList: [sourceCurrency],
+        fixedDecimal: false,
+        fee_payer: feePayer
+      })
+      if (data && data[0]) {
+        setCurrencyRates(data[0])
+      }
+    } catch (e: any) {
+      // Silent fail - will show base amount
+      console.log('Failed to fetch rates with fees:', e?.message)
+    }
+  }
+
   const initiateGoogleApplyPayTransfer = async () => {
     const finalPayload = {
       paymentType,
