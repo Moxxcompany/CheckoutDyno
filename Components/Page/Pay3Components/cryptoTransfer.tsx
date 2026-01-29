@@ -617,12 +617,56 @@ const CryptoTransfer = ({
         </Box>
 
         <FormControl fullWidth>
+          {loadingCurrencies ? (
+            <Box 
+              display="flex" 
+              alignItems="center" 
+              justifyContent="center" 
+              py={2}
+              border="1px solid #737373"
+              borderRadius="10px"
+            >
+              <CircularProgress size={24} sx={{ color: "#444CE7" }} />
+              <Typography ml={2} fontFamily="Space Grotesk" color="#515151">
+                Loading currencies...
+              </Typography>
+            </Box>
+          ) : currencyError && filteredCryptoOptions.length === 0 ? (
+            <Box 
+              display="flex" 
+              alignItems="center" 
+              justifyContent="center" 
+              py={2}
+              border="1px solid #ef4444"
+              borderRadius="10px"
+              bgcolor="#fef2f2"
+            >
+              <Typography fontFamily="Space Grotesk" color="#ef4444">
+                No currencies configured. Please contact support.
+              </Typography>
+            </Box>
+          ) : filteredCryptoOptions.length === 0 ? (
+            <Box 
+              display="flex" 
+              alignItems="center" 
+              justifyContent="center" 
+              py={2}
+              border="1px solid #f59e0b"
+              borderRadius="10px"
+              bgcolor="#fffbeb"
+            >
+              <Typography fontFamily="Space Grotesk" color="#b45309">
+                No cryptocurrencies available for payment.
+              </Typography>
+            </Box>
+          ) : (
           <Select
             labelId="crypto-select-label"
             id="crypto-select"
             value={selectedCrypto}
             displayEmpty
             onChange={handleChange}
+            disabled={loadingCurrencies}
             IconComponent={KeyboardArrowDownIcon}
             sx={{
               "& .MuiOutlinedInput-input": {
@@ -693,7 +737,7 @@ const CryptoTransfer = ({
               );
             }}
           >
-            {cryptoOptions?.map((option) => (
+            {filteredCryptoOptions?.map((option) => (
               <MenuItem
                 key={option.value}
                 value={option.value}
@@ -716,6 +760,7 @@ const CryptoTransfer = ({
               </MenuItem>
             ))}
           </Select>
+          )}
         </FormControl>
 
         {isNetwork === "USDT" && (
