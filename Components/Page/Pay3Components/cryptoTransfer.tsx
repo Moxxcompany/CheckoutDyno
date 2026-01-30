@@ -797,6 +797,7 @@ const CryptoTransfer = ({
         expectedAmountUsd={partialPaymentData.expectedAmountUsd}
         remainingAmountUsd={partialPaymentData.remainingAmountUsd}
         baseCurrency={partialPaymentData.baseCurrency}
+        graceMinutes={partialPaymentData.graceMinutes}
       />
     );
   }
