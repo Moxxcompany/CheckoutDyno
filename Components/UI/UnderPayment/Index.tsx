@@ -30,13 +30,35 @@ interface UnderPaymentProps {
   transactionId?: string;
 }
 
+// Helper function to format amounts correctly for crypto vs fiat
+const formatAmount = (amount: number, currency: string): string => {
+  const cryptoCurrencies = [
+    'BTC', 'ETH', 'LTC', 'DOGE', 'TRX', 'BCH', 
+    'USDT', 'USDT-TRC20', 'USDT-ERC20', 'USDC', 'USDC-ERC20'
+  ];
+  
+  const isCrypto = cryptoCurrencies.some(c => 
+    currency.toUpperCase().includes(c)
+  );
+  
+  if (isCrypto) {
+    // For crypto: use up to 8 decimals, remove trailing zeros
+    const formatted = amount.toFixed(8);
+    // Remove trailing zeros but keep at least 2 decimal places
+    return formatted.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+  }
+  
+  // For fiat: use 2 decimal places
+  return amount.toFixed(2);
+};
+
 const UnderPayment = ({
   paidAmount,
   expectedAmount,
   remainingAmount,
   currency,
   onPayRemaining,
-  transactionId = "ABC123456",
+  transactionId = "",
 }: UnderPaymentProps) => {
   const [selectedCurrency, setSelectedCurrency] = useState(currency);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -84,11 +106,13 @@ const UnderPayment = ({
   const selected = currencyOptions.find((c) => c.code === selectedCurrency);
   const baseRate = currencyOptions.find((c) => c.code === currency)?.rate || 1;
   const targetRate = selected?.rate || 1;
-  const convertedRemaining = ((remainingAmount / baseRate) * targetRate).toFixed(2);
+  const convertedRemaining = formatAmount((remainingAmount / baseRate) * targetRate, selected?.code || currency);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleCopyTransactionId = () => {
-    navigator.clipboard.writeText(transactionId);
+    if (transactionId) {
+      navigator.clipboard.writeText(transactionId);
+    }
   };
 
   return (
@@ -138,6 +162,26 @@ const UnderPayment = ({
             Almost there! Please complete the payment.
           </Typography>
 
+          {/* Grace Period Warning */}
+          <Box 
+            bgcolor="#FEF3C7" 
+            borderRadius={2} 
+            p={2} 
+            mb={2}
+            display="flex"
+            alignItems="center"
+            gap={1}
+          >
+            <Typography
+              variant="body2"
+              color="#92400E"
+              fontFamily="Space Grotesk"
+              fontWeight={500}
+            >
+              ⏰ Please complete payment within 30 minutes to use the same address.
+            </Typography>
+          </Box>
+
           <Box
             alignItems="center"
             border="1px solid #E2E8F0"
@@ -182,7 +226,7 @@ const UnderPayment = ({
                   },
                 }}
               >
-                {paidAmount.toFixed(2)} {currency}
+                {formatAmount(paidAmount, currency)} {currency}
               </Typography>
             </Box>
 
@@ -368,45 +412,52 @@ const UnderPayment = ({
             </Box>
           </Box>
 
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            mt={3}
-          >
-            <Typography
-              variant="caption"
-              color="#515151"
-              fontWeight={400}
-              fontSize={12}
-              sx={{ textAlign: "left" }}
+          {transactionId && (
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              mt={3}
             >
-              If you need to continue later, save your {"\n"} Transaction ID:
-            </Typography>
-
-            <Box display="flex" alignItems="center" gap={1}>
               <Typography
                 variant="caption"
+                color="#515151"
                 fontWeight={400}
                 fontSize={12}
-                color="#515151"
+                sx={{ textAlign: "left" }}
               >
-                #{transactionId}
+                If you need to continue later, save your {"\n"} Transaction ID:
               </Typography>
 
-              <IconButton
-                size="small"
-                onClick={handleCopyTransactionId}
-                sx={{
-                  bgcolor: "#EEF2FF",
-                  p: 0.5,
-                  borderRadius: 2,
-                  "&:hover": { bgcolor: "#E0E7FF" },
-                }}
-              >
-                <CopyIcon />
-              </IconButton>
+              <Box display="flex" alignItems="center" gap={1}>
+                <Typography
+                  variant="caption"
+                  fontWeight={400}
+                  fontSize={12}
+                  color="#515151"
+                  sx={{ 
+                    maxWidth: 150, 
+                    overflow: "hidden", 
+                    textOverflow: "ellipsis" 
+                  }}
+                >
+                  #{transactionId.substring(0, 20)}...
+                </Typography>
+
+                <IconButton
+                  size="small"
+                  onClick={handleCopyTransactionId}
+                  sx={{
+                    bgcolor: "#EEF2FF",
+                    p: 0.5,
+                    borderRadius: 2,
+                    "&:hover": { bgcolor: "#E0E7FF" },
+                  }}
+                >
+                  <CopyIcon />
+                </IconButton>
+              </Box>
             </Box>
-          </Box>
+          )}
         </Paper>
       </Box>
     </>

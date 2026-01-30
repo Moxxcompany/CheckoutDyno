@@ -20,16 +20,40 @@ interface OverPaymentProps {
   transactionId?: string;
 }
 
+// Helper function to format amounts correctly for crypto vs fiat
+const formatAmount = (amount: number, currency: string): string => {
+  const cryptoCurrencies = [
+    'BTC', 'ETH', 'LTC', 'DOGE', 'TRX', 'BCH', 
+    'USDT', 'USDT-TRC20', 'USDT-ERC20', 'USDC', 'USDC-ERC20'
+  ];
+  
+  const isCrypto = cryptoCurrencies.some(c => 
+    currency.toUpperCase().includes(c)
+  );
+  
+  if (isCrypto) {
+    // For crypto: use up to 8 decimals, remove trailing zeros
+    const formatted = amount.toFixed(8);
+    // Remove trailing zeros but keep at least 2 decimal places
+    return formatted.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+  }
+  
+  // For fiat: use 2 decimal places
+  return amount.toFixed(2);
+};
+
 const OverPayment = ({
   paidAmount,
   expectedAmount,
   excessAmount,
   currency,
   onGoToWebsite,
-  transactionId = "ABC123456",
+  transactionId = "",
 }: OverPaymentProps) => {
   const handleCopyTransactionId = () => {
-    navigator.clipboard.writeText(transactionId);
+    if (transactionId) {
+      navigator.clipboard.writeText(transactionId);
+    }
   };
 
   return (
@@ -99,11 +123,7 @@ const OverPayment = ({
                 color="#515151"
                 fontFamily="Space Grotesk"
                 sx={{
-                  fontSize: {
-                    xs: "12px",
-                    sm: "14px",
-                    md: "16px",
-                  },
+                  fontSize: { xs: "12px", sm: "14px", md: "16px" },
                 }}
               >
                 Paid:
@@ -116,14 +136,10 @@ const OverPayment = ({
                 fontSize={16}
                 fontFamily="Space Grotesk"
                 sx={{
-                  fontSize: {
-                    xs: "12px",
-                    sm: "14px",
-                    md: "16px",
-                  },
+                  fontSize: { xs: "12px", sm: "14px", md: "16px" },
                 }}
               >
-                {paidAmount.toFixed(2)} {currency}
+                {formatAmount(paidAmount, currency)} {currency}
               </Typography>
             </Box>
 
@@ -139,11 +155,7 @@ const OverPayment = ({
                 color="#515151"
                 fontFamily="Space Grotesk"
                 sx={{
-                  fontSize: {
-                    xs: "12px",
-                    sm: "14px",
-                    md: "16px",
-                  },
+                  fontSize: { xs: "12px", sm: "14px", md: "16px" },
                 }}
               >
                 Total Due:
@@ -156,14 +168,10 @@ const OverPayment = ({
                 fontSize={16}
                 fontFamily="Space Grotesk"
                 sx={{
-                  fontSize: {
-                    xs: "12px",
-                    sm: "14px",
-                    md: "16px",
-                  },
+                  fontSize: { xs: "12px", sm: "14px", md: "16px" },
                 }}
               >
-                {expectedAmount.toFixed(2)} {currency}
+                {formatAmount(expectedAmount, currency)} {currency}
               </Typography>
             </Box>
 
@@ -180,11 +188,7 @@ const OverPayment = ({
                 color="#000"
                 fontFamily="Space Grotesk"
                 sx={{
-                  fontSize: {
-                    xs: "14px",
-                    sm: "16px",
-                    md: "20px",
-                  },
+                  fontSize: { xs: "14px", sm: "16px", md: "20px" },
                 }}
               >
                 Excess:
@@ -197,14 +201,10 @@ const OverPayment = ({
                 fontSize={20}
                 fontFamily="Space Grotesk"
                 sx={{
-                  fontSize: {
-                    xs: "14px",
-                    sm: "16px",
-                    md: "20px",
-                  },
+                  fontSize: { xs: "14px", sm: "16px", md: "20px" },
                 }}
               >
-                {excessAmount.toFixed(2)} {currency}
+                {formatAmount(excessAmount, currency)} {currency}
               </Typography>
             </Box>
 
@@ -263,45 +263,48 @@ const OverPayment = ({
             </Box>
           </Box>
 
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            mt={3}
-          >
-            <Typography
-              variant="caption"
-              color="#515151"
-              fontWeight={400}
-              fontSize={12}
-              sx={{ textAlign: "left" }}
-            >
-              If you need to continue later, save your {"\n"} Transaction ID:
-            </Typography>
-
-            <Box display="flex" alignItems="center" gap={1}>
+          {transactionId && (
+            <Box display="flex" justifyContent="space-between" mt={3}>
               <Typography
                 variant="caption"
+                color="#515151"
                 fontWeight={400}
                 fontSize={12}
-                color="#515151"
+                sx={{ textAlign: "left" }}
               >
-                #{transactionId}
+                Transaction ID:
               </Typography>
 
-              <IconButton
-                size="small"
-                onClick={handleCopyTransactionId}
-                sx={{
-                  bgcolor: "#EEF2FF",
-                  p: 0.5,
-                  borderRadius: 2,
-                  "&:hover": { bgcolor: "#E0E7FF" },
-                }}
-              >
-                <CopyIcon />
-              </IconButton>
+              <Box display="flex" alignItems="center" gap={1}>
+                <Typography
+                  variant="caption"
+                  fontWeight={400}
+                  fontSize={12}
+                  color="#515151"
+                  sx={{ 
+                    maxWidth: 150, 
+                    overflow: "hidden", 
+                    textOverflow: "ellipsis" 
+                  }}
+                >
+                  {transactionId.substring(0, 20)}...
+                </Typography>
+
+                <IconButton
+                  size="small"
+                  onClick={handleCopyTransactionId}
+                  sx={{
+                    bgcolor: "#EEF2FF",
+                    p: 0.5,
+                    borderRadius: 2,
+                    "&:hover": { bgcolor: "#E0E7FF" },
+                  }}
+                >
+                  <CopyIcon />
+                </IconButton>
+              </Box>
             </Box>
-          </Box>
+          )}
         </Paper>
       </Box>
     </>
