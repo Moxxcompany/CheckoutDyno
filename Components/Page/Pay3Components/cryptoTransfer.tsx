@@ -58,6 +58,10 @@ interface PartialPaymentData {
   txId?: string;
   graceMinutes?: number;
   address?: string;
+  paidAmountUsd?: number;
+  expectedAmountUsd?: number;
+  remainingAmountUsd?: number;
+  baseCurrency?: string;
 }
 
 interface OverpaymentData {
@@ -66,6 +70,10 @@ interface OverpaymentData {
   excessAmount: number;
   currency: string;
   txId?: string;
+  paidAmountUsd?: number;
+  expectedAmountUsd?: number;
+  excessAmountUsd?: number;
+  baseCurrency?: string;
 }
 
 interface CryptoTransferProps {
@@ -521,6 +529,10 @@ const CryptoTransfer = ({
               txId: data?.txId || "",
               graceMinutes: data?.grace_period_minutes || 30,
               address: cryptoDetails?.address,
+              paidAmountUsd: data?.paidAmountUsd || 0,
+              expectedAmountUsd: data?.expectedAmountUsd || 0,
+              remainingAmountUsd: data?.remainingAmountUsd || 0,
+              baseCurrency: data?.baseCurrency || "USD",
             });
             clearInterval(pollInterval);
             break;
@@ -531,7 +543,7 @@ const CryptoTransfer = ({
             setIsReceived(true);
             
             // Only show overpayment screen if excess amount > $5 USD
-            const excessUsd = data?.excessAmountUsd || data?.excessAmount || 0;
+            const excessUsd = data?.excessAmountUsd || 0;
             const OVERPAYMENT_THRESHOLD_USD = 5;
             
             if (excessUsd > OVERPAYMENT_THRESHOLD_USD) {
@@ -542,6 +554,10 @@ const CryptoTransfer = ({
                 excessAmount: data?.excessAmount || 0,
                 currency: data?.currency || walletState?.currency || "USD",
                 txId: data?.txId || "",
+                paidAmountUsd: data?.paidAmountUsd || 0,
+                expectedAmountUsd: data?.expectedAmountUsd || 0,
+                excessAmountUsd: data?.excessAmountUsd || 0,
+                baseCurrency: data?.baseCurrency || "USD",
               });
             } else {
               // Minor overpayment (<=$5) - treat as confirmed and redirect
@@ -651,6 +667,10 @@ const CryptoTransfer = ({
         currency={partialPaymentData.currency}
         onPayRemaining={handlePayRemaining}
         transactionId={partialPaymentData.txId}
+        paidAmountUsd={partialPaymentData.paidAmountUsd}
+        expectedAmountUsd={partialPaymentData.expectedAmountUsd}
+        remainingAmountUsd={partialPaymentData.remainingAmountUsd}
+        baseCurrency={partialPaymentData.baseCurrency}
       />
     );
   }
@@ -665,6 +685,10 @@ const CryptoTransfer = ({
         currency={overpaymentData.currency}
         onGoToWebsite={handleOverpaymentGoToWebsite}
         transactionId={overpaymentData.txId}
+        paidAmountUsd={overpaymentData.paidAmountUsd}
+        expectedAmountUsd={overpaymentData.expectedAmountUsd}
+        excessAmountUsd={overpaymentData.excessAmountUsd}
+        baseCurrency={overpaymentData.baseCurrency}
       />
     );
   }
