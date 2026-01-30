@@ -615,6 +615,7 @@ const CryptoTransfer = ({
             setIsReceived(true);
             setIsUrl(redirectUrl);
             setIsPartialPaymentMode(false);  // Reset partial payment mode
+            isPartialPaymentModeRef.current = false;
             setRemainingPaymentInfo(null);    // Clear remaining payment info
             setIsPolling(false); // Stop polling indicator
             clearInterval(pollInterval);
