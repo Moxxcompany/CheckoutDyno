@@ -55,6 +55,9 @@ interface PartialPaymentData {
   expectedAmount: number;
   remainingAmount: number;
   currency: string;
+  txId?: string;
+  graceMinutes?: number;
+  address?: string;
 }
 
 interface OverpaymentData {
@@ -62,6 +65,7 @@ interface OverpaymentData {
   expectedAmount: number;
   excessAmount: number;
   currency: string;
+  txId?: string;
 }
 
 interface CryptoTransferProps {
@@ -483,9 +487,18 @@ const CryptoTransfer = ({
             break;
 
           case "pending":
-            // Payment detected, awaiting confirmation
+            // Payment detected, awaiting blockchain confirmation
             setIsStart(true);
             setIsReceived(false);
+            // Show user feedback that payment was detected
+            dispatch({
+              type: TOAST_SHOW,
+              payload: {
+                message: "Payment detected! Waiting for blockchain confirmation...",
+                severity: "info",
+              },
+            });
+            // Don't clear interval - keep polling until confirmed/failed
             break;
 
           case "confirmed":
@@ -505,6 +518,9 @@ const CryptoTransfer = ({
               expectedAmount: data?.expectedAmount || 0,
               remainingAmount: data?.remainingAmount || 0,
               currency: data?.currency || walletState?.currency || "USD",
+              txId: data?.txId || "",
+              graceMinutes: data?.grace_period_minutes || 30,
+              address: cryptoDetails?.address,
             });
             clearInterval(pollInterval);
             break;
@@ -518,6 +534,7 @@ const CryptoTransfer = ({
               expectedAmount: data?.expectedAmount || 0,
               excessAmount: data?.excessAmount || 0,
               currency: data?.currency || walletState?.currency || "USD",
+              txId: data?.txId || "",
             });
             setIsUrl(redirectUrl);
             clearInterval(pollInterval);
@@ -589,16 +606,19 @@ const CryptoTransfer = ({
 
   // Handler for paying remaining amount in underpayment scenario
   const handlePayRemaining = (method: "bank" | "crypto") => {
-    // Reset states and allow user to pay remaining
-    setPaymentStatus("waiting");
-    setPartialPaymentData(null);
-    if (method === "bank") {
-      setActiveStep(1);
-      // User would need to select bank transfer method
-    } else {
-      // Stay on crypto, reset for new payment
-      setIsStart(false);
+    if (method === "crypto") {
+      // IMPORTANT: Keep the same address for partial payment completion
+      // Do NOT regenerate address or clear cryptoDetails
+      setPaymentStatus("waiting");
+      setIsStart(true);   // Show QR code again with SAME address
       setIsReceived(false);
+      // Keep partialPaymentData so we retain the address
+      // The same temp address will accept the remaining payment
+    } else {
+      // Bank transfer - reset for different payment method
+      setPaymentStatus("waiting");
+      setPartialPaymentData(null);
+      setActiveStep(1);
     }
   };
 
@@ -616,6 +636,7 @@ const CryptoTransfer = ({
         remainingAmount={partialPaymentData.remainingAmount}
         currency={partialPaymentData.currency}
         onPayRemaining={handlePayRemaining}
+        transactionId={partialPaymentData.txId}
       />
     );
   }
@@ -629,6 +650,7 @@ const CryptoTransfer = ({
         excessAmount={overpaymentData.excessAmount}
         currency={overpaymentData.currency}
         onGoToWebsite={handleOverpaymentGoToWebsite}
+        transactionId={overpaymentData.txId}
       />
     );
   }
