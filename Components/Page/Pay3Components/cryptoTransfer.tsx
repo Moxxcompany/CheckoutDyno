@@ -585,6 +585,14 @@ const CryptoTransfer = ({
           setTimeLeft(data.remaining_seconds);
         }
 
+        // Before processing any status, check if we received a final status
+        // Final statuses take precedence over intermediate states
+        if (["confirmed", "overpaid"].includes(status)) {
+          // Clear any partial payment UI immediately
+          setPartialPaymentData(null);
+          setHasCompletedPayment(true);
+        }
+
         setPaymentStatus(status);
 
         switch (status) {
@@ -625,6 +633,20 @@ const CryptoTransfer = ({
             break;
 
           case "underpaid":
+            // Don't go back to underpaid if we've already completed
+            if (hasCompletedPayment) {
+              break;
+            }
+            
+            // Double-check this isn't stale data from a completed payment
+            if (data?.completedAt) {
+              // Payment was actually completed - treat as confirmed
+              setPaymentStatus("confirmed");
+              setIsStart(true);
+              setIsReceived(true);
+              break;
+            }
+            
             // Partial payment received
             setIsStart(true);
             setIsReceived(false);
