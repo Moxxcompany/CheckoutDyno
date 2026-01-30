@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { ArrowBack } from "@mui/icons-material";
 import {
   Box,
@@ -209,6 +209,7 @@ const CryptoTransfer = ({
 
   // Track if we're in partial payment completion mode
   const [isPartialPaymentMode, setIsPartialPaymentMode] = useState(false);
+  const isPartialPaymentModeRef = useRef(false);
   const [remainingPaymentInfo, setRemainingPaymentInfo] = useState<{
     remainingAmount: number;
     remainingAmountUsd: number;
