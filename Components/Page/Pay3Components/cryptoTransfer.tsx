@@ -175,6 +175,9 @@ const CryptoTransfer = ({
   // Polling trigger to restart polling after underpayment
   const [pollingTrigger, setPollingTrigger] = useState(0);
   
+  // Polling active indicator
+  const [isPolling, setIsPolling] = useState(false);
+  
   // Copy feedback state
   const [showCopyToast, setShowCopyToast] = useState(false);
   
@@ -542,6 +545,7 @@ const CryptoTransfer = ({
 
     setIsReceived(false);
     setPaymentStatus("waiting");
+    setIsPolling(true); // Start polling indicator
     
     // Get appropriate polling interval based on chain
     const pollingIntervalMs = getPollingInterval(selectedCrypto, selectedNetwork);
@@ -606,6 +610,7 @@ const CryptoTransfer = ({
             setIsUrl(redirectUrl);
             setIsPartialPaymentMode(false);  // Reset partial payment mode
             setRemainingPaymentInfo(null);    // Clear remaining payment info
+            setIsPolling(false); // Stop polling indicator
             clearInterval(pollInterval);
             break;
 
@@ -627,6 +632,7 @@ const CryptoTransfer = ({
               remainingAmountUsd: data?.remainingAmountUsd || 0,
               baseCurrency: data?.baseCurrency || "USD",
             });
+            setIsPolling(false); // Stop polling indicator
             clearInterval(pollInterval);
             break;
 
@@ -660,6 +666,7 @@ const CryptoTransfer = ({
               }
             }
             setIsUrl(redirectUrl);
+            setIsPolling(false); // Stop polling indicator
             clearInterval(pollInterval);
             break;
 
@@ -667,6 +674,7 @@ const CryptoTransfer = ({
             // Payment window expired
             setIsStart(false);
             setIsReceived(false);
+            setIsPolling(false); // Stop polling indicator
             clearInterval(pollInterval);
             dispatch({
               type: TOAST_SHOW,
@@ -693,7 +701,10 @@ const CryptoTransfer = ({
       }
     }, pollingIntervalMs);
 
-    return () => clearInterval(pollInterval);
+    return () => {
+      clearInterval(pollInterval);
+      setIsPolling(false); // Clean up polling indicator
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCrypto, cryptoDetails?.address, dispatch, selectedNetwork, walletState?.currency, pollingTrigger]);
 
