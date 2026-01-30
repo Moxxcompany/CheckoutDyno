@@ -1,44 +1,28 @@
-# Project: Dyno Checkout Frontend
+# Project PRD - Payment Application
 
 ## Original Problem Statement
-Set up environment variables and install dependencies for Next.js payment checkout application.
+Set up and install all necessary dependencies for Next.js payment application.
 
 ## Architecture
 - **Framework**: Next.js 14 with TypeScript
+- **UI Library**: Material UI (MUI) 5
 - **State Management**: Redux Toolkit + Redux Saga
-- **UI**: MUI (Material-UI) + Emotion
-- **Payment**: Custom payment integration with credit cards
+- **Styling**: Emotion, Custom CSS
+- **HTTP Client**: Axios
+- **Validation**: Yup
 
 ## What's Been Implemented
-- [Jan 2026] Environment setup: `.env.local` configured with all required variables
-- [Jan 2026] Dependencies installed via yarn
+- [2026-01-30] Initial setup - installed all npm dependencies (457 packages)
+- Dev server running on port 3000
 
-## Core Requirements
-- Payment checkout flow
-- Credit card handling
-- Integration with external server API
-- Google OAuth support
-- Telegram bot integration
+## Core Features (Existing)
+- Payment layouts and containers
+- Redux store configuration
+- Helper utilities (encryption, validation)
+- Custom hooks (useTokenData, useWindow)
+- Credit card components
 
-## Environment Variables
-- NEXT_PUBLIC_BASE_URL
-- NEXT_PUBLIC_CYPHER_KEY
-- NEXT_PUBLIC_GOOGLE_CLIENT_ID
-- NEXT_PUBLIC_GOOGLE_CLIENT_SECRET
-- NEXT_PUBLIC_SERVER_URL
-- NEXT_PUBLIC_TELEGRAM_BOT_TOKEN
-- NEXTAUTH_SECRET
-
-## Next Tasks
-- Test development server runs correctly
-- Verify API connectivity to Railway backend
-
-## Updates - Jan 2026
-
-### Bug Fixes Implemented
-1. **Fee Calculation Fix**: Added `fee_payer` parameter to `getCurrencyRates` API call in crypto transfer flow. Now uses `total_amount` when customer pays fees.
-2. **Link ID Fix**: Replaced hardcoded `#ABC123456` with dynamic transaction ID from JWT token.
-
-### Files Modified
-- `/app/pages/pay/index.tsx` - Added feePayer and linkId state management
-- `/app/Components/Page/Pay3Components/cryptoTransfer.tsx` - Added feePayer prop and API parameter
+## Backlog / Next Tasks
+- P0: Fix home page JSX syntax
+- P1: Implement payment flows
+- P2: Add backend integration if needed
