@@ -635,8 +635,8 @@ const CryptoTransfer = ({
             break;
 
           case "underpaid":
-            // Don't go back to underpaid if we've already completed
-            if (hasCompletedPayment) {
+            // Don't go back to underpaid if we've already completed (use ref to avoid stale closure)
+            if (hasCompletedPaymentRef.current) {
               break;
             }
             
