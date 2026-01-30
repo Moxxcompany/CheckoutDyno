@@ -626,8 +626,8 @@ const CryptoTransfer = ({
             setIsReceived(false);
             
             // If already in partial payment mode, don't show underpayment screen again
-            // Just keep polling for the remaining payment
-            if (isPartialPaymentMode) {
+            // Just keep polling for the remaining payment (use ref to avoid dependency issues)
+            if (isPartialPaymentModeRef.current) {
               // Stay on payment screen, don't redirect to underpayment selection
               break;
             }
