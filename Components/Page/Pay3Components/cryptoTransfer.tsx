@@ -180,6 +180,7 @@ const CryptoTransfer = ({
   
   // Track if we've seen a final status to prevent flicker
   const [hasCompletedPayment, setHasCompletedPayment] = useState(false);
+  const hasCompletedPaymentRef = useRef(false);
   
   // Merchant settings from backend (with defaults)
   const [merchantSettings, setMerchantSettings] = useState<MerchantSettings>({
