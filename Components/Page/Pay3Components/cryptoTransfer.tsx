@@ -719,7 +719,7 @@ const CryptoTransfer = ({
       setIsPolling(false); // Clean up polling indicator
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCrypto, cryptoDetails?.address, dispatch, selectedNetwork, walletState?.currency, pollingTrigger]);
+  }, [selectedCrypto, cryptoDetails?.address, dispatch, selectedNetwork, walletState?.currency, pollingTrigger, isPartialPaymentMode]);
 
   // const handleVerify = async () => {
   //   try {
