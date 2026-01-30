@@ -780,6 +780,7 @@ const CryptoTransfer = ({
         });
         
         setIsPartialPaymentMode(true);
+        isPartialPaymentModeRef.current = true;
       }
       
       setPaymentStatus("waiting");
