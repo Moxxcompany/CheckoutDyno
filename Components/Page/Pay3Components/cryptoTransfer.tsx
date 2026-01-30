@@ -623,6 +623,14 @@ const CryptoTransfer = ({
             // Partial payment received
             setIsStart(true);
             setIsReceived(false);
+            
+            // If already in partial payment mode, don't show underpayment screen again
+            // Just keep polling for the remaining payment
+            if (isPartialPaymentMode) {
+              // Stay on payment screen, don't redirect to underpayment selection
+              break;
+            }
+            
             setPartialPaymentData({
               paidAmount: data?.paidAmount || 0,
               expectedAmount: data?.expectedAmount || 0,
