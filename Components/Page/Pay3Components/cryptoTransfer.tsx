@@ -186,6 +186,14 @@ const CryptoTransfer = ({
   // Track which fee_payer value was used for cached rates
   const [cachedFeePayer, setCachedFeePayer] = useState<string>('');
 
+  // Track if we're in partial payment completion mode
+  const [isPartialPaymentMode, setIsPartialPaymentMode] = useState(false);
+  const [remainingPaymentInfo, setRemainingPaymentInfo] = useState<{
+    remainingAmount: number;
+    remainingAmountUsd: number;
+    currency: string;
+  } | null>(null);
+
   // Fetch configured currencies on mount
   useEffect(() => {
     const fetchConfiguredCurrencies = async () => {
@@ -514,6 +522,8 @@ const CryptoTransfer = ({
             setIsStart(true);
             setIsReceived(true);
             setIsUrl(redirectUrl);
+            setIsPartialPaymentMode(false);  // Reset partial payment mode
+            setRemainingPaymentInfo(null);    // Clear remaining payment info
             clearInterval(pollInterval);
             break;
 
@@ -639,15 +649,41 @@ const CryptoTransfer = ({
     if (method === "crypto") {
       // IMPORTANT: Keep the same address for partial payment completion
       // Do NOT regenerate address or clear cryptoDetails
+      
+      if (partialPaymentData) {
+        // Store remaining payment info for display
+        setRemainingPaymentInfo({
+          remainingAmount: partialPaymentData.remainingAmount,
+          remainingAmountUsd: partialPaymentData.remainingAmountUsd || 0,
+          currency: partialPaymentData.currency,
+        });
+        
+        // Update selectedCurrency to show REMAINING amount
+        setSelectedCurrency((prev) => {
+          if (!prev) return prev;
+          return {
+            ...prev,
+            currency: partialPaymentData.currency,
+            amount: partialPaymentData.remainingAmount,
+            total_amount: partialPaymentData.remainingAmount,
+            total_amount_usd: partialPaymentData.remainingAmountUsd || 0,
+            total_amount_source: partialPaymentData.remainingAmountUsd || 0,
+          } as currencyData;
+        });
+        
+        setIsPartialPaymentMode(true);
+      }
+      
       setPaymentStatus("waiting");
-      setIsStart(true);   // Show QR code again with SAME address
+      setIsStart(false);  // Show "To Pay" card with remaining amount
       setIsReceived(false);
-      // Keep partialPaymentData so we retain the address
-      // The same temp address will accept the remaining payment
+      setPartialPaymentData(null); // Clear to exit UnderPayment screen
     } else {
       // Bank transfer - reset for different payment method
       setPaymentStatus("waiting");
       setPartialPaymentData(null);
+      setIsPartialPaymentMode(false);
+      setRemainingPaymentInfo(null);
       setActiveStep(1);
     }
   };
@@ -1072,9 +1108,30 @@ const CryptoTransfer = ({
                   padding="18px 21px"
                   borderRadius="10px"
                   bgcolor="#FFFFFF"
-                  height={"129px"}
+                  height={"auto"}
+                  minHeight={"129px"}
                   sx={{ opacity: isStart ? 0.5 : 1 }}
                 >
+                  {/* Show "Remaining Balance" header if in partial payment mode */}
+                  {isPartialPaymentMode && (
+                    <Box 
+                      bgcolor="#FEF3C7" 
+                      borderRadius={1} 
+                      px={1} 
+                      py={0.5} 
+                      mb={1}
+                      display="inline-block"
+                    >
+                      <Typography
+                        variant="caption"
+                        color="#92400E"
+                        fontFamily="Space Grotesk"
+                        fontWeight={500}
+                      >
+                        Remaining Balance
+                      </Typography>
+                    </Box>
+                  )}
                   <Box display="flex" gap={2} justifyContent="space-between">
                     <Typography
                       variant="h6"
@@ -1096,12 +1153,13 @@ const CryptoTransfer = ({
                           alignItems="center"
                           gap={1}
                           fontFamily="Space Grotesk"
-                          // lineHeight='130%'
                           whiteSpace="nowrap"
                           color="#1A1919"
                         >
                           {formatAmount(
-                            selectedCurrency?.total_amount || selectedCurrency?.amount || 0,
+                            isPartialPaymentMode && remainingPaymentInfo
+                              ? remainingPaymentInfo.remainingAmount
+                              : (selectedCurrency?.total_amount || selectedCurrency?.amount || 0),
                             selectedCurrency?.currency || ""
                           )}{" "}
                           {selectedCurrency?.currency}
@@ -1114,7 +1172,11 @@ const CryptoTransfer = ({
                           fontSize="14px"
                           fontWeight={500}
                         >
-                          ={Number(selectedCurrency?.total_amount_usd || selectedCurrency?.total_amount_source || walletState?.amount)?.toFixed(2)}{" "}
+                          ={Number(
+                            isPartialPaymentMode && remainingPaymentInfo
+                              ? remainingPaymentInfo.remainingAmountUsd
+                              : (selectedCurrency?.total_amount_usd || selectedCurrency?.total_amount_source || walletState?.amount)
+                          )?.toFixed(2)}{" "}
                           {walletState?.currency}
                         </Typography>
                       </Box>
@@ -1166,7 +1228,6 @@ const CryptoTransfer = ({
                   borderRadius={"12px"}
                 >
                   <Paper
-                    // elevation={1}
                     sx={{
                       bgcolor: "#EBFFF6",
                       borderRadius: "12px",
@@ -1182,7 +1243,9 @@ const CryptoTransfer = ({
                       fontFamily="Space Grotesk"
                     >
                       {formatAmount(
-                        selectedCurrency?.total_amount || selectedCurrency?.amount || 0,
+                        isPartialPaymentMode && remainingPaymentInfo
+                          ? remainingPaymentInfo.remainingAmount
+                          : (selectedCurrency?.total_amount || selectedCurrency?.amount || 0),
                         selectedCurrency?.currency || ""
                       )}{" "}
                       {selectedCurrency?.currency}
