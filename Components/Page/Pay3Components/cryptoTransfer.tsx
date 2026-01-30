@@ -178,6 +178,9 @@ const CryptoTransfer = ({
   const [partialPaymentData, setPartialPaymentData] = useState<PartialPaymentData | null>(null);
   const [overpaymentData, setOverpaymentData] = useState<OverpaymentData | null>(null);
   
+  // Track if we've seen a final status to prevent flicker
+  const [hasCompletedPayment, setHasCompletedPayment] = useState(false);
+  
   // Merchant settings from backend (with defaults)
   const [merchantSettings, setMerchantSettings] = useState<MerchantSettings>({
     overpayment_threshold_usd: 5,  // Default $5, will be updated from backend
