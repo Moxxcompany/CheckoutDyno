@@ -529,13 +529,27 @@ const CryptoTransfer = ({
             // More than expected was paid
             setIsStart(true);
             setIsReceived(true);
-            setOverpaymentData({
-              paidAmount: data?.paidAmount || 0,
-              expectedAmount: data?.expectedAmount || 0,
-              excessAmount: data?.excessAmount || 0,
-              currency: data?.currency || walletState?.currency || "USD",
-              txId: data?.txId || "",
-            });
+            
+            // Only show overpayment screen if excess amount > $5 USD
+            const excessUsd = data?.excessAmountUsd || data?.excessAmount || 0;
+            const OVERPAYMENT_THRESHOLD_USD = 5;
+            
+            if (excessUsd > OVERPAYMENT_THRESHOLD_USD) {
+              // Significant overpayment - show overpayment screen
+              setOverpaymentData({
+                paidAmount: data?.paidAmount || 0,
+                expectedAmount: data?.expectedAmount || 0,
+                excessAmount: data?.excessAmount || 0,
+                currency: data?.currency || walletState?.currency || "USD",
+                txId: data?.txId || "",
+              });
+            } else {
+              // Minor overpayment (<=$5) - treat as confirmed and redirect
+              setIsUrl(redirectUrl);
+              if (redirectUrl) {
+                window.location.replace(redirectUrl);
+              }
+            }
             setIsUrl(redirectUrl);
             clearInterval(pollInterval);
             break;
