@@ -1201,6 +1201,31 @@ const CryptoTransfer = ({
                     to this address, or your funds will be lost.
                   </Typography>
                 </Box>
+                
+                {/* Polling indicator */}
+                {isPolling && !isStart && (
+                  <Box 
+                    display="flex" 
+                    alignItems="center" 
+                    justifyContent="center" 
+                    gap={1}
+                    mt={2}
+                    bgcolor="#F0FDF4"
+                    borderRadius={2}
+                    py={1}
+                    px={2}
+                  >
+                    <CircularProgress size={14} sx={{ color: "#10B981" }} />
+                    <Typography
+                      variant="caption"
+                      color="#166534"
+                      fontFamily="Space Grotesk"
+                      fontWeight={500}
+                    >
+                      Monitoring for incoming payment...
+                    </Typography>
+                  </Box>
+                )}
               </Box>
 
               {!isRecived && (
