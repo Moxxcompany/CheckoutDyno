@@ -159,7 +159,7 @@ const CryptoTransfer = ({
   const [loading, setLoading] = useState(false);
 
   const [isRecived, setIsReceived] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(14 * 60 + 21);
+  const [timeLeft, setTimeLeft] = useState(30 * 60); // Default 30 minutes, will be updated from backend
 
   const [isUrl, setIsUrl] = useState<string | null>("");
 
@@ -171,6 +171,18 @@ const CryptoTransfer = ({
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatusType>("waiting");
   const [partialPaymentData, setPartialPaymentData] = useState<PartialPaymentData | null>(null);
   const [overpaymentData, setOverpaymentData] = useState<OverpaymentData | null>(null);
+
+  // Polling trigger to restart polling after underpayment
+  const [pollingTrigger, setPollingTrigger] = useState(0);
+  
+  // Copy feedback state
+  const [showCopyToast, setShowCopyToast] = useState(false);
+  
+  // Merchant settings (should come from backend)
+  const [merchantSettings, setMerchantSettings] = useState({
+    overpaymentThresholdUsd: 5,
+    gracePeriodMinutes: 30,
+  });
 
   // State for configured currencies
   const [availableCryptos, setAvailableCryptos] = useState<string[]>([]);
@@ -307,7 +319,51 @@ const CryptoTransfer = ({
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(cryptoDetails?.address);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setShowCopyToast(true);
+    dispatch({
+      type: TOAST_SHOW,
+      payload: {
+        message: "Address copied to clipboard!",
+        severity: "success",
+      },
+    });
+    setTimeout(() => {
+      setCopied(false);
+      setShowCopyToast(false);
+    }, 2000);
+  };
+  
+  // Copy amount to clipboard
+  const handleCopyAmount = () => {
+    const amount = isPartialPaymentMode && remainingPaymentInfo
+      ? remainingPaymentInfo.remainingAmount
+      : (selectedCurrency?.total_amount || selectedCurrency?.amount || 0);
+    navigator.clipboard.writeText(String(amount));
+    dispatch({
+      type: TOAST_SHOW,
+      payload: {
+        message: "Amount copied to clipboard!",
+        severity: "success",
+      },
+    });
+  };
+  
+  // Get polling interval based on chain (faster chains poll more frequently)
+  const getPollingInterval = (crypto: string, network?: string): number => {
+    // TRX and USDT-TRC20 are faster
+    if (crypto === 'TRX' || (crypto === 'USDT' && network === 'TRC20')) {
+      return 10000; // 10 seconds
+    }
+    // BTC is slower
+    if (crypto === 'BTC') {
+      return 30000; // 30 seconds
+    }
+    // ETH and ERC20 tokens
+    if (crypto === 'ETH' || (crypto === 'USDT' && network === 'ERC20')) {
+      return 15000; // 15 seconds
+    }
+    // Default for other chains
+    return 15000; // 15 seconds
   };
 
   const getCurrencyRateAndSubmit = async (
@@ -480,9 +536,18 @@ const CryptoTransfer = ({
         ["TRC20", "ERC20"].includes(selectedNetwork));
 
     if (!isValidSelection) return;
+    
+    // Don't start polling if no address yet
+    if (!cryptoDetails?.address) return;
 
     setIsReceived(false);
     setPaymentStatus("waiting");
+    
+    // Get appropriate polling interval based on chain
+    const pollingIntervalMs = getPollingInterval(selectedCrypto, selectedNetwork);
+    
+    // Track if this is first poll to show "pending" toast only once
+    let hasPendingToastShown = false;
 
     const pollInterval = setInterval(async () => {
       try {
@@ -492,6 +557,20 @@ const CryptoTransfer = ({
         const data = response?.data?.data;
         const status = data?.status as PaymentStatusType;
         const redirectUrl = data?.redirect;
+        
+        // Update merchant settings if provided by backend
+        if (data?.merchant_settings) {
+          setMerchantSettings(prev => ({
+            ...prev,
+            overpaymentThresholdUsd: data.merchant_settings.overpayment_threshold_usd ?? prev.overpaymentThresholdUsd,
+            gracePeriodMinutes: data.merchant_settings.grace_period_minutes ?? prev.gracePeriodMinutes,
+          }));
+        }
+        
+        // Update timer from backend if provided
+        if (data?.remaining_seconds !== undefined && data?.remaining_seconds > 0) {
+          setTimeLeft(data.remaining_seconds);
+        }
 
         setPaymentStatus(status);
 
@@ -506,14 +585,17 @@ const CryptoTransfer = ({
             // Payment detected, awaiting blockchain confirmation
             setIsStart(true);
             setIsReceived(false);
-            // Show user feedback that payment was detected
-            dispatch({
-              type: TOAST_SHOW,
-              payload: {
-                message: "Payment detected! Waiting for blockchain confirmation...",
-                severity: "info",
-              },
-            });
+            // Show user feedback that payment was detected (only once)
+            if (!hasPendingToastShown) {
+              hasPendingToastShown = true;
+              dispatch({
+                type: TOAST_SHOW,
+                payload: {
+                  message: "Payment detected! Waiting for blockchain confirmation...",
+                  severity: "info",
+                },
+              });
+            }
             // Don't clear interval - keep polling until confirmed/failed
             break;
 
@@ -531,13 +613,14 @@ const CryptoTransfer = ({
             // Partial payment received
             setIsStart(true);
             setIsReceived(false);
+            const graceMinutes = data?.grace_period_minutes || merchantSettings.gracePeriodMinutes;
             setPartialPaymentData({
               paidAmount: data?.paidAmount || 0,
               expectedAmount: data?.expectedAmount || 0,
               remainingAmount: data?.remainingAmount || 0,
               currency: data?.currency || walletState?.currency || "USD",
               txId: data?.txId || "",
-              graceMinutes: data?.grace_period_minutes || 30,
+              graceMinutes: graceMinutes,
               address: cryptoDetails?.address,
               paidAmountUsd: data?.paidAmountUsd || 0,
               expectedAmountUsd: data?.expectedAmountUsd || 0,
@@ -552,11 +635,11 @@ const CryptoTransfer = ({
             setIsStart(true);
             setIsReceived(true);
             
-            // Only show overpayment screen if excess amount > $5 USD
+            // Only show overpayment screen if excess amount > threshold (from merchant settings)
             const excessUsd = data?.excessAmountUsd || 0;
-            const OVERPAYMENT_THRESHOLD_USD = 5;
+            const overpaymentThreshold = data?.merchant_settings?.overpayment_threshold_usd ?? merchantSettings.overpaymentThresholdUsd;
             
-            if (excessUsd > OVERPAYMENT_THRESHOLD_USD) {
+            if (excessUsd > overpaymentThreshold) {
               // Significant overpayment - show overpayment screen
               setOverpaymentData({
                 paidAmount: data?.paidAmount || 0,
@@ -570,7 +653,7 @@ const CryptoTransfer = ({
                 baseCurrency: data?.baseCurrency || "USD",
               });
             } else {
-              // Minor overpayment (<=$5) - treat as confirmed and redirect
+              // Minor overpayment (<= threshold) - treat as confirmed and redirect
               setIsUrl(redirectUrl);
               if (redirectUrl) {
                 window.location.replace(redirectUrl);
@@ -608,11 +691,11 @@ const CryptoTransfer = ({
         //   }
         // })
       }
-    }, 15000);
+    }, pollingIntervalMs);
 
     return () => clearInterval(pollInterval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCrypto, cryptoDetails?.address, dispatch, selectedNetwork, walletState?.currency]);
+  }, [selectedCrypto, cryptoDetails?.address, dispatch, selectedNetwork, walletState?.currency, pollingTrigger]);
 
   // const handleVerify = async () => {
   //   try {
@@ -678,6 +761,13 @@ const CryptoTransfer = ({
       setIsStart(false);  // Show "To Pay" card with remaining amount
       setIsReceived(false);
       setPartialPaymentData(null); // Clear to exit UnderPayment screen
+      
+      // FIX: Reset timer to grace period (from backend or default 30 minutes)
+      const gracePeriodSeconds = (partialPaymentData?.graceMinutes || merchantSettings.gracePeriodMinutes) * 60;
+      setTimeLeft(gracePeriodSeconds);
+      
+      // FIX: Increment polling trigger to restart polling
+      setPollingTrigger(prev => prev + 1);
     } else {
       // Bank transfer - reset for different payment method
       setPaymentStatus("waiting");
@@ -1180,7 +1270,7 @@ const CryptoTransfer = ({
                           {walletState?.currency}
                         </Typography>
                       </Box>
-                      <Tooltip title="Copy">
+                      <Tooltip title="Copy Amount">
                         <IconButton
                           size="small"
                           sx={{
@@ -1192,7 +1282,7 @@ const CryptoTransfer = ({
                             "&:hover": { bgcolor: "#E0E7FF" },
                             mt: 1,
                           }}
-                          onClick={handleCopyAddress}
+                          onClick={handleCopyAmount}
                         >
                           <CopyIcon />
                         </IconButton>
@@ -1205,16 +1295,31 @@ const CryptoTransfer = ({
                     alignItems="center"
                     justifyContent="center"
                     gap={1}
+                    sx={{
+                      // Timer warning when < 5 minutes
+                      ...(timeLeft < 5 * 60 && {
+                        bgcolor: '#FEE2E2',
+                        borderRadius: 1,
+                        py: 0.5,
+                        px: 1,
+                        animation: timeLeft < 2 * 60 ? 'pulse 1.5s infinite' : 'none',
+                        '@keyframes pulse': {
+                          '0%, 100%': { opacity: 1 },
+                          '50%': { opacity: 0.7 },
+                        },
+                      }),
+                    }}
                   >
                     <ClockIcon />
                     <Typography
                       variant="body2"
-                      fontWeight="normal"
+                      fontWeight={timeLeft < 5 * 60 ? 600 : "normal"}
                       fontSize="13px"
                       fontFamily="Space Grotesk"
-                      color="#000"
+                      color={timeLeft < 5 * 60 ? "#DC2626" : "#000"}
                     >
                       invoice expires in: {formatTime(timeLeft)}
+                      {timeLeft < 5 * 60 && timeLeft > 0 && " ⚠️"}
                     </Typography>
                   </Box>
                 </Box>
