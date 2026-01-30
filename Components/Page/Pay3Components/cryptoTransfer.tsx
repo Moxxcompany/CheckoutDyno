@@ -592,6 +592,7 @@ const CryptoTransfer = ({
           // Clear any partial payment UI immediately
           setPartialPaymentData(null);
           setHasCompletedPayment(true);
+          hasCompletedPaymentRef.current = true;
         }
 
         setPaymentStatus(status);
