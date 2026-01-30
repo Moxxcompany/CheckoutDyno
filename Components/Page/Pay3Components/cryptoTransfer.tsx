@@ -50,6 +50,12 @@ type PaymentStatusType =
   | "overpaid"     // More than expected was paid
   | "expired";     // Payment window expired
 
+// Merchant settings from backend
+interface MerchantSettings {
+  overpayment_threshold_usd: number;
+  grace_period_minutes: number;
+}
+
 interface PartialPaymentData {
   paidAmount: number;
   expectedAmount: number;
@@ -171,6 +177,12 @@ const CryptoTransfer = ({
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatusType>("waiting");
   const [partialPaymentData, setPartialPaymentData] = useState<PartialPaymentData | null>(null);
   const [overpaymentData, setOverpaymentData] = useState<OverpaymentData | null>(null);
+  
+  // Merchant settings from backend (with defaults)
+  const [merchantSettings, setMerchantSettings] = useState<MerchantSettings>({
+    overpayment_threshold_usd: 5,  // Default $5, will be updated from backend
+    grace_period_minutes: 30       // Default 30 min, will be updated from backend
+  });
 
   // Polling trigger to restart polling after underpayment
   const [pollingTrigger, setPollingTrigger] = useState(0);
@@ -180,12 +192,6 @@ const CryptoTransfer = ({
   
   // Copy feedback state
   const [showCopyToast, setShowCopyToast] = useState(false);
-  
-  // Merchant settings (should come from backend)
-  const [merchantSettings, setMerchantSettings] = useState({
-    overpaymentThresholdUsd: 5,
-    gracePeriodMinutes: 30,
-  });
 
   // State for configured currencies
   const [availableCryptos, setAvailableCryptos] = useState<string[]>([]);
@@ -564,14 +570,13 @@ const CryptoTransfer = ({
         
         // Update merchant settings if provided by backend
         if (data?.merchant_settings) {
-          setMerchantSettings(prev => ({
-            ...prev,
-            overpaymentThresholdUsd: data.merchant_settings.overpayment_threshold_usd ?? prev.overpaymentThresholdUsd,
-            gracePeriodMinutes: data.merchant_settings.grace_period_minutes ?? prev.gracePeriodMinutes,
-          }));
+          setMerchantSettings({
+            overpayment_threshold_usd: data.merchant_settings.overpayment_threshold_usd ?? 5,
+            grace_period_minutes: data.merchant_settings.grace_period_minutes ?? 30
+          });
         }
         
-        // Update timer from backend if provided
+        // Update timer from backend's remaining_seconds if provided
         if (data?.remaining_seconds !== undefined && data?.remaining_seconds > 0) {
           setTimeLeft(data.remaining_seconds);
         }
@@ -618,14 +623,13 @@ const CryptoTransfer = ({
             // Partial payment received
             setIsStart(true);
             setIsReceived(false);
-            const graceMinutes = data?.grace_period_minutes || merchantSettings.gracePeriodMinutes;
             setPartialPaymentData({
               paidAmount: data?.paidAmount || 0,
               expectedAmount: data?.expectedAmount || 0,
               remainingAmount: data?.remainingAmount || 0,
               currency: data?.currency || walletState?.currency || "USD",
               txId: data?.txId || "",
-              graceMinutes: graceMinutes,
+              graceMinutes: data?.grace_period_minutes ?? data?.merchant_settings?.grace_period_minutes ?? 30,
               address: cryptoDetails?.address,
               paidAmountUsd: data?.paidAmountUsd || 0,
               expectedAmountUsd: data?.expectedAmountUsd || 0,
@@ -640,12 +644,13 @@ const CryptoTransfer = ({
             // More than expected was paid
             setIsStart(true);
             setIsReceived(true);
-            
-            // Only show overpayment screen if excess amount > threshold (from merchant settings)
+
+            // Only show overpayment screen if excess amount > merchant's threshold
             const excessUsd = data?.excessAmountUsd || 0;
-            const overpaymentThreshold = data?.merchant_settings?.overpayment_threshold_usd ?? merchantSettings.overpaymentThresholdUsd;
-            
-            if (excessUsd > overpaymentThreshold) {
+            // Use merchant_settings from backend response, fallback to current state default
+            const threshold = data?.merchant_settings?.overpayment_threshold_usd ?? merchantSettings.overpayment_threshold_usd;
+
+            if (excessUsd > threshold) {
               // Significant overpayment - show overpayment screen
               setOverpaymentData({
                 paidAmount: data?.paidAmount || 0,
@@ -774,7 +779,7 @@ const CryptoTransfer = ({
       setPartialPaymentData(null); // Clear to exit UnderPayment screen
       
       // FIX: Reset timer to grace period (from backend or default 30 minutes)
-      const gracePeriodSeconds = (partialPaymentData?.graceMinutes || merchantSettings.gracePeriodMinutes) * 60;
+      const gracePeriodSeconds = (partialPaymentData?.graceMinutes || merchantSettings.grace_period_minutes) * 60;
       setTimeLeft(gracePeriodSeconds);
       
       // FIX: Increment polling trigger to restart polling
