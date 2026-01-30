@@ -32,6 +32,7 @@ interface UnderPaymentProps {
   expectedAmountUsd?: number;
   remainingAmountUsd?: number;
   baseCurrency?: string;
+  graceMinutes?: number;
 }
 
 // Helper function to format amounts correctly for crypto vs fiat
@@ -67,9 +68,15 @@ const UnderPayment = ({
   expectedAmountUsd,
   remainingAmountUsd,
   baseCurrency = "USD",
+  graceMinutes = 30,
 }: UnderPaymentProps) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  
+  // Calculate progress percentage
+  const progressPercent = expectedAmount > 0 
+    ? Math.min((paidAmount / expectedAmount) * 100, 100) 
+    : 0;
 
   const handleCopyTransactionId = () => {
     if (transactionId) {
@@ -124,6 +131,47 @@ const UnderPayment = ({
             Almost there! Please complete the payment.
           </Typography>
 
+          {/* Progress Bar showing % paid */}
+          <Box mb={3}>
+            <Box display="flex" justifyContent="space-between" mb={1}>
+              <Typography
+                variant="caption"
+                color="#515151"
+                fontFamily="Space Grotesk"
+                fontWeight={500}
+              >
+                Payment Progress
+              </Typography>
+              <Typography
+                variant="caption"
+                color="#10B981"
+                fontFamily="Space Grotesk"
+                fontWeight={600}
+              >
+                {progressPercent.toFixed(1)}% Complete
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                width: '100%',
+                height: 10,
+                bgcolor: '#E5E7EB',
+                borderRadius: 5,
+                overflow: 'hidden',
+              }}
+            >
+              <Box
+                sx={{
+                  width: `${progressPercent}%`,
+                  height: '100%',
+                  bgcolor: '#10B981',
+                  borderRadius: 5,
+                  transition: 'width 0.5s ease-in-out',
+                }}
+              />
+            </Box>
+          </Box>
+
           {/* Grace Period Warning */}
           <Box 
             bgcolor="#FEF3C7" 
@@ -140,7 +188,7 @@ const UnderPayment = ({
               fontFamily="Space Grotesk"
               fontWeight={500}
             >
-              ⏰ Please complete payment within 30 minutes to use the same address.
+              ⏰ Please complete payment within {graceMinutes} minutes to use the same address.
             </Typography>
           </Box>
 
