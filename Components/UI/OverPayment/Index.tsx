@@ -18,6 +18,10 @@ interface OverPaymentProps {
   currency: string;
   onGoToWebsite: () => void;
   transactionId?: string;
+  paidAmountUsd?: number;
+  expectedAmountUsd?: number;
+  excessAmountUsd?: number;
+  baseCurrency?: string;
 }
 
 // Helper function to format amounts correctly for crypto vs fiat
@@ -49,6 +53,10 @@ const OverPayment = ({
   currency,
   onGoToWebsite,
   transactionId = "",
+  paidAmountUsd,
+  expectedAmountUsd,
+  excessAmountUsd,
+  baseCurrency = "USD",
 }: OverPaymentProps) => {
   const handleCopyTransactionId = () => {
     if (transactionId) {
@@ -129,18 +137,30 @@ const OverPayment = ({
                 Paid:
               </Typography>
 
-              <Typography
-                variant="subtitle2"
-                fontWeight={400}
-                color="#515151"
-                fontSize={16}
-                fontFamily="Space Grotesk"
-                sx={{
-                  fontSize: { xs: "12px", sm: "14px", md: "16px" },
-                }}
-              >
-                {formatAmount(paidAmount, currency)} {currency}
-              </Typography>
+              <Box textAlign="right">
+                <Typography
+                  variant="subtitle2"
+                  fontWeight={400}
+                  color="#515151"
+                  fontSize={16}
+                  fontFamily="Space Grotesk"
+                  sx={{
+                    fontSize: { xs: "12px", sm: "14px", md: "16px" },
+                  }}
+                >
+                  {formatAmount(paidAmount, currency)} {currency}
+                </Typography>
+                {paidAmountUsd !== undefined && (
+                  <Typography
+                    variant="caption"
+                    color="#737373"
+                    fontFamily="Space Grotesk"
+                    fontSize={12}
+                  >
+                    ≈ ${paidAmountUsd.toFixed(2)} {baseCurrency}
+                  </Typography>
+                )}
+              </Box>
             </Box>
 
             <Box
@@ -161,18 +181,30 @@ const OverPayment = ({
                 Total Due:
               </Typography>
 
-              <Typography
-                variant="subtitle2"
-                fontWeight={400}
-                color="#515151"
-                fontSize={16}
-                fontFamily="Space Grotesk"
-                sx={{
-                  fontSize: { xs: "12px", sm: "14px", md: "16px" },
-                }}
-              >
-                {formatAmount(expectedAmount, currency)} {currency}
-              </Typography>
+              <Box textAlign="right">
+                <Typography
+                  variant="subtitle2"
+                  fontWeight={400}
+                  color="#515151"
+                  fontSize={16}
+                  fontFamily="Space Grotesk"
+                  sx={{
+                    fontSize: { xs: "12px", sm: "14px", md: "16px" },
+                  }}
+                >
+                  {formatAmount(expectedAmount, currency)} {currency}
+                </Typography>
+                {expectedAmountUsd !== undefined && (
+                  <Typography
+                    variant="caption"
+                    color="#737373"
+                    fontFamily="Space Grotesk"
+                    fontSize={12}
+                  >
+                    ≈ ${expectedAmountUsd.toFixed(2)} {baseCurrency}
+                  </Typography>
+                )}
+              </Box>
             </Box>
 
             <Box
@@ -194,18 +226,30 @@ const OverPayment = ({
                 Excess:
               </Typography>
 
-              <Typography
-                variant="subtitle2"
-                fontWeight={500}
-                color="#000"
-                fontSize={20}
-                fontFamily="Space Grotesk"
-                sx={{
-                  fontSize: { xs: "14px", sm: "16px", md: "20px" },
-                }}
-              >
-                {formatAmount(excessAmount, currency)} {currency}
-              </Typography>
+              <Box textAlign="right">
+                <Typography
+                  variant="subtitle2"
+                  fontWeight={500}
+                  color="#000"
+                  fontSize={20}
+                  fontFamily="Space Grotesk"
+                  sx={{
+                    fontSize: { xs: "14px", sm: "16px", md: "20px" },
+                  }}
+                >
+                  {formatAmount(excessAmount, currency)} {currency}
+                </Typography>
+                {excessAmountUsd !== undefined && (
+                  <Typography
+                    variant="caption"
+                    color="#737373"
+                    fontFamily="Space Grotesk"
+                    fontSize={12}
+                  >
+                    ≈ ${excessAmountUsd.toFixed(2)} {baseCurrency}
+                  </Typography>
+                )}
+              </Box>
             </Box>
 
             <Divider sx={{ mb: 2 }} />

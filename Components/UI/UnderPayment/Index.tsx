@@ -28,6 +28,10 @@ interface UnderPaymentProps {
   currency: string;
   onPayRemaining: (method: "bank" | "crypto") => void;
   transactionId?: string;
+  paidAmountUsd?: number;
+  expectedAmountUsd?: number;
+  remainingAmountUsd?: number;
+  baseCurrency?: string;
 }
 
 // Helper function to format amounts correctly for crypto vs fiat
@@ -59,54 +63,12 @@ const UnderPayment = ({
   currency,
   onPayRemaining,
   transactionId = "",
+  paidAmountUsd,
+  expectedAmountUsd,
+  remainingAmountUsd,
+  baseCurrency = "USD",
 }: UnderPaymentProps) => {
-  const [selectedCurrency, setSelectedCurrency] = useState(currency);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const theme = useTheme();
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    if (anchorEl) {
-      setAnchorEl(null);
-    } else {
-      setAnchorEl(event.currentTarget);
-    }
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleSelect = (event: React.MouseEvent, code: string) => {
-    setSelectedCurrency(code);
-    handleClose();
-  };
-
-  const currencyOptions = [
-    {
-      code: "USD",
-      label: "United States Dollar (USD)",
-      icon: <FlagCircleOutlined sx={{ fontSize: 18 }} />,
-      rate: 1,
-    },
-    {
-      code: "EUR",
-      label: "Euro (EUR)",
-      icon: <FlagCircleOutlined sx={{ fontSize: 18 }} />,
-      rate: 0.93,
-    },
-    {
-      code: "NGN",
-      label: "Nigerian Naira (NGN)",
-      icon: <FlagCircleOutlined sx={{ fontSize: 18 }} />,
-      rate: 1600,
-    },
-  ];
-
-  const isOpen = Boolean(anchorEl);
-  const selected = currencyOptions.find((c) => c.code === selectedCurrency);
-  const baseRate = currencyOptions.find((c) => c.code === currency)?.rate || 1;
-  const targetRate = selected?.rate || 1;
-  const convertedRemaining = formatAmount((remainingAmount / baseRate) * targetRate, selected?.code || currency);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleCopyTransactionId = () => {
@@ -212,128 +174,86 @@ const UnderPayment = ({
                 Paid:
               </Typography>
 
-              <Typography
-                variant="subtitle2"
-                fontWeight={400}
-                color="#515151"
-                fontSize={16}
-                fontFamily="Space Grotesk"
-                sx={{
-                  fontSize: {
-                    xs: "12px",
-                    sm: "14px",
-                    md: "16px",
-                  },
-                }}
-              >
-                {formatAmount(paidAmount, currency)} {currency}
-              </Typography>
+              <Box textAlign="right">
+                <Typography
+                  variant="subtitle2"
+                  fontWeight={400}
+                  color="#515151"
+                  fontSize={16}
+                  fontFamily="Space Grotesk"
+                  sx={{
+                    fontSize: {
+                      xs: "12px",
+                      sm: "14px",
+                      md: "16px",
+                    },
+                  }}
+                >
+                  {formatAmount(paidAmount, currency)} {currency}
+                </Typography>
+                {paidAmountUsd !== undefined && (
+                  <Typography
+                    variant="caption"
+                    color="#737373"
+                    fontFamily="Space Grotesk"
+                    fontSize={12}
+                  >
+                    ≈ ${paidAmountUsd.toFixed(2)} {baseCurrency}
+                  </Typography>
+                )}
+              </Box>
             </Box>
 
             <Box
               display="flex"
               justifyContent="space-between"
               alignItems="center"
+              py={2}
             >
               <Typography
                 variant="subtitle2"
-                fontWeight={400}
-                fontSize={25}
+                fontWeight={500}
+                fontSize={20}
                 color="#000"
                 fontFamily="Space Grotesk"
                 sx={{
                   fontSize: {
-                    xs: "12px",
-                    sm: "18px",
+                    xs: "14px",
+                    sm: "16px",
                     md: "20px",
                   },
                 }}
               >
                 To Pay:
               </Typography>
-              <Box
-                display="flex"
-                alignItems="center"
-                border={1}
-                borderRadius={"6px"}
-                padding={1}
-                gap={1}
-                sx={{
-                  cursor: "pointer",
-                  borderColor: "transparent",
-                  "&:hover": {
-                    borderColor: "#737373",
-                  },
-                }}
-                onClick={handleClick}
-              >
-                {selected?.icon}
+
+              <Box textAlign="right">
                 <Typography
-                  fontWeight={400}
-                  fontFamily="Space Grotesk"
-                  fontSize={25}
+                  variant="subtitle2"
+                  fontWeight={500}
                   color="#000"
+                  fontSize={20}
+                  fontFamily="Space Grotesk"
                   sx={{
                     fontSize: {
-                      xs: "12px",
-                      sm: "18px",
+                      xs: "14px",
+                      sm: "16px",
                       md: "20px",
                     },
                   }}
                 >
-                  {convertedRemaining} {selected?.code}
+                  {formatAmount(remainingAmount, currency)} {currency}
                 </Typography>
-                {isOpen ? (
-                  <ArrowDropUp fontSize="small" />
-                ) : (
-                  <ArrowDropDown fontSize="small" />
+                {remainingAmountUsd !== undefined && (
+                  <Typography
+                    variant="caption"
+                    color="#737373"
+                    fontFamily="Space Grotesk"
+                    fontSize={12}
+                  >
+                    ≈ ${remainingAmountUsd.toFixed(2)} {baseCurrency}
+                  </Typography>
                 )}
-
-                <Menu
-                  anchorEl={anchorEl}
-                  open={isOpen}
-                  onClose={handleClose}
-                  PaperProps={{
-                    sx: {
-                      border: "1px solid #737373",
-                      borderRadius: "10px",
-                    },
-                  }}
-                >
-                  {currencyOptions.map((currencyOpt) => (
-                    <MenuItem
-                      key={currencyOpt.code}
-                      onClick={(e) => handleSelect(e, currencyOpt.code)}
-                      sx={{
-                        px: {
-                          xs: 1.5,
-                          sm: 2,
-                          md: 2.5,
-                        },
-                        py: {
-                          xs: 1,
-                          sm: 1.2,
-                          md: 1.5,
-                        },
-                      }}
-                    >
-                      <Box display="flex" alignItems="center" gap={1}>
-                        {currencyOpt.icon}
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              xs: "14px",
-                              sm: "18px",
-                              md: "20px",
-                            },
-                          }}
-                        >
-                          {currencyOpt.label}
-                        </Typography>
-                      </Box>
-                    </MenuItem>
-                  ))}
-                </Menu>
               </Box>
             </Box>
 
