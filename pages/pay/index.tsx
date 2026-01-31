@@ -125,6 +125,16 @@ const Payment = () => {
   const [linkId, setLinkId] = useState<string>('')
   const [redirectUrl, setRedirectUrl] = useState<string | null>(null)
 
+  // Enhanced checkout state variables
+  const [description, setDescription] = useState<string>('')
+  const [orderReference, setOrderReference] = useState<string>('')
+  const [feeInfo, setFeeInfo] = useState<FeeInfo | null>(null)
+  const [taxInfo, setTaxInfo] = useState<TaxInfo | null>(null)
+  const [expiryInfo, setExpiryInfo] = useState<ExpiryInfo | null>(null)
+  const [merchantInfo, setMerchantInfo] = useState<MerchantInfo | null>(null)
+  const [countdown, setCountdown] = useState<string>('')
+  const [copySnackbar, setCopySnackbar] = useState(false)
+
   useEffect(() => {
     if (
       paymentType === paymentTypes.GOOGLE_PAY ||
