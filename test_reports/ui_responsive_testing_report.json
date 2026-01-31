@@ -5,10 +5,10 @@
   "test_url": "/pay?d=test123",
   
   "executive_summary": {
-    "overall_score": "92%",
+    "overall_score": "98%",
     "status": "PASSED",
     "critical_issues": 0,
-    "warnings": 2,
+    "warnings": 1,
     "total_tests": 45
   },
   
