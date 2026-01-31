@@ -1053,21 +1053,22 @@ const CryptoTransfer = ({
           width: "100%",
           maxWidth: 450,
           marginTop: 0,
-          border: "1px solid #E7EAFD",
-          boxShadow: "0px 45px 64px 0px #0D03230F",
+          border: `1px solid ${isDark ? theme.palette.divider : '#E7EAFD'}`,
+          boxShadow: isDark ? "0px 45px 64px 0px rgba(0,0,0,0.3)" : "0px 45px 64px 0px #0D03230F",
+          bgcolor: theme.palette.background.paper,
         }}
       >
         <IconButton
           onClick={() => setActiveStep(activeStep - 1)}
           sx={{
-            backgroundColor: "#F5F8FF",
-            color: "#444CE7",
+            backgroundColor: isDark ? 'rgba(108, 123, 255, 0.15)' : "#F5F8FF",
+            color: isDark ? '#6C7BFF' : "#444CE7",
             borderRadius: "50%",
             padding: "10px",
-            "&:hover": { backgroundColor: "#ebefff" },
+            "&:hover": { backgroundColor: isDark ? 'rgba(108, 123, 255, 0.25)' : "#ebefff" },
           }}
         >
-          <ArrowBack sx={{ color: "#444CE7" }} />
+          <ArrowBack sx={{ color: isDark ? '#6C7BFF' : "#444CE7" }} />
         </IconButton>
 
         <Typography
@@ -1079,6 +1080,7 @@ const CryptoTransfer = ({
           gap={1}
           fontSize="27px"
           fontFamily="Space Grotesk"
+          color={theme.palette.text.primary}
         >
           <BitCoinGreenIcon />
           Cryptocurrency
