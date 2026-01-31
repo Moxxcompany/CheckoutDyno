@@ -360,9 +360,9 @@ const Payment = () => {
   }, [linkId])
 
   // Calculate display values
-  const totalAmount = currencyRates?.total_amount_source ?? currencyRates?.amount ?? walletState?.amount ?? 0
-  const processingFee = feeInfo?.processing_fee || 0
-  const taxAmount = taxInfo?.amount || 0
+  const totalAmount = Number(currencyRates?.total_amount_source ?? currencyRates?.amount ?? walletState?.amount ?? 0)
+  const processingFee = Number(feeInfo?.processing_fee || 0)
+  const taxAmount = Number(taxInfo?.amount || 0)
   // Subtotal = Total - Tax - Processing Fee (if customer pays)
   const customerPaidFee = feeInfo?.fee_payer === 'customer' ? processingFee : 0
   const subtotalAmount = totalAmount - taxAmount - customerPaidFee
