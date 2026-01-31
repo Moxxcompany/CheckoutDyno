@@ -32,7 +32,48 @@
     "seconds": "Sek",
     "securePayment": "Sichere Zahlung von DynoPay",
     "copied": "Kopiert!",
-    "copyInvoice": "Rechnungsnummer kopieren"
+    "copyInvoice": "Rechnungsnummer kopieren",
+    "remainingBalance": "Restbetrag",
+    "invoiceExpiresIn": "Rechnung läuft ab in:"
+  },
+  "crypto": {
+    "title": "Kryptowährung",
+    "preferredCrypto": "Bevorzugte Krypto",
+    "preferredNetwork": "Bevorzugtes Netzwerk",
+    "sendToAddress": "Senden Sie {{crypto}} ({{network}}) an diese Adresse",
+    "sendOnlyWarning": "Senden Sie nur {{crypto}} im {{network}}-Netzwerk an diese Adresse, sonst gehen Ihre Gelder verloren.",
+    "paymentDetected": "Zahlung erkannt, warte auf Bestätigung...",
+    "paymentDetectedDesc": "Wir haben Ihre Zahlung in der Blockchain erkannt. Warte auf {{confirmations}} Bestätigung...",
+    "paymentConfirmed": "Zahlung Bestätigt!",
+    "goToWebsite": "Zur Website",
+    "selectCrypto": "Krypto auswählen",
+    "selectNetwork": "Netzwerk auswählen",
+    "scanQrCode": "QR-Code scannen",
+    "orCopyAddress": "oder Adresse kopieren",
+    "addressCopied": "Adresse kopiert!",
+    "networkFee": "Netzwerkgebühr fällig"
+  },
+  "underpayment": {
+    "title": "Teilzahlung Erhalten",
+    "subtitle": "Fast geschafft! Bitte schließen Sie die Zahlung ab.",
+    "paymentProgress": "Zahlungsfortschritt",
+    "complete": "{{percent}}% Abgeschlossen",
+    "graceWarning": "Schließen Sie die Zahlung innerhalb von {{minutes}} Minuten ab, um dieselbe Adresse zu verwenden.",
+    "paid": "Bezahlt:",
+    "payRemainingCrypto": "Rest mit Krypto bezahlen"
+  },
+  "overpayment": {
+    "title": "Überzahlung Erhalten",
+    "subtitle": "Danke! Sie haben etwas mehr bezahlt.",
+    "totalDue": "Gesamtbetrag:",
+    "excess": "Überschuss:",
+    "refundNotice": "Der überschüssige Betrag wird an Ihr Wallet des Shops erstattet, bei dem Sie gekauft haben."
+  },
+  "expired": {
+    "title": "Zahlungslink Abgelaufen",
+    "message": "Dieser Zahlungslink ist abgelaufen. Bitte kontaktieren Sie den Händler, um einen neuen Zahlungslink anzufordern.",
+    "merchant": "Händler",
+    "goBack": "Zurück"
   },
   "success": {
     "paymentSuccessful": "Zahlung Erfolgreich",
