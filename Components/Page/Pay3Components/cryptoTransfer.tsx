@@ -1118,7 +1118,7 @@ const CryptoTransfer = ({
               py={2}
               border="1px solid #ef4444"
               borderRadius="10px"
-              bgcolor="#fef2f2"
+              bgcolor={isDark ? 'rgba(254, 242, 242, 0.1)' : "#fef2f2"}
             >
               <Typography fontFamily="Space Grotesk" color="#ef4444">
                 No currencies configured. Please contact support.
@@ -1132,9 +1132,9 @@ const CryptoTransfer = ({
               py={2}
               border="1px solid #f59e0b"
               borderRadius="10px"
-              bgcolor="#fffbeb"
+              bgcolor={isDark ? 'rgba(255, 251, 235, 0.1)' : "#fffbeb"}
             >
-              <Typography fontFamily="Space Grotesk" color="#b45309">
+              <Typography fontFamily="Space Grotesk" color="#f59e0b">
                 No cryptocurrencies available for payment.
               </Typography>
             </Box>
