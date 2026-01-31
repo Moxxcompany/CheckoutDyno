@@ -967,7 +967,7 @@ const CryptoTransfer = ({
             color="#101828"
             mb={2}
           >
-            Payment Link Expired
+            {t('expired.title')}
           </Typography>
 
           <Typography
@@ -977,7 +977,7 @@ const CryptoTransfer = ({
             mb={3}
             lineHeight={1.6}
           >
-            This payment link has expired. Please contact the merchant to request a new payment link.
+            {t('expired.message')}
           </Typography>
 
           {merchantInfo?.name && (
@@ -994,7 +994,7 @@ const CryptoTransfer = ({
                 fontFamily="Space Grotesk"
                 color="#667085"
               >
-                Merchant
+                {t('expired.merchant')}
               </Typography>
               <Typography
                 variant="body1"
@@ -1025,7 +1025,7 @@ const CryptoTransfer = ({
               },
             }}
           >
-            Go Back
+            {t('expired.goBack')}
           </Button>
         </Paper>
       </Box>
