@@ -602,7 +602,7 @@ const CryptoTransfer = ({
         if (data?.merchant_settings) {
           setMerchantSettings({
             overpayment_threshold_usd: data.merchant_settings.overpayment_threshold_usd ?? 5,
-            grace_period_minutes: data.merchant_settings.grace_period_minutes ?? 30
+            grace_period_minutes: data.merchant_settings.grace_period_minutes ?? 15
           });
         }
         
@@ -705,7 +705,7 @@ const CryptoTransfer = ({
               remainingAmount: data?.remainingAmount || 0,
               currency: data?.currency || walletState?.currency || "USD",
               txId: data?.txId || "",
-              graceMinutes: data?.grace_period_minutes ?? data?.merchant_settings?.grace_period_minutes ?? 30,
+              graceMinutes: data?.grace_period_minutes ?? data?.merchant_settings?.grace_period_minutes ?? 15,
               address: cryptoDetails?.address,
               paidAmountUsd: data?.paidAmountUsd || 0,
               expectedAmountUsd: data?.expectedAmountUsd || 0,
@@ -870,7 +870,7 @@ const CryptoTransfer = ({
       setIsReceived(false);
       setPartialPaymentData(null); // Clear to exit UnderPayment screen
       
-      // FIX: Reset timer to grace period (from backend or default 30 minutes)
+      // FIX: Reset timer to grace period (from backend or default 15 minutes)
       const gracePeriodSeconds = (partialPaymentData?.graceMinutes || merchantSettings.grace_period_minutes) * 60;
       setTimeLeft(gracePeriodSeconds);
       
