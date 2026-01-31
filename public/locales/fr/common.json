@@ -32,7 +32,48 @@
     "seconds": "s",
     "securePayment": "Paiement sécurisé par DynoPay",
     "copied": "Copié!",
-    "copyInvoice": "Copier le numéro de facture"
+    "copyInvoice": "Copier le numéro de facture",
+    "remainingBalance": "Solde Restant",
+    "invoiceExpiresIn": "la facture expire dans:"
+  },
+  "crypto": {
+    "title": "Cryptomonnaie",
+    "preferredCrypto": "Crypto Préférée",
+    "preferredNetwork": "Réseau Préféré",
+    "sendToAddress": "Envoyer {{crypto}} ({{network}}) à Cette Adresse",
+    "sendOnlyWarning": "Envoyez uniquement {{crypto}} sur le réseau {{network}} à cette adresse, sinon vos fonds seront perdus.",
+    "paymentDetected": "Paiement détecté, en attente de confirmation...",
+    "paymentDetectedDesc": "Nous avons détecté votre paiement sur la blockchain. En attente de {{confirmations}} confirmation...",
+    "paymentConfirmed": "Paiement Confirmé!",
+    "goToWebsite": "Aller au Site Web",
+    "selectCrypto": "Sélectionner Crypto",
+    "selectNetwork": "Sélectionner Réseau",
+    "scanQrCode": "Scanner Code QR",
+    "orCopyAddress": "ou copier l'adresse",
+    "addressCopied": "Adresse copiée!",
+    "networkFee": "Frais de réseau applicables"
+  },
+  "underpayment": {
+    "title": "Paiement Partiel Reçu",
+    "subtitle": "Presque terminé! Veuillez compléter le paiement.",
+    "paymentProgress": "Progression du Paiement",
+    "complete": "{{percent}}% Terminé",
+    "graceWarning": "Complétez le paiement dans les {{minutes}} minutes pour utiliser la même adresse.",
+    "paid": "Payé:",
+    "payRemainingCrypto": "Payer le Reste en Crypto"
+  },
+  "overpayment": {
+    "title": "Trop-perçu Reçu",
+    "subtitle": "Merci! Vous avez payé un peu plus.",
+    "totalDue": "Total Dû:",
+    "excess": "Excédent:",
+    "refundNotice": "Le montant excédentaire sera remboursé sur votre Portefeuille du magasin où vous avez acheté."
+  },
+  "expired": {
+    "title": "Lien de Paiement Expiré",
+    "message": "Ce lien de paiement a expiré. Veuillez contacter le marchand pour demander un nouveau lien de paiement.",
+    "merchant": "Marchand",
+    "goBack": "Retour"
   },
   "success": {
     "paymentSuccessful": "Paiement Réussi",
