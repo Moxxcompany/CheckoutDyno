@@ -35,6 +35,7 @@ import BNB from "@/assets/Icons/coins/BNB";
 import Image from "next/image";
 import UnderPayment from "@/Components/UI/UnderPayment/Index";
 import OverPayment from "@/Components/UI/OverPayment/Index";
+import { useTranslation } from "next-i18next";
 
 import LTCicon from "../../../assets/Icons/coins/LTC.png";
 import BCHicon from "../../../assets/Icons/coins/BCH.png";
