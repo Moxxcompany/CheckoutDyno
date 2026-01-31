@@ -3,9 +3,12 @@ import {
   Box,
   Typography,
   Container,
+  useTheme,
 } from '@mui/material';
 import Pay3Layout from './layout';
 import BackButton from '@/Components/Page/Pay3Components/backButton';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetStaticProps } from 'next';
 
 const termsSections = [
   {
