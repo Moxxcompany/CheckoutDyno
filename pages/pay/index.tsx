@@ -360,10 +360,12 @@ const Payment = () => {
   }, [linkId])
 
   // Calculate display values
-  const subtotalAmount = walletState?.amount || 0
+  const totalAmount = currencyRates?.total_amount_source ?? currencyRates?.amount ?? walletState?.amount ?? 0
   const processingFee = feeInfo?.processing_fee || 0
   const taxAmount = taxInfo?.amount || 0
-  const totalAmount = currencyRates?.total_amount_source ?? currencyRates?.amount ?? walletState?.amount
+  // Subtotal = Total - Tax - Processing Fee (if customer pays)
+  const customerPaidFee = feeInfo?.fee_payer === 'customer' ? processingFee : 0
+  const subtotalAmount = totalAmount - taxAmount - customerPaidFee
   const displayCurrency = currencyRates?.currency ?? walletState?.currency
 
   // Get context-aware title
