@@ -1,44 +1,55 @@
-# Project PRD - Payment Application (DynoPay)
+# DynoPay Payment Application - PRD
 
 ## Original Problem Statement
-Set up and install all necessary dependencies for Next.js payment application. Then implement dark mode and language (i18n) functionality for the checkout page.
+Setup and install dependencies, then perform UI responsive, scroll depth & heatmap analysis and visual regression testing ensuring it appears correctly and pixel perfect on all devices, web and mobile. Ensure dark mode covers all pages.
 
 ## Architecture
 - **Framework**: Next.js 14 with TypeScript
-- **UI Library**: Material UI (MUI) 5
+- **UI Library**: MUI (Material-UI) v5
 - **State Management**: Redux Toolkit + Redux Saga
-- **Styling**: Emotion, Custom CSS
-- **HTTP Client**: Axios
-- **Validation**: Yup
-- **i18n**: next-i18next with react-i18next
+- **Internationalization**: next-i18next (EN/FR)
+- **Styling**: MUI ThemeProvider with light/dark mode support
 
-## What's Been Implemented
-- [2026-01-30] Initial setup - installed all npm dependencies
-- [2026-01-31] Fixed turbopack build issue, switched to standard webpack dev server
-- [2026-01-31] Added Railway deployment configuration (Dockerfile, railway.json, nixpacks.toml)
-- [2026-01-31] **Dark Mode Implementation:**
-  - Created ThemeContext with light/dark theme switching
-  - Added light and dark theme palettes in MUI theme
-  - Theme preference persists in localStorage
-  - All checkout page components support both themes
-- [2026-01-31] **i18n Implementation:**
-  - Installed and configured next-i18next
-  - Created translation files for EN and FR locales
-  - Updated checkout page with translated text
-  - Language selector in header switches locale via URL routing
+## Tech Stack
+- React 18
+- Next.js 14.2.35
+- TypeScript 5
+- MUI Material 5.15
+- Axios for API calls
+- JWT for token handling
 
-## Core Features
-- Payment checkout page with Bank Transfer and Cryptocurrency options
-- Dark/Light theme toggle with localStorage persistence
-- Multi-language support (English/French)
-- Payment layouts and containers
-- Redux store configuration
-- Helper utilities (encryption, validation)
-- Custom hooks (useTokenData, useWindow)
-- Credit card components
+## Core Pages
+1. `/` - Homepage (landing page)
+2. `/pay` - Payment checkout (requires payment link query param)
+3. `/pay/terms-of-service` - Terms of Service
+4. `/pay/aml-policy` - AML Policy
+5. `/pay2/*` - Alternative payment flow
 
-## Backlog / Next Tasks
-- P1: Add more languages (Spanish, German, etc.)
-- P1: Implement remaining payment flows
-- P2: Add backend API integration
-- P2: Translate Terms of Service and AML Policy pages
+## What's Been Implemented (Jan 31, 2026)
+
+### Build Fixes
+- Fixed `axiosConfig.ts` URL handling for undefined `NEXT_PUBLIC_BASE_URL`
+- Added `sharp` package for image optimization
+- Added `eslint` as explicit dependency
+- Made `useThemeMode` hook SSR-safe with fallback values
+- Moved `layout.tsx` from pages to components to fix static generation
+
+### UI/UX Improvements
+- Created proper homepage with DynoPay branding
+- Added meaningful fallback message on `/pay` when no payment link
+- Added `data-testid` attributes for dark mode toggles
+- Added `data-testid` for mobile menu button
+
+### Testing Completed
+- Responsive design: Desktop (1920x1080, 1440x900), Tablet (768x1024), Mobile (375x667, 390x844)
+- Dark mode toggle functionality verified
+- Visual regression testing passed
+- All pages accessible and scrollable
+
+## Backlog / Future Enhancements
+- P1: Add loading states for payment forms
+- P2: Improve mobile drawer dark mode toggle UI
+- P3: Add more language options beyond EN/FR
+
+## Next Tasks
+- Ready for deployment on Railway
