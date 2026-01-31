@@ -886,6 +886,9 @@ const Payment = () => {
                 walletState={walletState}
                 feePayer={feePayer}
                 redirectUrl={redirectUrl}
+                taxInfo={taxInfo}
+                feeInfo={feeInfo}
+                merchantInfo={merchantInfo}
               />
             )
           ) : activeStep === 2 ? (
