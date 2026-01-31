@@ -1255,7 +1255,7 @@ const CryptoTransfer = ({
               variant="subtitle2"
               fontWeight={500}
               fontFamily="Space Grotesk"
-              color="#000"
+              color={theme.palette.text.primary}
             >
               Preferred Network
             </Typography>
