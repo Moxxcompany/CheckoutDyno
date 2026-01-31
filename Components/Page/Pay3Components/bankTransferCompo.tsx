@@ -296,13 +296,14 @@ const BankTransferCompo = ({
                 variant="subtitle2"
                 fontWeight="300"
                 fontFamily="Space Grotesk"
+                color={theme.palette.text.secondary}
               >
                 Bank Name:
               </Typography>
               <Box display="flex" alignItems="center" gap={1}>
                 {transferDetails?.transfer_bank ? (
                   <Typography
-                    color="#2D3282"
+                    color={isDark ? '#6C7BFF' : "#2D3282"}
                     fontWeight="bold"
                     display="flex"
                     alignItems="center"
@@ -319,7 +320,7 @@ const BankTransferCompo = ({
                     width={154}
                     height={24}
                     animation="wave"
-                    sx={{ borderRadius: "6px", background: "#F5F8FF" }}
+                    sx={{ borderRadius: "6px", background: isDark ? 'rgba(108, 123, 255, 0.1)' : "#F5F8FF" }}
                   />
                 )}
               </Box>
@@ -329,13 +330,14 @@ const BankTransferCompo = ({
                 mt={2}
                 fontWeight="300"
                 fontFamily="Space Grotesk"
+                color={theme.palette.text.secondary}
               >
                 Account Number:
               </Typography>
               <Box display="flex" alignItems="center" gap={1} mb={"4px"}>
                 {transferDetails?.transfer_account ? (
                   <Typography
-                    color="#2D3282"
+                    color={isDark ? '#6C7BFF' : "#2D3282"}
                     fontWeight="600"
                     fontFamily="Space Grotesk"
                   >
@@ -347,7 +349,7 @@ const BankTransferCompo = ({
                     width={107}
                     height={24}
                     animation="wave"
-                    sx={{ borderRadius: "6px", background: "#F5F8FF" }}
+                    sx={{ borderRadius: "6px", background: isDark ? 'rgba(108, 123, 255, 0.1)' : "#F5F8FF" }}
                   />
                 )}
                 <Tooltip title="Copy">
@@ -356,8 +358,8 @@ const BankTransferCompo = ({
                     size="small"
                     sx={{
                       fontSize: "12px",
-                      color: "#444CE7",
-                      bgcolor: "#E7EAFD",
+                      color: isDark ? '#6C7BFF' : "#444CE7",
+                      bgcolor: isDark ? 'rgba(108, 123, 255, 0.2)' : "#E7EAFD",
                       borderRadius: "6px",
                       fontFamily: "Space Grotesk",
                       gap: "4px",
@@ -372,7 +374,7 @@ const BankTransferCompo = ({
                 <Warning />
                 <Typography
                   variant="caption"
-                  color="#515151"
+                  color={theme.palette.text.secondary}
                   fontFamily="Space Grotesk"
                 >
                   This account number is unique for each transaction.
@@ -384,12 +386,13 @@ const BankTransferCompo = ({
                 mt={"16px"}
                 fontWeight="300"
                 fontFamily="Space Grotesk"
+                color={theme.palette.text.secondary}
               >
                 Recipient:
               </Typography>
               <Typography
                 fontWeight="600"
-                color="#2D3282"
+                color={isDark ? '#6C7BFF' : "#2D3282"}
                 fontSize={"18px"}
                 fontFamily="Space Grotesk"
               >
