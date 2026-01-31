@@ -163,6 +163,9 @@ const CryptoTransfer = ({
   walletState,
   feePayer,
   redirectUrl,
+  taxInfo,
+  feeInfo,
+  merchantInfo,
 }: CryptoTransferProps) => {
   const dispatch = useDispatch();
   const [selectedCrypto, setSelectedCrypto] = useState("");
