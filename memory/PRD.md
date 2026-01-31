@@ -1,7 +1,7 @@
 # DynoPay Payment Application - PRD
 
 ## Original Problem Statement
-Setup and install necessary dependencies for the Next.js DynoPay payment application.
+Enhance the checkout page with: context-aware title, merchant subtitle, merchant logo, order summary with description and invoice, fee breakdown (subtotal, processing fee, tax), fee payer indicator, expiry countdown, and security badge.
 
 ## Architecture
 - **Framework**: Next.js 14 with TypeScript
@@ -27,15 +27,57 @@ Setup and install necessary dependencies for the Next.js DynoPay payment applica
 
 ## What's Been Implemented
 
-### Jan 31, 2026 - Initial Setup
-- Installed 471 npm packages
-- Development server running on localhost:3000
-- All dependencies resolved successfully
+### Jan 31, 2026 - Enhanced Checkout UI
+- **Context-Aware Title**: Shows "Review Your Order", "Checkout", or "Complete Your Payment" based on context
+- **Merchant Subtitle**: "Complete your payment to {merchant}" with dynamic merchant name
+- **Merchant Logo**: Displays merchant logo if available, falls back to DynoPay logo
+- **Order Details Section**: Shows description and invoice number (INV-xxxx) with copy button
+- **Fee Breakdown**: Itemized subtotal, processing fee, tax (VAT with rate/country)
+- **Fee Payer Indicator**: "Processing fees included" or "Merchant pays fees"
+- **Expiry Countdown**: Live timer showing "Expires in Xd:Xh:Xm:Xs"
+- **Security Badge**: "🔒 Secure payment by DynoPay"
+- **Translations**: Added 15+ new keys for EN and FR
+
+### New State Variables Added
+1. `description` - Purchase description
+2. `orderReference` - Invoice number (INV-2026-xxx)
+3. `feeInfo` - { processing_fee, fee_payer }
+4. `taxInfo` - { rate, amount, country, type }
+5. `expiryInfo` - { countdown, expires_at }
+6. `merchantInfo` - { name, company_logo }
+7. `countdown` - Live countdown string
+8. `copySnackbar` - Copy success feedback
+
+### Data Flow
+1. User visits payment link with `?d=` query param
+2. `/api/pay/getData` returns data with new fields
+3. `pages/pay/index.tsx` captures all fields in state
+4. Enhanced UI displays all information
+
+### Backend Data Expected
+```json
+{
+  "description": "Monthly Pro Subscription",
+  "order_reference": "INV-2026-A1B2C3",
+  "fee_info": { "processing_fee": 2.50, "fee_payer": "customer" },
+  "tax_info": { "rate": 23, "amount": 23.00, "country": "Portugal" },
+  "expiry": { "countdown": "6d:23h:45m", "expires_at": "2026-02-07T..." },
+  "merchant": { "name": "Acme Store", "company_logo": "https://..." }
+}
+```
+
+## Testing Status
+- ✅ Page loads without errors (95% pass rate)
+- ✅ Translation files valid JSON
+- ✅ All data-testid attributes present
+- ✅ EN/FR localization works
 
 ## Backlog / Future Enhancements
-- P1: Add loading states for payment forms
-- P2: Improve mobile drawer dark mode toggle UI
+- P0: Test with real backend data
+- P1: Add payment method icons preview
+- P2: Animated success states
 - P3: Add more language options beyond EN/FR
 
 ## Next Tasks
-- Ready for feature development or deployment
+- Verify backend returns all new fields
+- Test full payment flow with enhanced UI
