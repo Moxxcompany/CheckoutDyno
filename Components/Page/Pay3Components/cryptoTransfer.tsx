@@ -1633,7 +1633,7 @@ const CryptoTransfer = ({
                       fontWeight={timeLeft < 5 * 60 ? 600 : "normal"}
                       fontSize="13px"
                       fontFamily="Space Grotesk"
-                      color={timeLeft < 5 * 60 ? "#DC2626" : "#000"}
+                      color={timeLeft < 5 * 60 ? "#DC2626" : theme.palette.text.primary}
                     >
                       invoice expires in: {formatTime(timeLeft)}
                       {timeLeft < 5 * 60 && timeLeft > 0 && " ⚠️"}
@@ -1646,12 +1646,12 @@ const CryptoTransfer = ({
                 <Box
                   sx={{ mt: 2 }}
                   border={1}
-                  borderColor={"#B5D3C6"}
+                  borderColor={isDark ? '#4ade80' : "#B5D3C6"}
                   borderRadius={"12px"}
                 >
                   <Paper
                     sx={{
-                      bgcolor: "#EBFFF6",
+                      bgcolor: isDark ? 'rgba(16, 185, 129, 0.1)' : "#EBFFF6",
                       borderRadius: "12px",
                       p: 3,
                       textAlign: "center",
@@ -1661,7 +1661,7 @@ const CryptoTransfer = ({
                     <Typography
                       variant="h5"
                       fontWeight={600}
-                      sx={{ color: isRecived ? "#13B76A" : "#7CAB96" }}
+                      sx={{ color: isRecived ? "#13B76A" : (isDark ? '#86efac' : "#7CAB96") }}
                       fontFamily="Space Grotesk"
                     >
                       {formatAmount(
@@ -1687,6 +1687,7 @@ const CryptoTransfer = ({
                           variant="subtitle1"
                           fontWeight={600}
                           fontFamily="Space Grotesk"
+                          color={theme.palette.text.primary}
                         >
                           Payment Confirmed!
                         </Typography>
@@ -1703,12 +1704,13 @@ const CryptoTransfer = ({
                           fontWeight={500}
                           fontFamily="Space Grotesk"
                           fontSize={"15px"}
+                          color={theme.palette.text.primary}
                         >
                           Payment detected, awaiting confirmation...
                         </Typography>
                         <Typography
                           variant="body2"
-                          sx={{ color: "#444" }}
+                          sx={{ color: theme.palette.text.secondary }}
                           fontSize={"12px"}
                           fontWeight={400}
                           fontFamily="Space Grotesk"
