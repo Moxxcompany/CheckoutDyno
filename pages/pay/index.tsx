@@ -299,7 +299,8 @@ const Payment = () => {
         amount: walletState?.amount,
         currencyList: [selectedCurrency],
         fixedDecimal: false,
-        fee_payer: feePayer
+        fee_payer: feePayer,
+        tax_amount: taxInfo?.amount || 0
       })
       setCurrencyRates(data[0])
       setSelectedCurrency(selectedCurrency)
