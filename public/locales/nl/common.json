@@ -32,7 +32,48 @@
     "seconds": "s",
     "securePayment": "Veilige betaling door DynoPay",
     "copied": "Gekopieerd!",
-    "copyInvoice": "Factuur nummer kopiëren"
+    "copyInvoice": "Factuur nummer kopiëren",
+    "remainingBalance": "Resterend Saldo",
+    "invoiceExpiresIn": "factuur verloopt over:"
+  },
+  "crypto": {
+    "title": "Cryptovaluta",
+    "preferredCrypto": "Voorkeurs Crypto",
+    "preferredNetwork": "Voorkeurs Netwerk",
+    "sendToAddress": "Stuur {{crypto}} ({{network}}) naar Dit Adres",
+    "sendOnlyWarning": "Stuur alleen {{crypto}} via het {{network}} netwerk naar dit adres, anders gaan uw fondsen verloren.",
+    "paymentDetected": "Betaling gedetecteerd, wacht op bevestiging...",
+    "paymentDetectedDesc": "We hebben uw betaling in de blockchain gedetecteerd. Wacht op {{confirmations}} bevestiging...",
+    "paymentConfirmed": "Betaling Bevestigd!",
+    "goToWebsite": "Naar Website",
+    "selectCrypto": "Selecteer Crypto",
+    "selectNetwork": "Selecteer Netwerk",
+    "scanQrCode": "Scan QR Code",
+    "orCopyAddress": "of kopieer adres",
+    "addressCopied": "Adres gekopieerd!",
+    "networkFee": "Netwerkkosten van toepassing"
+  },
+  "underpayment": {
+    "title": "Gedeeltelijke Betaling Ontvangen",
+    "subtitle": "Bijna klaar! Voltooi de betaling.",
+    "paymentProgress": "Betalingsvoortgang",
+    "complete": "{{percent}}% Voltooid",
+    "graceWarning": "Voltooi de betaling binnen {{minutes}} minuten om hetzelfde adres te gebruiken.",
+    "paid": "Betaald:",
+    "payRemainingCrypto": "Restant Betalen met Crypto"
+  },
+  "overpayment": {
+    "title": "Te Veel Betaald",
+    "subtitle": "Bedankt! U heeft iets extra betaald.",
+    "totalDue": "Totaal Verschuldigd:",
+    "excess": "Overschot:",
+    "refundNotice": "Het teveel betaalde bedrag wordt teruggestort naar uw Portemonnee van de winkel waar u kocht."
+  },
+  "expired": {
+    "title": "Betalingslink Verlopen",
+    "message": "Deze betalingslink is verlopen. Neem contact op met de verkoper om een nieuwe betalingslink aan te vragen.",
+    "merchant": "Verkoper",
+    "goBack": "Terug"
   },
   "success": {
     "paymentSuccessful": "Betaling Geslaagd",
