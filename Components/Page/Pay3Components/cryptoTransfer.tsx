@@ -660,16 +660,19 @@ const CryptoTransfer = ({
               break;
             }
             
-            // Partial payment received
-            setIsStart(true);
-            setIsReceived(false);
-            
             // If already in partial payment mode, don't show underpayment screen again
-            // Just keep polling for the remaining payment (use ref to avoid dependency issues)
+            // Just keep polling for the remaining payment - keep showing "Monitoring" message
             if (isPartialPaymentModeRef.current) {
-              // Stay on payment screen, don't redirect to underpayment selection
+              // Stay on payment screen with monitoring message, don't set isStart
+              setIsStart(false);
+              setIsReceived(false);
+              // Don't clear interval - keep polling for new payment
               break;
             }
+            
+            // Partial payment received (first time)
+            setIsStart(true);
+            setIsReceived(false);
             
             setPartialPaymentData({
               paidAmount: data?.paidAmount || 0,
