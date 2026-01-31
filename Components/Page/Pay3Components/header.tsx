@@ -26,7 +26,8 @@ import User from '@/assets/Images/user.png';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 
 const Header = ({
   darkMode,
@@ -38,16 +39,18 @@ const Header = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { t } = useTranslation('common');
+  const router = useRouter();
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
 
-  const [lang, setLang] = useState('EN');
-  const [open, setOpen] = useState(false); // track open/close
+  const [open, setOpen] = useState(false);
 
-  const handleChange = (event: any) => {
-    setLang(event.target.value as string);
+  const handleLanguageChange = (event: any) => {
+    const newLocale = event.target.value as string;
+    router.push(router.pathname, router.asPath, { locale: newLocale });
   };
 
   return (
@@ -98,13 +101,13 @@ const Header = ({
                   height: '44px'
                 }}
               >
-                Dynopay Wallet
+                {t('header.wallet')}
               </Button>
 
               <FormControl variant="standard">
                 <Select
-                  value={lang}
-                  onChange={handleChange}
+                  value={router.locale || 'en'}
+                  onChange={handleLanguageChange}
                   onOpen={() => setOpen(true)}
                   onClose={() => setOpen(false)}
                   disableUnderline
@@ -126,8 +129,8 @@ const Header = ({
                     },
                   }}
                 >
-                  <MenuItem value="EN">EN</MenuItem>
-                  <MenuItem value="FR">FR</MenuItem>
+                  <MenuItem value="en">EN</MenuItem>
+                  <MenuItem value="fr">FR</MenuItem>
                 </Select>
               </FormControl>
 
@@ -236,11 +239,14 @@ const Header = ({
       <Drawer anchor='right' open={drawerOpen} onClose={toggleDrawer}>
         <Box sx={{ width: 250, p: 2 }}>
           <Stack spacing={2}>
-            <Button startIcon={<AccountBalanceWalletIcon />}>Dynopay Wallet</Button>
+            <Button startIcon={<AccountBalanceWalletIcon />}>{t('header.wallet')}</Button>
             <FormControl variant='standard'>
-              <Select defaultValue='EN'>
-                <MenuItem value='EN'>EN</MenuItem>
-                <MenuItem value='FR'>FR</MenuItem>
+              <Select 
+                value={router.locale || 'en'}
+                onChange={handleLanguageChange}
+              >
+                <MenuItem value='en'>EN</MenuItem>
+                <MenuItem value='fr'>FR</MenuItem>
               </Select>
             </FormControl>
             <Box
@@ -275,12 +281,6 @@ const Header = ({
                 {darkMode ? <WbSunnyIcon fontSize='small' /> : <BedtimeIcon fontSize='small' />}
               </Box>
             </Box>
-            {/* <IconButton>
-              <Notification />
-            </IconButton> */}
-            {/* <Avatar sx={{ width: 40, height: 40 }}>
-              <img src={User.src} alt='User' />
-            </Avatar> */}
           </Stack>
         </Box>
       </Drawer>
