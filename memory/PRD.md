@@ -53,3 +53,24 @@ Setup and install dependencies, then perform UI responsive, scroll depth & heatm
 
 ## Next Tasks
 - Ready for deployment on Railway
+
+## Update: Redirect URL Implementation (Jan 31, 2026)
+
+### Feature: Merchant Redirect URL Support
+When merchants create payment links with a `redirect_url`, users are automatically redirected back to the merchant's site after successful payment.
+
+### Data Flow
+1. User visits payment link
+2. `/api/pay/getData` returns data INCLUDING `redirect_url`
+3. `pages/pay/index.tsx` stores `redirect_url` in state
+4. User completes payment (crypto or bank)
+5. On success → Check redirect_url
+   - If exists → Redirect to: `{redirect_url}?transaction_id=xxx&status=success`
+   - If not → Show default success page
+
+### Files Modified
+- `pages/pay/index.tsx` - Store redirect_url, pass to child components
+- `Components/Page/Pay3Components/cryptoTransfer.tsx` - Accept redirectUrl prop, redirect on success
+- `Components/Page/Pay3Components/bankTransferCompo.tsx` - Accept redirectUrl prop, redirect on success  
+- `Components/Page/Pay3Components/success.tsx` - Auto-redirect after 3 seconds
+- `Components/UI/TransferExpectedCard/Index.tsx` - Auto-redirect with countdown UI
