@@ -1317,6 +1317,7 @@ const CryptoTransfer = ({
                 my={1}
                 fontSize="small"
                 fontFamily="Space Grotesk"
+                color={theme.palette.text.primary}
               >
                 Send {selectedCrypto}{" "}
                 {selectedCrypto === "USDT" ? `(${selectedNetwork})` : ""} to
@@ -1324,25 +1325,25 @@ const CryptoTransfer = ({
               </Typography>
               <Box
                 textAlign="center"
-                border="1px solid #A4BCFD"
+                border={`1px solid ${isDark ? theme.palette.divider : '#A4BCFD'}`}
                 padding="20px"
                 borderRadius="20px"
-                bgcolor="#F5F8FF"
+                bgcolor={isDark ? 'rgba(68, 76, 231, 0.05)' : "#F5F8FF"}
               >
                 <Box
                   sx={{
-                    bgcolor: "white",
+                    bgcolor: theme.palette.background.paper,
                     borderRadius: "10px",
-                    border: "1px solid #E7EAFD",
+                    border: `1px solid ${isDark ? theme.palette.divider : '#E7EAFD'}`,
                     mb: 2,
                   }}
                 >
                   {loading ? (
                     <Box sx={{ padding: 2, textAlign: 'center' }}>
-                      <CircularProgress />
+                      <CircularProgress sx={{ color: isDark ? '#6C7BFF' : undefined }} />
                       <Typography 
                         variant="body2" 
-                        sx={{ mt: 1, color: '#515151' }}
+                        sx={{ mt: 1, color: theme.palette.text.secondary }}
                         fontFamily="Space Grotesk"
                       >
                         {loadingStep === 'rates' 
