@@ -179,6 +179,19 @@ export default function TransferExpectedCard ({
               : "If you've completed the transfer, no further action is needed. We'll confirm your payment as soon as it arrives."}
           </Typography>
 
+          {isAutoRedirecting && (
+            <Box display="flex" alignItems="center" justifyContent="center" gap={1} mb={2}>
+              <CircularProgress size={16} sx={{ color: "#444CE7" }} />
+              <Typography
+                variant="body2"
+                color="#515151"
+                fontFamily="Space Grotesk"
+              >
+                Redirecting to merchant in {countdown} seconds...
+              </Typography>
+            </Box>
+          )}
+
           <Button
             fullWidth
             variant='outlined'
