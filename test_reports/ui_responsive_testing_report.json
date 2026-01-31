@@ -26,7 +26,7 @@
       "430x932_iphone14promax": {"status": "PASS", "notes": "Responsive layout, shortened button text"},
       "390x844_iphone14": {"status": "PASS", "notes": "Card fits viewport, good spacing"},
       "375x667_iphonese": {"status": "PASS", "notes": "All content accessible via scroll"},
-      "280x653_galaxyfold": {"status": "WARNING", "notes": "Text slightly cramped, but functional"}
+      "280x653_galaxyfold": {"status": "PASS", "notes": "Fixed - CSS media query added for extra small devices, no overflow"}
     }
   },
   
