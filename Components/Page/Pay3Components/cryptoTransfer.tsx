@@ -1509,7 +1509,7 @@ const CryptoTransfer = ({
                         </Typography>
                         <Typography
                           variant="body2"
-                          color="#1A1919"
+                          color={theme.palette.text.primary}
                           fontFamily="Space Grotesk"
                           fontWeight={500}
                         >
@@ -1520,14 +1520,14 @@ const CryptoTransfer = ({
                         <Box display="flex" justifyContent="space-between" mb={0.5}>
                           <Typography
                             variant="body2"
-                            color="#667085"
+                            color={theme.palette.text.secondary}
                             fontFamily="Space Grotesk"
                           >
                             Processing Fee
                           </Typography>
                           <Typography
                             variant="body2"
-                            color={feeInfo.fee_payer === 'merchant' ? '#10B981' : '#1A1919'}
+                            color={feeInfo.fee_payer === 'merchant' ? '#10B981' : theme.palette.text.primary}
                             fontFamily="Space Grotesk"
                             fontWeight={500}
                           >
@@ -1535,7 +1535,7 @@ const CryptoTransfer = ({
                           </Typography>
                         </Box>
                       )}
-                      <Divider sx={{ my: 1 }} />
+                      <Divider sx={{ my: 1, borderColor: isDark ? theme.palette.divider : undefined }} />
                     </Box>
                   )}
 
@@ -1546,7 +1546,7 @@ const CryptoTransfer = ({
                       fontSize="20px"
                       fontFamily="Space Grotesk"
                       whiteSpace="nowrap"
-                      color="#1A1919"
+                      color={theme.palette.text.primary}
                     >
                       To Pay:
                     </Typography>
@@ -1561,7 +1561,7 @@ const CryptoTransfer = ({
                           gap={1}
                           fontFamily="Space Grotesk"
                           whiteSpace="nowrap"
-                          color="#1A1919"
+                          color={theme.palette.text.primary}
                         >
                           {formatAmount(
                             isPartialPaymentMode && remainingPaymentInfo
@@ -1573,7 +1573,7 @@ const CryptoTransfer = ({
                         </Typography>
                         <Typography
                           variant="body1"
-                          color="#515151"
+                          color={theme.palette.text.secondary}
                           fontFamily="Space Grotesk"
                           whiteSpace="nowrap"
                           fontSize="14px"
@@ -1591,12 +1591,12 @@ const CryptoTransfer = ({
                         <IconButton
                           size="small"
                           sx={{
-                            bgcolor: "#E7EAFD",
+                            bgcolor: isDark ? 'rgba(108, 123, 255, 0.2)' : "#E7EAFD",
                             p: 0.5,
                             height: "24px",
                             width: "24px",
                             borderRadius: "5px",
-                            "&:hover": { bgcolor: "#E0E7FF" },
+                            "&:hover": { bgcolor: isDark ? 'rgba(108, 123, 255, 0.3)' : "#E0E7FF" },
                             mt: 1,
                           }}
                           onClick={handleCopyAmount}
