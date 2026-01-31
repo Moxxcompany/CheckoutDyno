@@ -1460,6 +1460,67 @@ const CryptoTransfer = ({
                       </Typography>
                     </Box>
                   )}
+
+                  {/* Tax breakdown - only shown when taxInfo is present and not in partial payment mode */}
+                  {taxInfo && taxInfo.amount > 0 && !isPartialPaymentMode && (
+                    <Box mb={2}>
+                      <Box display="flex" justifyContent="space-between" mb={0.5}>
+                        <Typography
+                          variant="body2"
+                          color="#667085"
+                          fontFamily="Space Grotesk"
+                        >
+                          Subtotal
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="#1A1919"
+                          fontFamily="Space Grotesk"
+                          fontWeight={500}
+                        >
+                          {(walletState?.amount - taxInfo.amount - (feeInfo?.fee_payer === 'customer' ? feeInfo.processing_fee : 0)).toFixed(2)} {walletState?.currency}
+                        </Typography>
+                      </Box>
+                      <Box display="flex" justifyContent="space-between" mb={0.5}>
+                        <Typography
+                          variant="body2"
+                          color="#667085"
+                          fontFamily="Space Grotesk"
+                        >
+                          {taxInfo.type || 'VAT'} ({taxInfo.rate}%{taxInfo.country ? ` - ${taxInfo.country}` : ''})
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="#1A1919"
+                          fontFamily="Space Grotesk"
+                          fontWeight={500}
+                        >
+                          {taxInfo.amount.toFixed(2)} {walletState?.currency}
+                        </Typography>
+                      </Box>
+                      {feeInfo && feeInfo.processing_fee > 0 && (
+                        <Box display="flex" justifyContent="space-between" mb={0.5}>
+                          <Typography
+                            variant="body2"
+                            color="#667085"
+                            fontFamily="Space Grotesk"
+                          >
+                            Processing Fee
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            color={feeInfo.fee_payer === 'merchant' ? '#10B981' : '#1A1919'}
+                            fontFamily="Space Grotesk"
+                            fontWeight={500}
+                          >
+                            {feeInfo.fee_payer === 'merchant' ? 'Included' : `${feeInfo.processing_fee.toFixed(2)} ${walletState?.currency}`}
+                          </Typography>
+                        </Box>
+                      )}
+                      <Divider sx={{ my: 1 }} />
+                    </Box>
+                  )}
+
                   <Box display="flex" gap={2} justifyContent="space-between">
                     <Typography
                       variant="h6"
