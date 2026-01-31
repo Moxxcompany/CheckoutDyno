@@ -1,0 +1,55 @@
+{
+  "summary": "Completed frontend testing of multi-language support implementation. Verified Terms of Service, AML Policy, and demo pages load correctly. Theme-aware logo functionality working. Language selector present but translations not fully applied to page content.",
+  
+  "backend_issues": {},
+  
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "Copy Invoice Button",
+        "issue": "Clipboard permission error when copying invoice number",
+        "selector": "[data-testid='copy-invoice-btn']",
+        "fix_priority": "LOW",
+        "error": "NotAllowedError: Failed to execute 'writeText' on 'Clipboard': Write permission denied"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Multi-language support",
+        "issue": "Page content not translating when switching languages - header translates but main content remains in English",
+        "affected_selectors": ["h4", ".MuiTypography-root"],
+        "fix_priority": "MEDIUM",
+        "details": "URL shows /fr/ and header shows French text, but Terms of Service content still displays in English"
+      }
+    ]
+  },
+  
+  "passed_tests": [
+    "Terms of Service page loads at /pay/terms-of-service",
+    "AML Policy page loads at /pay/aml-policy", 
+    "Checkout demo page loads at /pay/demo",
+    "Theme-aware logo component renders correctly",
+    "All locale JSON files are valid and contain comprehensive translations",
+    "next-i18next config includes all 6 locales (en, fr, pt, es, de, nl)",
+    "Language selector dropdown functionality",
+    "Header translations working (Dynopay Wallet -> Portefeuille Dynopay)",
+    "All page layouts and components render properly",
+    "No critical console errors",
+    "Demo page interactive elements (buttons, countdown, fee breakdown) working",
+    "Logo component switches between light/dark themes"
+  ],
+  
+  "test_report_links": [],
+  
+  "success_percentage": {
+    "frontend": "85%",
+    "i18n_implementation": "70%"
+  },
+  
+  "updated_files": [],
+  
+  "action_item_for_main_agent": "Fix i18n translation application - page content not switching languages despite URL routing and header translations working. Verify getStaticProps and useTranslation implementation in Terms/AML pages. Consider adding clipboard permissions handling for copy functionality.",
+  
+  "should_call_test_agent_after_fix": "false",
+  "should_main_agent_test_itself": "true"
+}
