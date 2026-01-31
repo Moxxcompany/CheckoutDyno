@@ -345,6 +345,42 @@ const Payment = () => {
     handleClose()
   }
 
+  const handleCopyInvoice = useCallback(() => {
+    if (orderReference) {
+      navigator.clipboard.writeText(orderReference)
+      setCopySnackbar(true)
+    }
+  }, [orderReference])
+
+  const handleCopyTransactionId = useCallback(() => {
+    if (linkId) {
+      navigator.clipboard.writeText(linkId)
+      setCopySnackbar(true)
+    }
+  }, [linkId])
+
+  // Calculate display values
+  const subtotalAmount = walletState?.amount || 0
+  const processingFee = feeInfo?.processing_fee || 0
+  const taxAmount = taxInfo?.amount || 0
+  const totalAmount = currencyRates?.total_amount_source ?? currencyRates?.amount ?? walletState?.amount
+  const displayCurrency = currencyRates?.currency ?? walletState?.currency
+
+  // Get context-aware title
+  const getTitle = () => {
+    if (description) return t('checkout.title')
+    if (merchantInfo?.name) return t('checkout.titleComplete')
+    return t('checkout.titleCheckout')
+  }
+
+  // Get subtitle with merchant name
+  const getSubtitle = () => {
+    if (merchantInfo?.name) {
+      return t('checkout.subtitle', { merchant: merchantInfo.name })
+    }
+    return t('checkout.subtitleDefault')
+  }
+
   const isOpen = Boolean(anchorEl)
 
   return (
