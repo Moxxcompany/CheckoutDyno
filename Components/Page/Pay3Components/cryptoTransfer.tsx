@@ -87,6 +87,7 @@ interface CryptoTransferProps {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
   walletState: walletState;
   feePayer?: string;
+  redirectUrl?: string | null;
 }
 
 // Cache duration for rate prefetching
