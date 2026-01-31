@@ -1150,7 +1150,7 @@ const CryptoTransfer = ({
             sx={{
               "& .MuiOutlinedInput-input": {
                 borderRadius: "10px !important",
-                borderColor: "#737373 !important",
+                borderColor: isDark ? theme.palette.divider : "#737373",
                 "& :focus-visible": {
                   outline: "none !important",
                 },
@@ -1161,7 +1161,7 @@ const CryptoTransfer = ({
               },
               "& fieldset": {
                 borderRadius: "10px !important",
-                borderColor: "#737373 !important",
+                borderColor: `${isDark ? theme.palette.divider : "#737373"} !important`,
                 "& :focus-visible": {
                   outline: "none !important",
                 },
@@ -1172,14 +1172,17 @@ const CryptoTransfer = ({
               "& .MuiMenu-paper": {
                 padding: "15px",
               },
+              "& .MuiSelect-icon": {
+                color: theme.palette.text.primary,
+              },
             }}
             MenuProps={{
               PaperProps: {
                 sx: {
                   py: "10px",
                   px: "20px",
-                  backgroundColor: "#fff",
-                  border: "1px solid #737373",
+                  backgroundColor: theme.palette.background.paper,
+                  border: `1px solid ${isDark ? theme.palette.divider : "#737373"}`,
                   boxShadow: 3,
                   borderRadius: "10px",
                 },
@@ -1190,7 +1193,7 @@ const CryptoTransfer = ({
                 return (
                   <span
                     style={{
-                      color: "#1A1919",
+                      color: theme.palette.text.primary,
                       fontWeight: 500,
                       fontFamily: "Space Grotesk",
                     }}
@@ -1205,7 +1208,7 @@ const CryptoTransfer = ({
                     display: "flex",
                     alignItems: "center",
                     gap: 1,
-                    color: "#1A1919",
+                    color: theme.palette.text.primary,
                     fontWeight: "medium",
                     height: "24px",
                   }}
@@ -1222,10 +1225,11 @@ const CryptoTransfer = ({
                 value={option.value}
                 sx={{
                   borderRadius: "8px",
-                  "&:hover": { backgroundColor: "#F5F8FF" },
+                  color: theme.palette.text.primary,
+                  "&:hover": { backgroundColor: isDark ? 'rgba(68, 76, 231, 0.1)' : "#F5F8FF" },
                   "&.Mui-selected": {
-                    backgroundColor: "#F5F8FF",
-                    "&:hover": { backgroundColor: "#F5F8FF" },
+                    backgroundColor: isDark ? 'rgba(68, 76, 231, 0.15)' : "#F5F8FF",
+                    "&:hover": { backgroundColor: isDark ? 'rgba(68, 76, 231, 0.2)' : "#F5F8FF" },
                   },
                   padding: "10px",
                 }}
@@ -1233,7 +1237,10 @@ const CryptoTransfer = ({
                 <ListItemIcon style={{ height: "26px", width: "25px" }}>
                   {option.icon}
                 </ListItemIcon>
-                <ListItemText style={{ height: "24px", width: "24px" }}>
+                <ListItemText 
+                  style={{ height: "24px", width: "24px" }}
+                  primaryTypographyProps={{ color: theme.palette.text.primary }}
+                >
                   {option.label}
                 </ListItemText>
               </MenuItem>
