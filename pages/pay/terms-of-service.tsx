@@ -84,6 +84,9 @@ const termsSections = [
 ];
 
 const TermsOfService = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
+  
   return (
     <Pay3Layout>
       <Container maxWidth="md" sx={{ py: { xs: 2, sm: 4 } }}>
@@ -93,17 +96,17 @@ const TermsOfService = () => {
           <Typography
             variant="h4"
             fontWeight={700}
-            sx={{ color: '#2D3282', fontFamily: 'Space Grotesk', fontSize: { xs: '36px', sm: '50px' } }}
+            sx={{ color: isDark ? theme.palette.secondary.main : '#2D3282', fontFamily: 'Space Grotesk', fontSize: { xs: '36px', sm: '50px' } }}
           >
             Terms of Service
           </Typography>
-          <Typography variant="body2" color="#707070" sx={{ mt: '12px' }}>
+          <Typography variant="body2" color={isDark ? theme.palette.text.secondary : '#707070'} sx={{ mt: '12px' }}>
             Last Updated January 11, 2025
           </Typography>
         </Box>
 
         <Box sx={{mt:'12px'}}>
-          <Typography variant="body1" mb={2} sx={{ fontFamily: 'Space Grotesk' }}>
+          <Typography variant="body1" mb={2} sx={{ fontFamily: 'Space Grotesk', color: theme.palette.text.primary }}>
             Welcome to DynoPay. By accessing or using our services, you agree to be bound by the following Terms of Service. Please read them carefully.
           </Typography>
 
@@ -112,13 +115,13 @@ const TermsOfService = () => {
               <Typography
                 variant="subtitle1"
                 fontWeight={500}
-                sx={{ mb: '12px', fontFamily: 'Space Grotesk' }}
+                sx={{ mb: '12px', fontFamily: 'Space Grotesk', color: theme.palette.text.primary }}
               >
                 {section.title}
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ whiteSpace: 'pre-line', fontSize:"16px", lineHeight: 1.6, fontFamily: 'Space Grotesk' }}
+                sx={{ whiteSpace: 'pre-line', fontSize:"16px", lineHeight: 1.6, fontFamily: 'Space Grotesk', color: theme.palette.text.primary }}
               >
                 {section.description}
               </Typography>
@@ -129,5 +132,13 @@ const TermsOfService = () => {
     </Pay3Layout>
   );
 };
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+    },
+  }
+}
 
 export default TermsOfService;
