@@ -8,7 +8,7 @@ import {
   ListItemText,
   useTheme,
 } from '@mui/material';
-import Pay3Layout from './layout';
+import Pay3Layout from '@/Components/Layout/Pay3Layout';
 import BackButton from '@/Components/Page/Pay3Components/backButton';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetStaticProps } from 'next';
