@@ -1429,7 +1429,7 @@ const CryptoTransfer = ({
                     justifyContent="center" 
                     gap={1}
                     mt={2}
-                    bgcolor="#F0FDF4"
+                    bgcolor={isDark ? 'rgba(16, 185, 129, 0.1)' : "#F0FDF4"}
                     borderRadius={2}
                     py={1}
                     px={2}
@@ -1437,7 +1437,7 @@ const CryptoTransfer = ({
                     <CircularProgress size={14} sx={{ color: "#10B981" }} />
                     <Typography
                       variant="caption"
-                      color="#166534"
+                      color="#10B981"
                       fontFamily="Space Grotesk"
                       fontWeight={500}
                     >
@@ -1450,10 +1450,10 @@ const CryptoTransfer = ({
               {!isRecived && (
                 <Box
                   mt={3}
-                  border="1px solid #DFDFDF"
+                  border={`1px solid ${isDark ? theme.palette.divider : '#DFDFDF'}`}
                   padding="18px 21px"
                   borderRadius="10px"
-                  bgcolor="#FFFFFF"
+                  bgcolor={theme.palette.background.paper}
                   height={"auto"}
                   minHeight={"129px"}
                   sx={{ opacity: isStart ? 0.5 : 1 }}
@@ -1461,7 +1461,7 @@ const CryptoTransfer = ({
                   {/* Show "Remaining Balance" header if in partial payment mode */}
                   {isPartialPaymentMode && (
                     <Box 
-                      bgcolor="#FEF3C7" 
+                      bgcolor={isDark ? 'rgba(254, 243, 199, 0.15)' : "#FEF3C7"} 
                       borderRadius={1} 
                       px={1} 
                       py={0.5} 
@@ -1470,7 +1470,7 @@ const CryptoTransfer = ({
                     >
                       <Typography
                         variant="caption"
-                        color="#92400E"
+                        color="#f59e0b"
                         fontFamily="Space Grotesk"
                         fontWeight={500}
                       >
@@ -1485,14 +1485,14 @@ const CryptoTransfer = ({
                       <Box display="flex" justifyContent="space-between" mb={0.5}>
                         <Typography
                           variant="body2"
-                          color="#667085"
+                          color={theme.palette.text.secondary}
                           fontFamily="Space Grotesk"
                         >
                           Subtotal
                         </Typography>
                         <Typography
                           variant="body2"
-                          color="#1A1919"
+                          color={theme.palette.text.primary}
                           fontFamily="Space Grotesk"
                           fontWeight={500}
                         >
@@ -1502,7 +1502,7 @@ const CryptoTransfer = ({
                       <Box display="flex" justifyContent="space-between" mb={0.5}>
                         <Typography
                           variant="body2"
-                          color="#667085"
+                          color={theme.palette.text.secondary}
                           fontFamily="Space Grotesk"
                         >
                           {taxInfo.type || 'VAT'} ({taxInfo.rate}%{taxInfo.country ? ` - ${taxInfo.country}` : ''})
