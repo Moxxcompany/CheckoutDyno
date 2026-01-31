@@ -51,6 +51,8 @@ const Header = ({
 
   const handleLanguageChange = (event: any) => {
     const newLocale = event.target.value as string;
+    // Set cookie to remember user's language preference
+    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
     const { pathname, asPath, query } = router;
     router.push({ pathname, query }, asPath, { locale: newLocale });
   };
