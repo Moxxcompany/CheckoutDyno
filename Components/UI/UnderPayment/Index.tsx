@@ -311,41 +311,6 @@ const UnderPayment = ({
               <Button
                 fullWidth
                 variant="outlined"
-                startIcon={<AssuredWorkloadIcon />}
-                onClick={() => onPayRemaining("bank")}
-                sx={{
-                  borderColor: "#4F46E5",
-                  color: "#4F46E5",
-                  textTransform: "none",
-                  fontFamily: "Space Grotesk",
-                  borderRadius: 30,
-                  py: {
-                    xs: 1.2,
-                    sm: 1.5,
-                    md: 2,
-                  },
-                  fontSize: {
-                    xs: "14px",
-                    sm: "16px",
-                    md: "18px",
-                  },
-                  minHeight: {
-                    xs: 40,
-                    sm: 48,
-                    md: 56,
-                  },
-                  "&:hover": {
-                    backgroundColor: "#EEF2FF",
-                    borderColor: "#4F46E5",
-                  },
-                }}
-              >
-                {isSmallScreen ? "Bank" : "Bank Transfer"}
-              </Button>
-
-              <Button
-                fullWidth
-                variant="outlined"
                 startIcon={<CurrencyBitcoinIcon />}
                 onClick={() => onPayRemaining("crypto")}
                 sx={{
@@ -354,20 +319,18 @@ const UnderPayment = ({
                   textTransform: "none",
                   borderRadius: 30,
                   fontFamily: "Space Grotesk",
+                  fontWeight: 500,
                   py: {
-                    xs: 1.2,
-                    sm: 1.5,
-                    md: 2,
+                    xs: 1.5,
+                    sm: 2,
                   },
                   fontSize: {
                     xs: "14px",
                     sm: "16px",
-                    md: "18px",
                   },
                   minHeight: {
-                    xs: 40,
-                    sm: 48,
-                    md: 56,
+                    xs: 48,
+                    sm: 56,
                   },
                   "&:hover": {
                     backgroundColor: "#ECFDF5",
@@ -375,7 +338,7 @@ const UnderPayment = ({
                   },
                 }}
               >
-                {isSmallScreen ? "Crypto" : "Cryptocurrency"}
+                Pay Remaining with Crypto
               </Button>
             </Box>
           </Box>
