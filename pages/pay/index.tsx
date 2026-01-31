@@ -190,10 +190,15 @@ const Payment = () => {
   const getQueryData = async () => {
     try {
       const query_data = router.query.d
+      
+      // Get customer's timezone for tax calculation
+      const customerTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+      
       const {
         data: { data }
       }: { data: any } = await axiosBaseApi.post('pay/getData', {
-        data: query_data
+        data: query_data,
+        timezone: customerTimezone
       })
       setWalletState({
         amount: Number(data.amount),
