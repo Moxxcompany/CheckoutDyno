@@ -527,11 +527,11 @@ const CryptoTransfer = ({
   };
 
   useEffect(() => {
-    if (timeLeft <= 0) return;
+    if (timeLeft === null || timeLeft <= 0) return;
 
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
-        if (prev <= 1) {
+        if (prev === null || prev <= 1) {
           clearInterval(interval);
           return 0;
         }
@@ -542,7 +542,8 @@ const CryptoTransfer = ({
     return () => clearInterval(interval);
   }, [timeLeft, selectedCrypto]);
 
-  const formatTime = (seconds: number) => {
+  const formatTime = (seconds: number | null) => {
+    if (seconds === null) return "--:--";
     const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
     const secs = String(seconds % 60).padStart(2, "0");
     return `${mins}:${secs}`;
