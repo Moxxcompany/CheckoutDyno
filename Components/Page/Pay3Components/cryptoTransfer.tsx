@@ -88,6 +88,20 @@ interface CryptoTransferProps {
   walletState: walletState;
   feePayer?: string;
   redirectUrl?: string | null;
+  taxInfo?: {
+    rate: number;
+    amount: number;
+    country: string;
+    type: string;
+  } | null;
+  feeInfo?: {
+    processing_fee: number;
+    fee_payer: 'customer' | 'merchant';
+  } | null;
+  merchantInfo?: {
+    name: string;
+    company_logo: string | null;
+  } | null;
 }
 
 // Cache duration for rate prefetching
