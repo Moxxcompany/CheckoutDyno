@@ -1367,14 +1367,14 @@ const CryptoTransfer = ({
                   display="flex"
                   alignItems="center"
                   justifyContent="space-between"
-                  border="1px solid #E7EAFD"
+                  border={`1px solid ${isDark ? theme.palette.divider : '#E7EAFD'}`}
                   padding="10px"
                   borderRadius="8px"
-                  bgcolor="#FFFFFF"
+                  bgcolor={theme.palette.background.paper}
                 >
                   <Typography
                     variant="body2"
-                    sx={{ color: "#444CE7" }}
+                    sx={{ color: isDark ? '#6C7BFF' : "#444CE7" }}
                     fontWeight="400"
                     fontSize="11px"
                     maxWidth="88%"
@@ -1388,12 +1388,12 @@ const CryptoTransfer = ({
                     <IconButton
                       size="small"
                       sx={{
-                        bgcolor: "#E7EAFD",
+                        bgcolor: isDark ? 'rgba(108, 123, 255, 0.2)' : "#E7EAFD",
                         p: 0.5,
                         height: "24px",
                         width: "24px",
                         borderRadius: "5px",
-                        "&:hover": { bgcolor: "#E0E7FF" },
+                        "&:hover": { bgcolor: isDark ? 'rgba(108, 123, 255, 0.3)' : "#E0E7FF" },
                       }}
                       onClick={handleCopyAddress}
                     >
@@ -1402,12 +1402,12 @@ const CryptoTransfer = ({
                   </Tooltip>
                 </Box>
                 <Box display="flex" alignItems="center" gap={1}>
-                  <InfoOutlinedIcon fontSize="small" />
+                  <InfoOutlinedIcon fontSize="small" sx={{ color: theme.palette.text.secondary }} />
                   <Typography
                     variant="h6"
                     fontWeight="400"
                     mt={1}
-                    color="#1A1919"
+                    color={theme.palette.text.primary}
                     fontSize="small"
                     textAlign="left"
                     lineHeight="18px"
