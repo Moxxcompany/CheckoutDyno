@@ -11,6 +11,7 @@ const scenarios = {
   // With redirect + with email
   redirectWithEmail: {
     isTrue: true,
+    type: 'bank',
     redirectUrl: 'https://acme-store.com/order/complete',
     transactionId: 'TXN-2026-A1B2C3',
     merchantName: 'Acme Store',
@@ -20,6 +21,7 @@ const scenarios = {
   // With redirect + no email
   redirectNoEmail: {
     isTrue: true,
+    type: 'bank',
     redirectUrl: 'https://acme-store.com/order/complete',
     transactionId: 'TXN-2026-A1B2C3',
     merchantName: 'Acme Store',
@@ -29,6 +31,7 @@ const scenarios = {
   // No redirect + with email
   noRedirectWithEmail: {
     isTrue: true,
+    type: 'bank',
     redirectUrl: null,
     transactionId: 'TXN-2026-A1B2C3',
     merchantName: 'Acme Store',
@@ -38,15 +41,17 @@ const scenarios = {
   // No redirect + no email
   noRedirectNoEmail: {
     isTrue: true,
+    type: 'bank',
     redirectUrl: null,
     transactionId: 'TXN-2026-A1B2C3',
     merchantName: 'Acme Store',
     amount: '€125.50 EUR',
     email: ''
   },
-  // Pending state
-  pending: {
+  // Pending state (Bank transfer only)
+  bankPending: {
     isTrue: false,
+    type: 'bank',
     redirectUrl: null,
     transactionId: 'TXN-2026-A1B2C3',
     merchantName: '',
