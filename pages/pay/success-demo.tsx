@@ -116,8 +116,8 @@ const SuccessDemo = () => {
             <ToggleButton value="noRedirectNoEmail" sx={{ fontSize: 11, px: 1.5 }}>
               No Redirect/Email
             </ToggleButton>
-            <ToggleButton value="pending" sx={{ fontSize: 11, px: 1.5 }}>
-              Pending
+            <ToggleButton value="bankPending" sx={{ fontSize: 11, px: 1.5 }}>
+              Bank Pending
             </ToggleButton>
           </ToggleButtonGroup>
         </Box>
