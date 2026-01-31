@@ -272,7 +272,7 @@ const UnderPayment = ({
                 fontFamily="Space Grotesk"
                 sx={{ fontSize: { xs: "12px", sm: "14px", md: "16px" } }}
               >
-                Paid:
+                {t('underpayment.paid')}
               </Typography>
 
               <Box textAlign="right">
@@ -313,7 +313,7 @@ const UnderPayment = ({
                 fontFamily="Space Grotesk"
                 sx={{ fontSize: { xs: "14px", sm: "16px", md: "20px" } }}
               >
-                To Pay:
+                {t('checkout.toPay')}
               </Typography>
 
               <Box textAlign="right">
@@ -365,7 +365,7 @@ const UnderPayment = ({
                   },
                 }}
               >
-                Pay Remaining with Crypto
+                {t('underpayment.payRemainingCrypto')}
               </Button>
             </Box>
           </Box>
