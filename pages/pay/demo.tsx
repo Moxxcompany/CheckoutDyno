@@ -441,7 +441,20 @@ const PaymentDemo = () => {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
-  // If user already has a locale set (not default), respect their choice
+  // Check if user has manually selected a language (cookie set by language selector)
+  const cookies = req.headers.cookie || '';
+  const hasManualLocaleChoice = cookies.includes('NEXT_LOCALE=');
+  
+  // If user has manually chosen a locale, respect it
+  if (hasManualLocaleChoice) {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+      },
+    };
+  }
+
+  // If user already has a non-default locale in URL, respect their choice
   if (locale && locale !== 'en') {
     return {
       props: {
@@ -450,7 +463,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale, req }) =>
     };
   }
 
-  // Try to detect locale from IP for first-time visitors
+  // Try to detect locale from IP for first-time visitors only
   try {
     const { detectGeoLocale, getClientIp } = await import('@/utils/geoLocale');
     const clientIp = getClientIp(req);
