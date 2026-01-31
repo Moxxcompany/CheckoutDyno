@@ -189,7 +189,7 @@ const CryptoTransfer = ({
   const [loading, setLoading] = useState(false);
 
   const [isRecived, setIsReceived] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(30 * 60); // Default 30 minutes, will be updated from backend
+  const [timeLeft, setTimeLeft] = useState<number | null>(null); // Will be set from backend API
 
   const [isUrl, setIsUrl] = useState<string | null>("");
 
@@ -209,7 +209,7 @@ const CryptoTransfer = ({
   // Merchant settings from backend (with defaults)
   const [merchantSettings, setMerchantSettings] = useState<MerchantSettings>({
     overpayment_threshold_usd: 5,  // Default $5, will be updated from backend
-    grace_period_minutes: 30       // Default 30 min, will be updated from backend
+    grace_period_minutes: 15       // Default 15 min, will be updated from backend
   });
 
   // Polling trigger to restart polling after underpayment
