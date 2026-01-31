@@ -37,6 +37,7 @@ interface BankTransferCompoProps {
   walletState: any;
   setIsSuccess: any;
   setIsBank: any;
+  redirectUrl?: string | null;
 }
 
 const BankTransferCompo = ({
@@ -45,6 +46,7 @@ const BankTransferCompo = ({
   walletState,
   setIsSuccess,
   setIsBank,
+  redirectUrl,
 }: BankTransferCompoProps) => {
   const [currencyRates, setCurrencyRates] = useState<currencyData[]>();
   const [selectedCurrency, setSelectedCurrency] = useState<currencyData>();
