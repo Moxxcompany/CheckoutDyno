@@ -1,32 +1,42 @@
 'use client'
 
-import { Box, IconButton } from '@mui/material'
+import { Box, IconButton, useTheme } from '@mui/material'
 import XIcon from '@mui/icons-material/X'
 import Link from 'next/link'
 import InstagramIcon from '@mui/icons-material/Instagram'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { useTranslation } from 'next-i18next'
+
 export default function Footer () {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
+  const { t } = useTranslation('common');
+  
   return (
     <Box component='footer' width='100%' >
       {/* Icon Row */}
       <Box display='flex' justifyContent='center' py={2}>
         <IconButton>
-          <InstagramIcon sx={{ color: '#2D3282' }} />
+          <InstagramIcon sx={{ color: isDark ? '#6C7BFF' : '#2D3282' }} />
         </IconButton>
         <IconButton>
-          <XIcon sx={{ color: '#2D3282' }} />
+          <XIcon sx={{ color: isDark ? '#6C7BFF' : '#2D3282' }} />
         </IconButton>
       </Box>
 
       {/* Footer Bar */}
       <Box
-        bgcolor='#2D3282'
+        bgcolor={isDark ? '#1a1a2e' : '#2D3282'}
         py={1}
         textAlign='center'
-        sx={{ width: '100%', color: '#fff', height: '46px' }}
+        sx={{ 
+          width: '100%', 
+          color: '#fff', 
+          height: '46px',
+          transition: 'background-color 0.3s ease',
+        }}
       >
         <Link
-          href={'/pay3/terms-of-service'}
+          href={'/pay/terms-of-service'}
           style={{
             color: '#fff',
             cursor: 'pointer',
@@ -34,11 +44,11 @@ export default function Footer () {
             fontWeight: '400'
           }}
         >
-          Terms Of Service
+          {t('footer.termsOfService')}
         </Link>
         <span> | </span>
-        <Link href={'/pay3/aml-policy'} style={{ color: '#fff', cursor: 'pointer',fontSize:'14px', fontWeight:"400" }}>
-          AML Policy
+        <Link href={'/pay/aml-policy'} style={{ color: '#fff', cursor: 'pointer', fontSize:'14px', fontWeight:"400" }}>
+          {t('footer.amlPolicy')}
         </Link>
       </Box>
     </Box>
