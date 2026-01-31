@@ -62,6 +62,9 @@ const policySections = [
 ];
 
 const AMLPolicyPage = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
+  
   return (
     <Pay3Layout>
       <Container maxWidth="md" sx={{ py: { xs: 2, sm: 4 } }}>
@@ -71,31 +74,31 @@ const AMLPolicyPage = () => {
           <Typography
             variant="h4"
             fontWeight={700}
-            sx={{ color: '#2D3282', fontFamily: 'Space Grotesk', fontSize: { xs: '36px', sm: '50px' } }}
+            sx={{ color: isDark ? theme.palette.secondary.main : '#2D3282', fontFamily: 'Space Grotesk', fontSize: { xs: '36px', sm: '50px' } }}
             gutterBottom
           >
             Anti-Money Laundering (AML) Policy
           </Typography>
-          <Typography variant="body2" color="#707070" sx={{ mt: '12px' }}>
+          <Typography variant="body2" color={isDark ? theme.palette.text.secondary : '#707070'} sx={{ mt: '12px' }}>
             Last Updated January 11, 2025
           </Typography>
         </Box>
 
         <Box sx={{ mt: '12px' }}>
-          <Typography variant="body1" sx={{ fontFamily: 'Space Grotesk' }}>
+          <Typography variant="body1" sx={{ fontFamily: 'Space Grotesk', color: theme.palette.text.primary }}>
             At DynoPay, we are committed to upholding the highest standards in preventing money laundering and the
             financing of terrorism. This Anti-Money Laundering (AML) Policy outlines the measures and procedures we have
             implemented to detect, prevent, and report any suspicious activity across our services, including:
           </Typography>
           <List dense sx={{ listStyle: 'disc', pl: 4, mb: 2, pt:0 }}>
             <ListItem sx={{ display: 'list-item', py: 0 }}>
-              <ListItemText primary="Wallet balance management" />
+              <ListItemText primary="Wallet balance management" sx={{ '& .MuiListItemText-primary': { color: theme.palette.text.primary } }} />
             </ListItem>
             <ListItem sx={{ display: 'list-item', py: 0 }}>
-              <ListItemText primary="Bank transfers" />
+              <ListItemText primary="Bank transfers" sx={{ '& .MuiListItemText-primary': { color: theme.palette.text.primary } }} />
             </ListItem>
             <ListItem sx={{ display: 'list-item', py: 0 }}>
-              <ListItemText primary="Cryptocurrency payments" />
+              <ListItemText primary="Cryptocurrency payments" sx={{ '& .MuiListItemText-primary': { color: theme.palette.text.primary } }} />
             </ListItem>
           </List>
 
@@ -104,13 +107,13 @@ const AMLPolicyPage = () => {
               <Typography
                 variant="subtitle1"
                 fontWeight={500}
-                sx={{ mb: '12px', fontFamily: 'Space Grotesk' }}
+                sx={{ mb: '12px', fontFamily: 'Space Grotesk', color: theme.palette.text.primary }}
               >
                 {section.title}
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ whiteSpace: 'pre-line', fontSize: "16px", lineHeight: 1.6, fontFamily: 'Space Grotesk' }}
+                sx={{ whiteSpace: 'pre-line', fontSize: "16px", lineHeight: 1.6, fontFamily: 'Space Grotesk', color: theme.palette.text.primary }}
               >
                 {section.description}
               </Typography>
@@ -121,5 +124,13 @@ const AMLPolicyPage = () => {
     </Pay3Layout>
   );
 };
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+    },
+  }
+}
 
 export default AMLPolicyPage;
