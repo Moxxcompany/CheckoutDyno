@@ -46,23 +46,26 @@ import Image from 'next/image'
 import USDIcon from '../../assets/Icons/flag/USD.png'
 import EURIcon from '../../assets/Icons/flag/EUR.png'
 import NGNIcon from '../../assets/Icons/flag/NGN.png'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetServerSideProps } from 'next'
 
 export const currencyOptions = [
   {
     code: 'USD',
-    label: 'United States Dollar (USD)',
+    labelKey: 'currency.USD',
     icon: <Image src={USDIcon} alt='USD' width={20} height={20} />,
     currency: 'USD'
   },
   {
     code: 'EUR',
-    label: 'Euro (EUR)',
+    labelKey: 'currency.EUR',
     icon: <Image src={EURIcon} alt='EUR' width={20} height={20} />,
     currency: 'EUR'
   },
   {
     code: 'NGN',
-    label: 'Nigerian Naira (NGN)',
+    labelKey: 'currency.NGN',
     icon: <Image src={NGNIcon} alt='NGN' width={20} height={20} />,
     currency: 'NGN'
   }
@@ -70,9 +73,12 @@ export const currencyOptions = [
 
 const Payment = () => {
   const theme = useTheme()
+  const isDark = theme.palette.mode === 'dark'
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
   const router = useRouter()
   const dispatch = useDispatch()
+  const { t } = useTranslation('common')
+  
   const [paymentType, setPaymentType] = useState(paymentTypes.CARD)
   const [payLoading, setPayloading] = useState(false)
   const [paymentMode, setPaymentMode] = useState('payment')
@@ -113,9 +119,6 @@ const Payment = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query])
 
-  // Note: Rates are fetched directly in getQueryData after getting initial data
-  // This ensures we have the correct fee_payer value before making the API call
-
   const getQueryData = async () => {
     try {
       const query_data = router.query.d
@@ -139,7 +142,6 @@ const Payment = () => {
       setFeePayer(data.fee_payer || '')
       setLinkId(tempToken?.transaction_id || '')
       
-      // Fetch rates with fees immediately after getting initial data
       const amount = Number(data.amount)
       if (amount && data.base_currency) {
         try {
@@ -220,9 +222,9 @@ const Payment = () => {
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     if (anchorEl) {
-      setAnchorEl(null) // Close if already open
+      setAnchorEl(null)
     } else {
-      setAnchorEl(event.currentTarget) // Open
+      setAnchorEl(event.currentTarget)
     }
   }
 
@@ -261,8 +263,12 @@ const Payment = () => {
                   marginTop: 10,
                   textAlign: 'center',
                   margin: 0,
-                  border: '1px solid #E7EAFD',
-                  boxShadow: '0px 45px 64px 0px #0D03230F'
+                  border: `1px solid ${isDark ? theme.palette.surface.border : '#E7EAFD'}`,
+                  boxShadow: isDark 
+                    ? '0px 45px 64px 0px rgba(0,0,0,0.3)' 
+                    : '0px 45px 64px 0px #0D03230F',
+                  backgroundColor: theme.palette.background.paper,
+                  transition: 'all 0.3s ease',
                 }}
               >
                 <Box display='flex' justifyContent='center' mb={2}>
@@ -275,12 +281,13 @@ const Payment = () => {
                   lineHeight='98%'
                   gutterBottom
                   fontFamily='Space Grotesk'
+                  color={theme.palette.text.primary}
                 >
-                  Your order is almost complete!
+                  {t('checkout.title')}
                 </Typography>
 
                 <Typography
-                  color='#000'
+                  color={isDark ? theme.palette.text.secondary : '#000'}
                   fontWeight={400}
                   fontSize={14}
                   lineHeight='18px'
@@ -288,18 +295,17 @@ const Payment = () => {
                   fontFamily='Space Grotesk'
                 >
                   <span>
-                    Choose a payment method below to finalize
-                    <br />
-                    your transaction:
+                    {t('checkout.subtitle')}
                   </span>
                 </Typography>
 
                 <Box
                   alignItems='center'
-                  border='1px solid #DFDFDF'
+                  border={`1px solid ${isDark ? theme.palette.surface.border : '#DFDFDF'}`}
                   borderRadius={'10px'}
                   px='21px'
                   py='18px'
+                  sx={{ transition: 'border-color 0.3s ease' }}
                 >
                   <Box
                     display='flex'
@@ -312,15 +318,16 @@ const Payment = () => {
                       fontFamily='Space Grotesk'
                       fontWeight={500}
                       fontSize={20}
+                      color={theme.palette.text.primary}
                       sx={{
                         fontSize: {
-                          xs: '12px', // for small screens
+                          xs: '12px',
                           sm: '18px',
-                          md: '20px' // default
+                          md: '20px'
                         }
                       }}
                     >
-                      To Pay:
+                      {t('checkout.toPay')}
                     </Typography>
 
                     <Box
@@ -332,12 +339,12 @@ const Payment = () => {
                       gap={1}
                       sx={{
                         cursor: 'pointer',
-                        borderColor: isOpen ? '#737373' : 'transparent',
+                        borderColor: isOpen ? (isDark ? '#6C7BFF' : '#737373') : 'transparent',
                         '&:hover': {
-                          border: '1px solid #D9D9D9'
+                          border: `1px solid ${isDark ? '#4a4a6a' : '#D9D9D9'}`
                         },
                         '&:active': {
-                          border: '1px solid #737373'
+                          border: `1px solid ${isDark ? '#6C7BFF' : '#737373'}`
                         }
                       }}
                       onClick={handleClick}
@@ -355,11 +362,12 @@ const Payment = () => {
                             fontWeight={500}
                             fontFamily='Space Grotesk'
                             fontSize={25}
+                            color={theme.palette.text.primary}
                             sx={{
                               fontSize: {
-                                xs: '12px', // for small screens
+                                xs: '12px',
                                 sm: '18px',
-                                md: '20px' // default
+                                md: '20px'
                               }
                             }}
                           >
@@ -376,6 +384,7 @@ const Payment = () => {
                             }
                             width='17'
                             height='17'
+                            color={theme.palette.text.primary}
                           />
                         </>
                       ) : (
@@ -384,7 +393,10 @@ const Payment = () => {
                           width={154}
                           height={24}
                           animation='wave'
-                          sx={{ borderRadius: '6px', background: '#F5F8FF' }}
+                          sx={{ 
+                            borderRadius: '6px', 
+                            background: isDark ? '#2a2a4a' : '#F5F8FF' 
+                          }}
                         />
                       )}
 
@@ -394,12 +406,12 @@ const Payment = () => {
                         onClose={handleClose}
                         PaperProps={{
                           sx: {
-                            border: '1px solid #737373',
+                            border: `1px solid ${isDark ? '#4a4a6a' : '#737373'}`,
                             borderRadius: '10px',
-                            // padding: '15px',
                             marginTop: '10px',
                             py: '4px',
-                            px: '10px'
+                            px: '10px',
+                            backgroundColor: theme.palette.background.paper,
                           }
                         }}
                       >
@@ -420,23 +432,24 @@ const Payment = () => {
                               },
                               borderRadius: '6px',
                               '&:hover': {
-                                backgroundColor: '#F5F8FF'
+                                backgroundColor: isDark ? '#2a2a4a' : '#F5F8FF'
                               }
                             }}
                           >
                             <Box display='flex' alignItems='center' gap={1}>
                               {currency.icon}
                               <Typography
+                                color={theme.palette.text.primary}
                                 sx={{
                                   fontSize: {
-                                    xs: '14px', // for small screens
+                                    xs: '14px',
                                     sm: '18px',
-                                    md: '14px' // default
+                                    md: '14px'
                                   },
                                   fontWeight: '500'
                                 }}
                               >
-                                {currency.label}
+                                {t(currency.labelKey)}
                               </Typography>
                             </Box>
                           </MenuItem>
@@ -445,7 +458,10 @@ const Payment = () => {
                     </Box>
                   </Box>
 
-                  <Divider sx={{ mb: 2 }} />
+                  <Divider sx={{ 
+                    mb: 2, 
+                    borderColor: isDark ? theme.palette.surface.border : undefined 
+                  }} />
 
                   <Box display='flex' gap={2}>
                     <Button
@@ -469,12 +485,12 @@ const Payment = () => {
                         fontSize: '14px',
                         minHeight: 48,
                         '&:hover': {
-                          backgroundColor: '#EEF2FF',
+                          backgroundColor: isDark ? 'rgba(68, 76, 231, 0.1)' : '#EEF2FF',
                           borderColor: '#444CE7'
                         }
                       }}
                     >
-                      {isSmallScreen ? 'Bank' : 'Bank Transfer'}
+                      {isSmallScreen ? t('checkout.bank') : t('checkout.bankTransfer')}
                     </Button>
 
                     <Button
@@ -497,12 +513,12 @@ const Payment = () => {
                         fontSize: '14px',
                         minHeight: 48,
                         '&:hover': {
-                          backgroundColor: '#ECFDF5',
+                          backgroundColor: isDark ? 'rgba(18, 183, 106, 0.1)' : '#ECFDF5',
                           borderColor: '#12B76A'
                         }
                       }}
                     >
-                      {isSmallScreen ? 'Crypto' : 'Cryptocurrency'}
+                      {isSmallScreen ? t('checkout.crypto') : t('checkout.cryptocurrency')}
                     </Button>
                   </Box>
                 </Box>
@@ -510,41 +526,37 @@ const Payment = () => {
                 <Box
                   display='flex'
                   justifyContent='space-between'
-                  // alignItems='center'
                   mt={3}
                 >
-                  {/* Left text */}
                   <Typography
                     variant='caption'
-                    color='#515151'
+                    color={isDark ? theme.palette.text.secondary : '#515151'}
                     fontWeight={400}
                     fontSize={12}
                     sx={{ textAlign: 'left' }}
                   >
-                    If you need to continue later, save your {'\n'} Transaction
-                    ID:
+                    {t('checkout.transactionIdNote')}
                   </Typography>
 
-                  {/* Right part: ID and copy icon */}
                   <Box display='flex' alignItems='center' gap={1}>
                     <Typography
                       variant='caption'
                       fontWeight={500}
                       fontSize={12}
-                      color='#515151'
+                      color={isDark ? theme.palette.text.secondary : '#515151'}
                     >
-                      #{linkId || 'Loading...'}
+                      #{linkId || t('checkout.loading')}
                     </Typography>
-                    <Tooltip title='Copy'>
+                    <Tooltip title={t('common.copy')}>
                       <IconButton
                         size='small'
                         sx={{
-                          bgcolor: '#E7EAFD',
+                          bgcolor: isDark ? '#2a2a4a' : '#E7EAFD',
                           p: 0.5,
                           height: '24px',
                           width: '24px',
                           borderRadius: '5px',
-                          '&:hover': { bgcolor: '#E0E7FF' }
+                          '&:hover': { bgcolor: isDark ? '#3a3a5a' : '#E0E7FF' }
                         }}
                       >
                         <CopyIcon />
@@ -554,9 +566,7 @@ const Payment = () => {
                 </Box>
               </Paper>
             </Box>
-          ) : // <UnderPayment/>
-          // <OverPayment/>
-          activeStep === 1 ? (
+          ) : activeStep === 1 ? (
             transferMethod === 'bank' ? (
               <BankTransferCompo
                 activeStep={activeStep}
@@ -585,6 +595,14 @@ const Payment = () => {
       </Box>
     </Pay3Layout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+    },
+  }
 }
 
 export default paymentAuth(Payment)
