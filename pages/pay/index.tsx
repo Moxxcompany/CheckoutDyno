@@ -895,6 +895,9 @@ const Payment = () => {
               type={'bank'}
               redirectUrl={redirectUrl}
               transactionId={linkId}
+              merchantName={merchantInfo?.name}
+              amount={`${Number(totalAmount).toFixed(2)} ${displayCurrency}`}
+              email={tokenData?.email}
             />
           ) : null}
         </Box>
