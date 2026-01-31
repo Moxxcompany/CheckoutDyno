@@ -157,7 +157,7 @@ const OverPayment = ({
             fontFamily="Space Grotesk"
             color={theme.palette.text.primary}
           >
-            Overpayment Received
+            {t('overpayment.title')}
           </Typography>
 
           <Typography
@@ -166,7 +166,7 @@ const OverPayment = ({
             mb={3}
             fontFamily="Space Grotesk"
           >
-            Thanks! You&apos;ve paid a bit extra.
+            {t('overpayment.subtitle')}
           </Typography>
 
           {/* Transaction ID Box */}
@@ -240,7 +240,7 @@ const OverPayment = ({
                 fontFamily="Space Grotesk"
                 sx={{ fontSize: { xs: "12px", sm: "14px", md: "16px" } }}
               >
-                Paid:
+                {t('underpayment.paid')}
               </Typography>
 
               <Box textAlign="right">
@@ -280,7 +280,7 @@ const OverPayment = ({
                 fontFamily="Space Grotesk"
                 sx={{ fontSize: { xs: "12px", sm: "14px", md: "16px" } }}
               >
-                Total Due:
+                {t('overpayment.totalDue')}
               </Typography>
 
               <Box textAlign="right">
@@ -321,7 +321,7 @@ const OverPayment = ({
                 fontFamily="Space Grotesk"
                 sx={{ fontSize: { xs: "14px", sm: "16px", md: "20px" } }}
               >
-                Excess:
+                {t('overpayment.excess')}
               </Typography>
 
               <Box textAlign="right">
@@ -370,7 +370,7 @@ const OverPayment = ({
                 textAlign="left"
                 fontWeight={500}
               >
-                Excess amount will be refunded to your Wallet of the store you purchased from.
+                {t('overpayment.refundNotice')}
               </Typography>
             </Box>
 
