@@ -1269,11 +1269,16 @@ const CryptoTransfer = ({
                 <Typography
                   key={net}
                   border={`1px solid ${
-                    selectedNetwork === net ? "#86A4F9" : "#E7EAFD"
+                    selectedNetwork === net 
+                      ? (isDark ? '#6C7BFF' : "#86A4F9") 
+                      : (isDark ? theme.palette.divider : "#E7EAFD")
                   }`}
                   padding="5px 10px"
                   fontSize="small"
-                  bgcolor={selectedNetwork === net ? "#E7EAFD" : "#F5F8FF"}
+                  bgcolor={selectedNetwork === net 
+                    ? (isDark ? 'rgba(108, 123, 255, 0.2)' : "#E7EAFD") 
+                    : (isDark ? 'rgba(255, 255, 255, 0.05)' : "#F5F8FF")}
+                  color={theme.palette.text.primary}
                   borderRadius="5px"
                   sx={{ cursor: "pointer" }}
                   onClick={() => handleNetworkChange(net)}
@@ -1293,9 +1298,9 @@ const CryptoTransfer = ({
               px={2}
               border="1px solid #f59e0b"
               borderRadius="8px"
-              bgcolor="#fffbeb"
+              bgcolor={isDark ? 'rgba(255, 251, 235, 0.1)' : "#fffbeb"}
             >
-              <Typography fontFamily="Space Grotesk" color="#b45309" fontSize="small">
+              <Typography fontFamily="Space Grotesk" color="#f59e0b" fontSize="small">
                 No USDT networks configured. Please select another cryptocurrency.
               </Typography>
             </Box>
