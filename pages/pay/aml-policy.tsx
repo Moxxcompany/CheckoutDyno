@@ -123,11 +123,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   }
 }
 
-export const getStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: 'blocking'
-  }
-}
-
 export default AMLPolicyPage;
