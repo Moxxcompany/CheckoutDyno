@@ -32,7 +32,48 @@
     "seconds": "s",
     "securePayment": "Secure payment by DynoPay",
     "copied": "Copied!",
-    "copyInvoice": "Copy Invoice Number"
+    "copyInvoice": "Copy Invoice Number",
+    "remainingBalance": "Remaining Balance",
+    "invoiceExpiresIn": "invoice expires in:"
+  },
+  "crypto": {
+    "title": "Cryptocurrency",
+    "preferredCrypto": "Preferred Crypto",
+    "preferredNetwork": "Preferred Network",
+    "sendToAddress": "Send {{crypto}} ({{network}}) to This Address",
+    "sendOnlyWarning": "Send only {{crypto}} in {{network}} network to this address, or your funds will be lost.",
+    "paymentDetected": "Payment detected, awaiting confirmation...",
+    "paymentDetectedDesc": "We detected your payment in the blockchain. Waiting for {{confirmations}} confirmation...",
+    "paymentConfirmed": "Payment Confirmed!",
+    "goToWebsite": "Go to Website",
+    "selectCrypto": "Select Crypto",
+    "selectNetwork": "Select Network",
+    "scanQrCode": "Scan QR Code",
+    "orCopyAddress": "or copy address below",
+    "addressCopied": "Address copied!",
+    "networkFee": "Network fee applies"
+  },
+  "underpayment": {
+    "title": "Partial Payment Received",
+    "subtitle": "Almost there! Please complete the payment.",
+    "paymentProgress": "Payment Progress",
+    "complete": "{{percent}}% Complete",
+    "graceWarning": "Complete payment within {{minutes}} minutes to use the same address.",
+    "paid": "Paid:",
+    "payRemainingCrypto": "Pay Remaining with Crypto"
+  },
+  "overpayment": {
+    "title": "Overpayment Received",
+    "subtitle": "Thanks! You've paid a bit extra.",
+    "totalDue": "Total Due:",
+    "excess": "Excess:",
+    "refundNotice": "Excess amount will be refunded to your Wallet of the store you purchased from."
+  },
+  "expired": {
+    "title": "Payment Link Expired",
+    "message": "This payment link has expired. Please contact the merchant to request a new payment link.",
+    "merchant": "Merchant",
+    "goBack": "Go Back"
   },
   "success": {
     "paymentSuccessful": "Payment Successful",
