@@ -142,6 +142,7 @@ const Payment = () => {
       setTokenData(tempToken)
       setFeePayer(data.fee_payer || '')
       setLinkId(tempToken?.transaction_id || '')
+      setRedirectUrl(data.redirect_url || null)
       
       const amount = Number(data.amount)
       if (amount && data.base_currency) {
