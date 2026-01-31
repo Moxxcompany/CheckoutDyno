@@ -1,7 +1,7 @@
 # DynoPay Payment Application - PRD
 
 ## Original Problem Statement
-Setup and install dependencies, then perform UI responsive, scroll depth & heatmap analysis and visual regression testing ensuring it appears correctly and pixel perfect on all devices, web and mobile. Ensure dark mode covers all pages.
+Setup and install necessary dependencies for the Next.js DynoPay payment application.
 
 ## Architecture
 - **Framework**: Next.js 14 with TypeScript
@@ -25,26 +25,12 @@ Setup and install dependencies, then perform UI responsive, scroll depth & heatm
 4. `/pay/aml-policy` - AML Policy
 5. `/pay2/*` - Alternative payment flow
 
-## What's Been Implemented (Jan 31, 2026)
+## What's Been Implemented
 
-### Build Fixes
-- Fixed `axiosConfig.ts` URL handling for undefined `NEXT_PUBLIC_BASE_URL`
-- Added `sharp` package for image optimization
-- Added `eslint` as explicit dependency
-- Made `useThemeMode` hook SSR-safe with fallback values
-- Moved `layout.tsx` from pages to components to fix static generation
-
-### UI/UX Improvements
-- Created proper homepage with DynoPay branding
-- Added meaningful fallback message on `/pay` when no payment link
-- Added `data-testid` attributes for dark mode toggles
-- Added `data-testid` for mobile menu button
-
-### Testing Completed
-- Responsive design: Desktop (1920x1080, 1440x900), Tablet (768x1024), Mobile (375x667, 390x844)
-- Dark mode toggle functionality verified
-- Visual regression testing passed
-- All pages accessible and scrollable
+### Jan 31, 2026 - Initial Setup
+- Installed 471 npm packages
+- Development server running on localhost:3000
+- All dependencies resolved successfully
 
 ## Backlog / Future Enhancements
 - P1: Add loading states for payment forms
@@ -52,25 +38,4 @@ Setup and install dependencies, then perform UI responsive, scroll depth & heatm
 - P3: Add more language options beyond EN/FR
 
 ## Next Tasks
-- Ready for deployment on Railway
-
-## Update: Redirect URL Implementation (Jan 31, 2026)
-
-### Feature: Merchant Redirect URL Support
-When merchants create payment links with a `redirect_url`, users are automatically redirected back to the merchant's site after successful payment.
-
-### Data Flow
-1. User visits payment link
-2. `/api/pay/getData` returns data INCLUDING `redirect_url`
-3. `pages/pay/index.tsx` stores `redirect_url` in state
-4. User completes payment (crypto or bank)
-5. On success → Check redirect_url
-   - If exists → Redirect to: `{redirect_url}?transaction_id=xxx&status=success`
-   - If not → Show default success page
-
-### Files Modified
-- `pages/pay/index.tsx` - Store redirect_url, pass to child components
-- `Components/Page/Pay3Components/cryptoTransfer.tsx` - Accept redirectUrl prop, redirect on success
-- `Components/Page/Pay3Components/bankTransferCompo.tsx` - Accept redirectUrl prop, redirect on success  
-- `Components/Page/Pay3Components/success.tsx` - Auto-redirect after 3 seconds
-- `Components/UI/TransferExpectedCard/Index.tsx` - Auto-redirect with countdown UI
+- Ready for feature development or deployment
