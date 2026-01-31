@@ -76,7 +76,7 @@ const Header = ({
 
           {/* Right: Menu or Full Actions */}
           {isMobile ? (
-            <IconButton onClick={toggleDrawer} sx={{ color: 'white' }}>
+            <IconButton data-testid="mobile-menu-button" onClick={toggleDrawer} sx={{ color: 'white' }}>
               <MenuIcon />
             </IconButton>
           ) : (
