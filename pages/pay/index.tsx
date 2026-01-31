@@ -399,9 +399,10 @@ const Payment = () => {
             >
               <Paper
                 elevation={3}
+                data-testid="checkout-card"
                 sx={{
                   borderRadius: 4,
-                  p: 4,
+                  p: { xs: 2.5, sm: 4 },
                   width: '100%',
                   maxWidth: 500,
                   marginTop: 10,
@@ -415,21 +416,41 @@ const Payment = () => {
                   transition: 'all 0.3s ease',
                 }}
               >
+                {/* Logo Section - Merchant logo or DynoPay */}
                 <Box display='flex' justifyContent='center' mb={2}>
-                  <Logo />
+                  {merchantInfo?.company_logo ? (
+                    <Box
+                      component="img"
+                      src={merchantInfo.company_logo}
+                      alt={merchantInfo.name || 'Merchant'}
+                      sx={{
+                        maxHeight: 50,
+                        maxWidth: 150,
+                        objectFit: 'contain'
+                      }}
+                      onError={(e: any) => {
+                        e.target.style.display = 'none'
+                      }}
+                    />
+                  ) : (
+                    <Logo />
+                  )}
                 </Box>
 
+                {/* Context-Aware Title */}
                 <Typography
                   fontWeight={500}
-                  fontSize={25}
+                  fontSize={{ xs: 20, sm: 25 }}
                   lineHeight='98%'
                   gutterBottom
                   fontFamily='Space Grotesk'
                   color={theme.palette.text.primary}
+                  data-testid="checkout-title"
                 >
-                  {t('checkout.title')}
+                  {getTitle()}
                 </Typography>
 
+                {/* Dynamic Subtitle with Merchant Name */}
                 <Typography
                   color={isDark ? theme.palette.text.secondary : '#000'}
                   fontWeight={400}
@@ -437,12 +458,90 @@ const Payment = () => {
                   lineHeight='18px'
                   mb={3}
                   fontFamily='Space Grotesk'
+                  data-testid="checkout-subtitle"
                 >
-                  <span>
-                    {t('checkout.subtitle')}
-                  </span>
+                  {getSubtitle()}
                 </Typography>
 
+                {/* Order Details Section */}
+                {(description || orderReference) && (
+                  <Box
+                    sx={{
+                      border: `1px solid ${isDark ? theme.palette.surface.border : '#E7EAFD'}`,
+                      borderRadius: '10px',
+                      p: 2,
+                      mb: 2,
+                      textAlign: 'left',
+                      backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : '#FAFBFF'
+                    }}
+                    data-testid="order-details-section"
+                  >
+                    <Typography
+                      fontWeight={600}
+                      fontSize={11}
+                      color={isDark ? theme.palette.text.secondary : '#666'}
+                      fontFamily='Space Grotesk'
+                      letterSpacing={0.5}
+                      mb={1}
+                    >
+                      {t('checkout.orderDetails')}
+                    </Typography>
+                    
+                    {description && (
+                      <Typography
+                        fontWeight={500}
+                        fontSize={14}
+                        color={theme.palette.text.primary}
+                        fontFamily='Space Grotesk'
+                        mb={orderReference ? 1.5 : 0}
+                      >
+                        {description}
+                      </Typography>
+                    )}
+                    
+                    {orderReference && (
+                      <Box display='flex' alignItems='center' justifyContent='space-between'>
+                        <Box>
+                          <Typography
+                            fontWeight={600}
+                            fontSize={10}
+                            color={isDark ? theme.palette.text.secondary : '#888'}
+                            fontFamily='Space Grotesk'
+                            letterSpacing={0.5}
+                          >
+                            {t('checkout.invoice')}
+                          </Typography>
+                          <Typography
+                            fontWeight={500}
+                            fontSize={13}
+                            color={theme.palette.text.primary}
+                            fontFamily='Space Grotesk'
+                            data-testid="invoice-number"
+                          >
+                            {orderReference}
+                          </Typography>
+                        </Box>
+                        <Tooltip title={t('checkout.copyInvoice')}>
+                          <IconButton
+                            size='small'
+                            onClick={handleCopyInvoice}
+                            data-testid="copy-invoice-btn"
+                            sx={{
+                              bgcolor: isDark ? '#2a2a4a' : '#E7EAFD',
+                              p: 0.75,
+                              borderRadius: '6px',
+                              '&:hover': { bgcolor: isDark ? '#3a3a5a' : '#E0E7FF' }
+                            }}
+                          >
+                            <CopyIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    )}
+                  </Box>
+                )}
+
+                {/* Fee Breakdown Section */}
                 <Box
                   alignItems='center'
                   border={`1px solid ${isDark ? theme.palette.surface.border : '#DFDFDF'}`}
@@ -450,7 +549,97 @@ const Payment = () => {
                   px='21px'
                   py='18px'
                   sx={{ transition: 'border-color 0.3s ease' }}
+                  data-testid="fee-breakdown-section"
                 >
+                  {/* Subtotal Row */}
+                  {(feeInfo || taxInfo) && (
+                    <>
+                      <Box display='flex' justifyContent='space-between' alignItems='center' mb={1}>
+                        <Typography
+                          fontSize={14}
+                          fontFamily='Space Grotesk'
+                          color={isDark ? theme.palette.text.secondary : '#666'}
+                        >
+                          {t('checkout.subtotal')}
+                        </Typography>
+                        <Typography
+                          fontSize={14}
+                          fontFamily='Space Grotesk'
+                          fontWeight={500}
+                          color={theme.palette.text.primary}
+                        >
+                          {loading ? (
+                            <Skeleton width={60} height={20} />
+                          ) : (
+                            `${subtotalAmount.toFixed(2)} ${walletState?.currency}`
+                          )}
+                        </Typography>
+                      </Box>
+
+                      {/* Processing Fee Row */}
+                      {feeInfo && feeInfo.fee_payer === 'customer' && feeInfo.processing_fee > 0 && (
+                        <Box display='flex' justifyContent='space-between' alignItems='center' mb={1}>
+                          <Typography
+                            fontSize={14}
+                            fontFamily='Space Grotesk'
+                            color={isDark ? theme.palette.text.secondary : '#666'}
+                          >
+                            {t('checkout.processingFee')}
+                          </Typography>
+                          <Typography
+                            fontSize={14}
+                            fontFamily='Space Grotesk'
+                            fontWeight={500}
+                            color={theme.palette.text.primary}
+                          >
+                            {processingFee.toFixed(2)} {walletState?.currency}
+                          </Typography>
+                        </Box>
+                      )}
+
+                      {/* Fee Included Indicator */}
+                      {feeInfo && feeInfo.fee_payer === 'merchant' && (
+                        <Box display='flex' alignItems='center' mb={1} gap={0.5}>
+                          <Icon icon="mdi:check-circle" color="#12B76A" width={16} />
+                          <Typography
+                            fontSize={12}
+                            fontFamily='Space Grotesk'
+                            color="#12B76A"
+                          >
+                            {t('checkout.processingFeesIncluded')}
+                          </Typography>
+                        </Box>
+                      )}
+
+                      {/* Tax Row */}
+                      {taxInfo && taxInfo.amount > 0 && (
+                        <Box display='flex' justifyContent='space-between' alignItems='center' mb={1}>
+                          <Typography
+                            fontSize={14}
+                            fontFamily='Space Grotesk'
+                            color={isDark ? theme.palette.text.secondary : '#666'}
+                          >
+                            {taxInfo.country 
+                              ? t('checkout.vatRate', { rate: taxInfo.rate, country: taxInfo.country })
+                              : t('checkout.tax')
+                            }
+                          </Typography>
+                          <Typography
+                            fontSize={14}
+                            fontFamily='Space Grotesk'
+                            fontWeight={500}
+                            color={theme.palette.text.primary}
+                          >
+                            {taxAmount.toFixed(2)} {walletState?.currency}
+                          </Typography>
+                        </Box>
+                      )}
+
+                      <Divider sx={{ my: 1.5, borderColor: isDark ? theme.palette.surface.border : undefined }} />
+                    </>
+                  )}
+
+                  {/* Total Row */}
                   <Box
                     display='flex'
                     justifyContent='space-between'
@@ -460,18 +649,11 @@ const Payment = () => {
                     <Typography
                       variant='subtitle2'
                       fontFamily='Space Grotesk'
-                      fontWeight={500}
-                      fontSize={20}
+                      fontWeight={600}
+                      fontSize={{ xs: 14, sm: 18 }}
                       color={theme.palette.text.primary}
-                      sx={{
-                        fontSize: {
-                          xs: '12px',
-                          sm: '18px',
-                          md: '20px'
-                        }
-                      }}
                     >
-                      {t('checkout.toPay')}
+                      {t('checkout.total')}
                     </Typography>
 
                     <Box
@@ -492,6 +674,7 @@ const Payment = () => {
                         }
                       }}
                       onClick={handleClick}
+                      data-testid="currency-selector"
                     >
                       {!loading ? (
                         <>
@@ -503,22 +686,14 @@ const Payment = () => {
                             )?.icon}
 
                           <Typography
-                            fontWeight={500}
+                            fontWeight={600}
                             fontFamily='Space Grotesk'
-                            fontSize={25}
+                            fontSize={{ xs: 14, sm: 20 }}
                             color={theme.palette.text.primary}
-                            sx={{
-                              fontSize: {
-                                xs: '12px',
-                                sm: '18px',
-                                md: '20px'
-                              }
-                            }}
+                            data-testid="total-amount"
                           >
-                            {Number(
-                              currencyRates?.total_amount_source ?? currencyRates?.amount ?? walletState?.amount
-                            ).toFixed(2)}{' '}
-                            {currencyRates?.currency ?? walletState?.currency}
+                            {Number(totalAmount).toFixed(2)}{' '}
+                            {displayCurrency}
                           </Typography>
                           <Icon
                             icon={
@@ -616,6 +791,7 @@ const Payment = () => {
                         setActiveStep(1)
                         setTransferMethod('crypto')
                       }}
+                      data-testid="crypto-payment-btn"
                       sx={{
                         borderColor: '#12B76A',
                         color: '#12B76A',
@@ -640,45 +816,94 @@ const Payment = () => {
                   </Box>
                 </Box>
 
-                <Box
-                  display='flex'
-                  justifyContent='space-between'
-                  mt={3}
-                >
-                  <Typography
-                    variant='caption'
-                    color={isDark ? theme.palette.text.secondary : '#515151'}
-                    fontWeight={400}
-                    fontSize={12}
-                    sx={{ textAlign: 'left' }}
+                {/* Expiry Countdown */}
+                {countdown && countdown !== 'Expired' && (
+                  <Box 
+                    display='flex' 
+                    alignItems='center' 
+                    justifyContent='center' 
+                    gap={1} 
+                    mt={2}
+                    data-testid="expiry-countdown"
                   >
-                    {t('checkout.transactionIdNote')}
-                  </Typography>
+                    <Icon icon="mdi:clock-outline" width={16} color={isDark ? theme.palette.text.secondary : '#666'} />
+                    <Typography
+                      fontSize={13}
+                      fontFamily='Space Grotesk'
+                      color={isDark ? theme.palette.text.secondary : '#666'}
+                    >
+                      {t('checkout.expiresIn')} <strong>{countdown}</strong>
+                    </Typography>
+                  </Box>
+                )}
 
-                  <Box display='flex' alignItems='center' gap={1}>
+                {/* Transaction ID & Security Badge */}
+                <Box mt={2}>
+                  <Box
+                    display='flex'
+                    justifyContent='space-between'
+                    alignItems='center'
+                    flexWrap='wrap'
+                    gap={1}
+                  >
                     <Typography
                       variant='caption'
-                      fontWeight={500}
-                      fontSize={12}
                       color={isDark ? theme.palette.text.secondary : '#515151'}
+                      fontWeight={400}
+                      fontSize={12}
+                      sx={{ textAlign: 'left' }}
                     >
-                      #{linkId || t('checkout.loading')}
+                      {t('checkout.transactionIdNote')}
                     </Typography>
-                    <Tooltip title={t('common.copy')}>
-                      <IconButton
-                        size='small'
-                        sx={{
-                          bgcolor: isDark ? '#2a2a4a' : '#E7EAFD',
-                          p: 0.5,
-                          height: '24px',
-                          width: '24px',
-                          borderRadius: '5px',
-                          '&:hover': { bgcolor: isDark ? '#3a3a5a' : '#E0E7FF' }
-                        }}
+
+                    <Box display='flex' alignItems='center' gap={1}>
+                      <Typography
+                        variant='caption'
+                        fontWeight={500}
+                        fontSize={12}
+                        color={isDark ? theme.palette.text.secondary : '#515151'}
+                        data-testid="transaction-id"
                       >
-                        <CopyIcon />
-                      </IconButton>
-                    </Tooltip>
+                        #{linkId || t('checkout.loading')}
+                      </Typography>
+                      <Tooltip title={t('common.copy')}>
+                        <IconButton
+                          size='small'
+                          onClick={handleCopyTransactionId}
+                          data-testid="copy-transaction-btn"
+                          sx={{
+                            bgcolor: isDark ? '#2a2a4a' : '#E7EAFD',
+                            p: 0.5,
+                            height: '24px',
+                            width: '24px',
+                            borderRadius: '5px',
+                            '&:hover': { bgcolor: isDark ? '#3a3a5a' : '#E0E7FF' }
+                          }}
+                        >
+                          <CopyIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </Box>
+
+                  {/* Security Badge */}
+                  <Box 
+                    display='flex' 
+                    alignItems='center' 
+                    justifyContent='center' 
+                    gap={0.5} 
+                    mt={2}
+                    data-testid="security-badge"
+                  >
+                    <Icon icon="mdi:lock" width={14} color={isDark ? '#6C7BFF' : '#444CE7'} />
+                    <Typography
+                      fontSize={12}
+                      fontFamily='Space Grotesk'
+                      color={isDark ? '#6C7BFF' : '#444CE7'}
+                      fontWeight={500}
+                    >
+                      {t('checkout.securePayment')}
+                    </Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -713,6 +938,15 @@ const Payment = () => {
           ) : null}
         </Box>
         <FloatingChatButton />
+
+        {/* Copy Success Snackbar */}
+        <Snackbar
+          open={copySnackbar}
+          autoHideDuration={2000}
+          onClose={() => setCopySnackbar(false)}
+          message={t('checkout.copied')}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        />
       </Box>
     </Pay3Layout>
   )
