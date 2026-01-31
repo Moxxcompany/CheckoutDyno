@@ -584,6 +584,7 @@ const Payment = () => {
                 setActiveStep={setActiveStep}
                 walletState={walletState}
                 feePayer={feePayer}
+                redirectUrl={redirectUrl}
               />
             )
           ) : activeStep === 2 ? (
