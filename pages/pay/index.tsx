@@ -234,10 +234,10 @@ const Payment = () => {
       
       if (data.tax_info) {
         setTaxInfo({
-          rate: data.tax_info.rate || 0,
-          amount: data.tax_info.amount || 0,
-          country: data.tax_info.country || '',
-          type: data.tax_info.type || 'VAT'
+          rate: data.tax_info.tax_rate || data.tax_info.rate || 0,
+          amount: data.tax_info.tax_amount || data.tax_info.amount || 0,
+          country: data.tax_info.country_name || data.tax_info.country || '',
+          type: data.tax_info.tax_acronym || data.tax_info.type || 'VAT'
         })
       }
       
