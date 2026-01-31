@@ -8,7 +8,7 @@ import {
 import Pay3Layout from '@/Components/Layout/Pay3Layout';
 import BackButton from '@/Components/Page/Pay3Components/backButton';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { useTranslation } from 'next-i18next';
 
 const TermsOfService = () => {
@@ -97,12 +97,40 @@ const TermsOfService = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
+  // If user already has a locale set (not default), respect their choice
+  if (locale && locale !== 'en') {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale, ['common'])),
+      },
+    };
+  }
+
+  // Try to detect locale from IP for first-time visitors
+  try {
+    const { detectGeoLocale, getClientIp } = await import('@/utils/geoLocale');
+    const clientIp = getClientIp(req);
+    const geoData = await detectGeoLocale(clientIp);
+    
+    // If detected locale is different from current, redirect
+    if (geoData.locale !== 'en' && geoData.locale !== locale) {
+      return {
+        redirect: {
+          destination: `/${geoData.locale}/pay/terms-of-service`,
+          permanent: false,
+        },
+      };
+    }
+  } catch (error) {
+    console.error('Geo-locale detection failed:', error);
+  }
+
   return {
     props: {
       ...(await serverSideTranslations(locale ?? 'en', ['common'])),
     },
-  }
+  };
 }
 
 export default TermsOfService;
