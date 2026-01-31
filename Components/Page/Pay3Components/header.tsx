@@ -50,7 +50,8 @@ const Header = ({
 
   const handleLanguageChange = (event: any) => {
     const newLocale = event.target.value as string;
-    router.push(router.pathname, router.asPath, { locale: newLocale });
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, asPath, { locale: newLocale });
   };
 
   return (
