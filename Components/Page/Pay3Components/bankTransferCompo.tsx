@@ -184,8 +184,22 @@ const BankTransferCompo = ({
 
       if (data?.success) {
         setIsSuccess(true);
-        const redirectUri = generateRedirectUrl(data);
-        setIsBank(redirectUri);
+        
+        // Use redirectUrl prop if available, otherwise use generated URL
+        if (redirectUrl) {
+          try {
+            const url = new URL(redirectUrl);
+            url.searchParams.set('transaction_id', transferDetails?.hash || '');
+            url.searchParams.set('status', 'success');
+            setIsBank(url.toString());
+          } catch (e) {
+            // If URL parsing fails, use redirectUrl as-is
+            setIsBank(redirectUrl);
+          }
+        } else {
+          const redirectUri = generateRedirectUrl(data);
+          setIsBank(redirectUri);
+        }
 
         // window.location.replace(redirectUri)
       } else {
