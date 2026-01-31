@@ -1729,8 +1729,8 @@ const CryptoTransfer = ({
                   fullWidth
                   variant="outlined"
                   sx={{
-                    borderColor: "#4F46E5",
-                    color: "#4F46E5",
+                    borderColor: isDark ? '#6C7BFF' : "#4F46E5",
+                    color: isDark ? '#6C7BFF' : "#4F46E5",
                     textTransform: "none",
                     marginTop: "15px",
                     borderRadius: 30,
@@ -1740,8 +1740,8 @@ const CryptoTransfer = ({
                     width: "100%",
                     minWidth: "auto",
                     "&:hover": {
-                      backgroundColor: "#EEF2FF",
-                      borderColor: "#4F46E5",
+                      backgroundColor: isDark ? 'rgba(108, 123, 255, 0.1)' : "#EEF2FF",
+                      borderColor: isDark ? '#6C7BFF' : "#4F46E5",
                     },
                   }}
                   endIcon={<span style={{ fontSize: "1.2rem" }}>→</span>}
