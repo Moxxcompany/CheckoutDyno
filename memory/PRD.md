@@ -13,6 +13,7 @@ Set up and install all necessary dependencies for Next.js payment application.
 
 ## What's Been Implemented
 - [2026-01-30] Initial setup - installed all npm dependencies (457 packages)
+- [2026-01-31] Fixed turbopack build issue, switched to standard webpack dev server
 - Dev server running on port 3000
 
 ## Core Features (Existing)
@@ -23,6 +24,5 @@ Set up and install all necessary dependencies for Next.js payment application.
 - Credit card components
 
 ## Backlog / Next Tasks
-- P0: Fix home page JSX syntax
 - P1: Implement payment flows
 - P2: Add backend integration if needed
