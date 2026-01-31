@@ -469,35 +469,6 @@ const Payment = () => {
                     <Button
                       fullWidth
                       variant='outlined'
-                      startIcon={<Icon icon='mingcute:bank-line' width='16' />}
-                      onClick={() => {
-                        setActiveStep(1)
-                        setTransferMethod('bank')
-                      }}
-                      sx={{
-                        borderColor: '#444CE7',
-                        color: '#444CE7',
-                        textTransform: 'none',
-                        fontFamily: 'Space Grotesk',
-                        fontWeight: '500',
-                        borderRadius: 30,
-                        py: {
-                          xs: 1.2
-                        },
-                        fontSize: '14px',
-                        minHeight: 48,
-                        '&:hover': {
-                          backgroundColor: isDark ? 'rgba(68, 76, 231, 0.1)' : '#EEF2FF',
-                          borderColor: '#444CE7'
-                        }
-                      }}
-                    >
-                      {isSmallScreen ? t('checkout.bank') : t('checkout.bankTransfer')}
-                    </Button>
-
-                    <Button
-                      fullWidth
-                      variant='outlined'
                       startIcon={<BitCoinGreenIcon width={8.25} />}
                       onClick={() => {
                         setActiveStep(1)
@@ -509,18 +480,20 @@ const Payment = () => {
                         textTransform: 'none',
                         borderRadius: 30,
                         fontFamily: 'Space Grotesk',
+                        fontWeight: '500',
                         py: {
-                          xs: 1.2
+                          xs: 1.5,
+                          sm: 2
                         },
-                        fontSize: '14px',
-                        minHeight: 48,
+                        fontSize: '16px',
+                        minHeight: 56,
                         '&:hover': {
                           backgroundColor: isDark ? 'rgba(18, 183, 106, 0.1)' : '#ECFDF5',
                           borderColor: '#12B76A'
                         }
                       }}
                     >
-                      {isSmallScreen ? t('checkout.crypto') : t('checkout.cryptocurrency')}
+                      {t('checkout.cryptocurrency')}
                     </Button>
                   </Box>
                 </Box>
