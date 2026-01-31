@@ -839,60 +839,12 @@ const Payment = () => {
 
                 {/* Transaction ID & Security Badge */}
                 <Box mt={2}>
-                  <Box
-                    display='flex'
-                    justifyContent='space-between'
-                    alignItems='center'
-                    flexWrap='wrap'
-                    gap={1}
-                  >
-                    <Typography
-                      variant='caption'
-                      color={isDark ? theme.palette.text.secondary : '#515151'}
-                      fontWeight={400}
-                      fontSize={12}
-                      sx={{ textAlign: 'left' }}
-                    >
-                      {t('checkout.transactionIdNote')}
-                    </Typography>
-
-                    <Box display='flex' alignItems='center' gap={1}>
-                      <Typography
-                        variant='caption'
-                        fontWeight={500}
-                        fontSize={12}
-                        color={isDark ? theme.palette.text.secondary : '#515151'}
-                        data-testid="transaction-id"
-                      >
-                        #{linkId || t('checkout.loading')}
-                      </Typography>
-                      <Tooltip title={t('common.copy')}>
-                        <IconButton
-                          size='small'
-                          onClick={handleCopyTransactionId}
-                          data-testid="copy-transaction-btn"
-                          sx={{
-                            bgcolor: isDark ? '#2a2a4a' : '#E7EAFD',
-                            p: 0.5,
-                            height: '24px',
-                            width: '24px',
-                            borderRadius: '5px',
-                            '&:hover': { bgcolor: isDark ? '#3a3a5a' : '#E0E7FF' }
-                          }}
-                        >
-                          <CopyIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                  </Box>
-
                   {/* Security Badge */}
                   <Box 
                     display='flex' 
                     alignItems='center' 
                     justifyContent='center' 
                     gap={0.5} 
-                    mt={2}
                     data-testid="security-badge"
                   >
                     <Icon icon="mdi:lock" width={14} color={isDark ? '#6C7BFF' : '#444CE7'} />
