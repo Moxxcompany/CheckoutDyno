@@ -1,3 +1,5 @@
+const { i18n } = require('./next-i18next.config.js');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
@@ -5,6 +7,9 @@ const nextConfig = {
   
   // Enable standalone output for Railway
   output: 'standalone',
+  
+  // i18n configuration
+  i18n,
   
   // Disable telemetry for cleaner logs
   experimental: {
@@ -18,4 +23,4 @@ if (process.env.NODE_ENV === 'production') {
   console.log(`[${new Date().toISOString()}] ✅ Server URL: ${process.env.NEXT_PUBLIC_SERVER_URL || 'not set'}`);
 }
 
-export default nextConfig;
+module.exports = nextConfig;
