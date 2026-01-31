@@ -1,23 +1,71 @@
-import React from 'react'
-import { Box, Typography, Button, Card, useTheme } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Box, Typography, Button, Card, useTheme, CircularProgress } from '@mui/material'
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
 import DoneIcon from '@mui/icons-material/Done'
 
 export default function TransferExpectedCard ({
   isTrue,
   type,
-  dataUrl
+  dataUrl,
+  redirectUrl,
+  transactionId
 }: {
   isTrue?: boolean
   type: string
   dataUrl: string
+  redirectUrl?: string | null
+  transactionId?: string
 }) {
   const theme = useTheme()
+  const [countdown, setCountdown] = useState(3)
+  const [isAutoRedirecting, setIsAutoRedirecting] = useState(false)
+
+  // Auto-redirect after 3 seconds if redirectUrl is provided and payment is successful
+  useEffect(() => {
+    if (isTrue && redirectUrl && transactionId) {
+      setIsAutoRedirecting(true)
+      
+      const timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer)
+            // Build redirect URL with transaction info
+            try {
+              const url = new URL(redirectUrl)
+              url.searchParams.set('transaction_id', transactionId)
+              url.searchParams.set('status', 'success')
+              window.location.href = url.toString()
+            } catch (e) {
+              // If URL parsing fails, redirect with query string
+              const separator = redirectUrl.includes('?') ? '&' : '?'
+              window.location.href = `${redirectUrl}${separator}transaction_id=${transactionId}&status=success`
+            }
+            return 0
+          }
+          return prev - 1
+        })
+      }, 1000)
+
+      return () => clearInterval(timer)
+    }
+  }, [isTrue, redirectUrl, transactionId])
 
   const btnGotoWeb = () => {
-    if (dataUrl) {
-      window.location.replace(dataUrl)
-      // window.open(isUrl, '_blank', 'noopener,noreferrer')
+    // Use redirectUrl if available, otherwise use dataUrl
+    const targetUrl = redirectUrl || dataUrl
+    if (targetUrl) {
+      if (redirectUrl && transactionId) {
+        try {
+          const url = new URL(redirectUrl)
+          url.searchParams.set('transaction_id', transactionId)
+          url.searchParams.set('status', 'success')
+          window.location.replace(url.toString())
+          return
+        } catch (e) {
+          // If URL parsing fails, use as-is
+        }
+      }
+      window.location.replace(targetUrl)
     } else {
       console.log('No URL provided')
     }
