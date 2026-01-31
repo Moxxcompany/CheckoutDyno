@@ -10,6 +10,7 @@ import {
   Skeleton,
   Tooltip,
   Typography,
+  useTheme,
 } from "@mui/material";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { ArrowBack } from "@mui/icons-material";
@@ -48,6 +49,8 @@ const BankTransferCompo = ({
   setIsBank,
   redirectUrl,
 }: BankTransferCompoProps) => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
   const [currencyRates, setCurrencyRates] = useState<currencyData[]>();
   const [selectedCurrency, setSelectedCurrency] = useState<currencyData>();
   const [transferDetails, setTransferDetails] = useState<transferDetails>();
