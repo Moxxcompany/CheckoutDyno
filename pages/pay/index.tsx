@@ -576,6 +576,7 @@ const Payment = () => {
                 walletState={walletState}
                 setIsSuccess={setIsSuccess}
                 setIsBank={setIsBank}
+                redirectUrl={redirectUrl}
               />
             ) : (
               <CryptoTransfer
