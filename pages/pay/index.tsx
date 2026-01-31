@@ -210,6 +210,45 @@ const Payment = () => {
       setFeePayer(data.fee_payer || '')
       setLinkId(tempToken?.transaction_id || '')
       setRedirectUrl(data.redirect_url || null)
+
+      // Capture enhanced checkout fields from backend
+      setDescription(data.description || '')
+      setOrderReference(data.order_reference || '')
+      
+      if (data.fee_info) {
+        setFeeInfo({
+          processing_fee: data.fee_info.processing_fee || 0,
+          fee_payer: data.fee_info.fee_payer || data.fee_payer || 'merchant'
+        })
+      } else if (data.fee_payer) {
+        setFeeInfo({
+          processing_fee: 0,
+          fee_payer: data.fee_payer
+        })
+      }
+      
+      if (data.tax_info) {
+        setTaxInfo({
+          rate: data.tax_info.rate || 0,
+          amount: data.tax_info.amount || 0,
+          country: data.tax_info.country || '',
+          type: data.tax_info.type || 'VAT'
+        })
+      }
+      
+      if (data.expiry) {
+        setExpiryInfo({
+          countdown: data.expiry.countdown || '',
+          expires_at: data.expiry.expires_at || ''
+        })
+      }
+      
+      if (data.merchant) {
+        setMerchantInfo({
+          name: data.merchant.name || data.merchant.company_name || '',
+          company_logo: data.merchant.company_logo || null
+        })
+      }
       
       const amount = Number(data.amount)
       if (amount && data.base_currency) {
