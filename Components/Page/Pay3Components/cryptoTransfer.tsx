@@ -1102,11 +1102,11 @@ const CryptoTransfer = ({
               alignItems="center" 
               justifyContent="center" 
               py={2}
-              border="1px solid #737373"
+              border={`1px solid ${isDark ? theme.palette.divider : '#737373'}`}
               borderRadius="10px"
             >
-              <CircularProgress size={24} sx={{ color: "#444CE7" }} />
-              <Typography ml={2} fontFamily="Space Grotesk" color="#515151">
+              <CircularProgress size={24} sx={{ color: isDark ? '#6C7BFF' : "#444CE7" }} />
+              <Typography ml={2} fontFamily="Space Grotesk" color={theme.palette.text.secondary}>
                 Loading currencies...
               </Typography>
             </Box>
