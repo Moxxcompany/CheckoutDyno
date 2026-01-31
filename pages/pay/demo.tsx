@@ -283,9 +283,32 @@ const PaymentDemo = () => {
                   </Typography>
                 </Box>
 
+                {/* Processing Fee Row - Always show with amount */}
+                <Box display='flex' justifyContent='space-between' alignItems='center' mb={1}>
+                  <Box display='flex' alignItems='center' gap={0.5}>
+                    <Typography
+                      fontSize={14}
+                      fontFamily='Space Grotesk'
+                      color={isDark ? theme.palette.text.secondary : '#666'}
+                    >
+                      {t('checkout.processingFee')}
+                    </Typography>
+                    {MOCK_DATA.feeInfo.fee_payer === 'merchant' && (
+                      <Icon icon="mdi:check-circle" color="#12B76A" width={14} />
+                    )}
+                  </Box>
+                  <Typography
+                    fontSize={14}
+                    fontFamily='Space Grotesk'
+                    fontWeight={500}
+                    color={theme.palette.text.primary}
+                  >
+                    €{MOCK_DATA.feeInfo.processing_fee.toFixed(2)}
+                  </Typography>
+                </Box>
+
                 {/* Fee Payer Indicator */}
                 <Box display='flex' alignItems='center' mb={1} gap={0.5}>
-                  <Icon icon="mdi:check-circle" color="#12B76A" width={16} />
                   <Typography
                     fontSize={12}
                     fontFamily='Space Grotesk'
