@@ -1,8 +1,8 @@
 import { PaymentLayout } from "@/Containers";
 import store from "@/store";
 import "@/styles/globals.css";
-import { theme } from "@/styles/theme";
-import { ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import { appWithTranslation } from 'next-i18next';
 
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
@@ -14,22 +14,23 @@ if (typeof window === 'undefined') {
   console.log(`[${new Date().toISOString()}] ✅ Next.js app initialized (server)`);
 }
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter();
   const [pageName, setPageName] = useState("");
+  
   return (
-    <>
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          {pathname.includes("pay") ? (
-            <PaymentLayout pageName={pageName}>
-              <Component {...pageProps} setPageName={setPageName} />
-            </PaymentLayout>
-          ) : (
+    <Provider store={store}>
+      <ThemeProvider>
+        {pathname.includes("pay") ? (
+          <PaymentLayout pageName={pageName}>
             <Component {...pageProps} setPageName={setPageName} />
-          )}
-        </ThemeProvider>
-      </Provider>
-    </>
+          </PaymentLayout>
+        ) : (
+          <Component {...pageProps} setPageName={setPageName} />
+        )}
+      </ThemeProvider>
+    </Provider>
   );
 }
+
+export default appWithTranslation(App);
