@@ -170,6 +170,8 @@ const CryptoTransfer = ({
   merchantInfo,
 }: CryptoTransferProps) => {
   const { t } = useTranslation('common');
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
   const dispatch = useDispatch();
   const [selectedCrypto, setSelectedCrypto] = useState("");
   const [selectedNetwork, setSelectedNetwork] = useState<
