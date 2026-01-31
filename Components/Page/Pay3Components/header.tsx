@@ -72,7 +72,7 @@ const Header = ({
         <Toolbar sx={{ justifyContent: 'space-between', height: '100%' }}>
           {/* Left: Logo */}
           <Box display='flex' alignItems='center' gap={1}>
-            <Image src='/Logo.png' alt='Dynopay' width={180} height={60} />
+            <Logo width={50} height={60} />
           </Box>
 
           {/* Right: Menu or Full Actions */}
@@ -133,6 +133,10 @@ const Header = ({
                 >
                   <MenuItem value="en">EN</MenuItem>
                   <MenuItem value="fr">FR</MenuItem>
+                  <MenuItem value="es">ES</MenuItem>
+                  <MenuItem value="pt">PT</MenuItem>
+                  <MenuItem value="de">DE</MenuItem>
+                  <MenuItem value="nl">NL</MenuItem>
                 </Select>
               </FormControl>
 
@@ -250,6 +254,10 @@ const Header = ({
               >
                 <MenuItem value='en'>EN</MenuItem>
                 <MenuItem value='fr'>FR</MenuItem>
+                <MenuItem value='es'>ES</MenuItem>
+                <MenuItem value='pt'>PT</MenuItem>
+                <MenuItem value='de'>DE</MenuItem>
+                <MenuItem value='nl'>NL</MenuItem>
               </Select>
             </FormControl>
             <Box
