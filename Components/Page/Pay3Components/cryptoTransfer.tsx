@@ -1617,8 +1617,8 @@ const CryptoTransfer = ({
                     gap={1}
                     sx={{
                       // Timer warning when < 5 minutes
-                      ...(timeLeft < 5 * 60 && {
-                        bgcolor: '#FEE2E2',
+                      ...(timeLeft !== null && timeLeft < 5 * 60 && {
+                        bgcolor: isDark ? 'rgba(254, 226, 226, 0.15)' : '#FEE2E2',
                         borderRadius: 1,
                         py: 0.5,
                         px: 1,
@@ -1633,13 +1633,13 @@ const CryptoTransfer = ({
                     <ClockIcon />
                     <Typography
                       variant="body2"
-                      fontWeight={timeLeft < 5 * 60 ? 600 : "normal"}
+                      fontWeight={timeLeft !== null && timeLeft < 5 * 60 ? 600 : "normal"}
                       fontSize="13px"
                       fontFamily="Space Grotesk"
-                      color={timeLeft < 5 * 60 ? "#DC2626" : theme.palette.text.primary}
+                      color={timeLeft !== null && timeLeft < 5 * 60 ? "#DC2626" : theme.palette.text.primary}
                     >
                       invoice expires in: {formatTime(timeLeft)}
-                      {timeLeft < 5 * 60 && timeLeft > 0 && " ⚠️"}
+                      {timeLeft !== null && timeLeft < 5 * 60 && timeLeft > 0 && " ⚠️"}
                     </Typography>
                   </Box>
                 </Box>
