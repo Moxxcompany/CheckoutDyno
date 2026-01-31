@@ -99,6 +99,7 @@ const Payment = () => {
   const [isBank, setIsBank] = useState()
   const [feePayer, setFeePayer] = useState<string>('')
   const [linkId, setLinkId] = useState<string>('')
+  const [redirectUrl, setRedirectUrl] = useState<string | null>(null)
 
   useEffect(() => {
     if (
