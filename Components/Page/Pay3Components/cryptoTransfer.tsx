@@ -923,6 +923,115 @@ const CryptoTransfer = ({
     );
   }
 
+  // Render Expired Payment UI
+  if (paymentStatus === "expired") {
+    return (
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        px={2}
+        minHeight="calc(100vh - 340px)"
+      >
+        <Paper
+          elevation={3}
+          sx={{
+            borderRadius: 4,
+            p: "34px",
+            width: "100%",
+            maxWidth: 450,
+            textAlign: "center",
+            border: "1px solid #FFE0E0",
+            boxShadow: "0px 45px 64px 0px #0D03230F",
+          }}
+        >
+          <Box
+            sx={{
+              width: 80,
+              height: 80,
+              borderRadius: "50%",
+              backgroundColor: "#FEF3F2",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 24px",
+            }}
+          >
+            <Icon icon="solar:clock-circle-bold" width={40} height={40} color="#F04438" />
+          </Box>
+
+          <Typography
+            variant="h5"
+            fontWeight={600}
+            fontFamily="Space Grotesk"
+            color="#101828"
+            mb={2}
+          >
+            Payment Link Expired
+          </Typography>
+
+          <Typography
+            variant="body1"
+            fontFamily="Space Grotesk"
+            color="#667085"
+            mb={3}
+            lineHeight={1.6}
+          >
+            This payment link has expired. Please contact the merchant to request a new payment link.
+          </Typography>
+
+          {merchantInfo?.name && (
+            <Box
+              sx={{
+                backgroundColor: "#F9FAFB",
+                borderRadius: 2,
+                p: 2,
+                mb: 3,
+              }}
+            >
+              <Typography
+                variant="body2"
+                fontFamily="Space Grotesk"
+                color="#667085"
+              >
+                Merchant
+              </Typography>
+              <Typography
+                variant="body1"
+                fontWeight={600}
+                fontFamily="Space Grotesk"
+                color="#101828"
+              >
+                {merchantInfo.name}
+              </Typography>
+            </Box>
+          )}
+
+          <Button
+            variant="outlined"
+            fullWidth
+            onClick={() => setActiveStep(0)}
+            sx={{
+              borderColor: "#D0D5DD",
+              color: "#344054",
+              borderRadius: "30px",
+              py: 1.5,
+              fontFamily: "Space Grotesk",
+              fontWeight: 500,
+              textTransform: "none",
+              "&:hover": {
+                borderColor: "#98A2B3",
+                backgroundColor: "#F9FAFB",
+              },
+            }}
+          >
+            Go Back
+          </Button>
+        </Paper>
+      </Box>
+    );
+  }
+
   return (
     <Box
       display="flex"
