@@ -1,0 +1,33 @@
+{
+  "header": {
+    "wallet": "Portefeuille Dynopay",
+    "language": "FR"
+  },
+  "checkout": {
+    "title": "Votre commande est presque terminée!",
+    "subtitle": "Choisissez un mode de paiement ci-dessous pour finaliser votre transaction:",
+    "toPay": "À payer:",
+    "bankTransfer": "Virement bancaire",
+    "bank": "Banque",
+    "cryptocurrency": "Cryptomonnaie",
+    "crypto": "Crypto",
+    "transactionIdNote": "Si vous devez continuer plus tard, enregistrez votre ID de transaction:",
+    "loading": "Chargement..."
+  },
+  "currency": {
+    "USD": "Dollar américain (USD)",
+    "EUR": "Euro (EUR)",
+    "NGN": "Naira nigérian (NGN)"
+  },
+  "footer": {
+    "termsOfService": "Conditions d'utilisation",
+    "amlPolicy": "Politique AML"
+  },
+  "common": {
+    "copy": "Copier",
+    "back": "Retour",
+    "continue": "Continuer",
+    "submit": "Soumettre",
+    "cancel": "Annuler"
+  }
+}

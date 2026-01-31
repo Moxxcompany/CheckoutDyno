@@ -1,0 +1,33 @@
+{
+  "header": {
+    "wallet": "Dynopay Wallet",
+    "language": "EN"
+  },
+  "checkout": {
+    "title": "Your order is almost complete!",
+    "subtitle": "Choose a payment method below to finalize your transaction:",
+    "toPay": "To Pay:",
+    "bankTransfer": "Bank Transfer",
+    "bank": "Bank",
+    "cryptocurrency": "Cryptocurrency",
+    "crypto": "Crypto",
+    "transactionIdNote": "If you need to continue later, save your Transaction ID:",
+    "loading": "Loading..."
+  },
+  "currency": {
+    "USD": "United States Dollar (USD)",
+    "EUR": "Euro (EUR)",
+    "NGN": "Nigerian Naira (NGN)"
+  },
+  "footer": {
+    "termsOfService": "Terms Of Service",
+    "amlPolicy": "AML Policy"
+  },
+  "common": {
+    "copy": "Copy",
+    "back": "Back",
+    "continue": "Continue",
+    "submit": "Submit",
+    "cancel": "Cancel"
+  }
+}
