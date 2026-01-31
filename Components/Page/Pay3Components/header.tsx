@@ -252,6 +252,7 @@ const Header = ({
               </Select>
             </FormControl>
             <Box
+              data-testid="theme-toggle-mobile"
               onClick={toggleDarkMode}
               sx={{
                 width: 60,
