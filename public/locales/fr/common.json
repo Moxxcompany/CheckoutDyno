@@ -34,6 +34,25 @@
     "copied": "Copié!",
     "copyInvoice": "Copier le numéro de facture"
   },
+  "success": {
+    "paymentSuccessful": "Paiement Réussi",
+    "paidTo": "{{amount}} payé à {{merchant}}",
+    "paidAmount": "{{amount}} payé",
+    "transactionId": "Transaction",
+    "saveForRecords": "Conservez ceci pour vos dossiers",
+    "confirmationSent": "Confirmation envoyée à {{email}}",
+    "redirectingTo": "Redirection vers {{merchant}}...",
+    "redirectingIn": "Redirection dans {{seconds}}s",
+    "returnTo": "Retour à {{merchant}}",
+    "clickIfNotRedirected": "Cliquez ici si non redirigé",
+    "done": "Terminé",
+    "thankYou": "Merci pour votre paiement",
+    "fundsReceived": "Fonds Reçus",
+    "cryptoReceived": "Crypto Reçue",
+    "transferExpected": "Transfert Attendu",
+    "paymentConfirmed": "Votre paiement a été confirmé.",
+    "transferPending": "Si vous avez effectué le transfert, aucune action supplémentaire n'est requise. Nous confirmerons votre paiement dès son arrivée."
+  },
   "currency": {
     "USD": "Dollar américain (USD)",
     "EUR": "Euro (EUR)",
