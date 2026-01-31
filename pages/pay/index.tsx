@@ -263,7 +263,8 @@ const Payment = () => {
             amount: amount,
             currencyList: [data.base_currency],
             fixedDecimal: false,
-            fee_payer: data.fee_payer || undefined
+            fee_payer: data.fee_payer || undefined,
+            tax_amount: data.tax_info?.tax_amount || 0
           });
           console.log('Rates response:', ratesResponse?.data);
           if (ratesResponse?.data?.data && ratesResponse.data.data[0]) {
