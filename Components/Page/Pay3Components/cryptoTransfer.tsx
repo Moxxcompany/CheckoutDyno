@@ -606,6 +606,17 @@ const CryptoTransfer = ({
 
           case "pending":
             // Payment detected, awaiting blockchain confirmation
+            // If in partial payment mode, don't show "payment detected" for old payment
+            // Keep showing "monitoring for payment" until we get confirmed/underpaid again
+            if (isPartialPaymentModeRef.current) {
+              // In partial payment mode - keep monitoring, don't show detected message
+              // The old payment is already processed, we're waiting for new payment
+              setIsStart(false);
+              setIsReceived(false);
+              // Don't clear interval - keep polling
+              break;
+            }
+            
             setIsStart(true);
             setIsReceived(false);
             // Show user feedback that payment was detected (only once)
