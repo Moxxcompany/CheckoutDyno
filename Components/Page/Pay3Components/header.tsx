@@ -137,6 +137,7 @@ const Header = ({
 
               {/* Theme Toggle */}
               <Box
+                data-testid="theme-toggle"
                 onClick={toggleDarkMode}
                 sx={{
                   width: 80,
