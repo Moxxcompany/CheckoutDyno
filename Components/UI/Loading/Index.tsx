@@ -1,7 +1,10 @@
 import React from 'react';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography, useTheme } from '@mui/material';
 
 const Loading = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
+  
   return (
     <Box
       display="flex"
@@ -10,10 +13,10 @@ const Loading = () => {
       justifyContent="center"
       height="50vh"
       width="100%"
-      bgcolor="#F9FAFB"
+      bgcolor={isDark ? theme.palette.background.default : "#F9FAFB"}
       minHeight={'calc(100vh - 340px)'}
     >
-      <CircularProgress size={48} thickness={4} color="primary" />
+      <CircularProgress size={48} thickness={4} sx={{ color: isDark ? '#6C7BFF' : undefined }} />
       <Typography
         variant="subtitle1"
         color="text.secondary"
