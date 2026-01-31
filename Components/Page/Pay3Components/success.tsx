@@ -1,4 +1,4 @@
-import { Box, Typography, CircularProgress } from "@mui/material";
+import { Box, Typography, CircularProgress, useTheme } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -9,6 +9,8 @@ interface SuccessProps {
 
 const Success = ({ redirectUrl, transactionId }: SuccessProps) => {
   const router = useRouter();
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
   const [countdown, setCountdown] = useState(3);
   const [isRedirecting, setIsRedirecting] = useState(false);
 
@@ -80,10 +82,10 @@ const Success = ({ redirectUrl, transactionId }: SuccessProps) => {
       
       {isRedirecting && (
         <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
-          <CircularProgress size={24} sx={{ color: "#444CE7" }} />
+          <CircularProgress size={24} sx={{ color: isDark ? '#6C7BFF' : "#444CE7" }} />
           <Typography
             variant="body1"
-            color="#515151"
+            color={theme.palette.text.secondary}
             fontFamily="Space Grotesk"
           >
             Redirecting to merchant in {countdown} seconds...
