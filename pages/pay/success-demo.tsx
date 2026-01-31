@@ -128,7 +128,7 @@ const SuccessDemo = () => {
             key={currentScenario} // Force re-render on scenario change
             isTrue={scenario.isTrue}
             dataUrl=""
-            type="bank"
+            type={scenario.type}
             redirectUrl={scenario.redirectUrl}
             transactionId={scenario.transactionId}
             merchantName={scenario.merchantName}
