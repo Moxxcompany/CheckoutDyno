@@ -135,6 +135,39 @@ const Payment = () => {
   const [countdown, setCountdown] = useState<string>('')
   const [copySnackbar, setCopySnackbar] = useState(false)
 
+  // Countdown timer effect
+  useEffect(() => {
+    if (!expiryInfo?.expires_at) return
+
+    const updateCountdown = () => {
+      const now = new Date().getTime()
+      const expiry = new Date(expiryInfo.expires_at).getTime()
+      const diff = expiry - now
+
+      if (diff <= 0) {
+        setCountdown('Expired')
+        return
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000)
+
+      const parts = []
+      if (days > 0) parts.push(`${days}${t('checkout.days')}`)
+      if (hours > 0 || days > 0) parts.push(`${hours}${t('checkout.hours')}`)
+      if (minutes > 0 || hours > 0 || days > 0) parts.push(`${minutes}${t('checkout.minutes')}`)
+      parts.push(`${seconds}${t('checkout.seconds')}`)
+
+      setCountdown(parts.join(':'))
+    }
+
+    updateCountdown()
+    const interval = setInterval(updateCountdown, 1000)
+    return () => clearInterval(interval)
+  }, [expiryInfo, t])
+
   useEffect(() => {
     if (
       paymentType === paymentTypes.GOOGLE_PAY ||
