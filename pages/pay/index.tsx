@@ -20,9 +20,10 @@ import {
   Tooltip,
   Typography,
   useMediaQuery,
-  useTheme
+  useTheme,
+  Snackbar
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import 'react-credit-cards-2/dist/es/styles-compiled.css'
 import { useDispatch } from 'react-redux'
 import { walletState } from '../../utils/types/paymentTypes'
@@ -49,6 +50,29 @@ import NGNIcon from '../../assets/Icons/flag/NGN.png'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetServerSideProps } from 'next'
+
+// Types for enhanced checkout data
+interface FeeInfo {
+  processing_fee: number
+  fee_payer: 'customer' | 'merchant'
+}
+
+interface TaxInfo {
+  rate: number
+  amount: number
+  country: string
+  type: string
+}
+
+interface ExpiryInfo {
+  countdown: string
+  expires_at: string
+}
+
+interface MerchantInfo {
+  name: string
+  company_logo: string | null
+}
 
 export const currencyOptions = [
   {
