@@ -168,6 +168,7 @@ const CryptoTransfer = ({
   feeInfo,
   merchantInfo,
 }: CryptoTransferProps) => {
+  const { t } = useTranslation('common');
   const dispatch = useDispatch();
   const [selectedCrypto, setSelectedCrypto] = useState("");
   const [selectedNetwork, setSelectedNetwork] = useState<
