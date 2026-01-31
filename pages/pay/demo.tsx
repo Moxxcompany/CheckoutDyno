@@ -46,7 +46,7 @@ const MOCK_DATA = {
     amount: 100.00,
     currency: 'EUR'
   },
-  totalAmount: 123.00
+  totalAmount: 125.50 // 100 + 23 tax + 2.50 fee
 }
 
 const PaymentDemo = () => {
