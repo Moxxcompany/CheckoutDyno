@@ -126,7 +126,7 @@ const UnderPayment = ({
             fontFamily="Space Grotesk"
             color={theme.palette.text.primary}
           >
-            Partial Payment Received
+            {t('underpayment.title')}
           </Typography>
 
           <Typography
@@ -135,7 +135,7 @@ const UnderPayment = ({
             mb={3}
             fontFamily="Space Grotesk"
           >
-            Almost there! Please complete the payment.
+            {t('underpayment.subtitle')}
           </Typography>
 
           {/* Progress Bar */}
@@ -147,7 +147,7 @@ const UnderPayment = ({
                 fontFamily="Space Grotesk"
                 fontWeight={500}
               >
-                Payment Progress
+                {t('underpayment.paymentProgress')}
               </Typography>
               <Typography
                 variant="caption"
@@ -155,7 +155,7 @@ const UnderPayment = ({
                 fontFamily="Space Grotesk"
                 fontWeight={600}
               >
-                {progressPercent.toFixed(1)}% Complete
+                {t('underpayment.complete', { percent: progressPercent.toFixed(1) })}
               </Typography>
             </Box>
             <Box
@@ -197,7 +197,7 @@ const UnderPayment = ({
               fontWeight={500}
               fontSize={13}
             >
-              Complete payment within {graceMinutes} minutes to use the same address.
+              {t('underpayment.graceWarning', { minutes: graceMinutes })}
             </Typography>
           </Box>
 
