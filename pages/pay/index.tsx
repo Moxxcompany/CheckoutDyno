@@ -576,37 +576,46 @@ const Payment = () => {
                         </Typography>
                       </Box>
 
-                      {/* Processing Fee Row */}
-                      {feeInfo && feeInfo.fee_payer === 'customer' && feeInfo.processing_fee > 0 && (
+                      {/* Processing Fee Row - Always show if fee exists */}
+                      {feeInfo && feeInfo.processing_fee > 0 && (
                         <Box display='flex' justifyContent='space-between' alignItems='center' mb={1}>
-                          <Typography
-                            fontSize={14}
-                            fontFamily='Space Grotesk'
-                            color={isDark ? theme.palette.text.secondary : '#666'}
-                          >
-                            {t('checkout.processingFee')}
-                          </Typography>
-                          <Typography
-                            fontSize={14}
-                            fontFamily='Space Grotesk'
-                            fontWeight={500}
-                            color={theme.palette.text.primary}
-                          >
-                            {processingFee.toFixed(2)} {walletState?.currency}
-                          </Typography>
+                          <Box display='flex' alignItems='center' gap={0.5}>
+                            <Typography
+                              fontSize={14}
+                              fontFamily='Space Grotesk'
+                              color={isDark ? theme.palette.text.secondary : '#666'}
+                            >
+                              {t('checkout.processingFee')}
+                            </Typography>
+                            {feeInfo.fee_payer === 'merchant' && (
+                              <Icon icon="mdi:check-circle" color="#12B76A" width={14} />
+                            )}
+                          </Box>
+                          <Box display='flex' alignItems='center' gap={0.5}>
+                            <Typography
+                              fontSize={14}
+                              fontFamily='Space Grotesk'
+                              fontWeight={500}
+                              color={theme.palette.text.primary}
+                            >
+                              {processingFee.toFixed(2)} {walletState?.currency}
+                            </Typography>
+                          </Box>
                         </Box>
                       )}
 
-                      {/* Fee Included Indicator */}
-                      {feeInfo && feeInfo.fee_payer === 'merchant' && (
+                      {/* Fee Payer Indicator */}
+                      {feeInfo && feeInfo.processing_fee > 0 && (
                         <Box display='flex' alignItems='center' mb={1} gap={0.5}>
-                          <Icon icon="mdi:check-circle" color="#12B76A" width={16} />
                           <Typography
                             fontSize={12}
                             fontFamily='Space Grotesk'
-                            color="#12B76A"
+                            color={feeInfo.fee_payer === 'merchant' ? '#12B76A' : (isDark ? theme.palette.text.secondary : '#666')}
                           >
-                            {t('checkout.processingFeesIncluded')}
+                            {feeInfo.fee_payer === 'merchant' 
+                              ? t('checkout.processingFeesIncluded')
+                              : t('checkout.customerPaysFee', { defaultValue: 'Customer pays processing fee' })
+                            }
                           </Typography>
                         </Box>
                       )}
