@@ -1,0 +1,15 @@
+[phases.setup]
+nixPkgs = ["nodejs_20"]
+
+[phases.install]
+cmds = ["npm install"]
+
+[phases.build]
+cmds = ["echo '[BUILD] Starting Next.js build...' && npm run build && echo '[BUILD] Complete'"]
+
+[start]
+cmd = "echo '[START] Launching Next.js on port ${PORT:-3000}' && npm start"
+
+[variables]
+NODE_ENV = "production"
+NEXT_TELEMETRY_DISABLED = "1"
