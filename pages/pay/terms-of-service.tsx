@@ -98,7 +98,18 @@ const TermsOfService = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
-  // If user already has a locale set (not default), respect their choice
+  // Check if user has manually selected a language
+  const cookies = req.headers.cookie || '';
+  const hasManualLocaleChoice = cookies.includes('NEXT_LOCALE=');
+  
+  if (hasManualLocaleChoice) {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+      },
+    };
+  }
+
   if (locale && locale !== 'en') {
     return {
       props: {
@@ -107,13 +118,11 @@ export const getServerSideProps: GetServerSideProps = async ({ locale, req }) =>
     };
   }
 
-  // Try to detect locale from IP for first-time visitors
   try {
     const { detectGeoLocale, getClientIp } = await import('@/utils/geoLocale');
     const clientIp = getClientIp(req);
     const geoData = await detectGeoLocale(clientIp);
     
-    // If detected locale is different from current, redirect
     if (geoData.locale !== 'en' && geoData.locale !== locale) {
       return {
         redirect: {
