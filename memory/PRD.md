@@ -1,36 +1,40 @@
-# DynoPay - Payment Application PRD
+# DynoPay - Product Requirements Document
 
 ## Original Problem Statement
-1. Add more languages (Spanish, Portuguese, Dutch, German)
-2. Translate static pages (Terms of Service, AML Policy content)
-3. Add theme-aware logo that switches between light/dark variants
+Setup and install dependencies. Run /app
 
 ## Architecture
-- **Frontend**: Next.js 14 with TypeScript
-- **UI Framework**: Material UI v5
-- **State Management**: Redux Toolkit + Redux Saga
-- **Internationalization**: next-i18next with 6 locales
-- **Theme**: Light/Dark mode with MUI ThemeProvider
+- **Framework:** Next.js 14 with TypeScript
+- **State Management:** Redux Toolkit + Redux Saga
+- **UI:** Material UI (MUI)
+- **Styling:** Emotion + Custom CSS
+- **Internationalization:** next-i18next
+- **Payment:** react-credit-cards-2, payment library
 
-## What's Been Implemented
-- [2026-01-31] Initial dependency installation
-- [2026-01-31] Multi-language support (EN, FR, ES, PT, DE, NL)
-- [2026-01-31] Full translations for Terms of Service and AML Policy in all languages
-- [2026-01-31] Theme-aware Logo component integrated in header and BrandLogo
+## What's Been Implemented (Jan 31, 2026)
+- ✅ Dependencies installed via yarn
+- ✅ Development server running on port 3000
+- ✅ Home page with DynoPay branding
+- ✅ Payment layout and routing structure
 
-## Core Requirements (Completed)
-- ✅ 6 languages configured: English, French, Spanish, Portuguese, German, Dutch
-- ✅ Terms of Service translated (14 sections each language)
-- ✅ AML Policy translated (9 sections each language)
-- ✅ Theme-aware logo: Dark blue (#444CE7) in light mode, Light purple (#A5B4FC) in dark mode
-
-## Files Modified
-- `/app/Components/BrandLogo/index.tsx` - Now uses theme-aware Logo
-- `/app/Components/Page/Pay3Components/header.tsx` - Uses Logo component, all 6 languages in selector
+## Core Requirements (Static)
+- Secure payment processing interface
+- Multi-language support (i18n)
+- Theme support (light/dark)
+- Responsive design for mobile
 
 ## Prioritized Backlog
-- P1: Additional language support if needed
-- P2: RTL language support (Arabic, Hebrew)
+### P0 (Critical)
+- Backend API integration (if needed)
+
+### P1 (High)
+- Payment flow testing
+- Error handling
+
+### P2 (Medium)
+- Additional payment methods
+- Enhanced animations
 
 ## Next Tasks
-- Application ready for production use
+- Explore /pay and /pay2 payment flows
+- Configure backend API URL if required
