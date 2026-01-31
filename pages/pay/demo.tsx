@@ -440,12 +440,40 @@ const PaymentDemo = () => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
+  // If user already has a locale set (not default), respect their choice
+  if (locale && locale !== 'en') {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale, ['common'])),
+      },
+    };
+  }
+
+  // Try to detect locale from IP for first-time visitors
+  try {
+    const { detectGeoLocale, getClientIp } = await import('@/utils/geoLocale');
+    const clientIp = getClientIp(req);
+    const geoData = await detectGeoLocale(clientIp);
+    
+    // If detected locale is different from current, redirect
+    if (geoData.locale !== 'en' && geoData.locale !== locale) {
+      return {
+        redirect: {
+          destination: `/${geoData.locale}/pay/demo`,
+          permanent: false,
+        },
+      };
+    }
+  } catch (error) {
+    console.error('Geo-locale detection failed:', error);
+  }
+
   return {
     props: {
       ...(await serverSideTranslations(locale ?? 'en', ['common'])),
     },
-  }
+  };
 }
 
 export default PaymentDemo
