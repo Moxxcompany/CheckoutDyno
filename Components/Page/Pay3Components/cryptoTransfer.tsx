@@ -788,9 +788,24 @@ const CryptoTransfer = ({
   // }
 
   const btnGotoWeb = () => {
-    if (isUrl) {
-      window.location.replace(isUrl);
-      // window.open(isUrl, '_blank', 'noopener,noreferrer')
+    // Use redirectUrl prop if available, otherwise fall back to isUrl from API response
+    const targetUrl = redirectUrl || isUrl;
+    if (targetUrl) {
+      // If redirectUrl prop is used, append transaction info
+      if (redirectUrl && cryptoDetails?.hash) {
+        try {
+          const url = new URL(redirectUrl);
+          url.searchParams.set('transaction_id', cryptoDetails.hash);
+          url.searchParams.set('status', 'success');
+          window.location.replace(url.toString());
+          return;
+        } catch (e) {
+          // If URL parsing fails, use as-is
+          window.location.replace(redirectUrl);
+          return;
+        }
+      }
+      window.location.replace(targetUrl);
     } else {
       console.log("No URL provided");
     }
