@@ -2,14 +2,19 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Set production environment and disable output buffering
+# Force unbuffered output for Node.js
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_OPTIONS="--no-warnings"
+ENV PYTHONUNBUFFERED=1
+ENV NODE_NO_WARNINGS=1
+ENV FORCE_COLOR=1
 
 # Copy package files first for better caching
 COPY package*.json ./
-RUN npm install
+COPY yarn.lock* ./
+
+RUN npm install --legacy-peer-deps
 
 # Copy source code
 COPY . .
@@ -24,11 +29,11 @@ ENV NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL
 ENV NEXT_PUBLIC_CYPHER_KEY=$NEXT_PUBLIC_CYPHER_KEY
 
 # Build with logging
-RUN echo "[$(date -Iseconds)] Starting Next.js build..." && \
+RUN echo "[BUILD] Starting Next.js build..." && \
     npm run build && \
-    echo "[$(date -Iseconds)] Build completed successfully"
+    echo "[BUILD] Build completed successfully"
 
 EXPOSE 3000
 
-# Start with logging
-CMD echo "[$(date -Iseconds)] Starting Next.js server on port ${PORT:-3000}..." && npm start
+# Use node directly with explicit stdout flushing
+CMD ["node", "server.js"]
