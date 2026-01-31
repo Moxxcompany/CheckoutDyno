@@ -1,27 +1,22 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useRouter } from "next/router";
+import Logo from "@/assets/Icons/Logo";
 
 const BrandLogo = ({ redirect = true }: { redirect?: boolean }) => {
   const router = useRouter();
   return (
-    <>
-      <Box
-        sx={{
-          mt: 2,
-          display: { lg: "block", xs: "none" },
-          "& img": {
-            width: "40px",
-            height: "auto",
-          },
-          cursor: "pointer",
-        }}
-        onClick={() => redirect && router.push("/")}
-      >
-        {/* <img src={Logo.src} alt="no logo" /> */}
-        <Typography sx={{ fontSize: "45px", lineHeight: 1 }}>D</Typography>
-      </Box>
-    </>
+    <Box
+      data-testid="brand-logo"
+      sx={{
+        mt: 2,
+        display: { lg: "block", xs: "none" },
+        cursor: "pointer",
+      }}
+      onClick={() => redirect && router.push("/")}
+    >
+      <Logo width={40} height={48} />
+    </Box>
   );
 };
 

@@ -28,6 +28,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
+import Logo from "@/assets/Icons/Logo";
 
 const Header = ({
   darkMode,
