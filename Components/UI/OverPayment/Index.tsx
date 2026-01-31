@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Box,
   Button,
@@ -6,10 +6,16 @@ import {
   IconButton,
   Paper,
   Typography,
+  useTheme,
+  Tooltip,
+  Snackbar,
+  CircularProgress,
 } from "@mui/material";
 import CopyIcon from "@/assets/Icons/CopyIcon";
 import OverPaymentIcon from "@/assets/Icons/OverPaymentIcon";
 import DoneIcon from "@mui/icons-material/Done";
+import { Icon } from "@iconify/react";
+import { useTranslation } from "next-i18next";
 
 interface OverPaymentProps {
   paidAmount: number;
@@ -22,6 +28,10 @@ interface OverPaymentProps {
   expectedAmountUsd?: number;
   excessAmountUsd?: number;
   baseCurrency?: string;
+  // New props for consistency
+  redirectUrl?: string | null;
+  merchantName?: string;
+  email?: string;
 }
 
 // Helper function to format amounts correctly for crypto vs fiat
@@ -36,13 +46,10 @@ const formatAmount = (amount: number, currency: string): string => {
   );
   
   if (isCrypto) {
-    // For crypto: use up to 8 decimals, remove trailing zeros
     const formatted = amount.toFixed(8);
-    // Remove trailing zeros but keep at least 2 decimal places
     return formatted.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
   }
   
-  // For fiat: use 2 decimal places
   return amount.toFixed(2);
 };
 
@@ -57,12 +64,59 @@ const OverPayment = ({
   expectedAmountUsd,
   excessAmountUsd,
   baseCurrency = "USD",
+  redirectUrl,
+  merchantName,
+  email,
 }: OverPaymentProps) => {
-  const handleCopyTransactionId = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
+  const { t } = useTranslation('common');
+  const [copySnackbar, setCopySnackbar] = useState(false);
+  const [countdown, setCountdown] = useState(5);
+  const [isAutoRedirecting, setIsAutoRedirecting] = useState(false);
+
+  // Auto-redirect if redirectUrl is provided
+  useEffect(() => {
+    if (redirectUrl && transactionId) {
+      setIsAutoRedirecting(true);
+      
+      const timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            handleRedirect();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [redirectUrl, transactionId]);
+
+  const handleRedirect = useCallback(() => {
+    if (redirectUrl && transactionId) {
+      try {
+        const url = new URL(redirectUrl);
+        url.searchParams.set('transaction_id', transactionId);
+        url.searchParams.set('status', 'success');
+        window.location.href = url.toString();
+      } catch (e) {
+        const separator = redirectUrl.includes('?') ? '&' : '?';
+        window.location.href = `${redirectUrl}${separator}transaction_id=${transactionId}&status=success`;
+      }
+    } else {
+      onGoToWebsite();
+    }
+  }, [redirectUrl, transactionId, onGoToWebsite]);
+
+  const handleCopyTransactionId = useCallback(() => {
     if (transactionId) {
       navigator.clipboard.writeText(transactionId);
+      setCopySnackbar(true);
     }
-  };
+  }, [transactionId]);
 
   return (
     <>
@@ -70,22 +124,25 @@ const OverPayment = ({
         display="flex"
         alignItems="center"
         justifyContent="center"
-        bgcolor="#F8FAFC"
+        bgcolor={isDark ? theme.palette.background.default : "#F8FAFC"}
         px={2}
         minHeight={"calc(100vh - 340px)"}
       >
         <Paper
           elevation={3}
+          data-testid="overpayment-card"
           sx={{
             borderRadius: 4,
-            p: 4,
+            p: { xs: 3, sm: 4 },
             width: "100%",
             maxWidth: 500,
-            marginTop: 10,
             textAlign: "center",
             margin: 0,
-            border: "1px solid #E7EAFD",
-            boxShadow: "0px 45px 64px 0px #0D03230F",
+            border: `1px solid ${isDark ? theme.palette.divider : '#E7EAFD'}`,
+            boxShadow: isDark 
+              ? "0px 45px 64px 0px rgba(0,0,0,0.3)" 
+              : "0px 45px 64px 0px #0D03230F",
+            backgroundColor: theme.palette.background.paper,
           }}
         >
           <Box display="flex" justifyContent="center" mb={2}>
@@ -95,28 +152,79 @@ const OverPayment = ({
           <Typography
             variant="h6"
             fontWeight={500}
-            fontSize={25}
+            fontSize={{ xs: 20, sm: 25 }}
             gutterBottom
             fontFamily="Space Grotesk"
+            color={theme.palette.text.primary}
           >
             Overpayment Received
           </Typography>
 
           <Typography
             variant="body2"
-            color="#000"
+            color={isDark ? theme.palette.text.secondary : "#515151"}
             mb={3}
             fontFamily="Space Grotesk"
           >
             Thanks! You&apos;ve paid a bit extra.
           </Typography>
 
+          {/* Transaction ID Box */}
+          {transactionId && (
+            <Box
+              sx={{
+                border: `1px solid ${isDark ? theme.palette.divider : '#E7EAFD'}`,
+                borderRadius: '10px',
+                p: 2,
+                mb: 2,
+                backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : '#FAFBFF'
+              }}
+            >
+              <Box display='flex' alignItems='center' justifyContent='space-between'>
+                <Box textAlign='left'>
+                  <Typography
+                    fontSize={10}
+                    fontWeight={600}
+                    color={isDark ? theme.palette.text.secondary : '#666'}
+                    fontFamily='Space Grotesk'
+                    letterSpacing={0.5}
+                  >
+                    {t('success.transactionId')}
+                  </Typography>
+                  <Typography
+                    fontWeight={500}
+                    fontSize={13}
+                    color={theme.palette.text.primary}
+                    fontFamily='Space Grotesk'
+                  >
+                    #{transactionId}
+                  </Typography>
+                </Box>
+                <Tooltip title={t('common.copy')}>
+                  <IconButton
+                    size='small'
+                    onClick={handleCopyTransactionId}
+                    data-testid="copy-transaction-btn"
+                    sx={{
+                      bgcolor: isDark ? '#2a2a4a' : '#E7EAFD',
+                      p: 0.75,
+                      borderRadius: '6px',
+                      '&:hover': { bgcolor: isDark ? '#3a3a5a' : '#E0E7FF' }
+                    }}
+                  >
+                    <CopyIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </Box>
+          )}
+
           <Box
-            alignItems="center"
-            border="1px solid #E2E8F0"
+            border={`1px solid ${isDark ? theme.palette.divider : '#E2E8F0'}`}
             borderRadius={2}
             px={2}
             mb={2}
+            bgcolor={isDark ? 'rgba(255,255,255,0.02)' : 'transparent'}
           >
             <Box
               display="flex"
@@ -128,11 +236,9 @@ const OverPayment = ({
                 variant="subtitle2"
                 fontWeight={400}
                 fontSize={16}
-                color="#515151"
+                color={isDark ? theme.palette.text.secondary : "#515151"}
                 fontFamily="Space Grotesk"
-                sx={{
-                  fontSize: { xs: "12px", sm: "14px", md: "16px" },
-                }}
+                sx={{ fontSize: { xs: "12px", sm: "14px", md: "16px" } }}
               >
                 Paid:
               </Typography>
@@ -141,19 +247,17 @@ const OverPayment = ({
                 <Typography
                   variant="subtitle2"
                   fontWeight={400}
-                  color="#515151"
+                  color={isDark ? theme.palette.text.secondary : "#515151"}
                   fontSize={16}
                   fontFamily="Space Grotesk"
-                  sx={{
-                    fontSize: { xs: "12px", sm: "14px", md: "16px" },
-                  }}
+                  sx={{ fontSize: { xs: "12px", sm: "14px", md: "16px" } }}
                 >
                   {formatAmount(paidAmount, currency)} {currency}
                 </Typography>
                 {paidAmountUsd !== undefined && (
                   <Typography
                     variant="caption"
-                    color="#737373"
+                    color={isDark ? theme.palette.text.secondary : "#737373"}
                     fontFamily="Space Grotesk"
                     fontSize={12}
                   >
@@ -172,11 +276,9 @@ const OverPayment = ({
                 variant="subtitle2"
                 fontWeight={400}
                 fontSize={16}
-                color="#515151"
+                color={isDark ? theme.palette.text.secondary : "#515151"}
                 fontFamily="Space Grotesk"
-                sx={{
-                  fontSize: { xs: "12px", sm: "14px", md: "16px" },
-                }}
+                sx={{ fontSize: { xs: "12px", sm: "14px", md: "16px" } }}
               >
                 Total Due:
               </Typography>
@@ -185,19 +287,17 @@ const OverPayment = ({
                 <Typography
                   variant="subtitle2"
                   fontWeight={400}
-                  color="#515151"
+                  color={isDark ? theme.palette.text.secondary : "#515151"}
                   fontSize={16}
                   fontFamily="Space Grotesk"
-                  sx={{
-                    fontSize: { xs: "12px", sm: "14px", md: "16px" },
-                  }}
+                  sx={{ fontSize: { xs: "12px", sm: "14px", md: "16px" } }}
                 >
                   {formatAmount(expectedAmount, currency)} {currency}
                 </Typography>
                 {expectedAmountUsd !== undefined && (
                   <Typography
                     variant="caption"
-                    color="#737373"
+                    color={isDark ? theme.palette.text.secondary : "#737373"}
                     fontFamily="Space Grotesk"
                     fontSize={12}
                   >
@@ -217,11 +317,9 @@ const OverPayment = ({
                 variant="subtitle2"
                 fontWeight={500}
                 fontSize={20}
-                color="#000"
+                color={theme.palette.text.primary}
                 fontFamily="Space Grotesk"
-                sx={{
-                  fontSize: { xs: "14px", sm: "16px", md: "20px" },
-                }}
+                sx={{ fontSize: { xs: "14px", sm: "16px", md: "20px" } }}
               >
                 Excess:
               </Typography>
@@ -230,19 +328,17 @@ const OverPayment = ({
                 <Typography
                   variant="subtitle2"
                   fontWeight={500}
-                  color="#000"
+                  color={theme.palette.text.primary}
                   fontSize={20}
                   fontFamily="Space Grotesk"
-                  sx={{
-                    fontSize: { xs: "14px", sm: "16px", md: "20px" },
-                  }}
+                  sx={{ fontSize: { xs: "14px", sm: "16px", md: "20px" } }}
                 >
                   {formatAmount(excessAmount, currency)} {currency}
                 </Typography>
                 {excessAmountUsd !== undefined && (
                   <Typography
                     variant="caption"
-                    color="#737373"
+                    color={isDark ? theme.palette.text.secondary : "#737373"}
                     fontFamily="Space Grotesk"
                     fontSize={12}
                   >
@@ -252,105 +348,147 @@ const OverPayment = ({
               </Box>
             </Box>
 
-            <Divider sx={{ mb: 2 }} />
+            <Divider sx={{ mb: 2, borderColor: isDark ? theme.palette.divider : undefined }} />
 
+            {/* Refund Notice */}
             <Box
               mt={1}
               mb={2}
               borderRadius={2}
               display="flex"
               alignItems="center"
-              bgcolor={"#F5F8FF"}
+              bgcolor={isDark ? 'rgba(18, 183, 106, 0.1)' : "#F5F8FF"}
               gap={1}
               px={2}
-              py={1}
+              py={1.5}
             >
-              <DoneIcon
-                sx={{
-                  fontSize: 17,
-                  color: "#12B76A",
-                }}
-              />
+              <DoneIcon sx={{ fontSize: 17, color: "#12B76A" }} />
               <Typography
-                fontSize={14}
-                color={"#515151"}
+                fontSize={13}
+                color={isDark ? theme.palette.text.secondary : "#515151"}
                 fontFamily="Space Grotesk"
-                textAlign="justify"
+                textAlign="left"
                 fontWeight={500}
               >
-                Excess amount will be refunded to your Wallet of the store you
-                purchased from.
+                Excess amount will be refunded to your Wallet of the store you purchased from.
               </Typography>
             </Box>
 
+            {/* Email confirmation notice */}
+            {email && (
+              <Box 
+                display='flex' 
+                alignItems='center' 
+                justifyContent='center' 
+                gap={0.5} 
+                mb={2}
+              >
+                <Icon icon="mdi:email-check" width={16} color="#12B76A" />
+                <Typography
+                  fontSize={13}
+                  fontFamily='Space Grotesk'
+                  color={isDark ? theme.palette.text.secondary : '#666'}
+                >
+                  {t('success.confirmationSent', { email })}
+                </Typography>
+              </Box>
+            )}
+
+            {/* Redirect countdown */}
+            {isAutoRedirecting && redirectUrl && (
+              <Box 
+                display='flex' 
+                alignItems='center' 
+                justifyContent='center' 
+                gap={1} 
+                mb={2}
+              >
+                <CircularProgress size={16} sx={{ color: '#444CE7' }} />
+                <Typography
+                  fontSize={13}
+                  fontFamily='Space Grotesk'
+                  color={isDark ? theme.palette.text.secondary : '#515151'}
+                >
+                  {merchantName 
+                    ? t('success.redirectingTo', { merchant: merchantName })
+                    : t('success.redirectingIn', { seconds: countdown })
+                  }
+                </Typography>
+              </Box>
+            )}
+
+            {/* CTA Button */}
             <Box display="flex" gap={2} mb={2}>
               <Button
                 fullWidth
-                variant="outlined"
-                onClick={onGoToWebsite}
+                variant="contained"
+                onClick={handleRedirect}
+                data-testid="return-btn"
                 sx={{
-                  borderColor: "#4F46E5",
-                  color: "#4F46E5",
+                  backgroundColor: '#4F46E5',
+                  color: '#fff',
                   textTransform: "none",
                   borderRadius: 30,
-                  paddingTop: 2,
-                  paddingBottom: 2,
+                  py: 1.75,
+                  fontSize: '15px',
+                  fontWeight: 600,
+                  fontFamily: 'Space Grotesk',
                   "&:hover": {
-                    backgroundColor: "#EEF2FF",
-                    borderColor: "#4F46E5",
+                    backgroundColor: '#4338CA',
                   },
                 }}
-                endIcon={<span style={{ fontSize: "1.2rem" }}>→</span>}
+                endIcon={<Icon icon="mdi:arrow-right" width={18} />}
               >
-                Go to Website
+                {merchantName 
+                  ? t('success.returnTo', { merchant: merchantName })
+                  : redirectUrl 
+                    ? t('success.returnTo', { merchant: 'Merchant' })
+                    : t('success.done')
+                }
               </Button>
             </Box>
+
+            {redirectUrl && (
+              <Typography
+                fontSize={12}
+                color={isDark ? theme.palette.text.secondary : '#888'}
+                fontFamily='Space Grotesk'
+                sx={{ cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
+                onClick={handleRedirect}
+              >
+                {t('success.clickIfNotRedirected')}
+              </Typography>
+            )}
           </Box>
 
-          {transactionId && (
-            <Box display="flex" justifyContent="space-between" mt={3}>
-              <Typography
-                variant="caption"
-                color="#515151"
-                fontWeight={400}
-                fontSize={12}
-                sx={{ textAlign: "left" }}
-              >
-                Transaction ID:
-              </Typography>
-
-              <Box display="flex" alignItems="center" gap={1}>
-                <Typography
-                  variant="caption"
-                  fontWeight={400}
-                  fontSize={12}
-                  color="#515151"
-                  sx={{ 
-                    maxWidth: 150, 
-                    overflow: "hidden", 
-                    textOverflow: "ellipsis" 
-                  }}
-                >
-                  {transactionId.substring(0, 20)}...
-                </Typography>
-
-                <IconButton
-                  size="small"
-                  onClick={handleCopyTransactionId}
-                  sx={{
-                    bgcolor: "#EEF2FF",
-                    p: 0.5,
-                    borderRadius: 2,
-                    "&:hover": { bgcolor: "#E0E7FF" },
-                  }}
-                >
-                  <CopyIcon />
-                </IconButton>
-              </Box>
-            </Box>
-          )}
+          {/* Security badge */}
+          <Box 
+            display='flex' 
+            alignItems='center' 
+            justifyContent='center' 
+            gap={0.5}
+            mt={2}
+          >
+            <Icon icon="mdi:lock" width={14} color={isDark ? '#6C7BFF' : '#444CE7'} />
+            <Typography
+              fontSize={12}
+              fontFamily='Space Grotesk'
+              color={isDark ? '#6C7BFF' : '#444CE7'}
+              fontWeight={500}
+            >
+              {t('checkout.securePayment')}
+            </Typography>
+          </Box>
         </Paper>
       </Box>
+
+      <Snackbar
+        open={copySnackbar}
+        autoHideDuration={2000}
+        onClose={() => setCopySnackbar(false)}
+        message={t('checkout.copied')}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      />
     </>
   );
 };
