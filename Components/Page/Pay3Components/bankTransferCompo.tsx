@@ -477,13 +477,13 @@ const BankTransferCompo = ({
                         width={150}
                         height={32}
                         animation="wave"
-                        sx={{ borderRadius: "6px", background: "#F5F8FF" }}
+                        sx={{ borderRadius: "6px", background: isDark ? 'rgba(108, 123, 255, 0.1)' : "#F5F8FF" }}
                       />
                     )}
 
                     <Typography
                       variant="caption"
-                      color="#515151"
+                      color={theme.palette.text.secondary}
                       fontFamily="Space Grotesk"
                       fontSize={14}
                     >
@@ -495,7 +495,7 @@ const BankTransferCompo = ({
                     </Typography>
                   </Box>
                 </Box>
-                <Divider sx={{ my: "10px" }} />
+                <Divider sx={{ my: "10px", borderColor: isDark ? theme.palette.divider : undefined }} />
                 <Box
                   display="flex"
                   alignItems="center"
@@ -508,7 +508,7 @@ const BankTransferCompo = ({
                     fontWeight="normal"
                     fontSize="13px"
                     fontFamily="Space Grotesk"
-                    color="#000"
+                    color={theme.palette.text.primary}
                   >
                     Invoice expires in: {formatTime(timeLeft)}
                   </Typography>
