@@ -437,7 +437,15 @@ export default function TransferExpectedCard({
     )
   }
 
-  // Pending/Waiting state - transfer expected
+  // For crypto type, if not confirmed yet, don't show pending state
+  // Crypto either succeeds or the user is still on the payment screen
+  if (type === 'crypto' && !isTrue) {
+    // Return null or a minimal waiting state for crypto
+    // In practice, crypto flow handles its own waiting state in CryptoTransfer component
+    return null
+  }
+
+  // Pending/Waiting state - transfer expected (BANK TRANSFERS ONLY)
   return (
     <Box
       display='flex'
