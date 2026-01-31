@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Home() {
   return (
     <div style={{ 
@@ -19,7 +21,7 @@ export default function Home() {
         <p style={{ fontSize: '1.25rem', opacity: 0.9, marginBottom: '2rem' }}>
           Secure payment solutions for modern businesses
         </p>
-        <a 
+        <Link 
           href="/pay" 
           style={{
             display: 'inline-block',
@@ -34,7 +36,7 @@ export default function Home() {
           }}
         >
           Get Started
-        </a>
+        </Link>
       </div>
     </div>
   );
