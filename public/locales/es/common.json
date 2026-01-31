@@ -32,7 +32,48 @@
     "seconds": "s",
     "securePayment": "Pago seguro por DynoPay",
     "copied": "¡Copiado!",
-    "copyInvoice": "Copiar número de factura"
+    "copyInvoice": "Copiar número de factura",
+    "remainingBalance": "Saldo Restante",
+    "invoiceExpiresIn": "la factura expira en:"
+  },
+  "crypto": {
+    "title": "Criptomoneda",
+    "preferredCrypto": "Cripto Preferida",
+    "preferredNetwork": "Red Preferida",
+    "sendToAddress": "Enviar {{crypto}} ({{network}}) a Esta Dirección",
+    "sendOnlyWarning": "Envía solo {{crypto}} en la red {{network}} a esta dirección, o tus fondos se perderán.",
+    "paymentDetected": "Pago detectado, esperando confirmación...",
+    "paymentDetectedDesc": "Detectamos tu pago en la blockchain. Esperando {{confirmations}} confirmación...",
+    "paymentConfirmed": "¡Pago Confirmado!",
+    "goToWebsite": "Ir al Sitio Web",
+    "selectCrypto": "Seleccionar Cripto",
+    "selectNetwork": "Seleccionar Red",
+    "scanQrCode": "Escanear Código QR",
+    "orCopyAddress": "o copia la dirección",
+    "addressCopied": "¡Dirección copiada!",
+    "networkFee": "Se aplica tarifa de red"
+  },
+  "underpayment": {
+    "title": "Pago Parcial Recibido",
+    "subtitle": "¡Casi listo! Por favor completa el pago.",
+    "paymentProgress": "Progreso del Pago",
+    "complete": "{{percent}}% Completado",
+    "graceWarning": "Completa el pago en {{minutes}} minutos para usar la misma dirección.",
+    "paid": "Pagado:",
+    "payRemainingCrypto": "Pagar Restante con Cripto"
+  },
+  "overpayment": {
+    "title": "Sobrepago Recibido",
+    "subtitle": "¡Gracias! Has pagado un poco extra.",
+    "totalDue": "Total Adeudado:",
+    "excess": "Exceso:",
+    "refundNotice": "El monto excedente será reembolsado a tu Cartera de la tienda donde compraste."
+  },
+  "expired": {
+    "title": "Enlace de Pago Expirado",
+    "message": "Este enlace de pago ha expirado. Por favor contacta al comerciante para solicitar un nuevo enlace de pago.",
+    "merchant": "Comerciante",
+    "goBack": "Volver"
   },
   "success": {
     "paymentSuccessful": "Pago Exitoso",
