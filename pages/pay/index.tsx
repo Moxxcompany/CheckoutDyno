@@ -592,6 +592,8 @@ const Payment = () => {
               isTrue={isSuccess}
               dataUrl={isBank || ''}
               type={'bank'}
+              redirectUrl={redirectUrl}
+              transactionId={linkId}
             />
           ) : null}
         </Box>
