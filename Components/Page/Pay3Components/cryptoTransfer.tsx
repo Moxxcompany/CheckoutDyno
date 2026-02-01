@@ -454,6 +454,13 @@ const CryptoTransfer = ({
       console.log("displayCurrency:", displayCurrency);
       console.log("baseCurrency (lookup key):", baseCurrency);
 
+      // Calculate total amount including tax
+      const baseAmount = Number(walletState?.amount || 0);
+      const taxAmount = Number(taxInfo?.amount || 0);
+      const totalAmountWithTax = baseAmount + taxAmount;
+      
+      console.log(`Crypto conversion: base=${baseAmount}, tax=${taxAmount}, total=${totalAmountWithTax}`);
+
       let rateData: currencyData[] | null = null;
       
       // Check if we have fresh cached rates
@@ -469,11 +476,11 @@ const CryptoTransfer = ({
         setLoadingStep('rates');
         const rateResponse = await axiosBaseApi.post("/pay/getCurrencyRates", {
           source: walletState?.currency,
-          amount: walletState?.amount,
+          amount: totalAmountWithTax,
           currencyList: cryptoOptions.map((x) => x.value),
           fixedDecimal: false,
           fee_payer: feePayer,
-          tax_amount: taxInfo?.amount || 0,
+          tax_amount: taxAmount,
         });
 
         rateData = rateResponse?.data?.data;
