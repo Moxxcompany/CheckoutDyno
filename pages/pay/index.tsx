@@ -761,7 +761,7 @@ const Payment = () => {
                           {loading ? (
                             <Skeleton width={60} height={20} />
                           ) : (
-                            `${subtotalAmount.toFixed(2)} ${walletState?.currency}`
+                            `${subtotalAmount.toFixed(2)} ${displayCurrency}`
                           )}
                         </Typography>
                       </Box>
