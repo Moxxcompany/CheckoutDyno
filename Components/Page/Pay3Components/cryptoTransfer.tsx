@@ -493,6 +493,16 @@ const CryptoTransfer = ({
       if (result?.redirect) {
         window.location.replace(result.redirect);
       } else {
+        // Check if this is a continuation of existing payment
+        if (result?.is_continuation) {
+          setIsContinuation(true);
+          setContinuationMessage(result.message || 'Continuing existing payment');
+          // Use remaining time from response
+          if (result.remaining_minutes) {
+            setTimeLeft(result.remaining_minutes * 60);
+          }
+          console.log('[Crypto Payment] Continuation of existing payment:', result.message);
+        }
         setCryptoDetails(result);
       }
     } catch (e: any) {
