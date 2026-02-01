@@ -1622,8 +1622,8 @@ const CryptoTransfer = ({
                         >
                           ={Number(
                             isPartialPaymentMode && remainingPaymentInfo
-                              ? (remainingPaymentInfo.remainingAmountUsd || 0) * transferRate
-                              : ((selectedCurrency?.total_amount_usd || selectedCurrency?.total_amount_source || walletState?.amount || 0) * transferRate)
+                              ? Number(remainingPaymentInfo.remainingAmountUsd || 0) * transferRate
+                              : Number(selectedCurrency?.total_amount_usd || selectedCurrency?.total_amount_source || walletState?.amount || 0) * transferRate
                           )?.toFixed(2)}{" "}
                           {displayCurrency}
                         </Typography>
