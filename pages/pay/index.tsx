@@ -683,10 +683,25 @@ const Payment = () => {
                         fontSize={14}
                         color={theme.palette.text.primary}
                         fontFamily='Space Grotesk'
-                        mb={orderReference ? 1.5 : 0}
+                        mb={(orderReference || tokenData?.email) ? 1.5 : 0}
                       >
                         {description}
                       </Typography>
+                    )}
+                    
+                    {tokenData?.email && (
+                      <Box display='flex' alignItems='center' gap={1} mb={orderReference ? 1.5 : 0}>
+                        <Icon icon="mdi:email-outline" width={16} color={isDark ? theme.palette.text.secondary : '#666'} />
+                        <Typography
+                          fontWeight={500}
+                          fontSize={13}
+                          color={theme.palette.text.primary}
+                          fontFamily='Space Grotesk'
+                          data-testid="customer-email"
+                        >
+                          {tokenData.email}
+                        </Typography>
+                      </Box>
                     )}
                     
                     {orderReference && (
