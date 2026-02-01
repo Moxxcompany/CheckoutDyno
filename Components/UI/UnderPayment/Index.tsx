@@ -293,7 +293,7 @@ const UnderPayment = ({
                     fontFamily="Space Grotesk"
                     fontSize={12}
                   >
-                    ≈ {convertedPaidAmount.toFixed(2)} {showCurrency}
+                    ≈ {formatWithSeparators(convertedPaidAmount, showCurrency)} {showCurrency}
                   </Typography>
                 )}
               </Box>
@@ -334,7 +334,7 @@ const UnderPayment = ({
                     fontFamily="Space Grotesk"
                     fontSize={12}
                   >
-                    ≈ {convertedRemainingAmount.toFixed(2)} {showCurrency}
+                    ≈ {formatWithSeparators(convertedRemainingAmount, showCurrency)} {showCurrency}
                   </Typography>
                 )}
               </Box>
