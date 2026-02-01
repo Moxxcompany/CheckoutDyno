@@ -1803,33 +1803,6 @@ const CryptoTransfer = ({
                   </Paper>
                 </Box>
               )}
-
-              {isRecived && (
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  sx={{
-                    borderColor: isDark ? '#6C7BFF' : "#4F46E5",
-                    color: isDark ? '#6C7BFF' : "#4F46E5",
-                    textTransform: "none",
-                    marginTop: "15px",
-                    borderRadius: 30,
-                    paddingTop: 2,
-                    paddingBottom: 2,
-                    // paddingX: 3,
-                    width: "100%",
-                    minWidth: "auto",
-                    "&:hover": {
-                      backgroundColor: isDark ? 'rgba(108, 123, 255, 0.1)' : "#EEF2FF",
-                      borderColor: isDark ? '#6C7BFF' : "#4F46E5",
-                    },
-                  }}
-                  endIcon={<span style={{ fontSize: "1.2rem" }}>→</span>}
-                  onClick={() => btnGotoWeb()}
-                >
-                  {t('crypto.goToWebsite')}
-                </Button>
-              )}
             </>
           )}
       </Paper>
