@@ -78,6 +78,9 @@ const PaymentStatesDemo = () => {
             baseCurrency="USD"
             displayCurrency="GBP"
             transferRate={0.79}
+            redirectUrl="https://acme-store.com/order/complete"
+            merchantName="Acme Store"
+            email="john@email.com"
           />
         )}
 
