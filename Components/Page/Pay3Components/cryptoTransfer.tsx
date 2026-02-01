@@ -39,6 +39,7 @@ import UnderPayment from "@/Components/UI/UnderPayment/Index";
 import OverPayment from "@/Components/UI/OverPayment/Index";
 import TransferExpectedCard from "@/Components/UI/TransferExpectedCard/Index";
 import { useTranslation } from "next-i18next";
+import { formatWithSeparators, formatCryptoAmount } from "@/utils/currencyFormat";
 
 import LTCicon from "../../../assets/Icons/coins/LTC.png";
 import BCHicon from "../../../assets/Icons/coins/BCH.png";
