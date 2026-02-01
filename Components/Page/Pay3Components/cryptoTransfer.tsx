@@ -1501,7 +1501,7 @@ const CryptoTransfer = ({
                           fontFamily="Space Grotesk"
                           fontWeight={500}
                         >
-                          {(walletState?.amount - taxInfo.amount - (feeInfo?.fee_payer === 'customer' ? feeInfo.processing_fee : 0)).toFixed(2)} {walletState?.currency}
+                          {walletState?.amount?.toFixed(2)} {walletState?.currency}
                         </Typography>
                       </Box>
                       <Box display="flex" justifyContent="space-between" mb={0.5}>
