@@ -1533,7 +1533,7 @@ const CryptoTransfer = ({
                           fontFamily="Space Grotesk"
                           fontWeight={500}
                         >
-                          {Number(selectedCurrency?.base_amount_usd || walletState?.amount || 0).toFixed(2)} {walletState?.currency}
+                          {convertedSubtotal.toFixed(2)} {displayCurrency}
                         </Typography>
                       </Box>
                       <Box display="flex" justifyContent="space-between" mb={0.5}>
@@ -1552,7 +1552,7 @@ const CryptoTransfer = ({
                           fontFamily="Space Grotesk"
                           fontWeight={500}
                         >
-                          {taxInfo.amount.toFixed(2)} {walletState?.currency}
+                          {convertedTaxAmount.toFixed(2)} {displayCurrency}
                         </Typography>
                       </Box>
                       {feeInfo && ((feeInfo.processing_fee ?? 0) > 0 || (selectedCurrency?.processing_fee ?? 0) > 0) && (
@@ -1572,7 +1572,7 @@ const CryptoTransfer = ({
                           >
                             {feeInfo.fee_payer === 'merchant' 
                               ? t('checkout.processingFeesIncluded')
-                              : `${(selectedCurrency?.processing_fee || feeInfo.processing_fee).toFixed(2)} ${walletState?.currency}`}
+                              : `${((selectedCurrency?.processing_fee || feeInfo.processing_fee) * transferRate).toFixed(2)} ${displayCurrency}`}
                           </Typography>
                         </Box>
                       )}
