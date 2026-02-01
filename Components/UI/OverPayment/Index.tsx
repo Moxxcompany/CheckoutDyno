@@ -261,7 +261,7 @@ const OverPayment = ({
                     fontFamily="Space Grotesk"
                     fontSize={12}
                   >
-                    ≈ {convertedPaidAmount.toFixed(2)} {showCurrency}
+                    ≈ {formatWithSeparators(convertedPaidAmount, showCurrency)} {showCurrency}
                   </Typography>
                 )}
               </Box>
@@ -301,7 +301,7 @@ const OverPayment = ({
                     fontFamily="Space Grotesk"
                     fontSize={12}
                   >
-                    ≈ {convertedExpectedAmount.toFixed(2)} {showCurrency}
+                    ≈ {formatWithSeparators(convertedExpectedAmount, showCurrency)} {showCurrency}
                   </Typography>
                 )}
               </Box>
