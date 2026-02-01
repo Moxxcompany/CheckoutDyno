@@ -41,6 +41,7 @@
     "preferredCrypto": "Crypto Préférée",
     "preferredNetwork": "Réseau Préféré",
     "sendToAddress": "Envoyer {{crypto}} ({{network}}) à Cette Adresse",
+    "sendToAddressSimple": "Envoyer {{crypto}} à Cette Adresse",
     "sendOnlyWarning": "Envoyez uniquement {{crypto}} sur le réseau {{network}} à cette adresse, sinon vos fonds seront perdus.",
     "paymentDetected": "Paiement détecté, en attente de confirmation...",
     "paymentDetectedDesc": "Nous avons détecté votre paiement sur la blockchain. En attente de {{confirmations}} confirmation...",
@@ -51,7 +52,14 @@
     "scanQrCode": "Scanner Code QR",
     "orCopyAddress": "ou copier l'adresse",
     "addressCopied": "Adresse copiée!",
-    "networkFee": "Frais de réseau applicables"
+    "networkFee": "Frais de réseau applicables",
+    "loadingCurrencies": "Chargement des devises...",
+    "noCurrenciesConfigured": "Aucune devise configurée. Veuillez contacter le support.",
+    "noCryptoAvailable": "Aucune cryptomonnaie disponible pour le paiement.",
+    "noUsdtNetworks": "Aucun réseau USDT configuré. Veuillez sélectionner une autre cryptomonnaie.",
+    "gettingRates": "Obtention des taux de change...",
+    "creatingPayment": "Création du paiement...",
+    "loading": "Chargement..."
   },
   "underpayment": {
     "title": "Paiement Partiel Reçu",
