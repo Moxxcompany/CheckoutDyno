@@ -914,7 +914,7 @@ const Payment = () => {
                                 opacity: 0.8
                               }}
                             >
-                              + ~{(feeInfo.estimated_processing_fee * transferRate).toFixed(2)} {displayCurrency} fee
+                              + ~{Math.ceil(feeInfo.estimated_processing_fee * transferRate)} {displayCurrency} fee
                             </Typography>
                           )}
                           <Icon
