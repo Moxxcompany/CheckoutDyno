@@ -986,6 +986,30 @@ const CryptoTransfer = ({
     );
   }
 
+  // Render Success screen using TransferExpectedCard when payment is confirmed
+  if (isRecived && paymentStatus === "confirmed") {
+    const cryptoAmount = formatAmount(
+      isPartialPaymentMode && remainingPaymentInfo
+        ? remainingPaymentInfo.remainingAmount
+        : (selectedCurrency?.total_amount || selectedCurrency?.amount || 0),
+      selectedCurrency?.currency || ""
+    );
+    const amountDisplay = `${cryptoAmount} ${selectedCurrency?.currency || ''} (≈ ${(Number(selectedCurrency?.total_amount_usd || selectedCurrency?.total_amount_source || walletState?.amount || 0) * transferRate).toFixed(2)} ${displayCurrency})`;
+    
+    return (
+      <TransferExpectedCard
+        isTrue={true}
+        dataUrl=""
+        type="crypto"
+        redirectUrl={redirectUrl}
+        transactionId={transactionId || cryptoDetails?.hash}
+        merchantName={merchantInfo?.name}
+        amount={amountDisplay}
+        email={email}
+      />
+    );
+  }
+
   // Render Expired Payment UI
   if (paymentStatus === "expired") {
     return (
