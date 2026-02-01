@@ -1521,7 +1521,7 @@ const CryptoTransfer = ({
                           {taxInfo.amount.toFixed(2)} {walletState?.currency}
                         </Typography>
                       </Box>
-                      {feeInfo && (feeInfo.processing_fee > 0 || selectedCurrency?.processing_fee > 0) && (
+                      {feeInfo && ((feeInfo.processing_fee ?? 0) > 0 || (selectedCurrency?.processing_fee ?? 0) > 0) && (
                         <Box display="flex" justifyContent="space-between" mb={0.5}>
                           <Typography
                             variant="body2"
