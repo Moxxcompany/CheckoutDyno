@@ -41,6 +41,7 @@
     "preferredCrypto": "Voorkeurs Crypto",
     "preferredNetwork": "Voorkeurs Netwerk",
     "sendToAddress": "Stuur {{crypto}} ({{network}}) naar Dit Adres",
+    "sendToAddressSimple": "Stuur {{crypto}} naar Dit Adres",
     "sendOnlyWarning": "Stuur alleen {{crypto}} via het {{network}} netwerk naar dit adres, anders gaan uw fondsen verloren.",
     "paymentDetected": "Betaling gedetecteerd, wacht op bevestiging...",
     "paymentDetectedDesc": "We hebben uw betaling in de blockchain gedetecteerd. Wacht op {{confirmations}} bevestiging...",
@@ -51,7 +52,14 @@
     "scanQrCode": "Scan QR Code",
     "orCopyAddress": "of kopieer adres",
     "addressCopied": "Adres gekopieerd!",
-    "networkFee": "Netwerkkosten van toepassing"
+    "networkFee": "Netwerkkosten van toepassing",
+    "loadingCurrencies": "Valuta's laden...",
+    "noCurrenciesConfigured": "Geen valuta's geconfigureerd. Neem contact op met support.",
+    "noCryptoAvailable": "Geen cryptovaluta's beschikbaar voor betaling.",
+    "noUsdtNetworks": "Geen USDT-netwerken geconfigureerd. Selecteer een andere cryptovaluta.",
+    "gettingRates": "Wisselkoersen ophalen...",
+    "creatingPayment": "Betaling aanmaken...",
+    "loading": "Laden..."
   },
   "underpayment": {
     "title": "Gedeeltelijke Betaling Ontvangen",
