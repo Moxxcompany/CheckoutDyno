@@ -16,6 +16,7 @@ import CopyIcon from "@/assets/Icons/CopyIcon";
 import UnderPaymentIcon from "@/assets/Icons/UnderPaymentIcon";
 import { Icon } from "@iconify/react";
 import { useTranslation } from "next-i18next";
+import { formatWithSeparators, formatCryptoAmount } from "@/utils/currencyFormat";
 
 interface UnderPaymentProps {
   paidAmount: number;
