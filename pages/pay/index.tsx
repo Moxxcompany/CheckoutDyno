@@ -55,6 +55,11 @@ import { GetServerSideProps } from 'next'
 interface FeeInfo {
   processing_fee: number
   fee_payer: 'customer' | 'merchant'
+  estimated_processing_fee?: number
+  fees_pending_crypto_selection?: boolean
+  subtotal?: number
+  tax_amount?: number
+  total_amount?: number
 }
 
 interface TaxInfo {
