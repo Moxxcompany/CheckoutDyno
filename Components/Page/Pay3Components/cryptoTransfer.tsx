@@ -1772,7 +1772,7 @@ const CryptoTransfer = ({
                       fontSize={14}
                       mt={0.5}
                     >
-                      ≈ {(Number(selectedCurrency?.total_amount_usd || selectedCurrency?.total_amount_source || walletState?.amount || 0) * transferRate).toFixed(2)} {displayCurrency}
+                      ≈ {formatWithSeparators(Number(selectedCurrency?.total_amount_usd || selectedCurrency?.total_amount_source || walletState?.amount || 0) * transferRate, displayCurrency)} {displayCurrency}
                     </Typography>
 
                     {isRecived ? (
