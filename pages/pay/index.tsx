@@ -1136,6 +1136,8 @@ const Payment = () => {
                 merchantInfo={merchantInfo}
                 displayCurrency={displayCurrency}
                 transferRate={transferRate}
+                email={tokenData?.email}
+                transactionId={linkId}
               />
             )
           ) : activeStep === 2 ? (
