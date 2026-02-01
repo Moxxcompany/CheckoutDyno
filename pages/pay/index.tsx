@@ -506,13 +506,22 @@ const Payment = () => {
     }
   }, [linkId])
 
-  // Calculate display values - prioritize converted currency amounts
-  const totalAmount = Number(currencyRates?.amount ?? currencyRates?.total_amount ?? walletState?.amount ?? 0)
-  const processingFee = Number(currencyRates?.processing_fee ?? feeInfo?.processing_fee ?? 0)
-  const taxAmount = Number(currencyRates?.tax_amount ?? taxInfo?.amount ?? 0)
-  // Subtotal should use converted currency value when available
-  const subtotalAmount = Number(currencyRates?.subtotal ?? feeInfo?.subtotal ?? walletState?.amount ?? 0)
+  // Calculate display values - convert all values using transfer rate when currency changed
+  const transferRate = Number(currencyRates?.transferRate ?? 1)
   const displayCurrency = currencyRates?.currency ?? walletState?.currency
+  
+  // Total amount from converted currency rates
+  const totalAmount = Number(currencyRates?.amount ?? currencyRates?.total_amount ?? walletState?.amount ?? 0)
+  
+  // Convert fee breakdown values using transfer rate when a different currency is selected
+  const baseSubtotal = Number(feeInfo?.subtotal ?? walletState?.amount ?? 0)
+  const baseProcessingFee = Number(feeInfo?.processing_fee ?? 0)
+  const baseTaxAmount = Number(taxInfo?.amount ?? 0)
+  
+  // Apply transfer rate to convert values to selected currency
+  const subtotalAmount = baseSubtotal * transferRate
+  const processingFee = baseProcessingFee * transferRate
+  const taxAmount = baseTaxAmount * transferRate
 
   // Get context-aware title
   const getTitle = () => {
