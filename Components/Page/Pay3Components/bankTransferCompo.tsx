@@ -31,6 +31,7 @@ import ClockIcon from "@/assets/Icons/ClockIcon";
 import Warning from "@/assets/Icons/Warning";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { currencyOptions } from "@/pages/pay";
+import { formatWithSeparators } from "@/utils/currencyFormat";
 
 interface BankTransferCompoProps {
   activeStep: number;
