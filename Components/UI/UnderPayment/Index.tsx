@@ -41,21 +41,7 @@ interface UnderPaymentProps {
 
 // Helper function to format amounts correctly for crypto vs fiat
 const formatAmount = (amount: number, currency: string): string => {
-  const cryptoCurrencies = [
-    'BTC', 'ETH', 'LTC', 'DOGE', 'TRX', 'BCH', 
-    'USDT', 'USDT-TRC20', 'USDT-ERC20', 'USDC', 'USDC-ERC20'
-  ];
-  
-  const isCrypto = cryptoCurrencies.some(c => 
-    currency.toUpperCase().includes(c)
-  );
-  
-  if (isCrypto) {
-    const formatted = amount.toFixed(8);
-    return formatted.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
-  }
-  
-  return amount.toFixed(2);
+  return formatCryptoAmount(amount, currency);
 };
 
 const UnderPayment = ({
