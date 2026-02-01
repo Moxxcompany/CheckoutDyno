@@ -501,6 +501,39 @@ const Payment = () => {
                   )}
                 </Box>
 
+                {/* Incomplete Payment Warning Banner */}
+                {incompletePayment && (
+                  <Alert 
+                    severity="warning" 
+                    sx={{ 
+                      mb: 2, 
+                      textAlign: 'left',
+                      '& .MuiAlert-message': { width: '100%' }
+                    }}
+                    data-testid="incomplete-payment-alert"
+                  >
+                    <AlertTitle sx={{ fontFamily: 'Space Grotesk', fontWeight: 600 }}>
+                      {t('checkout.incompletePayment', { defaultValue: 'Incomplete Payment' })}
+                    </AlertTitle>
+                    <Typography variant="body2" fontFamily='Space Grotesk'>
+                      {t('checkout.incompletePaymentDesc', { 
+                        defaultValue: `You have a pending payment of ${incompletePayment.pending_amount} ${incompletePayment.currency}. Please complete it within ${incompletePayment.remaining_minutes} minutes or wait for it to expire.`,
+                        amount: incompletePayment.pending_amount,
+                        currency: incompletePayment.currency,
+                        minutes: incompletePayment.remaining_minutes
+                      })}
+                    </Typography>
+                    <Typography 
+                      variant="caption" 
+                      color="text.secondary" 
+                      sx={{ mt: 1, display: 'block', wordBreak: 'break-all' }}
+                      fontFamily='Space Grotesk'
+                    >
+                      {t('checkout.address', { defaultValue: 'Address' })}: {incompletePayment.address}
+                    </Typography>
+                  </Alert>
+                )}
+
                 {/* Context-Aware Title */}
                 <Typography
                   fontWeight={500}
