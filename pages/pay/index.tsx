@@ -777,7 +777,7 @@ const Payment = () => {
                           {loading ? (
                             <Skeleton width={60} height={20} />
                           ) : (
-                            `${subtotalAmount.toFixed(2)} ${displayCurrency}`
+                            `${formatWithSeparators(subtotalAmount, displayCurrency)} ${displayCurrency}`
                           )}
                         </Typography>
                       </Box>
