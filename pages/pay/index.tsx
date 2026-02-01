@@ -722,9 +722,34 @@ const Payment = () => {
                             color={theme.palette.text.primary}
                             data-testid="total-amount"
                           >
-                            {Number(totalAmount).toFixed(2)}{' '}
+                            {(() => {
+                              // If customer pays fees and crypto not selected yet, show subtotal + tax only
+                              if (feePayer === 'customer' && feeInfo?.fees_pending_crypto_selection) {
+                                const subtotal = feeInfo?.subtotal || walletState?.amount || 0
+                                const tax = feeInfo?.tax_amount || 0
+                                return (subtotal + tax).toFixed(2)
+                              }
+                              // Otherwise show the full amount from rates or wallet state
+                              return Number(totalAmount).toFixed(2)
+                            })()}{' '}
                             {displayCurrency}
                           </Typography>
+                          {/* Processing fee hint when customer pays fees but crypto not selected */}
+                          {feePayer === 'customer' && feeInfo?.fees_pending_crypto_selection && feeInfo?.estimated_processing_fee && (
+                            <Typography
+                              variant="caption"
+                              color={isDark ? theme.palette.text.secondary : '#666'}
+                              fontFamily='Space Grotesk'
+                              fontSize={11}
+                              sx={{ 
+                                display: 'block',
+                                mt: 0.5,
+                                opacity: 0.8
+                              }}
+                            >
+                              + ~{walletState?.currency === 'EUR' ? '€' : '$'}{feeInfo.estimated_processing_fee.toFixed(2)} fee
+                            </Typography>
+                          )}
                           <Icon
                             icon={
                               isOpen
