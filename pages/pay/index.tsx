@@ -142,6 +142,17 @@ const Payment = () => {
   const [countdown, setCountdown] = useState<string>('')
   const [copySnackbar, setCopySnackbar] = useState(false)
 
+  // Incomplete payment state
+  const [incompletePayment, setIncompletePayment] = useState<{
+    exists: boolean;
+    currency: string;
+    address: string;
+    pending_amount: string;
+    remaining_minutes: number;
+    qr_code?: string;
+  } | null>(null)
+  const [availableCurrencies, setAvailableCurrencies] = useState<string[]>(['USD', 'EUR', 'NGN'])
+
   // Countdown timer effect
   useEffect(() => {
     if (!expiryInfo?.expires_at) return
