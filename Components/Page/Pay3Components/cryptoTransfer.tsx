@@ -943,6 +943,8 @@ const CryptoTransfer = ({
         remainingAmountUsd={partialPaymentData.remainingAmountUsd}
         baseCurrency={partialPaymentData.baseCurrency}
         graceMinutes={partialPaymentData.graceMinutes}
+        displayCurrency={displayCurrency}
+        transferRate={transferRate}
       />
     );
   }
@@ -961,6 +963,8 @@ const CryptoTransfer = ({
         expectedAmountUsd={overpaymentData.expectedAmountUsd}
         excessAmountUsd={overpaymentData.excessAmountUsd}
         baseCurrency={overpaymentData.baseCurrency}
+        displayCurrency={displayCurrency}
+        transferRate={transferRate}
       />
     );
   }
