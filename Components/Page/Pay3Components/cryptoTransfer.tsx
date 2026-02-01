@@ -995,7 +995,11 @@ const CryptoTransfer = ({
         : (selectedCurrency?.total_amount || selectedCurrency?.amount || 0),
       selectedCurrency?.currency || ""
     );
-    const amountDisplay = `${cryptoAmount} ${selectedCurrency?.currency || ''} (≈ ${(Number(selectedCurrency?.total_amount_usd || selectedCurrency?.total_amount_source || walletState?.amount || 0) * transferRate).toFixed(2)} ${displayCurrency})`;
+    const fiatAmount = formatWithSeparators(
+      Number(selectedCurrency?.total_amount_usd || selectedCurrency?.total_amount_source || walletState?.amount || 0) * transferRate,
+      displayCurrency
+    );
+    const amountDisplay = `${cryptoAmount} ${selectedCurrency?.currency || ''} (≈ ${fiatAmount} ${displayCurrency})`;
     
     return (
       <TransferExpectedCard
