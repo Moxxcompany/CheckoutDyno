@@ -71,4 +71,66 @@ export const getCurrencySymbolFromFormat = (currency: string): string => {
   return currencyFormats[currency?.toUpperCase()]?.symbol ?? '';
 };
 
+/**
+ * Format a number with thousand separators based on currency locale
+ * @param amount - The amount to format
+ * @param currency - Currency code to determine locale (optional, defaults to en-US)
+ * @param decimals - Number of decimal places (optional, auto-detected from currency or defaults to 2)
+ * @returns Formatted string with thousand separators (e.g., "10,000.00" or "10.000,00")
+ */
+export const formatWithSeparators = (
+  amount: number | string,
+  currency?: string,
+  decimals?: number
+): string => {
+  const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
+  
+  if (isNaN(numAmount)) return '0';
+  
+  const format = currency ? currencyFormats[currency.toUpperCase()] : null;
+  const locale = format?.locale || 'en-US';
+  const fractionDigits = decimals ?? format?.decimals ?? 2;
+  
+  return new Intl.NumberFormat(locale, {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  }).format(numAmount);
+};
+
+/**
+ * Format crypto amounts with proper precision (up to 8 decimals, trimmed trailing zeros)
+ * Also adds thousand separators for the integer part
+ * @param amount - The crypto amount
+ * @param currency - Crypto currency code
+ * @returns Formatted crypto amount string
+ */
+export const formatCryptoAmount = (amount: number | string, currency: string): string => {
+  const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
+  
+  if (isNaN(numAmount)) return '0';
+  
+  const cryptoCurrencies = [
+    'BTC', 'ETH', 'LTC', 'DOGE', 'TRX', 'BCH',
+    'USDT', 'USDT-TRC20', 'USDT-ERC20', 'USDC', 'USDC-ERC20', 'BNB'
+  ];
+  
+  const isCrypto = cryptoCurrencies.some(c =>
+    currency?.toUpperCase().includes(c)
+  );
+  
+  if (isCrypto) {
+    // Format with up to 8 decimal places, then trim trailing zeros
+    const formatted = numAmount.toFixed(8);
+    const trimmed = formatted.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+    
+    // Add thousand separators to integer part
+    const parts = trimmed.split('.');
+    parts[0] = parseInt(parts[0]).toLocaleString('en-US');
+    return parts.join('.');
+  }
+  
+  // For fiat currencies in crypto context, use 2 decimals with separators
+  return formatWithSeparators(numAmount, currency, 2);
+};
+
 export default currencyFormats;
