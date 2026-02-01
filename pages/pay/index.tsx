@@ -510,9 +510,6 @@ const Payment = () => {
   const transferRate = Number(currencyRates?.transferRate ?? 1)
   const displayCurrency = currencyRates?.currency ?? walletState?.currency
   
-  // Total amount from converted currency rates
-  const totalAmount = Number(currencyRates?.amount ?? currencyRates?.total_amount ?? walletState?.amount ?? 0)
-  
   // Convert fee breakdown values using transfer rate when a different currency is selected
   const baseSubtotal = Number(feeInfo?.subtotal ?? walletState?.amount ?? 0)
   const baseProcessingFee = Number(feeInfo?.processing_fee ?? 0)
@@ -522,6 +519,9 @@ const Payment = () => {
   const subtotalAmount = baseSubtotal * transferRate
   const processingFee = baseProcessingFee * transferRate
   const taxAmount = baseTaxAmount * transferRate
+  
+  // Total amount should be the sum of converted values (subtotal + tax + fee if customer pays)
+  const totalAmount = subtotalAmount + taxAmount + (feeInfo?.fee_payer === 'customer' ? processingFee : 0)
 
   // Get context-aware title
   const getTitle = () => {
