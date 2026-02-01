@@ -892,13 +892,11 @@ const Payment = () => {
                             data-testid="total-amount"
                           >
                             {(() => {
-                              // If customer pays fees and crypto not selected yet, show subtotal + tax only
+                              // If customer pays fees and crypto not selected yet, show subtotal + tax only (converted)
                               if (feePayer === 'customer' && feeInfo?.fees_pending_crypto_selection) {
-                                const subtotal = feeInfo?.subtotal || walletState?.amount || 0
-                                const tax = feeInfo?.tax_amount || 0
-                                return (subtotal + tax).toFixed(2)
+                                return (subtotalAmount + taxAmount).toFixed(2)
                               }
-                              // Otherwise show the full amount from rates or wallet state
+                              // Otherwise show the full calculated total amount
                               return Number(totalAmount).toFixed(2)
                             })()}{' '}
                             {displayCurrency}
