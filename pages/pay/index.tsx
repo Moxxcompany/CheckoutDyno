@@ -428,9 +428,9 @@ const Payment = () => {
   const totalAmount = Number(currencyRates?.total_amount_source ?? currencyRates?.amount ?? walletState?.amount ?? 0)
   const processingFee = Number(feeInfo?.processing_fee || 0)
   const taxAmount = Number(taxInfo?.amount || 0)
-  // Subtotal = Total - Tax - Processing Fee (if customer pays)
-  const customerPaidFee = feeInfo?.fee_payer === 'customer' ? processingFee : 0
-  const subtotalAmount = totalAmount - taxAmount - customerPaidFee
+  // Subtotal should be the BASE AMOUNT from backend, not calculated
+  // Backend provides fee_info.subtotal which is the original amount before tax/fees
+  const subtotalAmount = Number(feeInfo?.subtotal || walletState?.amount || 0)
   const displayCurrency = currencyRates?.currency ?? walletState?.currency
 
   // Get context-aware title
