@@ -339,13 +339,18 @@ const CryptoTransfer = ({
       console.log("Prefetching rates with feePayer:", feePayer);
       
       try {
+        // Calculate total amount including tax
+        const baseAmount = Number(walletState?.amount || 0);
+        const taxAmount = Number(taxInfo?.amount || 0);
+        const totalAmountWithTax = baseAmount + taxAmount;
+        
         const rateResponse = await axiosBaseApi.post("/pay/getCurrencyRates", {
           source: walletState?.currency,
-          amount: walletState?.amount,
+          amount: totalAmountWithTax,
           currencyList: cryptoOptions.map((x) => x.value),
           fixedDecimal: false,
           fee_payer: feePayer,
-          tax_amount: taxInfo?.amount || 0,
+          tax_amount: taxAmount,
         });
         
         const rateData = rateResponse?.data?.data;
@@ -362,7 +367,7 @@ const CryptoTransfer = ({
     };
     
     prefetchRates();
-  }, [walletState?.amount, walletState?.currency, feePayer]);
+  }, [walletState?.amount, walletState?.currency, feePayer, taxInfo?.amount]);
 
   // Filter crypto options based on available currencies
   const filteredCryptoOptions = cryptoOptions.filter(opt => 
