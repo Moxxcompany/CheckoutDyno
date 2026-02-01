@@ -1571,7 +1571,7 @@ const CryptoTransfer = ({
                       whiteSpace="nowrap"
                       color={theme.palette.text.primary}
                     >
-                      To Pay:
+                      {t('checkout.toPay')}
                     </Typography>
                     <Box display="flex" alignItems="start" gap={1}>
                       <Box textAlign="end">
