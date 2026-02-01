@@ -117,6 +117,12 @@ const cryptoOptions = [
     icon: <USDT width={25} height={25} />,
   },
   {
+    value: "USDC",
+    label: "USD Coin (USDC)",
+    icon: <USDC size={25} />,
+    currency: "USDC",
+  },
+  {
     value: "BTC",
     label: "Bitcoin (BTC)",
     icon: <BTC width={25} height={25} />,
