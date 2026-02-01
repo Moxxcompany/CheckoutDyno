@@ -428,11 +428,9 @@ const CryptoTransfer = ({
       let rateData: currencyData[] | null = null;
       
       // Check if we have fresh cached rates
-      const currentTaxAmount = taxInfo?.amount || 0;
       const isCacheValid = prefetchedRates && 
         (Date.now() - ratesFetchedAt) < RATE_CACHE_DURATION_MS &&
-        cachedFeePayer === (feePayer || '') &&
-        cachedTaxAmount === currentTaxAmount;  // Invalidate cache if tax_amount changed
+        cachedFeePayer === (feePayer || '');  // Invalidate cache if fee_payer changed
       
       if (isCacheValid) {
         console.log("Using cached rates");
@@ -456,7 +454,6 @@ const CryptoTransfer = ({
           setPrefetchedRates(rateData);
           setRatesFetchedAt(Date.now());
           setCachedFeePayer(feePayer || '');  // Track fee_payer used for this cache
-          setCachedTaxAmount(currentTaxAmount);  // Track tax_amount used for this cache
         }
       }
 
