@@ -410,6 +410,9 @@ const Payment = () => {
 
   const getCurrencyRate = async (selectedCurrency: string) => {
     try {
+      setLoading(true)
+      console.log('Fetching rate for currency:', selectedCurrency, 'from source:', walletState?.currency)
+      
       const {
         data: { data }
       } = await axiosBaseApi.post('/pay/getCurrencyRates', {
@@ -420,11 +423,27 @@ const Payment = () => {
         fee_payer: feePayer,
         tax_amount: taxInfo?.amount || 0
       })
-      setCurrencyRates(data[0])
-      setSelectedCurrency(selectedCurrency)
+      
+      console.log('Rate response:', data)
+      
+      if (data && data[0]) {
+        setCurrencyRates(data[0])
+        setSelectedCurrency(selectedCurrency)
+      } else {
+        console.error('No rate data returned for', selectedCurrency)
+        dispatch({
+          type: TOAST_SHOW,
+          payload: {
+            message: `Unable to get rate for ${selectedCurrency}`,
+            severity: 'warning'
+          }
+        })
+      }
       setLoading(false)
     } catch (e: any) {
-      const message = e.response.data.message ?? e.message
+      setLoading(false)
+      console.error('Rate fetch error:', e)
+      const message = e?.response?.data?.message ?? e?.message ?? 'Failed to fetch currency rate'
       dispatch({
         type: TOAST_SHOW,
         payload: {
