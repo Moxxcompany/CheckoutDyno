@@ -829,7 +829,7 @@ const Payment = () => {
                             fontWeight={500}
                             color={theme.palette.text.primary}
                           >
-                            {taxAmount.toFixed(2)} {walletState?.currency}
+                            {taxAmount.toFixed(2)} {displayCurrency}
                           </Typography>
                         </Box>
                       )}
