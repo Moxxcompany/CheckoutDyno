@@ -41,6 +41,7 @@
     "preferredCrypto": "Preferred Crypto",
     "preferredNetwork": "Preferred Network",
     "sendToAddress": "Send {{crypto}} ({{network}}) to This Address",
+    "sendToAddressSimple": "Send {{crypto}} to This Address",
     "sendOnlyWarning": "Send only {{crypto}} in {{network}} network to this address, or your funds will be lost.",
     "paymentDetected": "Payment detected, awaiting confirmation...",
     "paymentDetectedDesc": "We detected your payment in the blockchain. Waiting for {{confirmations}} confirmation...",
@@ -51,7 +52,14 @@
     "scanQrCode": "Scan QR Code",
     "orCopyAddress": "or copy address below",
     "addressCopied": "Address copied!",
-    "networkFee": "Network fee applies"
+    "networkFee": "Network fee applies",
+    "loadingCurrencies": "Loading currencies...",
+    "noCurrenciesConfigured": "No currencies configured. Please contact support.",
+    "noCryptoAvailable": "No cryptocurrencies available for payment.",
+    "noUsdtNetworks": "No USDT networks configured. Please select another cryptocurrency.",
+    "gettingRates": "Getting exchange rates...",
+    "creatingPayment": "Creating payment...",
+    "loading": "Loading..."
   },
   "underpayment": {
     "title": "Partial Payment Received",
