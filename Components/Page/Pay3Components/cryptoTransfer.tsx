@@ -1608,7 +1608,7 @@ const CryptoTransfer = ({
                           {walletState?.currency}
                         </Typography>
                       </Box>
-                      <Tooltip title="Copy Amount">
+                      <Tooltip title={t('common.copy')}>
                         <IconButton
                           size="small"
                           sx={{
