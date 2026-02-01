@@ -1403,7 +1403,7 @@ const CryptoTransfer = ({
                   >
                     {cryptoDetails?.address}
                   </Typography>
-                  <Tooltip title="Copy">
+                  <Tooltip title={t('common.copy')}>
                     <IconButton
                       size="small"
                       sx={{
