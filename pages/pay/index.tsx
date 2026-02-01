@@ -788,7 +788,7 @@ const Payment = () => {
                               fontWeight={500}
                               color={theme.palette.text.primary}
                             >
-                              {processingFee.toFixed(2)} {walletState?.currency}
+                              {processingFee.toFixed(2)} {displayCurrency}
                             </Typography>
                           </Box>
                         </Box>
