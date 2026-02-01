@@ -1622,10 +1622,10 @@ const CryptoTransfer = ({
                         >
                           ={Number(
                             isPartialPaymentMode && remainingPaymentInfo
-                              ? remainingPaymentInfo.remainingAmountUsd
-                              : (selectedCurrency?.total_amount_usd || selectedCurrency?.total_amount_source || walletState?.amount)
+                              ? (remainingPaymentInfo.remainingAmountUsd || 0) * transferRate
+                              : ((selectedCurrency?.total_amount_usd || selectedCurrency?.total_amount_source || walletState?.amount || 0) * transferRate)
                           )?.toFixed(2)}{" "}
-                          {walletState?.currency}
+                          {displayCurrency}
                         </Typography>
                       </Box>
                       <Tooltip title={t('common.copy')}>
