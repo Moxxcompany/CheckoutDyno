@@ -1217,7 +1217,7 @@ const CryptoTransfer = ({
                       fontFamily: "Space Grotesk",
                     }}
                   >
-                    Select Crypto Type
+                    {t('crypto.selectCryptoType')}
                   </span>
                 );
               const option = getSelectedOption();
