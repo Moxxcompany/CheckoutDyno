@@ -1666,11 +1666,11 @@ const CryptoTransfer = ({
                           fontSize="14px"
                           fontWeight={500}
                         >
-                          ={Number(
+                          ={formatWithSeparators(Number(
                             isPartialPaymentMode && remainingPaymentInfo
                               ? Number(remainingPaymentInfo.remainingAmountUsd || 0) * transferRate
                               : Number(selectedCurrency?.total_amount_usd || selectedCurrency?.total_amount_source || walletState?.amount || 0) * transferRate
-                          )?.toFixed(2)}{" "}
+                          ), displayCurrency)}{" "}
                           {displayCurrency}
                         </Typography>
                       </Box>
