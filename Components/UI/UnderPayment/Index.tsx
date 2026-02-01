@@ -33,6 +33,9 @@ interface UnderPaymentProps {
   redirectUrl?: string | null;
   merchantName?: string;
   email?: string;
+  // Currency display props
+  displayCurrency?: string;
+  transferRate?: number;
 }
 
 // Helper function to format amounts correctly for crypto vs fiat
