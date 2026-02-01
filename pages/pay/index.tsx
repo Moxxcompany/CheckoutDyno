@@ -1119,6 +1119,8 @@ const Payment = () => {
                 taxInfo={taxInfo}
                 feeInfo={feeInfo}
                 merchantInfo={merchantInfo}
+                displayCurrency={displayCurrency}
+                transferRate={transferRate}
               />
             )
           ) : activeStep === 2 ? (
