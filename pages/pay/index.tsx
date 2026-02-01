@@ -119,24 +119,46 @@ interface MerchantInfo {
 }
 
 export const currencyOptions = [
-  {
-    code: 'USD',
-    labelKey: 'currency.USD',
-    icon: <Image src={USDIcon} alt='USD' width={20} height={20} />,
-    currency: 'USD'
-  },
-  {
-    code: 'EUR',
-    labelKey: 'currency.EUR',
-    icon: <Image src={EURIcon} alt='EUR' width={20} height={20} />,
-    currency: 'EUR'
-  },
-  {
-    code: 'NGN',
-    labelKey: 'currency.NGN',
-    icon: <Image src={NGNIcon} alt='NGN' width={20} height={20} />,
-    currency: 'NGN'
-  }
+  // International
+  { code: 'USD', labelKey: 'currency.USD', icon: <Image src={USDIcon} alt='USD' width={20} height={20} />, currency: 'USD', symbol: '$', decimals: 2 },
+  { code: 'EUR', labelKey: 'currency.EUR', icon: <Image src={EURIcon} alt='EUR' width={20} height={20} />, currency: 'EUR', symbol: '€', decimals: 2 },
+  { code: 'GBP', labelKey: 'currency.GBP', icon: <Image src={GBPIcon} alt='GBP' width={20} height={20} />, currency: 'GBP', symbol: '£', decimals: 2 },
+  { code: 'AUD', labelKey: 'currency.AUD', icon: <Image src={AUDIcon} alt='AUD' width={20} height={20} />, currency: 'AUD', symbol: 'A$', decimals: 2 },
+  { code: 'CAD', labelKey: 'currency.CAD', icon: <Image src={CADIcon} alt='CAD' width={20} height={20} />, currency: 'CAD', symbol: 'C$', decimals: 2 },
+  { code: 'CHF', labelKey: 'currency.CHF', icon: <Image src={CHFIcon} alt='CHF' width={20} height={20} />, currency: 'CHF', symbol: 'Fr', decimals: 2 },
+  { code: 'CNY', labelKey: 'currency.CNY', icon: <Image src={CNYIcon} alt='CNY' width={20} height={20} />, currency: 'CNY', symbol: '¥', decimals: 2 },
+  { code: 'JPY', labelKey: 'currency.JPY', icon: <Image src={JPYIcon} alt='JPY' width={20} height={20} />, currency: 'JPY', symbol: '¥', decimals: 0 },
+  { code: 'HKD', labelKey: 'currency.HKD', icon: <Image src={HKDIcon} alt='HKD' width={20} height={20} />, currency: 'HKD', symbol: 'HK$', decimals: 2 },
+  { code: 'NZD', labelKey: 'currency.NZD', icon: <Image src={NZDIcon} alt='NZD' width={20} height={20} />, currency: 'NZD', symbol: 'NZ$', decimals: 2 },
+  { code: 'SGD', labelKey: 'currency.SGD', icon: <Image src={SGDIcon} alt='SGD' width={20} height={20} />, currency: 'SGD', symbol: 'S$', decimals: 2 },
+  // Latin America
+  { code: 'BRL', labelKey: 'currency.BRL', icon: <Image src={BRLIcon} alt='BRL' width={20} height={20} />, currency: 'BRL', symbol: 'R$', decimals: 2 },
+  { code: 'ARS', labelKey: 'currency.ARS', icon: <Image src={ARSIcon} alt='ARS' width={20} height={20} />, currency: 'ARS', symbol: '$', decimals: 2 },
+  { code: 'COP', labelKey: 'currency.COP', icon: <Image src={COPIcon} alt='COP' width={20} height={20} />, currency: 'COP', symbol: '$', decimals: 0 },
+  { code: 'CLP', labelKey: 'currency.CLP', icon: <Image src={CLPIcon} alt='CLP' width={20} height={20} />, currency: 'CLP', symbol: '$', decimals: 0 },
+  { code: 'PEN', labelKey: 'currency.PEN', icon: <Image src={PENIcon} alt='PEN' width={20} height={20} />, currency: 'PEN', symbol: 'S/', decimals: 2 },
+  { code: 'MXN', labelKey: 'currency.MXN', icon: <Image src={MXNIcon} alt='MXN' width={20} height={20} />, currency: 'MXN', symbol: '$', decimals: 2 },
+  { code: 'VES', labelKey: 'currency.VES', icon: <Image src={VESIcon} alt='VES' width={20} height={20} />, currency: 'VES', symbol: 'Bs', decimals: 2 },
+  { code: 'UYU', labelKey: 'currency.UYU', icon: <Image src={UYUIcon} alt='UYU' width={20} height={20} />, currency: 'UYU', symbol: '$U', decimals: 2 },
+  // Africa
+  { code: 'NGN', labelKey: 'currency.NGN', icon: <Image src={NGNIcon} alt='NGN' width={20} height={20} />, currency: 'NGN', symbol: '₦', decimals: 2 },
+  { code: 'ZAR', labelKey: 'currency.ZAR', icon: <Image src={ZARIcon} alt='ZAR' width={20} height={20} />, currency: 'ZAR', symbol: 'R', decimals: 2 },
+  { code: 'KES', labelKey: 'currency.KES', icon: <Image src={KESIcon} alt='KES' width={20} height={20} />, currency: 'KES', symbol: 'KSh', decimals: 2 },
+  { code: 'GHS', labelKey: 'currency.GHS', icon: <Image src={GHSIcon} alt='GHS' width={20} height={20} />, currency: 'GHS', symbol: '₵', decimals: 2 },
+  { code: 'TZS', labelKey: 'currency.TZS', icon: <Image src={TZSIcon} alt='TZS' width={20} height={20} />, currency: 'TZS', symbol: 'TSh', decimals: 0 },
+  { code: 'XAF', labelKey: 'currency.XAF', icon: <Image src={XAFIcon} alt='XAF' width={20} height={20} />, currency: 'XAF', symbol: 'FCFA', decimals: 0 },
+  { code: 'XOF', labelKey: 'currency.XOF', icon: <Image src={XOFIcon} alt='XOF' width={20} height={20} />, currency: 'XOF', symbol: 'CFA', decimals: 0 },
+  { code: 'EGP', labelKey: 'currency.EGP', icon: <Image src={EGPIcon} alt='EGP' width={20} height={20} />, currency: 'EGP', symbol: 'E£', decimals: 2 },
+  { code: 'MAD', labelKey: 'currency.MAD', icon: <Image src={MADIcon} alt='MAD' width={20} height={20} />, currency: 'MAD', symbol: 'DH', decimals: 2 },
+  { code: 'UGX', labelKey: 'currency.UGX', icon: <Image src={UGXIcon} alt='UGX' width={20} height={20} />, currency: 'UGX', symbol: 'USh', decimals: 0 },
+  { code: 'RWF', labelKey: 'currency.RWF', icon: <Image src={RWFIcon} alt='RWF' width={20} height={20} />, currency: 'RWF', symbol: 'FRw', decimals: 0 },
+  { code: 'ETB', labelKey: 'currency.ETB', icon: <Image src={ETBIcon} alt='ETB' width={20} height={20} />, currency: 'ETB', symbol: 'Br', decimals: 2 },
+  { code: 'ZMW', labelKey: 'currency.ZMW', icon: <Image src={ZMWIcon} alt='ZMW' width={20} height={20} />, currency: 'ZMW', symbol: 'ZK', decimals: 2 },
+  { code: 'BWP', labelKey: 'currency.BWP', icon: <Image src={BWPIcon} alt='BWP' width={20} height={20} />, currency: 'BWP', symbol: 'P', decimals: 2 },
+  { code: 'MUR', labelKey: 'currency.MUR', icon: <Image src={MURIcon} alt='MUR' width={20} height={20} />, currency: 'MUR', symbol: '₨', decimals: 2 },
+  { code: 'AOA', labelKey: 'currency.AOA', icon: <Image src={AOAIcon} alt='AOA' width={20} height={20} />, currency: 'AOA', symbol: 'Kz', decimals: 2 },
+  { code: 'MZN', labelKey: 'currency.MZN', icon: <Image src={MZNIcon} alt='MZN' width={20} height={20} />, currency: 'MZN', symbol: 'MT', decimals: 2 },
+  { code: 'CDF', labelKey: 'currency.CDF', icon: <Image src={CDFIcon} alt='CDF' width={20} height={20} />, currency: 'CDF', symbol: 'FC', decimals: 2 },
 ]
 
 const Payment = () => {
