@@ -30,6 +30,7 @@ import BitCoinGreenIcon from "@/assets/Icons/BitCoinGreenIcon";
 import DoneIcon from "@mui/icons-material/Done";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import USDT from "@/assets/Icons/coins/USDT";
+import USDC from "@/assets/Icons/coins/USDC";
 import BTC from "@/assets/Icons/coins/BTC";
 import ETH from "@/assets/Icons/coins/ETH";
 import BNB from "@/assets/Icons/coins/BNB";
