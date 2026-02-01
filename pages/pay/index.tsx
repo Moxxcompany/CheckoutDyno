@@ -391,6 +391,9 @@ const Payment = () => {
   }
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    // Don't allow opening currency selector when incomplete payment exists
+    if (incompletePayment) return
+    
     if (anchorEl) {
       setAnchorEl(null)
     } else {
