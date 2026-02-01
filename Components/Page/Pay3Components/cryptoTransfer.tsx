@@ -1338,9 +1338,9 @@ const CryptoTransfer = ({
                 fontFamily="Space Grotesk"
                 color={theme.palette.text.primary}
               >
-                Send {selectedCrypto}{" "}
-                {selectedCrypto === "USDT" ? `(${selectedNetwork})` : ""} to
-                This Address
+                {selectedCrypto === "USDT" 
+                  ? t('crypto.sendToAddress', { crypto: selectedCrypto, network: selectedNetwork })
+                  : t('crypto.sendToAddressSimple', { crypto: selectedCrypto })}
               </Typography>
               <Box
                 textAlign="center"
