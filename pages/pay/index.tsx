@@ -234,6 +234,14 @@ const Payment = () => {
       setLinkId(tempToken?.transaction_id || '')
       setRedirectUrl(data.redirect_url || null)
 
+      // Check for incomplete payment
+      if (data.incomplete_payment?.exists) {
+        setIncompletePayment(data.incomplete_payment)
+        // Lock currency selector to only show the incomplete payment currency
+        setAvailableCurrencies([data.incomplete_payment.currency])
+        console.log(`[Incomplete Payment] Locked to ${data.incomplete_payment.currency}, ${data.incomplete_payment.remaining_minutes} mins remaining`)
+      }
+
       // Capture enhanced checkout fields from backend
       setDescription(data.description || '')
       setOrderReference(data.order_reference || '')
