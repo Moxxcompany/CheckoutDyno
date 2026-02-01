@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
+import { useTranslation } from "next-i18next";
 
 const paymentAuth = (WrappedComponent: any) => {
   const AuthChecker = (props: any) => {
+    const { t } = useTranslation('common');
     const router = useRouter();
     const [payment, setPayment] = useState(false);
     const [checked, setChecked] = useState(false);
@@ -43,7 +45,7 @@ const paymentAuth = (WrappedComponent: any) => {
               fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' }
             }}
           >
-            DynoPay Checkout
+            {t('checkout.titleCheckout')}
           </Typography>
           <Typography
             sx={{
@@ -53,7 +55,7 @@ const paymentAuth = (WrappedComponent: any) => {
               maxWidth: '500px'
             }}
           >
-            Please use a valid payment link to proceed with checkout.
+            {t('checkout.validPaymentLinkRequired')}
           </Typography>
           <Button
             href="/"
@@ -72,7 +74,7 @@ const paymentAuth = (WrappedComponent: any) => {
               }
             }}
           >
-            Go to Homepage
+            {t('checkout.goToHomepage')}
           </Button>
         </Box>
       );
