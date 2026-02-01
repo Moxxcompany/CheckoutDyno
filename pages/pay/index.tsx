@@ -1149,7 +1149,7 @@ const Payment = () => {
               redirectUrl={redirectUrl}
               transactionId={linkId}
               merchantName={merchantInfo?.name}
-              amount={`${Number(totalAmount).toFixed(2)} ${displayCurrency}`}
+              amount={`${formatWithSeparators(Number(totalAmount), displayCurrency)} ${displayCurrency}`}
               email={tokenData?.email}
             />
           ) : null}
