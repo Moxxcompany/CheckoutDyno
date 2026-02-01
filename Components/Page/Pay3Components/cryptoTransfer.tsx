@@ -1656,7 +1656,7 @@ const CryptoTransfer = ({
                       fontFamily="Space Grotesk"
                       color={timeLeft !== null && timeLeft < 5 * 60 ? "#DC2626" : theme.palette.text.primary}
                     >
-                      invoice expires in: {formatTime(timeLeft)}
+                      {t('checkout.invoiceExpiresIn')} {formatTime(timeLeft)}
                       {timeLeft !== null && timeLeft < 5 * 60 && timeLeft > 0 && " ⚠️"}
                     </Typography>
                   </Box>
@@ -1710,7 +1710,7 @@ const CryptoTransfer = ({
                           fontFamily="Space Grotesk"
                           color={theme.palette.text.primary}
                         >
-                          Payment Confirmed!
+                          {t('crypto.paymentConfirmed')}
                         </Typography>
                       </>
                     ) : (
@@ -1727,7 +1727,7 @@ const CryptoTransfer = ({
                           fontSize={"15px"}
                           color={theme.palette.text.primary}
                         >
-                          Payment detected, awaiting confirmation...
+                          {t('crypto.paymentDetected')}
                         </Typography>
                         <Typography
                           variant="body2"
@@ -1736,8 +1736,7 @@ const CryptoTransfer = ({
                           fontWeight={400}
                           fontFamily="Space Grotesk"
                         >
-                          We detected your payment in the blockchain. <br />
-                          Waiting for 1 confirmation...
+                          {t('crypto.paymentDetectedDesc', { confirmations: 1 })}
                         </Typography>
                       </>
                     )}
@@ -1768,7 +1767,7 @@ const CryptoTransfer = ({
                   endIcon={<span style={{ fontSize: "1.2rem" }}>→</span>}
                   onClick={() => btnGotoWeb()}
                 >
-                  Go to Website
+                  {t('crypto.goToWebsite')}
                 </Button>
               )}
             </>
