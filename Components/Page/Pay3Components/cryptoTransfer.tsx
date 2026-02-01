@@ -1276,7 +1276,7 @@ const CryptoTransfer = ({
               fontFamily="Space Grotesk"
               color={theme.palette.text.primary}
             >
-              Preferred Network
+              {t('crypto.preferredNetwork')}
             </Typography>
           </Box>
         )}
