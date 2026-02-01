@@ -714,6 +714,7 @@ const CryptoTransfer = ({
 
           case "confirmed":
             // Payment confirmed successfully
+            setPaymentStatus("confirmed");
             setIsStart(true);
             setIsReceived(true);
             setIsUrl(redirectUrl);
