@@ -89,6 +89,7 @@ import CDFIcon from '../../assets/Icons/flag/CDF.png'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetServerSideProps } from 'next'
+import { formatWithSeparators } from '@/utils/currencyFormat'
 
 // Types for enhanced checkout data
 interface FeeInfo {
