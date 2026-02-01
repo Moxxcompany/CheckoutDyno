@@ -41,6 +41,7 @@
     "preferredCrypto": "Bevorzugte Krypto",
     "preferredNetwork": "Bevorzugtes Netzwerk",
     "sendToAddress": "Senden Sie {{crypto}} ({{network}}) an diese Adresse",
+    "sendToAddressSimple": "Senden Sie {{crypto}} an diese Adresse",
     "sendOnlyWarning": "Senden Sie nur {{crypto}} im {{network}}-Netzwerk an diese Adresse, sonst gehen Ihre Gelder verloren.",
     "paymentDetected": "Zahlung erkannt, warte auf Bestätigung...",
     "paymentDetectedDesc": "Wir haben Ihre Zahlung in der Blockchain erkannt. Warte auf {{confirmations}} Bestätigung...",
@@ -51,7 +52,14 @@
     "scanQrCode": "QR-Code scannen",
     "orCopyAddress": "oder Adresse kopieren",
     "addressCopied": "Adresse kopiert!",
-    "networkFee": "Netzwerkgebühr fällig"
+    "networkFee": "Netzwerkgebühr fällig",
+    "loadingCurrencies": "Währungen werden geladen...",
+    "noCurrenciesConfigured": "Keine Währungen konfiguriert. Bitte kontaktieren Sie den Support.",
+    "noCryptoAvailable": "Keine Kryptowährungen für Zahlung verfügbar.",
+    "noUsdtNetworks": "Keine USDT-Netzwerke konfiguriert. Bitte wählen Sie eine andere Kryptowährung.",
+    "gettingRates": "Wechselkurse werden abgerufen...",
+    "creatingPayment": "Zahlung wird erstellt...",
+    "loading": "Laden..."
   },
   "underpayment": {
     "title": "Teilzahlung Erhalten",
