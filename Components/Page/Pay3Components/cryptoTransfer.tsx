@@ -177,6 +177,8 @@ const CryptoTransfer = ({
   taxInfo,
   feeInfo,
   merchantInfo,
+  displayCurrency: parentDisplayCurrency,
+  transferRate: parentTransferRate,
 }: CryptoTransferProps) => {
   const { t } = useTranslation('common');
   const theme = useTheme();
@@ -196,6 +198,15 @@ const CryptoTransfer = ({
     address: "",
   });
   const [loading, setLoading] = useState(false);
+
+  // Use parent's display currency and transfer rate, fallback to source currency
+  const displayCurrency = parentDisplayCurrency || walletState?.currency;
+  const transferRate = parentTransferRate || 1;
+  
+  // Calculate converted values for display
+  const convertedSubtotal = Number(walletState?.amount || 0) * transferRate;
+  const convertedTaxAmount = Number(taxInfo?.amount || 0) * transferRate;
+  const convertedProcessingFee = Number(feeInfo?.processing_fee || 0) * transferRate;
 
   const [isRecived, setIsReceived] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number | null>(null); // Will be set from backend API
