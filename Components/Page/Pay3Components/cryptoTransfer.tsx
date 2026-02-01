@@ -244,6 +244,10 @@ const CryptoTransfer = ({
     currency: string;
   } | null>(null);
 
+  // Track if this is a continuation of an existing payment
+  const [isContinuation, setIsContinuation] = useState(false);
+  const [continuationMessage, setContinuationMessage] = useState<string | null>(null);
+
   // Fetch configured currencies on mount
   useEffect(() => {
     const fetchConfiguredCurrencies = async () => {
