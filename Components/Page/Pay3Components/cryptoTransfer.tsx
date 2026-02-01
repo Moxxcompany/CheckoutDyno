@@ -1126,7 +1126,7 @@ const CryptoTransfer = ({
             >
               <CircularProgress size={24} sx={{ color: isDark ? '#6C7BFF' : "#444CE7" }} />
               <Typography ml={2} fontFamily="Space Grotesk" color={theme.palette.text.secondary}>
-                Loading currencies...
+                {t('crypto.loadingCurrencies')}
               </Typography>
             </Box>
           ) : currencyError && filteredCryptoOptions.length === 0 ? (
