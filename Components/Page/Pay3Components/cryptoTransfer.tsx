@@ -1507,7 +1507,7 @@ const CryptoTransfer = ({
                           color={theme.palette.text.secondary}
                           fontFamily="Space Grotesk"
                         >
-                          Subtotal
+                          {t('checkout.subtotal')}
                         </Typography>
                         <Typography
                           variant="body2"
@@ -1524,7 +1524,9 @@ const CryptoTransfer = ({
                           color={theme.palette.text.secondary}
                           fontFamily="Space Grotesk"
                         >
-                          {taxInfo.type || 'VAT'} ({taxInfo.rate}%{taxInfo.country ? ` - ${taxInfo.country}` : ''})
+                          {taxInfo.country 
+                            ? t('checkout.vatRate', { rate: taxInfo.rate, country: taxInfo.country })
+                            : `${taxInfo.type || t('checkout.tax')} (${taxInfo.rate}%)`}
                         </Typography>
                         <Typography
                           variant="body2"
@@ -1542,7 +1544,7 @@ const CryptoTransfer = ({
                             color={theme.palette.text.secondary}
                             fontFamily="Space Grotesk"
                           >
-                            Processing Fee
+                            {t('checkout.processingFee')}
                           </Typography>
                           <Typography
                             variant="body2"
@@ -1551,7 +1553,7 @@ const CryptoTransfer = ({
                             fontWeight={500}
                           >
                             {feeInfo.fee_payer === 'merchant' 
-                              ? 'Included' 
+                              ? t('checkout.processingFeesIncluded')
                               : `${(selectedCurrency?.processing_fee || feeInfo.processing_fee).toFixed(2)} ${walletState?.currency}`}
                           </Typography>
                         </Box>
