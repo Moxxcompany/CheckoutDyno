@@ -75,26 +75,51 @@ const generateStatusUrl = (data: any) => {
 };
 
 const getCurrencySymbol = (currency: any, amount: any) => {
-  switch (currency) {
-    case "NGN":
-      return "₦ " + amount;
-    case "KES":
-      return amount;
-    case "UGX":
-      return amount;
-    case "GHS":
-      return "₵ " + amount;
-    case "RWF":
-      return "₣ " + amount;
-    case "EUR":
-      return "€ " + amount;
-    case "GBP":
-      return "£ " + amount;
-    case "USD":
-      return "$ " + amount;
-    default:
-      return amount;
-  }
+  const symbols: Record<string, string> = {
+    // International
+    USD: '$',
+    EUR: '€',
+    GBP: '£',
+    AUD: 'A$',
+    CAD: 'C$',
+    CHF: 'Fr',
+    CNY: '¥',
+    JPY: '¥',
+    HKD: 'HK$',
+    NZD: 'NZ$',
+    SGD: 'S$',
+    // Latin America
+    BRL: 'R$',
+    ARS: '$',
+    COP: '$',
+    CLP: '$',
+    PEN: 'S/',
+    MXN: '$',
+    VES: 'Bs',
+    UYU: '$U',
+    // Africa
+    NGN: '₦',
+    ZAR: 'R',
+    KES: 'KSh',
+    GHS: '₵',
+    TZS: 'TSh',
+    XAF: 'FCFA',
+    XOF: 'CFA',
+    EGP: 'E£',
+    MAD: 'DH',
+    UGX: 'USh',
+    RWF: 'FRw',
+    ETB: 'Br',
+    ZMW: 'ZK',
+    BWP: 'P',
+    MUR: '₨',
+    AOA: 'Kz',
+    MZN: 'MT',
+    CDF: 'FC',
+  };
+
+  const symbol = symbols[currency?.toUpperCase()] || '';
+  return symbol ? `${symbol} ${amount}` : String(amount);
 };
 
 export {
