@@ -321,6 +321,7 @@ const CryptoTransfer = ({
           currencyList: cryptoOptions.map((x) => x.value),
           fixedDecimal: false,
           fee_payer: feePayer,
+          tax_amount: taxInfo?.amount || 0,
         });
         
         const rateData = rateResponse?.data?.data;
@@ -443,6 +444,7 @@ const CryptoTransfer = ({
           currencyList: cryptoOptions.map((x) => x.value),
           fixedDecimal: false,
           fee_payer: feePayer,
+          tax_amount: taxInfo?.amount || 0,
         });
 
         rateData = rateResponse?.data?.data;
