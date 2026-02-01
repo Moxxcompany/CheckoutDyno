@@ -489,9 +489,9 @@ const BankTransferCompo = ({
                       fontSize={14}
                     >
                       =
-                      {Number(
+                      {formatWithSeparators(Number(
                         walletState?.amount ?? walletState?.amount
-                      ).toFixed(2)}{" "}
+                      ), walletState?.currency)}{" "}
                       {walletState?.currency}
                     </Typography>
                   </Box>
