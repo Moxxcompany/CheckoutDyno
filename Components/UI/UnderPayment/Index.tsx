@@ -72,10 +72,20 @@ const UnderPayment = ({
   redirectUrl,
   merchantName,
   email,
+  displayCurrency,
+  transferRate = 1,
 }: UnderPaymentProps) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === 'dark';
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  
+  // Use displayCurrency if provided, otherwise fall back to baseCurrency
+  const showCurrency = displayCurrency || baseCurrency;
+  
+  // Convert USD amounts to display currency
+  const convertedPaidAmount = (paidAmountUsd || 0) * transferRate;
+  const convertedExpectedAmount = (expectedAmountUsd || 0) * transferRate;
+  const convertedRemainingAmount = (remainingAmountUsd || 0) * transferRate;
   const { t } = useTranslation('common');
   const [copySnackbar, setCopySnackbar] = useState(false);
   
