@@ -366,7 +366,7 @@ const CryptoTransfer = ({
     dispatch({
       type: TOAST_SHOW,
       payload: {
-        message: "Address copied to clipboard!",
+        message: t('crypto.addressCopied'),
         severity: "success",
       },
     });
