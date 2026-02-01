@@ -1320,7 +1320,7 @@ const CryptoTransfer = ({
               bgcolor={isDark ? 'rgba(255, 251, 235, 0.1)' : "#fffbeb"}
             >
               <Typography fontFamily="Space Grotesk" color="#f59e0b" fontSize="small">
-                No USDT networks configured. Please select another cryptocurrency.
+                {t('crypto.noUsdtNetworks')}
               </Typography>
             </Box>
           )
