@@ -130,25 +130,25 @@ const cryptoOptions = [
   {
     value: "LTC",
     label: "Litecoin (LTC)",
-    icon: <Image src={LTCicon} alt="USD" width={25} height={25} />,
+    icon: <Image src={LTCicon} alt="LTC" width={25} height={25} unoptimized />,
     currency: "LTC",
   },
   {
     value: "DOGE",
     label: "Dogecoin (DOGE)",
-    icon: <Image src={DOGEicon} alt="USD" width={25} height={25} />,
+    icon: <Image src={DOGEicon} alt="DOGE" width={25} height={25} unoptimized />,
     currency: "DOGE",
   },
   {
     value: "BCH",
     label: "Bitcoin Cash (BCH)",
-    icon: <Image src={BCHicon} alt="USD" width={25} height={25} />,
+    icon: <Image src={BCHicon} alt="BCH" width={25} height={25} unoptimized />,
     currency: "BCH",
   },
   {
     value: "TRX",
     label: "Tron (TRX)",
-    icon: <Image src={TRXicon} alt="USD" width={25} height={25} />,
+    icon: <Image src={TRXicon} alt="TRX" width={25} height={25} unoptimized />,
     currency: "TRX",
   },
 ];
