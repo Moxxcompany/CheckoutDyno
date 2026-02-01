@@ -1100,7 +1100,7 @@ const CryptoTransfer = ({
           color={theme.palette.text.primary}
         >
           <BitCoinGreenIcon />
-          Cryptocurrency
+          {t('crypto.title')}
         </Typography>
 
         <Box mt={3} mb={1}>
@@ -1110,7 +1110,7 @@ const CryptoTransfer = ({
             fontFamily="Space Grotesk"
             color={theme.palette.text.primary}
           >
-            Preferred Crypto
+            {t('crypto.preferredCrypto')}
           </Typography>
         </Box>
 
