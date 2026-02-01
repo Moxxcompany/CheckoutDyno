@@ -1140,7 +1140,7 @@ const CryptoTransfer = ({
               bgcolor={isDark ? 'rgba(254, 242, 242, 0.1)' : "#fef2f2"}
             >
               <Typography fontFamily="Space Grotesk" color="#ef4444">
-                No currencies configured. Please contact support.
+                {t('crypto.noCurrenciesConfigured')}
               </Typography>
             </Box>
           ) : filteredCryptoOptions.length === 0 ? (
@@ -1154,7 +1154,7 @@ const CryptoTransfer = ({
               bgcolor={isDark ? 'rgba(255, 251, 235, 0.1)' : "#fffbeb"}
             >
               <Typography fontFamily="Space Grotesk" color="#f59e0b">
-                No cryptocurrencies available for payment.
+                {t('crypto.noCryptoAvailable')}
               </Typography>
             </Box>
           ) : (
