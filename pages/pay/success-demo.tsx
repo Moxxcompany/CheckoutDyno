@@ -6,46 +6,46 @@ import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetServerSideProps } from 'next'
 
-// Demo scenarios
+// Demo scenarios - Crypto payments with crypto + fiat display
 const scenarios = {
-  // With redirect + with email
+  // Crypto: With redirect + with email
   redirectWithEmail: {
     isTrue: true,
-    type: 'bank',
+    type: 'crypto',
     redirectUrl: 'https://acme-store.com/order/complete',
     transactionId: 'TXN-2026-A1B2C3',
     merchantName: 'Acme Store',
-    amount: '€125.50 EUR',
+    amount: '0.004376 ETH (≈ 52.50 BRL)',
     email: 'john@email.com'
   },
-  // With redirect + no email
+  // Crypto: With redirect + no email
   redirectNoEmail: {
     isTrue: true,
-    type: 'bank',
+    type: 'crypto',
     redirectUrl: 'https://acme-store.com/order/complete',
     transactionId: 'TXN-2026-A1B2C3',
     merchantName: 'Acme Store',
-    amount: '€125.50 EUR',
+    amount: '0.004376 ETH (≈ 52.50 BRL)',
     email: ''
   },
-  // No redirect + with email
+  // Crypto: No redirect + with email
   noRedirectWithEmail: {
     isTrue: true,
-    type: 'bank',
+    type: 'crypto',
     redirectUrl: null,
     transactionId: 'TXN-2026-A1B2C3',
     merchantName: 'Acme Store',
-    amount: '€125.50 EUR',
+    amount: '0.004376 ETH (≈ 52.50 BRL)',
     email: 'john@email.com'
   },
-  // No redirect + no email
+  // Crypto: No redirect + no email
   noRedirectNoEmail: {
     isTrue: true,
-    type: 'bank',
+    type: 'crypto',
     redirectUrl: null,
     transactionId: 'TXN-2026-A1B2C3',
     merchantName: 'Acme Store',
-    amount: '€125.50 EUR',
+    amount: '0.004376 ETH (≈ 52.50 BRL)',
     email: ''
   },
   // Pending state (Bank transfer only)
