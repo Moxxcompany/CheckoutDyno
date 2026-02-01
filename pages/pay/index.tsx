@@ -910,10 +910,10 @@ const Payment = () => {
                             {(() => {
                               // If customer pays fees and crypto not selected yet, show subtotal + tax only (converted)
                               if (feePayer === 'customer' && feeInfo?.fees_pending_crypto_selection) {
-                                return (subtotalAmount + taxAmount).toFixed(2)
+                                return formatWithSeparators(subtotalAmount + taxAmount, displayCurrency)
                               }
                               // Otherwise show the full calculated total amount
-                              return Number(totalAmount).toFixed(2)
+                              return formatWithSeparators(Number(totalAmount), displayCurrency)
                             })()}{' '}
                             {displayCurrency}
                           </Typography>
