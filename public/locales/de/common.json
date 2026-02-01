@@ -34,7 +34,9 @@
     "copied": "Kopiert!",
     "copyInvoice": "Rechnungsnummer kopieren",
     "remainingBalance": "Restbetrag",
-    "invoiceExpiresIn": "Rechnung läuft ab in:"
+    "invoiceExpiresIn": "Rechnung läuft ab in:",
+    "validPaymentLinkRequired": "Bitte verwenden Sie einen gültigen Zahlungslink, um zur Kasse zu gelangen.",
+    "goToHomepage": "Zur Startseite"
   },
   "crypto": {
     "title": "Kryptowährung",

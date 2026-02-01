@@ -34,7 +34,9 @@
     "copied": "Copied!",
     "copyInvoice": "Copy Invoice Number",
     "remainingBalance": "Remaining Balance",
-    "invoiceExpiresIn": "invoice expires in:"
+    "invoiceExpiresIn": "invoice expires in:",
+    "validPaymentLinkRequired": "Please use a valid payment link to proceed with checkout.",
+    "goToHomepage": "Go to Homepage"
   },
   "crypto": {
     "title": "Cryptocurrency",

@@ -34,7 +34,9 @@
     "copied": "Gekopieerd!",
     "copyInvoice": "Factuur nummer kopiëren",
     "remainingBalance": "Resterend Saldo",
-    "invoiceExpiresIn": "factuur verloopt over:"
+    "invoiceExpiresIn": "factuur verloopt over:",
+    "validPaymentLinkRequired": "Gebruik een geldige betalingslink om door te gaan met afrekenen.",
+    "goToHomepage": "Naar Startpagina"
   },
   "crypto": {
     "title": "Cryptovaluta",

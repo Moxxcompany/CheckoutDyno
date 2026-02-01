@@ -34,7 +34,9 @@
     "copied": "Copié!",
     "copyInvoice": "Copier le numéro de facture",
     "remainingBalance": "Solde Restant",
-    "invoiceExpiresIn": "la facture expire dans:"
+    "invoiceExpiresIn": "la facture expire dans:",
+    "validPaymentLinkRequired": "Veuillez utiliser un lien de paiement valide pour procéder au paiement.",
+    "goToHomepage": "Aller à la Page d'Accueil"
   },
   "crypto": {
     "title": "Cryptomonnaie",
