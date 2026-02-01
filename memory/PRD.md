@@ -1,36 +1,27 @@
 # DynoPay - Product Requirements Document
 
-## Overview
-DynoPay is a Next.js-based secure payment solutions platform for modern businesses.
+## Original Problem Statement
+Set up and install all dependencies for the existing DynoPay Next.js payment application.
+
+## Project Overview
+DynoPay is a secure payment solutions platform built with Next.js, TypeScript, Material UI, and Redux.
 
 ## Tech Stack
-- **Framework:** Next.js 14
-- **UI:** React 18, Material UI, Emotion
-- **State Management:** Redux Toolkit, Redux Saga
-- **Language:** TypeScript
-- **Internationalization:** i18n (en, fr, pt, es, de, nl)
-- **Other:** Axios, Yup validation, QR codes, Credit card handling
-
-## Architecture
-- `/pages` - Next.js pages (index, pay/, pay2/)
-- `/Components` - Reusable UI components
-- `/Containers` - Container components
-- `/Redux` - State management
-- `/contexts` - React contexts
-- `/hooks` - Custom hooks
-- `/utils` - Utility functions
-- `/public/locales` - Translation files
+- **Frontend**: Next.js 14, React 18, TypeScript
+- **Styling**: Material UI, Emotion
+- **State Management**: Redux Toolkit, Redux Saga
+- **i18n**: next-i18next
+- **Other**: Axios, Yup validation, QR codes
 
 ## What's Been Implemented
-- [2026-02-01] Initial setup and dependency installation
-- Landing page with "Welcome to DynoPay"
-- Payment flows (pay/, pay2/)
-- Multi-language support
-- Health check API
+- [2026-02-01] Dependencies installed via yarn
+- [2026-02-01] Supervisor configuration updated for Next.js project structure
+- [2026-02-01] Frontend service running on port 3000
 
-## Backlog / Next Steps
-- Awaiting user requirements for feature additions or modifications
+## Current Status
+✅ All dependencies installed
+✅ Application running successfully
 
-## User Personas
-- Business owners needing payment integration
-- End users making secure payments
+## Next Action Items
+- Review existing pages (/pay, /pay2)
+- Add any new features as needed
