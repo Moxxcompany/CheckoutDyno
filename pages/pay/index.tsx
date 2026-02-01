@@ -210,7 +210,11 @@ const Payment = () => {
     remaining_minutes: number;
     qr_code?: string;
   } | null>(null)
-  const [availableCurrencies, setAvailableCurrencies] = useState<string[]>(['USD', 'EUR', 'NGN'])
+  const [availableCurrencies, setAvailableCurrencies] = useState<string[]>([
+    'USD', 'EUR', 'GBP', 'AUD', 'CAD', 'CHF', 'CNY', 'JPY', 'HKD', 'NZD', 'SGD',
+    'BRL', 'ARS', 'COP', 'CLP', 'PEN', 'MXN', 'VES', 'UYU',
+    'NGN', 'ZAR', 'KES', 'GHS', 'TZS', 'XAF', 'XOF', 'EGP', 'MAD', 'UGX', 'RWF', 'ETB', 'ZMW', 'BWP', 'MUR', 'AOA', 'MZN', 'CDF'
+  ])
 
   // Countdown timer effect
   useEffect(() => {
