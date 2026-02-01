@@ -331,6 +331,7 @@ const CryptoTransfer = ({
           setPrefetchedRates(rateData);
           setRatesFetchedAt(Date.now());
           setCachedFeePayer(feePayer || '');  // Track fee_payer used for this cache
+          setCachedTaxAmount(taxInfo?.amount || 0);  // Track tax_amount used for this cache
         }
       } catch (e) {
         // Silent fail for prefetch - will fetch again when needed
