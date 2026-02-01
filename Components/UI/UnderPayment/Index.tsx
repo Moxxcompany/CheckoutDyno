@@ -347,7 +347,7 @@ const UnderPayment = ({
                     fontFamily="Space Grotesk"
                     fontSize={12}
                   >
-                    ≈ ${remainingAmountUsd.toFixed(2)} {baseCurrency}
+                    ≈ {convertedRemainingAmount.toFixed(2)} {showCurrency}
                   </Typography>
                 )}
               </Box>
