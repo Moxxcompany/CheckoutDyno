@@ -7,11 +7,16 @@ import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetServerSideProps } from 'next'
 
-type DemoState = 'overpayment' | 'underpayment'
+type DemoState = 
+  | 'overpay-redirect-email' 
+  | 'overpay-redirect-only' 
+  | 'overpay-email-only' 
+  | 'overpay-done-only'
+  | 'underpayment'
 
 const PaymentStatesDemo = () => {
   const { t } = useTranslation('common')
-  const [currentState, setCurrentState] = useState<DemoState>('overpayment')
+  const [currentState, setCurrentState] = useState<DemoState>('overpay-redirect-email')
 
   const handleStateChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -30,6 +35,33 @@ const PaymentStatesDemo = () => {
   const handleGoToWebsite = () => {
     console.log('Go to website clicked')
   }
+
+  // Overpayment scenarios
+  const overpaymentScenarios = {
+    'overpay-redirect-email': {
+      redirectUrl: 'https://acme-store.com/order/complete',
+      merchantName: 'Acme Store',
+      email: 'john@email.com'
+    },
+    'overpay-redirect-only': {
+      redirectUrl: 'https://acme-store.com/order/complete',
+      merchantName: 'Acme Store',
+      email: undefined
+    },
+    'overpay-email-only': {
+      redirectUrl: undefined,
+      merchantName: undefined,
+      email: 'john@email.com'
+    },
+    'overpay-done-only': {
+      redirectUrl: undefined,
+      merchantName: undefined,
+      email: undefined
+    }
+  }
+
+  const isOverpayment = currentState.startsWith('overpay')
+  const overpayScenario = isOverpayment ? overpaymentScenarios[currentState as keyof typeof overpaymentScenarios] : null
 
   return (
     <Pay3Layout>
@@ -52,20 +84,30 @@ const PaymentStatesDemo = () => {
             exclusive
             onChange={handleStateChange}
             size="small"
-            sx={{ flexWrap: 'wrap', gap: 1 }}
+            sx={{ flexWrap: 'wrap', gap: 0.5 }}
           >
-            <ToggleButton value="overpayment" sx={{ textTransform: 'none' }}>
-              Overpayment
+            <ToggleButton value="overpay-redirect-email" sx={{ textTransform: 'none', fontSize: 12 }}>
+              Overpay: Redirect + Email
             </ToggleButton>
-            <ToggleButton value="underpayment" sx={{ textTransform: 'none' }}>
+            <ToggleButton value="overpay-redirect-only" sx={{ textTransform: 'none', fontSize: 12 }}>
+              Overpay: Redirect Only
+            </ToggleButton>
+            <ToggleButton value="overpay-email-only" sx={{ textTransform: 'none', fontSize: 12 }}>
+              Overpay: Email Only
+            </ToggleButton>
+            <ToggleButton value="overpay-done-only" sx={{ textTransform: 'none', fontSize: 12 }}>
+              Overpay: Done Only
+            </ToggleButton>
+            <ToggleButton value="underpayment" sx={{ textTransform: 'none', fontSize: 12 }}>
               Underpayment
             </ToggleButton>
           </ToggleButtonGroup>
         </Box>
 
-        {/* Render Component */}
-        {currentState === 'overpayment' && (
+        {/* Render Overpayment Component */}
+        {isOverpayment && overpayScenario && (
           <OverPayment
+            key={currentState}
             paidAmount={0.00825}
             expectedAmount={0.00758}
             excessAmount={0.00067}
@@ -78,12 +120,13 @@ const PaymentStatesDemo = () => {
             baseCurrency="USD"
             displayCurrency="GBP"
             transferRate={0.79}
-            redirectUrl="https://acme-store.com/order/complete"
-            merchantName="Acme Store"
-            email="john@email.com"
+            redirectUrl={overpayScenario.redirectUrl}
+            merchantName={overpayScenario.merchantName}
+            email={overpayScenario.email}
           />
         )}
 
+        {/* Render Underpayment Component */}
         {currentState === 'underpayment' && (
           <UnderPayment
             paidAmount={0.00450}
