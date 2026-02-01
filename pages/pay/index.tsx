@@ -186,6 +186,28 @@ const Payment = () => {
     return () => clearInterval(interval)
   }, [expiryInfo, t])
 
+  // Auto-refresh remaining time countdown for incomplete payment
+  useEffect(() => {
+    if (!incompletePayment) return
+    
+    const interval = setInterval(() => {
+      setIncompletePayment(prev => {
+        if (!prev) return null
+        const newRemaining = prev.remaining_minutes - 1
+        
+        if (newRemaining <= 0) {
+          // Grace period expired - refresh to unlock currencies
+          window.location.reload()
+          return null
+        }
+        
+        return { ...prev, remaining_minutes: newRemaining }
+      })
+    }, 60000) // Update every minute
+    
+    return () => clearInterval(interval)
+  }, [incompletePayment])
+
   useEffect(() => {
     if (
       paymentType === paymentTypes.GOOGLE_PAY ||
