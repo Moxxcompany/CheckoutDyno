@@ -1366,10 +1366,10 @@ const CryptoTransfer = ({
                         fontFamily="Space Grotesk"
                       >
                         {loadingStep === 'rates' 
-                          ? 'Getting exchange rates...' 
+                          ? t('crypto.gettingRates')
                           : loadingStep === 'payment' 
-                            ? 'Creating payment...' 
-                            : 'Loading...'}
+                            ? t('crypto.creatingPayment')
+                            : t('crypto.loading')}
                       </Typography>
                     </Box>
                   ) : (
