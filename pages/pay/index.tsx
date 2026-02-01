@@ -928,6 +928,8 @@ const Payment = () => {
                             py: '4px',
                             px: '10px',
                             backgroundColor: theme.palette.background.paper,
+                            maxHeight: '400px',
+                            overflowY: 'auto',
                           }
                         }}
                       >
