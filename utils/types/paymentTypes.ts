@@ -138,6 +138,7 @@ export interface currencyData {
   base_amount?: string | number;          // Original amount without fees
   base_amount_usd?: string | number;      // Original amount in USD
   fee_payer?: string;
+  processing_fee?: number;                // Processing fee for the currency
   fees?: {
     fixed_fee_usd?: number;
     transaction_fee_usd?: number;
