@@ -1,41 +1,36 @@
-# DynoPay - Payment Solutions App
+# DynoPay - Product Requirements Document
 
-## Project Overview
-**Type:** Next.js 14 TypeScript Payment Application  
-**Status:** Dependencies installed and running  
-**Date:** February 1, 2026
+## Overview
+DynoPay is a Next.js-based secure payment solutions platform for modern businesses.
 
 ## Tech Stack
-- **Framework:** Next.js 14 with TypeScript
-- **UI:** MUI (Material UI) v5, Emotion CSS-in-JS
+- **Framework:** Next.js 14
+- **UI:** React 18, Material UI, Emotion
 - **State Management:** Redux Toolkit, Redux Saga
-- **Internationalization:** next-i18next, i18next, react-i18next
-- **Utilities:** Axios, Yup validation, crypto-js, jsonwebtoken
+- **Language:** TypeScript
+- **Internationalization:** i18n (en, fr, pt, es, de, nl)
+- **Other:** Axios, Yup validation, QR codes, Credit card handling
 
-## Project Structure
-```
-/app/
-├── Components/        # Reusable UI components (BrandLogo, Layout, Page, UI)
-├── Containers/        # Page containers (Payment)
-├── Redux/            # Redux actions and reducers
-├── assets/           # Icons and Images
-├── contexts/         # React contexts (ThemeContext)
-├── helpers/          # Utility helpers
-├── hooks/            # Custom hooks (useTokenData, useWindow)
-├── pages/            # Next.js pages (index, pay, pay2)
-├── public/           # Static assets and locales
-├── styles/           # Global CSS and theme
-├── utils/            # Types and enums
-```
+## Architecture
+- `/pages` - Next.js pages (index, pay/, pay2/)
+- `/Components` - Reusable UI components
+- `/Containers` - Container components
+- `/Redux` - State management
+- `/contexts` - React contexts
+- `/hooks` - Custom hooks
+- `/utils` - Utility functions
+- `/public/locales` - Translation files
 
 ## What's Been Implemented
-- [x] Dependencies installed via `yarn install`
-- [x] Frontend service configured and running on port 3000
-- [x] Application accessible at localhost:3000
+- [2026-02-01] Initial setup and dependency installation
+- Landing page with "Welcome to DynoPay"
+- Payment flows (pay/, pay2/)
+- Multi-language support
+- Health check API
 
-## Current Status
-✅ Frontend: Running (Next.js dev server on port 3000)  
-❌ Backend: Not applicable (standalone Next.js app with API routes)
+## Backlog / Next Steps
+- Awaiting user requirements for feature additions or modifications
 
-## Next Action Items
-- User to specify what features/changes they want to implement
+## User Personas
+- Business owners needing payment integration
+- End users making secure payments
