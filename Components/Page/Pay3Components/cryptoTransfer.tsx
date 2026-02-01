@@ -312,7 +312,7 @@ const CryptoTransfer = ({
     const prefetchRates = async () => {
       if (!walletState?.amount || !walletState?.currency) return;
       
-      console.log("Prefetching rates with feePayer:", feePayer, "taxAmount:", taxInfo?.amount);
+      console.log("Prefetching rates with feePayer:", feePayer);
       
       try {
         const rateResponse = await axiosBaseApi.post("/pay/getCurrencyRates", {
@@ -330,7 +330,6 @@ const CryptoTransfer = ({
           setPrefetchedRates(rateData);
           setRatesFetchedAt(Date.now());
           setCachedFeePayer(feePayer || '');  // Track fee_payer used for this cache
-          setCachedTaxAmount(taxInfo?.amount || 0);  // Track tax_amount used for this cache
         }
       } catch (e) {
         // Silent fail for prefetch - will fetch again when needed
@@ -339,7 +338,7 @@ const CryptoTransfer = ({
     };
     
     prefetchRates();
-  }, [walletState?.amount, walletState?.currency, feePayer, taxInfo?.amount]);
+  }, [walletState?.amount, walletState?.currency, feePayer]);
 
   // Filter crypto options based on available currencies
   const filteredCryptoOptions = cryptoOptions.filter(opt => 
