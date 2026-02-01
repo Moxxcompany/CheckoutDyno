@@ -1734,7 +1734,7 @@ const CryptoTransfer = ({
                 </Box>
               )}
 
-              {isStart && (
+              {isStart && paymentStatus !== "confirmed" && (
                 <Box
                   sx={{ mt: 2 }}
                   border={1}
@@ -1776,52 +1776,30 @@ const CryptoTransfer = ({
                       ≈ {formatWithSeparators(Number(selectedCurrency?.total_amount_usd || selectedCurrency?.total_amount_source || walletState?.amount || 0) * transferRate, displayCurrency)} {displayCurrency}
                     </Typography>
 
-                    {isRecived ? (
-                      <>
-                        <DoneIcon
-                          sx={{
-                            fontSize: 35,
-                            color: "#13B76A",
-                            my: "16px",
-                          }}
-                        />
+                    {/* Payment detected - waiting for confirmation */}
+                    <CircularProgress
+                      size={30}
+                      sx={{ color: "#13B76A", my: "16px" }}
+                    />
 
-                        <Typography
-                          variant="subtitle1"
-                          fontWeight={600}
-                          fontFamily="Space Grotesk"
-                          color={theme.palette.text.primary}
-                        >
-                          {t('crypto.paymentConfirmed')}
-                        </Typography>
-                      </>
-                    ) : (
-                      <>
-                        <CircularProgress
-                          size={30}
-                          sx={{ color: "#13B76A", my: "16px" }}
-                        />
-
-                        <Typography
-                          variant="subtitle1"
-                          fontWeight={500}
-                          fontFamily="Space Grotesk"
-                          fontSize={"15px"}
-                          color={theme.palette.text.primary}
-                        >
-                          {t('crypto.paymentDetected')}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          sx={{ color: theme.palette.text.secondary }}
-                          fontSize={"12px"}
-                          fontWeight={400}
-                          fontFamily="Space Grotesk"
-                        >
-                          {t('crypto.paymentDetectedDesc', { confirmations: 1 })}
-                        </Typography>
-                      </>
-                    )}
+                    <Typography
+                      variant="subtitle1"
+                      fontWeight={500}
+                      fontFamily="Space Grotesk"
+                      fontSize={"15px"}
+                      color={theme.palette.text.primary}
+                    >
+                      {t('crypto.paymentDetected')}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{ color: theme.palette.text.secondary }}
+                      fontSize={"12px"}
+                      fontWeight={400}
+                      fontFamily="Space Grotesk"
+                    >
+                      {t('crypto.paymentDetectedDesc', { confirmations: 1 })}
+                    </Typography>
                   </Paper>
                 </Box>
               )}
