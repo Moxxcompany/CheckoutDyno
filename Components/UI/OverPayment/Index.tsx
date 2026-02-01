@@ -16,6 +16,7 @@ import OverPaymentIcon from "@/assets/Icons/OverPaymentIcon";
 import DoneIcon from "@mui/icons-material/Done";
 import { Icon } from "@iconify/react";
 import { useTranslation } from "next-i18next";
+import { formatWithSeparators, formatCryptoAmount } from "@/utils/currencyFormat";
 
 interface OverPaymentProps {
   paidAmount: number;
