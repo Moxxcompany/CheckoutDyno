@@ -70,6 +70,8 @@ const OverPayment = ({
   redirectUrl,
   merchantName,
   email,
+  displayCurrency,
+  transferRate = 1,
 }: OverPaymentProps) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === 'dark';
@@ -77,6 +79,14 @@ const OverPayment = ({
   const [copySnackbar, setCopySnackbar] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [isAutoRedirecting, setIsAutoRedirecting] = useState(false);
+  
+  // Use displayCurrency if provided, otherwise fall back to baseCurrency
+  const showCurrency = displayCurrency || baseCurrency;
+  
+  // Convert USD amounts to display currency
+  const convertedPaidAmount = (paidAmountUsd || 0) * transferRate;
+  const convertedExpectedAmount = (expectedAmountUsd || 0) * transferRate;
+  const convertedExcessAmount = (excessAmountUsd || 0) * transferRate;
 
   // Auto-redirect if redirectUrl is provided
   useEffect(() => {
