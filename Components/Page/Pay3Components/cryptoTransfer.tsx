@@ -385,7 +385,7 @@ const CryptoTransfer = ({
     dispatch({
       type: TOAST_SHOW,
       payload: {
-        message: "Amount copied to clipboard!",
+        message: t('crypto.amountCopied'),
         severity: "success",
       },
     });
@@ -666,7 +666,7 @@ const CryptoTransfer = ({
               dispatch({
                 type: TOAST_SHOW,
                 payload: {
-                  message: "Payment detected! Waiting for blockchain confirmation...",
+                  message: t('crypto.paymentDetectedToast'),
                   severity: "info",
                 },
               });
@@ -776,7 +776,7 @@ const CryptoTransfer = ({
             dispatch({
               type: TOAST_SHOW,
               payload: {
-                message: "Payment window has expired. Please try again.",
+                message: t('crypto.paymentExpired'),
                 severity: "error",
               },
             });
