@@ -107,6 +107,8 @@ interface CryptoTransferProps {
   } | null;
   displayCurrency?: string;
   transferRate?: number;
+  email?: string;
+  transactionId?: string;
 }
 
 // Cache duration for rate prefetching
