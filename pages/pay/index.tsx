@@ -228,7 +228,12 @@ const Payment = () => {
       if (data.fee_info) {
         setFeeInfo({
           processing_fee: data.fee_info.processing_fee || 0,
-          fee_payer: data.fee_info.fee_payer || data.fee_payer || 'merchant'
+          fee_payer: data.fee_info.fee_payer || data.fee_payer || 'merchant',
+          estimated_processing_fee: data.fee_info.estimated_processing_fee,
+          fees_pending_crypto_selection: data.fee_info.fees_pending_crypto_selection,
+          subtotal: data.fee_info.subtotal,
+          tax_amount: data.fee_info.tax_amount,
+          total_amount: data.fee_info.total_amount
         })
       } else if (data.fee_payer) {
         setFeeInfo({
