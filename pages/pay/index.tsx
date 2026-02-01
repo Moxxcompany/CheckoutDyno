@@ -865,45 +865,60 @@ const Payment = () => {
                           }
                         }}
                       >
-                        {currencyOptions.map(currency => (
+                        {incompletePayment ? (
+                          // When incomplete payment exists, show only the locked currency
                           <MenuItem
-                            key={currency.code}
-                            onClick={e => handleSelect(e, currency.code)}
+                            key={incompletePayment.currency}
+                            disabled
                             sx={{
-                              px: {
-                                xs: 1.5,
-                                sm: 2,
-                                md: 2.5
-                              },
-                              py: {
-                                xs: 1,
-                                sm: 1.2,
-                                md: 1.5
-                              },
+                              px: { xs: 1.5, sm: 2, md: 2.5 },
+                              py: { xs: 1, sm: 1.2, md: 1.5 },
                               borderRadius: '6px',
-                              '&:hover': {
-                                backgroundColor: isDark ? '#2a2a4a' : '#F5F8FF'
-                              }
+                              opacity: 0.8
                             }}
                           >
                             <Box display='flex' alignItems='center' gap={1}>
-                              {currency.icon}
+                              {currencyOptions.find(c => c.code === incompletePayment.currency)?.icon}
                               <Typography
                                 color={theme.palette.text.primary}
-                                sx={{
-                                  fontSize: {
-                                    xs: '14px',
-                                    sm: '18px',
-                                    md: '14px'
-                                  },
-                                  fontWeight: '500'
-                                }}
+                                sx={{ fontSize: { xs: '14px', sm: '18px', md: '14px' }, fontWeight: '500' }}
                               >
-                                {t(currency.labelKey)}
+                                {incompletePayment.currency} ({t('checkout.pendingPayment', { defaultValue: 'Pending payment' })})
                               </Typography>
                             </Box>
                           </MenuItem>
-                        ))}
+                        ) : (
+                          // Normal currency options
+                          currencyOptions
+                            .filter(currency => availableCurrencies.includes(currency.code))
+                            .map(currency => (
+                              <MenuItem
+                                key={currency.code}
+                                onClick={e => handleSelect(e, currency.code)}
+                                sx={{
+                                  px: { xs: 1.5, sm: 2, md: 2.5 },
+                                  py: { xs: 1, sm: 1.2, md: 1.5 },
+                                  borderRadius: '6px',
+                                  '&:hover': {
+                                    backgroundColor: isDark ? '#2a2a4a' : '#F5F8FF'
+                                  }
+                                }}
+                              >
+                                <Box display='flex' alignItems='center' gap={1}>
+                                  {currency.icon}
+                                  <Typography
+                                    color={theme.palette.text.primary}
+                                    sx={{
+                                      fontSize: { xs: '14px', sm: '18px', md: '14px' },
+                                      fontWeight: '500'
+                                    }}
+                                  >
+                                    {t(currency.labelKey)}
+                                  </Typography>
+                                </Box>
+                              </MenuItem>
+                            ))
+                        )}
                       </Menu>
                     </Box>
                   </Box>
