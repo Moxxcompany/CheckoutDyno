@@ -1,7 +1,9 @@
 import React from 'react';
 import { Box, CircularProgress, Typography, useTheme } from '@mui/material';
+import { useTranslation } from 'next-i18next';
 
 const Loading = () => {
+  const { t } = useTranslation('common');
   const theme = useTheme();
   const isDark = theme.palette.mode === 'dark';
   
@@ -23,7 +25,7 @@ const Loading = () => {
         mt={2}
         fontFamily="Space Grotesk"
       >
-        Please wait, we&apos;re loading your data...
+        {t('crypto.pleaseWait')}...
       </Typography>
     </Box>
   );
