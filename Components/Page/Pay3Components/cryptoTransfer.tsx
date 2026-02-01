@@ -1432,11 +1432,9 @@ const CryptoTransfer = ({
                     lineHeight="18px"
                     fontFamily="Space Grotesk"
                   >
-                    Send only {selectedCrypto} in{" "}
                     {selectedCrypto === "USDT"
-                      ? `(${selectedNetwork}) network`
-                      : ""}{" "}
-                    to this address, or your funds will be lost.
+                      ? t('crypto.sendOnlyWarning', { crypto: selectedCrypto, network: selectedNetwork })
+                      : t('crypto.sendOnlyWarningSimple', { crypto: selectedCrypto })}
                   </Typography>
                 </Box>
                 
@@ -1460,7 +1458,7 @@ const CryptoTransfer = ({
                       fontFamily="Space Grotesk"
                       fontWeight={500}
                     >
-                      Monitoring for incoming payment...
+                      {t('crypto.monitoringPayment')}
                     </Typography>
                   </Box>
                 )}
@@ -1493,7 +1491,7 @@ const CryptoTransfer = ({
                         fontFamily="Space Grotesk"
                         fontWeight={500}
                       >
-                        Remaining Balance
+                        {t('crypto.remainingBalance')}
                       </Typography>
                     </Box>
                   )}
