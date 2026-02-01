@@ -268,12 +268,14 @@ const Payment = () => {
       const amount = Number(data.amount)
       if (amount && data.base_currency) {
         try {
+          // For initial display, get base rates without fee calculation
+          // Fees will be calculated accurately when user selects crypto type
           const ratesResponse = await axiosBaseApi.post('/pay/getCurrencyRates', {
             source: data.base_currency,
             amount: amount,
             currencyList: [data.base_currency],
             fixedDecimal: false,
-            fee_payer: data.fee_payer || undefined,
+            // Don't pass fee_payer here - let CryptoTransfer handle accurate fee calculation
             tax_amount: data.tax_info?.tax_amount || 0
           });
           console.log('Rates response:', ratesResponse?.data);
