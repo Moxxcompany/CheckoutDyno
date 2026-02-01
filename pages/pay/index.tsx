@@ -914,7 +914,7 @@ const Payment = () => {
                                 opacity: 0.8
                               }}
                             >
-                              + ~{walletState?.currency === 'EUR' ? '€' : '$'}{feeInfo.estimated_processing_fee.toFixed(2)} fee
+                              + ~{(feeInfo.estimated_processing_fee * transferRate).toFixed(2)} {displayCurrency} fee
                             </Typography>
                           )}
                           <Icon
