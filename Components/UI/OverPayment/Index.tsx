@@ -355,7 +355,7 @@ const OverPayment = ({
                     fontFamily="Space Grotesk"
                     fontSize={12}
                   >
-                    ≈ ${excessAmountUsd.toFixed(2)} {baseCurrency}
+                    ≈ {convertedExcessAmount.toFixed(2)} {showCurrency}
                   </Typography>
                 )}
               </Box>
