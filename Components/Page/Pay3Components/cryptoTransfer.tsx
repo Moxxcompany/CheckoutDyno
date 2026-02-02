@@ -708,6 +708,13 @@ const CryptoTransfer = ({
     // Don't start polling if no address yet
     if (!cryptoDetails?.address) return;
 
+    // CRITICAL: Don't reset state or restart polling if payment is already completed
+    // This prevents the confirmed state from being overwritten during language changes
+    if (hasCompletedPaymentRef.current) {
+      console.log('[CryptoTransfer] Payment already completed, skipping polling restart');
+      return;
+    }
+
     setIsReceived(false);
     setPaymentStatus("waiting");
     setIsPolling(true); // Start polling indicator
