@@ -49,6 +49,14 @@ Set up and install all needed dependencies for the existing Next.js payment appl
 ## Known Issues (Fixed)
 - ~~Payment status gets stuck on "detected payment" and never reaches success screen when language is switched~~ (FIXED)
 - ~~Legacy code and deprecated patterns throughout codebase~~ (CLEANED UP)
+- ~~Missing translation keys for failed payment state in non-English locales~~ (FIXED 2026-02-02)
+
+## Completed Tasks
+- [2026-02-02] **i18n COMPLETION**: Added missing translation keys to all locale files
+  - Added `checkout.paymentLinkExpired` to de, es, nl, pt
+  - Added `crypto.paymentFailed`, `crypto.paymentLinkExpired`, `crypto.paymentError` to de, es, nl, pt
+  - Added complete `failed` section (title, message, merchant, tryAgain, goBack) to de, es, nl, pt
+  - French (fr) was already up-to-date
 
 ## Prioritized Backlog
 - P0: Test payment flow with actual crypto transactions (end-to-end verification)
@@ -58,9 +66,9 @@ Set up and install all needed dependencies for the existing Next.js payment appl
 - P2: Transaction history
 
 ## Next Tasks
-1. Test the payment flow end-to-end with language switching and page refresh
-2. Complete backend repository analysis (verify status consistency)
-3. Configure backend environment if needed
+1. Add unit and e2e tests for payment flow (covering 'failed' and 'expired' states)
+2. Enable TypeScript strict mode (`strict: true` in tsconfig.json)
+3. Test the payment flow end-to-end with language switching
 
 ## Session Log
 - [2026-02-02] Dependencies re-installed and verified
