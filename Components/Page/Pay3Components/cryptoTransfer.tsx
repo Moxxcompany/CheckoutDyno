@@ -53,7 +53,8 @@ type PaymentStatusType =
   | "confirmed"    // Payment confirmed successfully
   | "underpaid"    // Partial payment received
   | "overpaid"     // More than expected was paid
-  | "expired";     // Payment window expired
+  | "expired"      // Payment window expired
+  | "failed";      // Payment processing failed
 
 // Merchant settings from backend
 interface MerchantSettings {
@@ -235,7 +236,7 @@ const CryptoTransfer = ({
   // Merchant settings from backend (with defaults)
   const [merchantSettings, setMerchantSettings] = useState<MerchantSettings>({
     overpayment_threshold_usd: 5,  // Default $5, will be updated from backend
-    grace_period_minutes: 15       // Default 15 min, will be updated from backend
+    grace_period_minutes: 30       // Default 30 min, will be updated from backend (matches backend default)
   });
 
   // Polling trigger to restart polling after underpayment
