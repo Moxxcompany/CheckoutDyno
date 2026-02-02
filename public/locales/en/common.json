@@ -96,6 +96,13 @@
     "merchant": "Merchant",
     "goBack": "Go Back"
   },
+  "failed": {
+    "title": "Payment Failed",
+    "message": "There was an issue processing your payment. Please try again or contact support if the problem persists.",
+    "merchant": "Merchant",
+    "tryAgain": "Try Again",
+    "goBack": "Go Back"
+  },
   "success": {
     "paymentSuccessful": "Payment Successful",
     "paidTo": "{{amount}} paid to {{merchant}}",
