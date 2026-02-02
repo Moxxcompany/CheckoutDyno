@@ -231,8 +231,8 @@ describe('Underpayment Component', () => {
 
   it('displays USD equivalent amounts', () => {
     renderWithProviders(<UnderPayment {...defaultProps} />);
-    // Should show USD conversions
-    expect(screen.getByText(/USD/)).toBeInTheDocument();
+    // Should show USD conversions (multiple occurrences)
+    expect(screen.getAllByText(/USD/).length).toBeGreaterThan(0);
   });
 });
 
