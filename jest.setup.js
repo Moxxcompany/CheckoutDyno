@@ -15,7 +15,7 @@ jest.mock('next/router', () => ({
 // Mock next-i18next
 jest.mock('next-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string) => key,
+    t: (key) => key,
     i18n: {
       language: 'en',
       changeLanguage: jest.fn(),
@@ -27,7 +27,7 @@ jest.mock('next-i18next', () => ({
 // Mock react-i18next
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string) => key,
+    t: (key) => key,
     i18n: {
       language: 'en',
       changeLanguage: jest.fn(),
@@ -50,11 +50,11 @@ Object.defineProperty(window, 'location', {
 
 // Mock sessionStorage
 const sessionStorageMock = (() => {
-  let store: Record<string, string> = {};
+  let store = {};
   return {
-    getItem: (key: string) => store[key] || null,
-    setItem: (key: string, value: string) => { store[key] = value.toString(); },
-    removeItem: (key: string) => { delete store[key]; },
+    getItem: (key) => store[key] || null,
+    setItem: (key, value) => { store[key] = value.toString(); },
+    removeItem: (key) => { delete store[key]; },
     clear: () => { store = {}; },
   };
 })();
@@ -71,7 +71,7 @@ Object.defineProperty(navigator, 'clipboard', {
 // Suppress console errors in tests (optional)
 const originalError = console.error;
 beforeAll(() => {
-  console.error = (...args: any[]) => {
+  console.error = (...args) => {
     if (
       typeof args[0] === 'string' &&
       (args[0].includes('Warning: ReactDOM.render is no longer supported') ||
