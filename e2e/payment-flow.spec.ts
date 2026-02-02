@@ -326,14 +326,14 @@ test.describe('Pay Index Page - No Payment Link', () => {
     
     // Should show checkout page with message about valid payment link
     await expect(page.getByText('Checkout')).toBeVisible();
-    await expect(page.getByText(/payment link/i)).toBeVisible();
-    await expect(page.getByText(/Go to Homepage|Homepage/i)).toBeVisible();
+    await expect(page.getByText('Please use a valid payment link to proceed with checkout.')).toBeVisible();
+    await expect(page.getByText('Go to Homepage')).toBeVisible();
   });
 
   test('should navigate to homepage when clicking go to homepage', async ({ page }) => {
     await page.goto('/pay');
     
-    await page.getByText(/Go to Homepage|Homepage/i).first().click();
+    await page.getByText('Go to Homepage').click();
     
     await expect(page).toHaveURL('/');
   });
