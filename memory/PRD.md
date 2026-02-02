@@ -37,6 +37,14 @@ Set up and install all needed dependencies for the existing Next.js payment appl
   - Updated store.ts to use RTK's built-in devTools
   - Cleaned up unused TypeScript interfaces
   - Removed unused `redux-saga` dependency
+- [2026-02-02] **PAYMENT ERROR HANDLING IMPROVEMENTS**:
+  - Changed grace_period_minutes default from 15 to 30 (matches backend)
+  - Added "failed" payment status type for better error handling
+  - Added "failed" case handler in polling switch
+  - Added Failed Payment UI component with retry functionality
+  - Improved API error handling for expired/invalid payment links
+  - Added toast notification when countdown timer expires
+  - Added translation keys for error states (crypto.paymentFailed, failed.*, checkout.paymentLinkExpired)
 
 ## Known Issues (Fixed)
 - ~~Payment status gets stuck on "detected payment" and never reaches success screen when language is switched~~ (FIXED)
