@@ -1,47 +1,85 @@
 # DynoPay - Payment Solutions Application
 
 ## Project Overview
-DynoPay is a secure payment solution built with Next.js 14, TypeScript, Material UI, and Redux.
+DynoPay is a secure crypto payment solution built with Next.js 14, TypeScript, Material UI, and Redux.
 
 ## Tech Stack
 - **Framework**: Next.js 14.2.35
 - **Language**: TypeScript
 - **UI Library**: Material UI (MUI) 5.15
 - **State Management**: Redux Toolkit 2.2.5
+- **Testing**: Playwright (E2E)
 - **Internationalization**: next-i18next
-- **Styling**: Emotion (CSS-in-JS)
-- **Other**: Axios, Yup validation, crypto-js, jsonwebtoken
 
-## What's Been Implemented (Jan 2026)
+## What's Been Implemented (Feb 2026)
+
+### Dependencies Setup
 - ✅ All dependencies installed via yarn
 - ✅ Next.js development server running on port 3000
-- ✅ Homepage with "Welcome to DynoPay" landing page
-- ✅ Payment/Checkout page with payment link validation
-- ✅ Theme context and Redux store configured
-- ✅ i18n support configured
+- ✅ Environment variables configured
 
-## Project Structure
-- `/app/pages/` - Next.js pages (index.tsx, pay/, api/)
-- `/app/Components/` - Reusable UI components
-- `/app/Containers/` - Page layouts/containers
-- `/app/Redux/` - Redux actions and reducers
-- `/app/contexts/` - React contexts (ThemeContext)
-- `/app/hooks/` - Custom React hooks
-- `/app/helpers/` - Utility functions
-- `/app/utils/` - Type definitions and utilities
+### E2E Testing with Playwright
+- ✅ Playwright installed with chromium browser
+- ✅ 136 comprehensive E2E tests covering:
 
-## Dependencies Installed
-- Core: react, react-dom, next, typescript
-- UI: @mui/material, @mui/icons-material, @emotion/react, @emotion/styled
-- State: @reduxjs/toolkit, react-redux
-- i18n: i18next, next-i18next, react-i18next
-- Utils: axios, yup, crypto-js, jsonwebtoken, payment
+#### Payment Flow Tests (`payment-flow.spec.ts`)
+- Demo page checkout card display
+- Invoice copying functionality
+- Payment states demo (overpayment scenarios)
+- Success demo (redirect, email scenarios)
+- Underpayment scenarios
+
+#### Redirect Scenarios (`redirect-scenarios.spec.ts`)
+- With Redirect URL + Email
+- Redirect URL Only
+- Email Only (Done button)
+- No Redirect/Email
+
+#### Underpayment Tests (`underpayment.spec.ts`)
+- Partial payment display
+- Progress bar
+- Grace period warning
+- Pay remaining button
+- Transaction ID copy
+
+#### Overpayment Tests (`overpayment.spec.ts`)
+- Overpayment card display
+- Excess amount calculation
+- Refund notice
+- All redirect scenarios
+
+#### Language Switching (`language-switching.spec.ts`)
+- English locale tests
+- Portuguese, Spanish, French URLs
+- Translation completeness
+- Language persistence
+
+#### QR Code Display (`qr-code.spec.ts`)
+- Crypto payment button
+- Copy functionality
+- Amount display
+
+## Test Coverage Summary
+- Payment Success: redirect, done, email scenarios ✅
+- Underpayment: progress, grace period, pay remaining ✅
+- Overpayment: refund notice, redirect scenarios ✅
+- Language Switching: URL-based i18n ✅
+- QR Code Display: crypto button, copy ✅
+- Responsive Design: mobile, tablet ✅
+- Accessibility: keyboard navigation ✅
+
+## Running Tests
+```bash
+yarn test:e2e          # Run all tests
+yarn test:e2e:ui       # Run with UI mode
+yarn test:e2e:report   # View HTML report
+```
 
 ## Next Action Items
-- User to specify what features/changes they want to make to the payment app
-- Potential areas: payment integration, new payment methods, UI enhancements
+- Add more integration tests with backend API
+- Configure CI/CD pipeline for automated testing
 
 ## Backlog
-- P0: Core payment flow implementation
-- P1: Additional payment method integrations
-- P2: Analytics and reporting dashboard
+- P0: Backend API integration tests
+- P1: Visual regression tests
+- P2: Performance testing
