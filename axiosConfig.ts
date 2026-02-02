@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
-console.log("baseUrl", apiBaseUrl);
 
 // Build baseURL safely - use relative path if no base URL configured
 const getBaseUrl = () => {

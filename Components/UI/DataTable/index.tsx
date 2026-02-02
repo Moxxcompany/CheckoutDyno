@@ -78,10 +78,6 @@ const DataTable = ({
     return tempData;
   };
 
-  useEffect(() => {
-    console.log(localData);
-  }, [localData]);
-
   const handleAllOperation = () => {
     const tempData = [...data];
     const page = paginationOptions.page;

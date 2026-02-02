@@ -1,5 +1,5 @@
 import { TokenData } from "@/utils/types";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
 const useTokenData = () => {
   const [tokenData, setTokenData] = useState<TokenData>();

@@ -1,5 +1,3 @@
-import React from "react";
-
 const checkTouched = (
   data: any,
   event: React.ChangeEvent<
