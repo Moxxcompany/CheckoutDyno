@@ -57,6 +57,12 @@ Set up and install all needed dependencies for the existing Next.js payment appl
   - Added `crypto.paymentFailed`, `crypto.paymentLinkExpired`, `crypto.paymentError` to de, es, nl, pt
   - Added complete `failed` section (title, message, merchant, tryAgain, goBack) to de, es, nl, pt
   - French (fr) was already up-to-date
+- [2026-02-02] **TEST SUITE**: Added comprehensive Jest test suite (325 tests passing)
+  - Payment Flow Component Tests: Success, Underpayment, Overpayment scenarios
+  - Payment Status Tests: State transitions, session persistence, merchant settings
+  - i18n Tests: Translation key validation across all 6 languages
+  - Test files: `__tests__/components/PaymentFlow.test.tsx`, `__tests__/utils/paymentStatus.test.ts`, `__tests__/i18n/translations.test.ts`
+  - Run tests with: `yarn test`
 
 ## Prioritized Backlog
 - P0: Test payment flow with actual crypto transactions (end-to-end verification)
