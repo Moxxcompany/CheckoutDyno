@@ -40,6 +40,7 @@ Set up and install all needed dependencies for the existing Next.js payment appl
 
 ## Known Issues (Fixed)
 - ~~Payment status gets stuck on "detected payment" and never reaches success screen when language is switched~~ (FIXED)
+- ~~Legacy code and deprecated patterns throughout codebase~~ (CLEANED UP)
 
 ## Prioritized Backlog
 - P0: Test payment flow with actual crypto transactions (end-to-end verification)
@@ -47,7 +48,6 @@ Set up and install all needed dependencies for the existing Next.js payment appl
 - P1: Payment gateway integration (Stripe/PayPal)
 - P2: User authentication
 - P2: Transaction history
-- P3: Refactor `cryptoTransfer.tsx` into smaller components for maintainability
 
 ## Next Tasks
 1. Test the payment flow end-to-end with language switching and page refresh
