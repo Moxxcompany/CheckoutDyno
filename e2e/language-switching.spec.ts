@@ -27,8 +27,8 @@ test.describe('Language Switching - i18n', () => {
       await page.goto('/pay/demo');
       
       await expect(page.getByText('Subtotal')).toBeVisible();
-      await expect(page.getByText('Processing Fee')).toBeVisible();
-      await expect(page.getByText('Total')).toBeVisible();
+      await expect(page.getByText('Processing Fee', { exact: true })).toBeVisible();
+      await expect(page.getByText('Total').first()).toBeVisible();
     });
 
     test('should display English VAT label', async ({ page }) => {
