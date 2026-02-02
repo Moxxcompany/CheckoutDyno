@@ -930,13 +930,48 @@ const CryptoTransfer = ({
         }
       } catch (e: any) {
         const message = e?.response?.data?.message ?? e?.message;
-        // dispatch({
-        //   type: TOAST_SHOW,
-        //   payload: {
-        //     message,
-        //     severity: 'error'
-        //   }
-        // })
+        const status = e?.response?.status;
+        
+        // Handle specific error cases
+        if (status === 400) {
+          // Check for expiry-related errors
+          if (message?.toLowerCase().includes('expired')) {
+            setPaymentStatus("expired");
+            setIsPolling(false);
+            clearInterval(pollInterval);
+            dispatch({
+              type: TOAST_SHOW,
+              payload: {
+                message: t('crypto.paymentLinkExpired', { defaultValue: 'This payment link has expired.' }),
+                severity: "error",
+              },
+            });
+            return;
+          }
+          // Check for other validation errors
+          if (message?.toLowerCase().includes('invalid') || message?.toLowerCase().includes('not found')) {
+            setPaymentStatus("failed");
+            setIsPolling(false);
+            clearInterval(pollInterval);
+            dispatch({
+              type: TOAST_SHOW,
+              payload: {
+                message: message || t('crypto.paymentError', { defaultValue: 'Payment error occurred.' }),
+                severity: "error",
+              },
+            });
+            return;
+          }
+        }
+        
+        // Handle server errors (500)
+        if (status === 500) {
+          console.error('[CryptoTransfer] Server error during polling:', message);
+          // Don't stop polling for transient server errors, but log them
+        }
+        
+        // Log other errors but don't interrupt user experience
+        console.error('[CryptoTransfer] Polling error:', message);
       }
     }, pollingIntervalMs);
 
