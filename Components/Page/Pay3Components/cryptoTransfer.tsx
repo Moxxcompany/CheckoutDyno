@@ -909,6 +909,21 @@ const CryptoTransfer = ({
             });
             break;
 
+          case "failed":
+            // Payment processing failed
+            setIsStart(false);
+            setIsReceived(false);
+            setIsPolling(false);
+            clearInterval(pollInterval);
+            dispatch({
+              type: TOAST_SHOW,
+              payload: {
+                message: data.message || t('crypto.paymentFailed', { defaultValue: 'Payment processing failed. Please try again.' }),
+                severity: "error",
+              },
+            });
+            break;
+
           default:
             // Unknown status - handle gracefully
             break;
