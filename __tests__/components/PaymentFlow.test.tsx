@@ -425,6 +425,7 @@ describe('Currency Display', () => {
     };
     
     renderWithProviders(<OverPayment {...props} />);
-    expect(screen.getByText(/USD/)).toBeInTheDocument();
+    // Use getAllByText since USD appears multiple times
+    expect(screen.getAllByText(/USD/).length).toBeGreaterThan(0);
   });
 });
