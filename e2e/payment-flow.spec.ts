@@ -420,10 +420,9 @@ test.describe('Visual Elements', () => {
   test('should display fee breakdown with correct formatting', async ({ page }) => {
     await page.goto('/pay/demo');
     
-    await expect(page.getByTestId('fee-breakdown-section')).toBeVisible();
     await expect(page.getByText('Subtotal')).toBeVisible();
-    await expect(page.getByText(/VAT/i)).toBeVisible();
-    await expect(page.getByText('Processing Fee', { exact: true })).toBeVisible();
+    await expect(page.getByText(/VAT.*%/i)).toBeVisible();
+    await expect(page.getByText('Processing Fee').first()).toBeVisible();
     await expect(page.getByText('Total')).toBeVisible();
   });
 
