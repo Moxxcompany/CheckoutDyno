@@ -273,6 +273,14 @@ const Payment = () => {
 
       if (diff <= 0) {
         setCountdown('Expired')
+        // Dispatch a toast to notify user
+        dispatch({
+          type: TOAST_SHOW,
+          payload: {
+            message: t('checkout.paymentLinkExpired', { defaultValue: 'This payment link has expired. Please contact the merchant for a new link.' }),
+            severity: 'warning'
+          }
+        })
         return
       }
 
