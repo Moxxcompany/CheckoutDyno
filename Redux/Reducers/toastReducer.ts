@@ -1,30 +1,50 @@
-import { TOAST_HIDE, TOAST_SHOW } from "../Actions/ToastAction";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AlertColor } from "@mui/material";
 
-const ToastInitialState = {
+interface ToastState {
+  open: boolean;
+  message: string;
+  severity: AlertColor | "";
+  loading: boolean;
+}
+
+const initialState: ToastState = {
   open: false,
   message: "",
   severity: "",
   loading: false,
 };
 
-const toastReducer = (state = ToastInitialState, action: any) => {
-  const { payload } = action;
+interface ShowToastPayload {
+  message: string;
+  severity: AlertColor;
+  loading?: boolean;
+}
 
-  switch (action.type) {
-    case TOAST_SHOW:
-      return {
-        open: true,
-        message: payload.message,
-        severity: payload.severity,
-        loading: payload.loading ?? false,
-      };
+const toastSlice = createSlice({
+  name: "toast",
+  initialState,
+  reducers: {
+    showToast: (state, action: PayloadAction<ShowToastPayload>) => {
+      state.open = true;
+      state.message = action.payload.message;
+      state.severity = action.payload.severity;
+      state.loading = action.payload.loading ?? false;
+    },
+    hideToast: (state) => {
+      state.open = false;
+      state.message = "";
+      state.severity = "";
+      state.loading = false;
+    },
+  },
+});
 
-    case TOAST_HIDE:
-      return { ...ToastInitialState };
+// Export actions for modern usage
+export const { showToast, hideToast } = toastSlice.actions;
 
-    default:
-      return state;
-  }
-};
+// Legacy action types for backward compatibility
+export const TOAST_SHOW = "toast/showToast";
+export const TOAST_HIDE = "toast/hideToast";
 
-export default toastReducer;
+export default toastSlice.reducer;
