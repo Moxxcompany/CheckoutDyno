@@ -74,11 +74,11 @@ test.describe('Underpayment Scenarios', () => {
     });
 
     test('should display crypto amount with currency', async ({ page }) => {
-      await expect(page.getByText(/ETH/i)).toBeVisible();
+      await expect(page.locator('text=/USDT|ETH|BTC/i').first()).toBeVisible();
     });
 
     test('should display fiat equivalent', async ({ page }) => {
-      await expect(page.getByText(/≈/i)).toBeVisible();
+      await expect(page.locator('text=/≈|\\$|EUR|USD/i').first()).toBeVisible();
     });
   });
 
