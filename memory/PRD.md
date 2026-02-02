@@ -21,14 +21,23 @@ Set up and install all needed dependencies for the existing Next.js payment appl
 ## What's Been Implemented
 - [2026-02-02] Initial dependency installation and setup
 - [2026-02-02] Verified application runs on port 3000
+- [2026-02-02] **BUG FIX**: Fixed payment status stuck on "detected payment" after language switch
+  - Root cause: `useEffect` polling hook in `cryptoTransfer.tsx` unconditionally reset `paymentStatus` to "waiting" on re-renders
+  - Fix: Added guard condition checking `hasCompletedPaymentRef.current` to prevent state reset after payment completion
+  - File modified: `/app/Components/Page/Pay3Components/cryptoTransfer.tsx` (lines 711-717)
+
+## Known Issues (Fixed)
+- ~~Payment status gets stuck on "detected payment" and never reaches success screen when language is switched~~ (FIXED)
 
 ## Prioritized Backlog
-- P0: Backend API server for payment processing
+- P0: Test payment flow with actual crypto transactions (end-to-end verification)
+- P1: Backend API server for payment processing  
 - P1: Payment gateway integration (Stripe/PayPal)
 - P2: User authentication
 - P2: Transaction history
+- P3: Refactor `cryptoTransfer.tsx` into smaller components for maintainability
 
 ## Next Tasks
-1. Configure backend environment if needed
-2. Integrate payment gateway
-3. Add transaction processing logic
+1. Test the payment flow end-to-end with language switching and page refresh
+2. Complete backend repository analysis (verify status consistency)
+3. Configure backend environment if needed
