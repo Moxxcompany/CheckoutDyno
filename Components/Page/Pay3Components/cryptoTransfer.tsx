@@ -610,12 +610,17 @@ const CryptoTransfer = ({
         if (result?.is_continuation) {
           setIsContinuation(true);
           setContinuationMessage(result.message || 'Continuing existing payment');
-          // Use remaining time from response
-          if (result.remaining_minutes) {
-            setTimeLeft(result.remaining_minutes * 60);
-          }
           console.log('[Crypto Payment] Continuation of existing payment:', result.message);
         }
+        
+        // Set timer from response - works for both new and continuation payments
+        // Backend may return remaining_minutes, expires_in_minutes, or expiration_minutes
+        const timerMinutes = result?.remaining_minutes || result?.expires_in_minutes || result?.expiration_minutes;
+        if (timerMinutes && timerMinutes > 0) {
+          setTimeLeft(timerMinutes * 60);
+          console.log('[Crypto Payment] Timer set to', timerMinutes, 'minutes');
+        }
+        
         setCryptoDetails(result);
       }
     } catch (e: any) {
