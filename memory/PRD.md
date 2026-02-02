@@ -1,85 +1,26 @@
-# DynoPay - Payment Solutions Application
+# DynoPay - Payment Application PRD
 
-## Project Overview
-DynoPay is a secure crypto payment solution built with Next.js 14, TypeScript, Material UI, and Redux.
+## Original Problem Statement
+Setup and install dependencies for an existing Next.js TypeScript payment application.
 
-## Tech Stack
-- **Framework**: Next.js 14.2.35
-- **Language**: TypeScript
-- **UI Library**: Material UI (MUI) 5.15
-- **State Management**: Redux Toolkit 2.2.5
-- **Testing**: Playwright (E2E)
-- **Internationalization**: next-i18next
+## Architecture
+- **Framework**: Next.js 14 with TypeScript
+- **State Management**: Redux Toolkit
+- **UI**: MUI v5 + Emotion
+- **i18n**: next-i18next
+- **Testing**: Jest + Playwright
 
-## What's Been Implemented (Feb 2026)
+## What's Been Implemented
+- [2026-02-02] Initial setup and dependency installation completed
+- All yarn dependencies installed
+- Playwright Chromium installed for e2e testing
+- Frontend service running on port 3000
 
-### Dependencies Setup
-- ✅ All dependencies installed via yarn
-- ✅ Next.js development server running on port 3000
-- ✅ Environment variables configured
+## Core Features (Existing)
+- Payment page flow (/pay route)
+- Multi-language support
+- QR code functionality
+- Theme context for customization
 
-### E2E Testing with Playwright
-- ✅ Playwright installed with chromium browser
-- ✅ 136 comprehensive E2E tests covering:
-
-#### Payment Flow Tests (`payment-flow.spec.ts`)
-- Demo page checkout card display
-- Invoice copying functionality
-- Payment states demo (overpayment scenarios)
-- Success demo (redirect, email scenarios)
-- Underpayment scenarios
-
-#### Redirect Scenarios (`redirect-scenarios.spec.ts`)
-- With Redirect URL + Email
-- Redirect URL Only
-- Email Only (Done button)
-- No Redirect/Email
-
-#### Underpayment Tests (`underpayment.spec.ts`)
-- Partial payment display
-- Progress bar
-- Grace period warning
-- Pay remaining button
-- Transaction ID copy
-
-#### Overpayment Tests (`overpayment.spec.ts`)
-- Overpayment card display
-- Excess amount calculation
-- Refund notice
-- All redirect scenarios
-
-#### Language Switching (`language-switching.spec.ts`)
-- English locale tests
-- Portuguese, Spanish, French URLs
-- Translation completeness
-- Language persistence
-
-#### QR Code Display (`qr-code.spec.ts`)
-- Crypto payment button
-- Copy functionality
-- Amount display
-
-## Test Coverage Summary
-- Payment Success: redirect, done, email scenarios ✅
-- Underpayment: progress, grace period, pay remaining ✅
-- Overpayment: refund notice, redirect scenarios ✅
-- Language Switching: URL-based i18n ✅
-- QR Code Display: crypto button, copy ✅
-- Responsive Design: mobile, tablet ✅
-- Accessibility: keyboard navigation ✅
-
-## Running Tests
-```bash
-yarn test:e2e          # Run all tests
-yarn test:e2e:ui       # Run with UI mode
-yarn test:e2e:report   # View HTML report
-```
-
-## Next Action Items
-- Add more integration tests with backend API
-- Configure CI/CD pipeline for automated testing
-
-## Backlog
-- P0: Backend API integration tests
-- P1: Visual regression tests
-- P2: Performance testing
+## Next Tasks
+- Awaiting user requirements for next feature/improvement
