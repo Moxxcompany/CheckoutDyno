@@ -35,17 +35,35 @@ jest.mock('react-i18next', () => ({
   }),
 }));
 
-// Mock window.location properly for JSDOM
-Object.defineProperty(window, 'location', {
-  value: {
-    replace: jest.fn(),
-    href: '',
-    origin: 'http://localhost:3000',
-    pathname: '/',
-    search: '',
-    hash: '',
-  },
-  writable: true,
+// Mock window.location - use delete pattern for JSDOM
+const mockLocation = {
+  replace: jest.fn(),
+  assign: jest.fn(),
+  href: '',
+  origin: 'http://localhost:3000',
+  pathname: '/',
+  search: '',
+  hash: '',
+  reload: jest.fn(),
+};
+
+// Store original and set mock
+const originalLocation = window.location;
+beforeAll(() => {
+  // @ts-ignore - JSDOM quirk
+  delete window.location;
+  window.location = mockLocation;
+});
+
+afterAll(() => {
+  window.location = originalLocation;
+});
+
+// Reset location mocks between tests
+beforeEach(() => {
+  mockLocation.href = '';
+  mockLocation.replace.mockClear();
+  mockLocation.assign.mockClear();
 });
 
 // Mock sessionStorage
@@ -58,24 +76,31 @@ const sessionStorageMock = (() => {
     clear: () => { store = {}; },
   };
 })();
-Object.defineProperty(window, 'sessionStorage', { value: sessionStorageMock });
+
+Object.defineProperty(window, 'sessionStorage', { 
+  value: sessionStorageMock,
+  configurable: true 
+});
 
 // Mock clipboard
 Object.defineProperty(navigator, 'clipboard', {
   value: {
     writeText: jest.fn().mockResolvedValue(undefined),
+    readText: jest.fn().mockResolvedValue(''),
   },
+  configurable: true,
   writable: true,
 });
 
-// Suppress console errors in tests (optional)
+// Suppress console errors in tests
 const originalError = console.error;
 beforeAll(() => {
   console.error = (...args) => {
+    const message = typeof args[0] === 'string' ? args[0] : '';
     if (
-      typeof args[0] === 'string' &&
-      (args[0].includes('Warning: ReactDOM.render is no longer supported') ||
-       args[0].includes('Not implemented: navigation'))
+      message.includes('Warning: ReactDOM.render is no longer supported') ||
+      message.includes('Not implemented: navigation') ||
+      message.includes('Error: Not implemented')
     ) {
       return;
     }
