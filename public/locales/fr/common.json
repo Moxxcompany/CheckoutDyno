@@ -36,7 +36,8 @@
     "remainingBalance": "Solde Restant",
     "invoiceExpiresIn": "la facture expire dans:",
     "validPaymentLinkRequired": "Veuillez utiliser un lien de paiement valide pour procéder au paiement.",
-    "goToHomepage": "Aller à la Page d'Accueil"
+    "goToHomepage": "Aller à la Page d'Accueil",
+    "paymentLinkExpired": "Ce lien de paiement a expiré. Veuillez contacter le marchand pour obtenir un nouveau lien."
   },
   "crypto": {
     "title": "Cryptomonnaie",
@@ -69,7 +70,10 @@
     "pleaseWait": "Veuillez patienter",
     "monitoringPayment": "Surveillance du paiement entrant...",
     "remainingBalance": "Solde Restant",
-    "paymentExpired": "La fenêtre de paiement a expiré. Veuillez réessayer."
+    "paymentExpired": "La fenêtre de paiement a expiré. Veuillez réessayer.",
+    "paymentFailed": "Le traitement du paiement a échoué. Veuillez réessayer.",
+    "paymentLinkExpired": "Ce lien de paiement a expiré.",
+    "paymentError": "Une erreur s'est produite avec votre paiement."
   },
   "underpayment": {
     "title": "Paiement Partiel Reçu",
@@ -91,6 +95,13 @@
     "title": "Lien de Paiement Expiré",
     "message": "Ce lien de paiement a expiré. Veuillez contacter le marchand pour demander un nouveau lien de paiement.",
     "merchant": "Marchand",
+    "goBack": "Retour"
+  },
+  "failed": {
+    "title": "Paiement Échoué",
+    "message": "Un problème est survenu lors du traitement de votre paiement. Veuillez réessayer ou contacter le support si le problème persiste.",
+    "merchant": "Marchand",
+    "tryAgain": "Réessayer",
     "goBack": "Retour"
   },
   "success": {
