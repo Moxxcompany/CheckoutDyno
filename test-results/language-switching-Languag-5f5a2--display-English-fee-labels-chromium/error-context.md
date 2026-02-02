@@ -1,0 +1,71 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - main [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e6]:
+        - img [ref=e8]
+        - generic [ref=e10]:
+          - button "Dynopay Wallet" [ref=e11] [cursor=pointer]: Dynopay Wallet
+          - generic [ref=e13]:
+            - combobox [ref=e14] [cursor=pointer]: EN
+            - textbox: en
+            - img [ref=e15]
+          - generic [ref=e17] [cursor=pointer]:
+            - img [ref=e19]
+            - img [ref=e22]
+          - button [ref=e24] [cursor=pointer]:
+            - img [ref=e26]
+          - img "User" [ref=e31]
+      - main [ref=e33]:
+        - generic [ref=e61]:
+          - img [ref=e63]
+          - paragraph [ref=e65]: Review Your Order
+          - paragraph [ref=e66]: Complete your payment to Acme Store
+          - generic [ref=e67]:
+            - paragraph [ref=e68]: ORDER DETAILS
+            - paragraph [ref=e69]: Monthly Pro Subscription
+            - generic [ref=e70]:
+              - generic [ref=e71]:
+                - paragraph [ref=e72]: INVOICE
+                - paragraph [ref=e73]: INV-2026-A1B2C3
+              - button "Copy Invoice Number" [ref=e74] [cursor=pointer]:
+                - img [ref=e75]
+          - generic [ref=e78]:
+            - generic [ref=e79]:
+              - paragraph [ref=e80]: Subtotal
+              - paragraph [ref=e81]: €100.00
+            - generic [ref=e82]:
+              - paragraph [ref=e83]: VAT (23% - Portugal)
+              - paragraph [ref=e84]: €23.00
+            - generic [ref=e85]:
+              - paragraph [ref=e87]: Processing Fee
+              - paragraph [ref=e88]: €2.50
+            - paragraph [ref=e90]: Processing fees included
+            - separator [ref=e91]
+            - generic [ref=e92]:
+              - paragraph [ref=e93]: Total
+              - paragraph [ref=e95]: €125.50 EUR
+            - separator [ref=e96]
+            - button "Cryptocurrency" [ref=e98] [cursor=pointer]:
+              - img [ref=e100]
+              - text: Cryptocurrency
+          - paragraph [ref=e103]:
+            - text: Expires in
+            - strong [ref=e104]: 6d:23h:59m:59s
+          - paragraph [ref=e107]: Secure payment by DynoPay
+      - generic [ref=e108]:
+        - generic [ref=e109]:
+          - button [ref=e110] [cursor=pointer]:
+            - img [ref=e111]
+          - button [ref=e113] [cursor=pointer]:
+            - img [ref=e114]
+        - generic [ref=e116]:
+          - link "Terms Of Service" [ref=e117] [cursor=pointer]:
+            - /url: /pay/terms-of-service
+          - text: "|"
+          - link "AML Policy" [ref=e118] [cursor=pointer]:
+            - /url: /pay/aml-policy
+  - alert [ref=e119]
+```
