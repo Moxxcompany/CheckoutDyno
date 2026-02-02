@@ -69,7 +69,10 @@
     "pleaseWait": "Please wait",
     "monitoringPayment": "Monitoring for incoming payment...",
     "remainingBalance": "Remaining Balance",
-    "paymentExpired": "Payment window has expired. Please try again."
+    "paymentExpired": "Payment window has expired. Please try again.",
+    "paymentFailed": "Payment processing failed. Please try again.",
+    "paymentLinkExpired": "This payment link has expired.",
+    "paymentError": "An error occurred with your payment."
   },
   "underpayment": {
     "title": "Partial Payment Received",
