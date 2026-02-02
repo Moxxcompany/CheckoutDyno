@@ -423,7 +423,7 @@ test.describe('Visual Elements', () => {
     await expect(page.getByText('Subtotal')).toBeVisible();
     await expect(page.getByText(/VAT.*%/i)).toBeVisible();
     await expect(page.getByText('Processing Fee').first()).toBeVisible();
-    await expect(page.getByText('Total')).toBeVisible();
+    await expect(page.getByText('Total').first()).toBeVisible();
   });
 
   test('should show processing fees included indicator', async ({ page }) => {
