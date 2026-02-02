@@ -25,6 +25,18 @@ Set up and install all needed dependencies for the existing Next.js payment appl
   - Root cause: `useEffect` polling hook in `cryptoTransfer.tsx` unconditionally reset `paymentStatus` to "waiting" on re-renders
   - Fix: Added guard condition checking `hasCompletedPaymentRef.current` to prevent state reset after payment completion
   - File modified: `/app/Components/Page/Pay3Components/cryptoTransfer.tsx` (lines 711-717)
+- [2026-02-02] **LEGACY CODE CLEANUP**: Removed deprecated files and modernized codebase
+  - Removed `/app/pages/pay2/` directory (legacy payment flow)
+  - Removed `/app/Components/Page/Payment/` directory (superseded by Pay3Components)
+  - Removed unused HOCs: `withAuth.tsx`, `paymentProcessAuth.tsx`
+  - Removed unused `TelegramLogin` component
+  - Fixed typo: renamed `unAutorizedHelper.ts` → `unAuthorizedHelper.ts`
+  - Removed unused React imports from hooks
+  - Removed console.log statements from production code
+  - Modernized Redux: Updated to use `createSlice` pattern
+  - Updated store.ts to use RTK's built-in devTools
+  - Cleaned up unused TypeScript interfaces
+  - Removed unused `redux-saga` dependency
 
 ## Known Issues (Fixed)
 - ~~Payment status gets stuck on "detected payment" and never reaches success screen when language is switched~~ (FIXED)
