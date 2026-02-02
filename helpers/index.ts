@@ -5,7 +5,7 @@ import createEncryption from "./createEncryption";
 import getRandomColor from "./getRandomColor";
 import getRandomNumber from "./getRandomNumber";
 import inputHelper from "./inputHelper";
-import unAuthorizedHelper from "./unAutorizedHelper";
+import unAuthorizedHelper from "./unAuthorizedHelper";
 
 const a11yProps = (index: number) => {
   return {
