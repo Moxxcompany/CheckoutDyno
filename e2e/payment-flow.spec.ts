@@ -423,7 +423,7 @@ test.describe('Visual Elements', () => {
     await expect(page.getByTestId('fee-breakdown-section')).toBeVisible();
     await expect(page.getByText('Subtotal')).toBeVisible();
     await expect(page.getByText(/VAT/i)).toBeVisible();
-    await expect(page.getByText('Processing Fee')).toBeVisible();
+    await expect(page.getByText('Processing Fee', { exact: true })).toBeVisible();
     await expect(page.getByText('Total')).toBeVisible();
   });
 
