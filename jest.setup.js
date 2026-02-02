@@ -35,21 +35,6 @@ jest.mock('react-i18next', () => ({
   }),
 }));
 
-// Mock window.location using Object.defineProperty
-Object.defineProperty(window, 'location', {
-  value: {
-    replace: jest.fn(),
-    href: '',
-    origin: 'http://localhost:3000',
-    pathname: '/',
-    search: '',
-    hash: '',
-    assign: jest.fn(),
-    reload: jest.fn(),
-  },
-  writable: true,
-});
-
 // Mock sessionStorage
 const sessionStorageMock = (() => {
   let store = {};
@@ -68,7 +53,8 @@ beforeAll(() => {
   console.error = (...args) => {
     if (
       typeof args[0] === 'string' &&
-      args[0].includes('Warning: ReactDOM.render is no longer supported')
+      (args[0].includes('Warning: ReactDOM.render is no longer supported') ||
+       args[0].includes('Not implemented: navigation'))
     ) {
       return;
     }
