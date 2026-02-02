@@ -178,19 +178,64 @@ const Payment = () => {
   const [selectedCurrency, setSelectedCurrency] = useState('USD')
   const [currencyRates, setCurrencyRates] = useState<currencyData>()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const [activeStep, setActiveStep] = useState<number>(0)
+  const [activeStep, setActiveStep] = useState<number>(() => {
+    // Restore activeStep from sessionStorage on mount (for language change persistence)
+    if (typeof window !== 'undefined') {
+      const saved = sessionStorage.getItem('payment_active_step');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Only restore if saved within the last 30 minutes
+        if (parsed.timestamp && Date.now() - parsed.timestamp < 30 * 60 * 1000) {
+          return parsed.step || 0;
+        }
+      }
+    }
+    return 0;
+  })
   const [tokenData, setTokenData] = useState({ email: '' })
   const [walletState, setWalletState] = useState<walletState>({
     amount: 0,
     currency: 'USD'
   })
-  const [transferMethod, setTransferMethod] = useState('')
+  const [transferMethod, setTransferMethod] = useState(() => {
+    // Restore transferMethod from sessionStorage on mount
+    if (typeof window !== 'undefined') {
+      const saved = sessionStorage.getItem('payment_transfer_method');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.timestamp && Date.now() - parsed.timestamp < 30 * 60 * 1000) {
+          return parsed.method || '';
+        }
+      }
+    }
+    return '';
+  })
   const [loading, setLoading] = useState(true)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isBank, setIsBank] = useState()
   const [feePayer, setFeePayer] = useState<string>('')
   const [linkId, setLinkId] = useState<string>('')
   const [redirectUrl, setRedirectUrl] = useState<string | null>(null)
+
+  // Save activeStep to sessionStorage when it changes (for language change persistence)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && activeStep > 0) {
+      sessionStorage.setItem('payment_active_step', JSON.stringify({
+        step: activeStep,
+        timestamp: Date.now()
+      }));
+    }
+  }, [activeStep]);
+
+  // Save transferMethod to sessionStorage when it changes
+  useEffect(() => {
+    if (typeof window !== 'undefined' && transferMethod) {
+      sessionStorage.setItem('payment_transfer_method', JSON.stringify({
+        method: transferMethod,
+        timestamp: Date.now()
+      }));
+    }
+  }, [transferMethod]);
 
   // Enhanced checkout state variables
   const [description, setDescription] = useState<string>('')
