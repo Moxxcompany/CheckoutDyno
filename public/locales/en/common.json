@@ -36,7 +36,8 @@
     "remainingBalance": "Remaining Balance",
     "invoiceExpiresIn": "invoice expires in:",
     "validPaymentLinkRequired": "Please use a valid payment link to proceed with checkout.",
-    "goToHomepage": "Go to Homepage"
+    "goToHomepage": "Go to Homepage",
+    "paymentLinkExpired": "This payment link has expired. Please contact the merchant for a new link."
   },
   "crypto": {
     "title": "Cryptocurrency",
