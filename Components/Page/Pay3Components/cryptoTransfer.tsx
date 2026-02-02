@@ -274,6 +274,48 @@ const CryptoTransfer = ({
   const [isContinuation, setIsContinuation] = useState(false);
   const [continuationMessage, setContinuationMessage] = useState<string | null>(null);
 
+  // Storage key for persisting payment success state across language changes
+  const PAYMENT_SUCCESS_KEY = `payment_success_${transactionId || 'default'}`;
+
+  // Restore payment success state on mount (for language change persistence)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && transactionId) {
+      const savedState = sessionStorage.getItem(PAYMENT_SUCCESS_KEY);
+      if (savedState) {
+        try {
+          const parsed = JSON.parse(savedState);
+          if (parsed.isConfirmed && parsed.transactionId === transactionId) {
+            // Restore the confirmed state
+            setIsReceived(true);
+            setPaymentStatus("confirmed");
+            setHasCompletedPayment(true);
+            hasCompletedPaymentRef.current = true;
+            if (parsed.selectedCurrency) {
+              setSelectedCurrency(parsed.selectedCurrency);
+            }
+            console.log('[CryptoTransfer] Restored payment success state from sessionStorage');
+          }
+        } catch (e) {
+          console.error('[CryptoTransfer] Failed to parse saved state:', e);
+        }
+      }
+    }
+  }, [transactionId, PAYMENT_SUCCESS_KEY]);
+
+  // Save payment success state when confirmed (for language change persistence)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && transactionId && isRecived && paymentStatus === "confirmed") {
+      const stateToSave = {
+        isConfirmed: true,
+        transactionId,
+        selectedCurrency,
+        timestamp: Date.now()
+      };
+      sessionStorage.setItem(PAYMENT_SUCCESS_KEY, JSON.stringify(stateToSave));
+      console.log('[CryptoTransfer] Saved payment success state to sessionStorage');
+    }
+  }, [isRecived, paymentStatus, transactionId, selectedCurrency, PAYMENT_SUCCESS_KEY]);
+
   // Fetch configured currencies on mount
   useEffect(() => {
     const fetchConfiguredCurrencies = async () => {
