@@ -274,47 +274,80 @@ const CryptoTransfer = ({
   const [isContinuation, setIsContinuation] = useState(false);
   const [continuationMessage, setContinuationMessage] = useState<string | null>(null);
 
-  // Storage key for persisting payment success state across language changes
-  const PAYMENT_SUCCESS_KEY = `payment_success_${transactionId || 'default'}`;
+  // Storage key for persisting payment state across language changes
+  const PAYMENT_STATE_KEY = `payment_state_${transactionId || 'default'}`;
 
-  // Restore payment success state on mount (for language change persistence)
+  // Restore payment state on mount (for language change persistence)
   useEffect(() => {
     if (typeof window !== 'undefined' && transactionId) {
-      const savedState = sessionStorage.getItem(PAYMENT_SUCCESS_KEY);
+      const savedState = sessionStorage.getItem(PAYMENT_STATE_KEY);
       if (savedState) {
         try {
           const parsed = JSON.parse(savedState);
-          if (parsed.isConfirmed && parsed.transactionId === transactionId) {
-            // Restore the confirmed state
-            setIsReceived(true);
-            setPaymentStatus("confirmed");
-            setHasCompletedPayment(true);
-            hasCompletedPaymentRef.current = true;
+          if (parsed.transactionId === transactionId) {
+            // Restore the payment status
+            if (parsed.paymentStatus) {
+              setPaymentStatus(parsed.paymentStatus);
+            }
             if (parsed.selectedCurrency) {
               setSelectedCurrency(parsed.selectedCurrency);
             }
-            console.log('[CryptoTransfer] Restored payment success state from sessionStorage');
+            
+            // Restore confirmed state
+            if (parsed.paymentStatus === "confirmed") {
+              setIsReceived(true);
+              setHasCompletedPayment(true);
+              hasCompletedPaymentRef.current = true;
+              console.log('[CryptoTransfer] Restored payment CONFIRMED state from sessionStorage');
+            }
+            // Restore underpaid state
+            else if (parsed.paymentStatus === "underpaid" && parsed.partialPaymentData) {
+              setPartialPaymentData(parsed.partialPaymentData);
+              setIsStart(true);
+              console.log('[CryptoTransfer] Restored payment UNDERPAID state from sessionStorage');
+            }
+            // Restore overpaid state
+            else if (parsed.paymentStatus === "overpaid" && parsed.overpaymentData) {
+              setOverpaymentData(parsed.overpaymentData);
+              setIsReceived(true);
+              setIsStart(true);
+              console.log('[CryptoTransfer] Restored payment OVERPAID state from sessionStorage');
+            }
+            // Restore expired state
+            else if (parsed.paymentStatus === "expired") {
+              console.log('[CryptoTransfer] Restored payment EXPIRED state from sessionStorage');
+            }
           }
         } catch (e) {
           console.error('[CryptoTransfer] Failed to parse saved state:', e);
         }
       }
     }
-  }, [transactionId, PAYMENT_SUCCESS_KEY]);
+  }, [transactionId, PAYMENT_STATE_KEY]);
 
-  // Save payment success state when confirmed (for language change persistence)
+  // Save payment state when it changes (for language change persistence)
   useEffect(() => {
-    if (typeof window !== 'undefined' && transactionId && isRecived && paymentStatus === "confirmed") {
-      const stateToSave = {
-        isConfirmed: true,
+    if (typeof window !== 'undefined' && transactionId && paymentStatus !== "waiting") {
+      const stateToSave: any = {
+        paymentStatus,
         transactionId,
         selectedCurrency,
         timestamp: Date.now()
       };
-      sessionStorage.setItem(PAYMENT_SUCCESS_KEY, JSON.stringify(stateToSave));
-      console.log('[CryptoTransfer] Saved payment success state to sessionStorage');
+      
+      // Include underpaid data if applicable
+      if (paymentStatus === "underpaid" && partialPaymentData) {
+        stateToSave.partialPaymentData = partialPaymentData;
+      }
+      // Include overpaid data if applicable
+      if (paymentStatus === "overpaid" && overpaymentData) {
+        stateToSave.overpaymentData = overpaymentData;
+      }
+      
+      sessionStorage.setItem(PAYMENT_STATE_KEY, JSON.stringify(stateToSave));
+      console.log('[CryptoTransfer] Saved payment state to sessionStorage:', paymentStatus);
     }
-  }, [isRecived, paymentStatus, transactionId, selectedCurrency, PAYMENT_SUCCESS_KEY]);
+  }, [paymentStatus, transactionId, selectedCurrency, partialPaymentData, overpaymentData, PAYMENT_STATE_KEY]);
 
   // Fetch configured currencies on mount
   useEffect(() => {
