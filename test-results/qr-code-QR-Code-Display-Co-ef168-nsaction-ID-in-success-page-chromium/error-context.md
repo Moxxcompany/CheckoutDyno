@@ -1,0 +1,64 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - main [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e6]:
+        - img [ref=e8]
+        - generic [ref=e10]:
+          - button "Dynopay Wallet" [ref=e11] [cursor=pointer]: Dynopay Wallet
+          - generic [ref=e13]:
+            - combobox [ref=e14] [cursor=pointer]: EN
+            - textbox: en
+            - img [ref=e15]
+          - generic [ref=e17] [cursor=pointer]:
+            - img [ref=e19]
+            - img [ref=e22]
+          - button [ref=e24] [cursor=pointer]:
+            - img [ref=e26]
+          - img "User" [ref=e31]
+      - main [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]:
+            - generic [ref=e36]: "Demo Scenario:"
+            - group [ref=e37]:
+              - button "Redirect + Email" [active] [pressed] [ref=e38] [cursor=pointer]: Redirect + Email
+              - button "Redirect Only" [ref=e39] [cursor=pointer]: Redirect Only
+              - button "Email Only" [ref=e40] [cursor=pointer]: Email Only
+              - button "No Redirect/Email" [ref=e41] [cursor=pointer]: No Redirect/Email
+              - button "Bank Pending" [ref=e42] [cursor=pointer]: Bank Pending
+          - generic [ref=e45]:
+            - img [ref=e48]
+            - generic [ref=e50]:
+              - heading "Payment Successful" [level=5] [ref=e51]
+              - paragraph [ref=e52]: 0.004376 ETH (≈ 52.50 BRL) paid to Acme Store
+              - generic [ref=e53]:
+                - paragraph [ref=e54]: Transaction
+                - generic [ref=e55]:
+                  - paragraph [ref=e56]: "#TXN-2026-A1B2C3"
+                  - button "Copy" [ref=e57] [cursor=pointer]:
+                    - img [ref=e58]
+              - paragraph [ref=e62]: Confirmation sent to john@email.com
+              - generic [ref=e63]:
+                - progressbar [ref=e64]:
+                  - img [ref=e65]
+                - paragraph [ref=e67]: Redirecting to Acme Store...
+              - generic [ref=e68]:
+                - button "Return to Acme Store" [ref=e69] [cursor=pointer]: Return to Acme Store
+                - paragraph [ref=e70] [cursor=pointer]: Click here if not redirected
+              - paragraph [ref=e72]: Secure payment by DynoPay
+      - generic [ref=e73]:
+        - generic [ref=e74]:
+          - button [ref=e75] [cursor=pointer]:
+            - img [ref=e76]
+          - button [ref=e78] [cursor=pointer]:
+            - img [ref=e79]
+        - generic [ref=e81]:
+          - link "Terms Of Service" [ref=e82] [cursor=pointer]:
+            - /url: /pay/terms-of-service
+          - text: "|"
+          - link "AML Policy" [ref=e83] [cursor=pointer]:
+            - /url: /pay/aml-policy
+  - alert [ref=e84]
+```
