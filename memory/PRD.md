@@ -72,9 +72,9 @@ Set up and install all needed dependencies for the existing Next.js payment appl
 - P2: Transaction history
 
 ## Next Tasks
-1. Add unit and e2e tests for payment flow (covering 'failed' and 'expired' states)
-2. Enable TypeScript strict mode (`strict: true` in tsconfig.json)
-3. Test the payment flow end-to-end with language switching
+1. Enable TypeScript strict mode (`strict: true` in tsconfig.json)
+2. Test the payment flow end-to-end with language switching
+3. Add e2e tests with Playwright for full user flow coverage
 
 ## Session Log
 - [2026-02-02] Dependencies re-installed and verified
