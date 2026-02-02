@@ -54,9 +54,9 @@ const Header = ({
     // Set cookie to remember user's language preference
     document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
     const { pathname, asPath, query } = router;
-    // Use shallow routing to prevent full page reload and state loss
-    // This keeps the current component state (like payment success screen) intact
-    router.replace({ pathname, query }, asPath, { locale: newLocale, shallow: true });
+    // Use replace instead of push to avoid adding to history stack
+    // State is preserved via sessionStorage (handled in payment components)
+    router.replace({ pathname, query }, asPath, { locale: newLocale });
   };
 
   return (
