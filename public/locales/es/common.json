@@ -36,7 +36,8 @@
     "remainingBalance": "Saldo Restante",
     "invoiceExpiresIn": "la factura expira en:",
     "validPaymentLinkRequired": "Por favor usa un enlace de pago válido para proceder con el pago.",
-    "goToHomepage": "Ir a la Página de Inicio"
+    "goToHomepage": "Ir a la Página de Inicio",
+    "paymentLinkExpired": "Este enlace de pago ha expirado. Por favor contacta al comerciante para obtener un nuevo enlace."
   },
   "crypto": {
     "title": "Criptomoneda",
@@ -69,7 +70,10 @@
     "pleaseWait": "Por favor espere",
     "monitoringPayment": "Monitoreando pago entrante...",
     "remainingBalance": "Saldo Restante",
-    "paymentExpired": "La ventana de pago ha expirado. Por favor intente de nuevo."
+    "paymentExpired": "La ventana de pago ha expirado. Por favor intente de nuevo.",
+    "paymentFailed": "El procesamiento del pago ha fallado. Por favor intente de nuevo.",
+    "paymentLinkExpired": "Este enlace de pago ha expirado.",
+    "paymentError": "Ha ocurrido un error con su pago."
   },
   "underpayment": {
     "title": "Pago Parcial Recibido",
@@ -91,6 +95,13 @@
     "title": "Enlace de Pago Expirado",
     "message": "Este enlace de pago ha expirado. Por favor contacta al comerciante para solicitar un nuevo enlace de pago.",
     "merchant": "Comerciante",
+    "goBack": "Volver"
+  },
+  "failed": {
+    "title": "Pago Fallido",
+    "message": "Hubo un problema al procesar tu pago. Por favor intenta de nuevo o contacta al soporte si el problema persiste.",
+    "merchant": "Comerciante",
+    "tryAgain": "Intentar de Nuevo",
     "goBack": "Volver"
   },
   "success": {

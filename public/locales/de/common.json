@@ -36,7 +36,8 @@
     "remainingBalance": "Restbetrag",
     "invoiceExpiresIn": "Rechnung läuft ab in:",
     "validPaymentLinkRequired": "Bitte verwenden Sie einen gültigen Zahlungslink, um zur Kasse zu gelangen.",
-    "goToHomepage": "Zur Startseite"
+    "goToHomepage": "Zur Startseite",
+    "paymentLinkExpired": "Dieser Zahlungslink ist abgelaufen. Bitte kontaktieren Sie den Händler für einen neuen Link."
   },
   "crypto": {
     "title": "Kryptowährung",
@@ -69,7 +70,10 @@
     "pleaseWait": "Bitte warten",
     "monitoringPayment": "Überwachung eingehender Zahlung...",
     "remainingBalance": "Restbetrag",
-    "paymentExpired": "Das Zahlungsfenster ist abgelaufen. Bitte versuchen Sie es erneut."
+    "paymentExpired": "Das Zahlungsfenster ist abgelaufen. Bitte versuchen Sie es erneut.",
+    "paymentFailed": "Die Zahlungsverarbeitung ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "paymentLinkExpired": "Dieser Zahlungslink ist abgelaufen.",
+    "paymentError": "Bei Ihrer Zahlung ist ein Fehler aufgetreten."
   },
   "underpayment": {
     "title": "Teilzahlung Erhalten",
@@ -91,6 +95,13 @@
     "title": "Zahlungslink Abgelaufen",
     "message": "Dieser Zahlungslink ist abgelaufen. Bitte kontaktieren Sie den Händler, um einen neuen Zahlungslink anzufordern.",
     "merchant": "Händler",
+    "goBack": "Zurück"
+  },
+  "failed": {
+    "title": "Zahlung Fehlgeschlagen",
+    "message": "Bei der Verarbeitung Ihrer Zahlung ist ein Problem aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support, wenn das Problem weiterhin besteht.",
+    "merchant": "Händler",
+    "tryAgain": "Erneut versuchen",
     "goBack": "Zurück"
   },
   "success": {

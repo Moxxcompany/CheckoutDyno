@@ -36,7 +36,8 @@
     "remainingBalance": "Resterend Saldo",
     "invoiceExpiresIn": "factuur verloopt over:",
     "validPaymentLinkRequired": "Gebruik een geldige betalingslink om door te gaan met afrekenen.",
-    "goToHomepage": "Naar Startpagina"
+    "goToHomepage": "Naar Startpagina",
+    "paymentLinkExpired": "Deze betalingslink is verlopen. Neem contact op met de verkoper voor een nieuwe link."
   },
   "crypto": {
     "title": "Cryptovaluta",
@@ -69,7 +70,10 @@
     "pleaseWait": "Even geduld",
     "monitoringPayment": "Inkomende betaling monitoren...",
     "remainingBalance": "Resterend Saldo",
-    "paymentExpired": "Het betalingsvenster is verlopen. Probeer het opnieuw."
+    "paymentExpired": "Het betalingsvenster is verlopen. Probeer het opnieuw.",
+    "paymentFailed": "Betalingsverwerking is mislukt. Probeer het opnieuw.",
+    "paymentLinkExpired": "Deze betalingslink is verlopen.",
+    "paymentError": "Er is een fout opgetreden met uw betaling."
   },
   "underpayment": {
     "title": "Gedeeltelijke Betaling Ontvangen",
@@ -91,6 +95,13 @@
     "title": "Betalingslink Verlopen",
     "message": "Deze betalingslink is verlopen. Neem contact op met de verkoper om een nieuwe betalingslink aan te vragen.",
     "merchant": "Verkoper",
+    "goBack": "Terug"
+  },
+  "failed": {
+    "title": "Betaling Mislukt",
+    "message": "Er is een probleem opgetreden bij het verwerken van uw betaling. Probeer het opnieuw of neem contact op met de support als het probleem aanhoudt.",
+    "merchant": "Verkoper",
+    "tryAgain": "Opnieuw Proberen",
     "goBack": "Terug"
   },
   "success": {
