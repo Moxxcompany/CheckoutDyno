@@ -35,16 +35,20 @@ jest.mock('react-i18next', () => ({
   }),
 }));
 
-// Mock window.location
-delete window.location;
-window.location = {
-  replace: jest.fn(),
-  href: '',
-  origin: 'http://localhost:3000',
-  pathname: '/',
-  search: '',
-  hash: '',
-};
+// Mock window.location using Object.defineProperty
+Object.defineProperty(window, 'location', {
+  value: {
+    replace: jest.fn(),
+    href: '',
+    origin: 'http://localhost:3000',
+    pathname: '/',
+    search: '',
+    hash: '',
+    assign: jest.fn(),
+    reload: jest.fn(),
+  },
+  writable: true,
+});
 
 // Mock sessionStorage
 const sessionStorageMock = (() => {
