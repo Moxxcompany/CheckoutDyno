@@ -325,7 +325,7 @@ test.describe('Pay Index Page - No Payment Link', () => {
     await page.goto('/pay');
     
     // Should show checkout page with message about valid payment link
-    await expect(page.getByText('Checkout')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Checkout' })).toBeVisible();
     await expect(page.getByText('Please use a valid payment link to proceed with checkout.')).toBeVisible();
     await expect(page.getByText('Go to Homepage')).toBeVisible();
   });
