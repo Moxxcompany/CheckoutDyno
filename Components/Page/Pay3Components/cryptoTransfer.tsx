@@ -868,6 +868,8 @@ const CryptoTransfer = ({
             const excessUsd = data?.excessAmountUsd || 0;
             // Use merchant_settings from backend response, fallback to current state default
             const threshold = data?.merchant_settings?.overpayment_threshold_usd ?? merchantSettings.overpayment_threshold_usd;
+            
+            console.log('[CryptoTransfer] Overpayment detected - excessUsd:', excessUsd, 'threshold:', threshold);
 
             if (excessUsd > threshold) {
               // Significant overpayment - show overpayment screen
@@ -883,7 +885,16 @@ const CryptoTransfer = ({
                 baseCurrency: data?.baseCurrency || "USD",
               });
             } else {
-              // Minor overpayment (<= threshold) - treat as confirmed and redirect
+              // Minor overpayment (<= threshold) - treat as confirmed and show success screen
+              setPaymentStatus("confirmed");
+              setHasCompletedPayment(true);
+              hasCompletedPaymentRef.current = true;
+              setIsPartialPaymentMode(false);
+              isPartialPaymentModeRef.current = false;
+              setRemainingPaymentInfo(null);
+              console.log('[CryptoTransfer] Minor overpayment treated as confirmed');
+              
+              // Redirect if URL provided
               setIsUrl(redirectUrl);
               if (redirectUrl) {
                 window.location.replace(redirectUrl);
