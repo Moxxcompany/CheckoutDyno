@@ -1119,6 +1119,144 @@ const CryptoTransfer = ({
     );
   }
 
+  // Render Failed Payment UI
+  if (paymentStatus === "failed") {
+    return (
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        px={2}
+        minHeight="calc(100vh - 340px)"
+      >
+        <Paper
+          elevation={3}
+          sx={{
+            borderRadius: 4,
+            p: "34px",
+            width: "100%",
+            maxWidth: 450,
+            textAlign: "center",
+            border: `1px solid ${isDark ? '#FCA5A5' : '#FFE0E0'}`,
+            boxShadow: isDark ? "0px 45px 64px 0px rgba(0,0,0,0.3)" : "0px 45px 64px 0px #0D03230F",
+            bgcolor: theme.palette.background.paper,
+          }}
+        >
+          <Box
+            sx={{
+              width: 80,
+              height: 80,
+              borderRadius: "50%",
+              backgroundColor: isDark ? 'rgba(254, 242, 242, 0.15)' : "#FEF2F2",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 24px",
+            }}
+          >
+            <Icon icon="solar:close-circle-bold" width={40} height={40} color="#EF4444" />
+          </Box>
+
+          <Typography
+            variant="h5"
+            fontWeight={600}
+            fontFamily="Space Grotesk"
+            color={theme.palette.text.primary}
+            mb={2}
+          >
+            {t('failed.title', { defaultValue: 'Payment Failed' })}
+          </Typography>
+
+          <Typography
+            variant="body1"
+            fontFamily="Space Grotesk"
+            color={theme.palette.text.secondary}
+            mb={3}
+            lineHeight={1.6}
+          >
+            {t('failed.message', { defaultValue: 'There was an issue processing your payment. Please try again or contact support if the problem persists.' })}
+          </Typography>
+
+          {merchantInfo?.name && (
+            <Box
+              sx={{
+                backgroundColor: isDark ? 'rgba(249, 250, 251, 0.05)' : "#F9FAFB",
+                borderRadius: 2,
+                p: 2,
+                mb: 3,
+              }}
+            >
+              <Typography
+                variant="body2"
+                fontFamily="Space Grotesk"
+                color={theme.palette.text.secondary}
+              >
+                {t('failed.merchant', { defaultValue: 'Merchant' })}
+              </Typography>
+              <Typography
+                variant="body1"
+                fontWeight={600}
+                fontFamily="Space Grotesk"
+                color={theme.palette.text.primary}
+              >
+                {merchantInfo.name}
+              </Typography>
+            </Box>
+          )}
+
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => {
+              // Reset state to allow retry
+              setPaymentStatus("waiting");
+              setSelectedCrypto("");
+              setSelectedNetwork("");
+              setCryptoDetails({ qr_code: "", hash: "", address: "" });
+              setIsStart(false);
+            }}
+            sx={{
+              backgroundColor: isDark ? '#6C7BFF' : "#444CE7",
+              color: "#FFFFFF",
+              borderRadius: "30px",
+              py: 1.5,
+              fontFamily: "Space Grotesk",
+              fontWeight: 500,
+              textTransform: "none",
+              mb: 2,
+              "&:hover": {
+                backgroundColor: isDark ? '#5a6ae6' : "#3730A3",
+              },
+            }}
+          >
+            {t('failed.tryAgain', { defaultValue: 'Try Again' })}
+          </Button>
+
+          <Button
+            variant="outlined"
+            fullWidth
+            onClick={() => setActiveStep(0)}
+            sx={{
+              borderColor: isDark ? theme.palette.divider : "#D0D5DD",
+              color: theme.palette.text.primary,
+              borderRadius: "30px",
+              py: 1.5,
+              fontFamily: "Space Grotesk",
+              fontWeight: 500,
+              textTransform: "none",
+              "&:hover": {
+                borderColor: isDark ? '#6C7BFF' : "#98A2B3",
+                backgroundColor: isDark ? 'rgba(108, 123, 255, 0.1)' : "#F9FAFB",
+              },
+            }}
+          >
+            {t('failed.goBack', { defaultValue: 'Go Back' })}
+          </Button>
+        </Paper>
+      </Box>
+    );
+  }
+
   // Render Expired Payment UI
   if (paymentStatus === "expired") {
     return (
