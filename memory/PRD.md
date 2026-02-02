@@ -1,82 +1,47 @@
-# DynoPay - Product Requirements Document
+# DynoPay - Payment Solutions Application
 
-## Original Problem Statement
-Set up and install all needed dependencies for the existing Next.js payment application.
+## Project Overview
+DynoPay is a secure payment solution built with Next.js 14, TypeScript, Material UI, and Redux.
 
-## Architecture
-- **Frontend**: Next.js 14 + TypeScript + MUI + Redux
-- **Internationalization**: i18next with 6 languages (en, fr, pt, es, de, nl)
-- **Payment UI**: react-credit-cards-2, payment library
+## Tech Stack
+- **Framework**: Next.js 14.2.35
+- **Language**: TypeScript
+- **UI Library**: Material UI (MUI) 5.15
+- **State Management**: Redux Toolkit 2.2.5
+- **Internationalization**: next-i18next
+- **Styling**: Emotion (CSS-in-JS)
+- **Other**: Axios, Yup validation, crypto-js, jsonwebtoken
 
-## User Personas
-- Business users processing payments
-- International customers (multi-language support)
+## What's Been Implemented (Jan 2026)
+- ✅ All dependencies installed via yarn
+- ✅ Next.js development server running on port 3000
+- ✅ Homepage with "Welcome to DynoPay" landing page
+- ✅ Payment/Checkout page with payment link validation
+- ✅ Theme context and Redux store configured
+- ✅ i18n support configured
 
-## Core Requirements (Static)
-- Payment page UI at `/pay`
-- Credit card input components
-- Multi-language support
-- Redux state management
+## Project Structure
+- `/app/pages/` - Next.js pages (index.tsx, pay/, api/)
+- `/app/Components/` - Reusable UI components
+- `/app/Containers/` - Page layouts/containers
+- `/app/Redux/` - Redux actions and reducers
+- `/app/contexts/` - React contexts (ThemeContext)
+- `/app/hooks/` - Custom React hooks
+- `/app/helpers/` - Utility functions
+- `/app/utils/` - Type definitions and utilities
 
-## What's Been Implemented
-- [2026-02-02] Initial dependency installation and setup
-- [2026-02-02] Verified application runs on port 3000
-- [2026-02-02] **BUG FIX**: Fixed payment status stuck on "detected payment" after language switch
-  - Root cause: `useEffect` polling hook in `cryptoTransfer.tsx` unconditionally reset `paymentStatus` to "waiting" on re-renders
-  - Fix: Added guard condition checking `hasCompletedPaymentRef.current` to prevent state reset after payment completion
-  - File modified: `/app/Components/Page/Pay3Components/cryptoTransfer.tsx` (lines 711-717)
-- [2026-02-02] **LEGACY CODE CLEANUP**: Removed deprecated files and modernized codebase
-  - Removed `/app/pages/pay2/` directory (legacy payment flow)
-  - Removed `/app/Components/Page/Payment/` directory (superseded by Pay3Components)
-  - Removed unused HOCs: `withAuth.tsx`, `paymentProcessAuth.tsx`
-  - Removed unused `TelegramLogin` component
-  - Fixed typo: renamed `unAutorizedHelper.ts` → `unAuthorizedHelper.ts`
-  - Removed unused React imports from hooks
-  - Removed console.log statements from production code
-  - Modernized Redux: Updated to use `createSlice` pattern
-  - Updated store.ts to use RTK's built-in devTools
-  - Cleaned up unused TypeScript interfaces
-  - Removed unused `redux-saga` dependency
-- [2026-02-02] **PAYMENT ERROR HANDLING IMPROVEMENTS**:
-  - Changed grace_period_minutes default from 15 to 30 (matches backend)
-  - Added "failed" payment status type for better error handling
-  - Added "failed" case handler in polling switch
-  - Added Failed Payment UI component with retry functionality
-  - Improved API error handling for expired/invalid payment links
-  - Added toast notification when countdown timer expires
-  - Added translation keys for error states (crypto.paymentFailed, failed.*, checkout.paymentLinkExpired)
+## Dependencies Installed
+- Core: react, react-dom, next, typescript
+- UI: @mui/material, @mui/icons-material, @emotion/react, @emotion/styled
+- State: @reduxjs/toolkit, react-redux
+- i18n: i18next, next-i18next, react-i18next
+- Utils: axios, yup, crypto-js, jsonwebtoken, payment
 
-## Known Issues (Fixed)
-- ~~Payment status gets stuck on "detected payment" and never reaches success screen when language is switched~~ (FIXED)
-- ~~Legacy code and deprecated patterns throughout codebase~~ (CLEANED UP)
-- ~~Missing translation keys for failed payment state in non-English locales~~ (FIXED 2026-02-02)
+## Next Action Items
+- User to specify what features/changes they want to make to the payment app
+- Potential areas: payment integration, new payment methods, UI enhancements
 
-## Completed Tasks
-- [2026-02-02] **i18n COMPLETION**: Added missing translation keys to all locale files
-  - Added `checkout.paymentLinkExpired` to de, es, nl, pt
-  - Added `crypto.paymentFailed`, `crypto.paymentLinkExpired`, `crypto.paymentError` to de, es, nl, pt
-  - Added complete `failed` section (title, message, merchant, tryAgain, goBack) to de, es, nl, pt
-  - French (fr) was already up-to-date
-- [2026-02-02] **TEST SUITE**: Added comprehensive Jest test suite (325 tests passing)
-  - Payment Flow Component Tests: Success, Underpayment, Overpayment scenarios
-  - Payment Status Tests: State transitions, session persistence, merchant settings
-  - i18n Tests: Translation key validation across all 6 languages
-  - Test files: `__tests__/components/PaymentFlow.test.tsx`, `__tests__/utils/paymentStatus.test.ts`, `__tests__/i18n/translations.test.ts`
-  - Run tests with: `yarn test`
-
-## Prioritized Backlog
-- P0: Test payment flow with actual crypto transactions (end-to-end verification)
-- P1: Backend API server for payment processing  
-- P1: Payment gateway integration (Stripe/PayPal)
-- P2: User authentication
-- P2: Transaction history
-
-## Next Tasks
-1. Enable TypeScript strict mode (`strict: true` in tsconfig.json)
-2. Test the payment flow end-to-end with language switching
-3. Add e2e tests with Playwright for full user flow coverage
-
-## Session Log
-- [2026-02-02] Dependencies re-installed and verified
-- [2026-02-02] Supervisor configuration updated to point to `/app` directory
-- [2026-02-02] Frontend running successfully on port 3000
+## Backlog
+- P0: Core payment flow implementation
+- P1: Additional payment method integrations
+- P2: Analytics and reporting dashboard
