@@ -322,7 +322,8 @@ describe('Overpayment Data Structure', () => {
       currency: 'ETH'
     };
     
-    expect(data.paidAmount - data.expectedAmount).toBe(data.excessAmount);
+    // Use toBeCloseTo for floating point comparison
+    expect(data.paidAmount - data.expectedAmount).toBeCloseTo(data.excessAmount, 10);
   });
 
   it('should include optional USD conversions', () => {
