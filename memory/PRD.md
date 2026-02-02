@@ -1,29 +1,34 @@
 # DynoPay - Product Requirements Document
 
-## Project Overview
-**Type**: Next.js 14 Payment Application with TypeScript
-**Status**: Setup Complete (Jan 2026)
+## Original Problem Statement
+Set up and install all needed dependencies for the existing Next.js payment application.
 
-## Tech Stack
-- **Frontend**: Next.js 14, React 18, TypeScript
-- **UI**: MUI Material, Emotion
-- **State**: Redux Toolkit, Redux-Saga
-- **i18n**: next-i18next (en, fr, pt, es, de, nl)
-- **Payments**: react-credit-cards-2, payment library
+## Architecture
+- **Frontend**: Next.js 14 + TypeScript + MUI + Redux
+- **Internationalization**: i18next with 6 languages (en, fr, pt, es, de, nl)
+- **Payment UI**: react-credit-cards-2, payment library
+
+## User Personas
+- Business users processing payments
+- International customers (multi-language support)
+
+## Core Requirements (Static)
+- Payment page UI at `/pay`
+- Credit card input components
+- Multi-language support
+- Redux state management
 
 ## What's Been Implemented
-- [x] Initial setup and dependency installation (Jan 2026)
-- [x] Application running on port 3000
+- [2026-02-02] Initial dependency installation and setup
+- [2026-02-02] Verified application runs on port 3000
 
-## Core Pages
-- `/` - Landing page
-- `/pay` - Payment flow
-- `/pay2` - Alternative payment flow
-
-## Backlog
-- P0: None identified
-- P1: None identified  
-- P2: None identified
+## Prioritized Backlog
+- P0: Backend API server for payment processing
+- P1: Payment gateway integration (Stripe/PayPal)
+- P2: User authentication
+- P2: Transaction history
 
 ## Next Tasks
-- Awaiting user requirements for feature development
+1. Configure backend environment if needed
+2. Integrate payment gateway
+3. Add transaction processing logic
