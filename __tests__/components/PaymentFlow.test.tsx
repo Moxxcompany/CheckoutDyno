@@ -409,7 +409,8 @@ describe('Currency Display', () => {
     };
     
     renderWithProviders(<UnderPayment {...props} />);
-    expect(screen.getByText(/BTC/)).toBeInTheDocument();
+    // Use getAllByText since BTC appears multiple times
+    expect(screen.getAllByText(/BTC/).length).toBeGreaterThan(0);
   });
 
   it('overpayment shows fiat equivalent', () => {
