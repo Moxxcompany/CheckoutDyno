@@ -10,11 +10,6 @@ const nextConfig = {
   
   // i18n configuration
   i18n,
-  
-  // Disable telemetry for cleaner logs
-  experimental: {
-    instrumentationHook: false,
-  },
 };
 
 // Log on startup
