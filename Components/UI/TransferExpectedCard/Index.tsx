@@ -80,10 +80,35 @@ export default function TransferExpectedCard({
     }
   }, [redirectUrl, transactionId])
 
-  const handleCopyTransactionId = useCallback(() => {
+  const handleCopyTransactionId = useCallback(async () => {
     if (transactionId) {
-      navigator.clipboard.writeText(transactionId)
-      setCopySnackbar(true)
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(transactionId)
+        } else {
+          const textArea = document.createElement('textarea')
+          textArea.value = transactionId
+          textArea.style.position = 'fixed'
+          textArea.style.left = '-999999px'
+          document.body.appendChild(textArea)
+          textArea.focus()
+          textArea.select()
+          document.execCommand('copy')
+          document.body.removeChild(textArea)
+        }
+        setCopySnackbar(true)
+      } catch {
+        const textArea = document.createElement('textarea')
+        textArea.value = transactionId
+        textArea.style.position = 'fixed'
+        textArea.style.left = '-999999px'
+        document.body.appendChild(textArea)
+        textArea.focus()
+        textArea.select()
+        document.execCommand('copy')
+        document.body.removeChild(textArea)
+        setCopySnackbar(true)
+      }
     }
   }, [transactionId])
 
