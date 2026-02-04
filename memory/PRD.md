@@ -16,6 +16,7 @@ Setup and install dependencies for an existing Next.js TypeScript payment applic
 - [2026-02-04] Fixed clipboard copy with fallback for non-HTTPS environments
 - [2026-02-04] Improved language selector with test IDs and mobile z-index fixes
 - [2026-02-04] All tests passing at 100%
+- [2026-02-04] Added customer name display in checkout page
 - All yarn dependencies installed
 - Playwright Chromium installed for e2e testing
 - Frontend service running on port 3000 with Turbopack
