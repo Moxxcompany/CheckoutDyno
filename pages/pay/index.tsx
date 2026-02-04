@@ -636,12 +636,13 @@ const Payment = () => {
     return t('checkout.titleCheckout')
   }
 
-  // Get subtitle with merchant name
+  // Get subtitle with merchant name and customer personalization
   const getSubtitle = () => {
+    const greeting = customerName ? `Hi ${customerName}, ` : ''
     if (merchantInfo?.name) {
-      return t('checkout.subtitle', { merchant: merchantInfo.name })
+      return greeting + t('checkout.subtitle', { merchant: merchantInfo.name }).replace(/^Complete/, 'complete')
     }
-    return t('checkout.subtitleDefault')
+    return greeting + (customerName ? t('checkout.subtitleDefault').replace(/^Complete/, 'complete') : t('checkout.subtitleDefault'))
   }
 
   const isOpen = Boolean(anchorEl)
