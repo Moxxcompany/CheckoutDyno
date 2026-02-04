@@ -25,6 +25,7 @@ import ProgressBar from '@/Components/UI/ProgressBar'
 const MOCK_DATA = {
   description: 'Monthly Pro Subscription',
   orderReference: 'INV-2026-A1B2C3',
+  customerName: 'John Doe',
   merchantInfo: {
     name: 'Acme Store',
     company_logo: null // Set to null to show DynoPay logo, or use a URL
