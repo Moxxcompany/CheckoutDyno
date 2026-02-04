@@ -385,6 +385,7 @@ const Payment = () => {
       // Capture enhanced checkout fields from backend
       setDescription(data.description || '')
       setOrderReference(data.order_reference || '')
+      setCustomerName(data.customer_name || '')
       
       if (data.fee_info) {
         setFeeInfo({
