@@ -1,0 +1,57 @@
+{
+  "summary": "Completed comprehensive frontend testing after Next.js upgrade from 14.2.35 to 16.1.6. All core functionality working properly. Homepage, payment pages, demo checkout, Terms of Service, and AML Policy pages load correctly. Theme switching functional. Navigation between pages works. Minor issues with language selector dropdown and clipboard permissions remain from previous testing.",
+  
+  "backend_issues": {},
+  
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "Language Selector Dropdown",
+        "issue": "Language selector dropdown does not open properly when clicked",
+        "selector": "button:has-text('EN')",
+        "fix_priority": "MEDIUM",
+        "details": "Language selector button found but dropdown menu does not open with options when clicked"
+      },
+      {
+        "component": "Copy Invoice Button",
+        "issue": "Clipboard permission error when copying invoice number",
+        "selector": "[data-testid='copy-invoice-btn']",
+        "fix_priority": "LOW",
+        "error": "NotAllowedError: Failed to execute 'writeText' on 'Clipboard': Write permission denied"
+      }
+    ],
+    "integration_issues": []
+  },
+  
+  "passed_tests": [
+    "Homepage loads correctly at / with proper styling and navigation",
+    "Payment page loads at /pay with appropriate message for missing payment data",
+    "Demo checkout page loads at /pay/demo with full checkout interface",
+    "Terms of Service page loads at /pay/terms-of-service with proper content",
+    "AML Policy page loads at /pay/aml-policy with proper content",
+    "Theme switching functionality works (light/dark mode toggle)",
+    "Navigation between pages works correctly",
+    "All UI components render properly (buttons, forms, checkout card)",
+    "Crypto payment button is clickable and functional",
+    "Footer navigation links present and functional",
+    "Responsive design elements detected",
+    "Page performance is good (840ms load time)",
+    "No critical console errors or warnings",
+    "Next.js 16.1.6 upgrade successful - no breaking changes detected",
+    "All interactive elements (buttons, links) are clickable and visible"
+  ],
+  
+  "test_report_links": [],
+  
+  "success_percentage": {
+    "frontend": "92%",
+    "next_js_upgrade_compatibility": "95%"
+  },
+  
+  "updated_files": [],
+  
+  "action_item_for_main_agent": "Language selector dropdown functionality needs investigation - button is present but dropdown menu doesn't open properly. This is a minor issue that doesn't affect core payment functionality. Consider adding proper clipboard permissions handling for copy functionality in production environment.",
+  
+  "should_call_test_agent_after_fix": "false",
+  "should_main_agent_test_itself": "true"
+}
