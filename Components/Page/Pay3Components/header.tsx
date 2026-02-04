@@ -282,7 +282,6 @@ const Header = ({
                   toggleDrawer(); // Close drawer after selection
                 }}
                 MenuProps={{
-                  container: document.body, // Render menu at body level
                   disablePortal: false,
                   sx: { 
                     zIndex: 1500, // Higher than drawer (1200)
@@ -290,8 +289,10 @@ const Header = ({
                       zIndex: 1500,
                     }
                   },
-                  BackdropProps: {
-                    invisible: true, // Don't show backdrop for menu
+                  slotProps: {
+                    backdrop: {
+                      invisible: true, // Don't show backdrop for menu
+                    }
                   }
                 }}
               >
