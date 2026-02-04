@@ -25,6 +25,7 @@ interface TransferExpectedCardProps {
   merchantName?: string
   amount?: string
   email?: string
+  customerName?: string
 }
 
 export default function TransferExpectedCard({
@@ -35,7 +36,8 @@ export default function TransferExpectedCard({
   transactionId,
   merchantName,
   amount,
-  email
+  email,
+  customerName
 }: TransferExpectedCardProps) {
   const theme = useTheme()
   const isDark = theme.palette.mode === 'dark'
