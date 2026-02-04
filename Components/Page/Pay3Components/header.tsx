@@ -263,15 +263,23 @@ const Header = ({
             <Button startIcon={<AccountBalanceWalletIcon />}>{t('header.wallet')}</Button>
             <FormControl variant='standard'>
               <Select 
+                data-testid="language-selector-mobile"
                 value={router.locale || 'en'}
-                onChange={handleLanguageChange}
+                onChange={(e) => {
+                  handleLanguageChange(e);
+                  toggleDrawer(); // Close drawer after selection
+                }}
+                MenuProps={{
+                  disablePortal: false, // Ensure menu renders outside drawer
+                  sx: { zIndex: 1400 } // Higher z-index than drawer
+                }}
               >
-                <MenuItem value='en'>EN</MenuItem>
-                <MenuItem value='fr'>FR</MenuItem>
-                <MenuItem value='es'>ES</MenuItem>
-                <MenuItem value='pt'>PT</MenuItem>
-                <MenuItem value='de'>DE</MenuItem>
-                <MenuItem value='nl'>NL</MenuItem>
+                <MenuItem data-testid="lang-mobile-en" value='en'>EN</MenuItem>
+                <MenuItem data-testid="lang-mobile-fr" value='fr'>FR</MenuItem>
+                <MenuItem data-testid="lang-mobile-es" value='es'>ES</MenuItem>
+                <MenuItem data-testid="lang-mobile-pt" value='pt'>PT</MenuItem>
+                <MenuItem data-testid="lang-mobile-de" value='de'>DE</MenuItem>
+                <MenuItem data-testid="lang-mobile-nl" value='nl'>NL</MenuItem>
               </Select>
             </FormControl>
             <Box
