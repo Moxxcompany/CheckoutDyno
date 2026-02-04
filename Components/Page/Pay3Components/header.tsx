@@ -288,11 +288,6 @@ const Header = ({
                     '& .MuiPaper-root': {
                       zIndex: 1500,
                     }
-                  },
-                  slotProps: {
-                    backdrop: {
-                      invisible: true, // Don't show backdrop for menu
-                    }
                   }
                 }}
               >
