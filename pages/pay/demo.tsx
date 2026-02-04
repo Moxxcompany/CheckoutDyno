@@ -88,9 +88,39 @@ const PaymentDemo = () => {
     return () => clearInterval(interval)
   }, [t])
 
-  const handleCopyInvoice = useCallback(() => {
-    navigator.clipboard.writeText(MOCK_DATA.orderReference)
-    setCopySnackbar(true)
+  const handleCopyInvoice = useCallback(async () => {
+    try {
+      // Try modern clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(MOCK_DATA.orderReference)
+      } else {
+        // Fallback for environments without clipboard API
+        const textArea = document.createElement('textarea')
+        textArea.value = MOCK_DATA.orderReference
+        textArea.style.position = 'fixed'
+        textArea.style.left = '-999999px'
+        textArea.style.top = '-999999px'
+        document.body.appendChild(textArea)
+        textArea.focus()
+        textArea.select()
+        document.execCommand('copy')
+        document.body.removeChild(textArea)
+      }
+      setCopySnackbar(true)
+    } catch (err) {
+      // Fallback method
+      const textArea = document.createElement('textarea')
+      textArea.value = MOCK_DATA.orderReference
+      textArea.style.position = 'fixed'
+      textArea.style.left = '-999999px'
+      textArea.style.top = '-999999px'
+      document.body.appendChild(textArea)
+      textArea.focus()
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+      setCopySnackbar(true)
+    }
   }, [])
 
   return (
