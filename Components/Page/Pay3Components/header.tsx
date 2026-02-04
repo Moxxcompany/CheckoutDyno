@@ -257,11 +257,23 @@ const Header = ({
       </AppBar>
 
       {/* Mobile Drawer */}
-      <Drawer anchor='right' open={drawerOpen} onClose={toggleDrawer}>
+      <Drawer 
+        anchor='right' 
+        open={drawerOpen} 
+        onClose={toggleDrawer}
+        ModalProps={{
+          keepMounted: true, // Better mobile performance
+        }}
+        sx={{
+          '& .MuiDrawer-paper': {
+            zIndex: 1200,
+          }
+        }}
+      >
         <Box sx={{ width: 250, p: 2 }}>
           <Stack spacing={2}>
             <Button startIcon={<AccountBalanceWalletIcon />}>{t('header.wallet')}</Button>
-            <FormControl variant='standard'>
+            <FormControl variant='standard' sx={{ minWidth: 120 }}>
               <Select 
                 data-testid="language-selector-mobile"
                 value={router.locale || 'en'}
@@ -270,8 +282,17 @@ const Header = ({
                   toggleDrawer(); // Close drawer after selection
                 }}
                 MenuProps={{
-                  disablePortal: false, // Ensure menu renders outside drawer
-                  sx: { zIndex: 1400 } // Higher z-index than drawer
+                  container: document.body, // Render menu at body level
+                  disablePortal: false,
+                  sx: { 
+                    zIndex: 1500, // Higher than drawer (1200)
+                    '& .MuiPaper-root': {
+                      zIndex: 1500,
+                    }
+                  },
+                  BackdropProps: {
+                    invisible: true, // Don't show backdrop for menu
+                  }
                 }}
               >
                 <MenuItem data-testid="lang-mobile-en" value='en'>EN</MenuItem>
