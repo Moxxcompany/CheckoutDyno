@@ -136,8 +136,8 @@ const Header = ({
                     },
                   }}
                   MenuProps={{
-                    'data-testid': 'language-menu',
                     PaperProps: {
+                      'data-testid': 'language-menu',
                       sx: {
                         mt: 1,
                         borderRadius: 2,
