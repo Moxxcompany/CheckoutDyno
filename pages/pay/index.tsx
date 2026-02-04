@@ -240,6 +240,7 @@ const Payment = () => {
   // Enhanced checkout state variables
   const [description, setDescription] = useState<string>('')
   const [orderReference, setOrderReference] = useState<string>('')
+  const [customerName, setCustomerName] = useState<string>('')
   const [feeInfo, setFeeInfo] = useState<FeeInfo | null>(null)
   const [taxInfo, setTaxInfo] = useState<TaxInfo | null>(null)
   const [expiryInfo, setExpiryInfo] = useState<ExpiryInfo | null>(null)
