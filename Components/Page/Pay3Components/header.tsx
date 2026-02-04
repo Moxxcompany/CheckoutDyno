@@ -112,6 +112,7 @@ const Header = ({
 
               <FormControl variant="standard">
                 <Select
+                  data-testid="language-selector"
                   value={router.locale || 'en'}
                   onChange={handleLanguageChange}
                   onOpen={() => setOpen(true)}
@@ -134,13 +135,22 @@ const Header = ({
                       right: 8,
                     },
                   }}
+                  MenuProps={{
+                    'data-testid': 'language-menu',
+                    PaperProps: {
+                      sx: {
+                        mt: 1,
+                        borderRadius: 2,
+                      }
+                    }
+                  }}
                 >
-                  <MenuItem value="en">EN</MenuItem>
-                  <MenuItem value="fr">FR</MenuItem>
-                  <MenuItem value="es">ES</MenuItem>
-                  <MenuItem value="pt">PT</MenuItem>
-                  <MenuItem value="de">DE</MenuItem>
-                  <MenuItem value="nl">NL</MenuItem>
+                  <MenuItem data-testid="lang-en" value="en">EN</MenuItem>
+                  <MenuItem data-testid="lang-fr" value="fr">FR</MenuItem>
+                  <MenuItem data-testid="lang-es" value="es">ES</MenuItem>
+                  <MenuItem data-testid="lang-pt" value="pt">PT</MenuItem>
+                  <MenuItem data-testid="lang-de" value="de">DE</MenuItem>
+                  <MenuItem data-testid="lang-nl" value="nl">NL</MenuItem>
                 </Select>
               </FormControl>
 
