@@ -187,6 +187,7 @@ const CryptoTransfer = ({
   transferRate: parentTransferRate,
   email,
   transactionId,
+  customerName,
 }: CryptoTransferProps) => {
   const { t } = useTranslation('common');
   const theme = useTheme();
