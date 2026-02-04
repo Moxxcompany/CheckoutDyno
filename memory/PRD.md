@@ -1,31 +1,46 @@
-# DynoPay - Payment Application PRD
+# Pay3 Payment Application - PRD
 
-## Original Problem Statement
-Setup and install dependencies for an existing Next.js TypeScript payment application.
+## Problem Statement
+Fix Railway deployment issues - application stuck at "initializing" state.
 
-## Architecture
-- **Framework**: Next.js 14 with TypeScript
-- **State Management**: Redux Toolkit
-- **UI**: MUI v5 + Emotion
-- **i18n**: next-i18next
-- **Testing**: Jest + Playwright
+## Application Type
+Next.js 16.x payment processing frontend application
 
-## What's Been Implemented
-- [2026-02-02] Initial setup and dependency installation completed
-- [2026-02-04] Upgraded Next.js from 14.2.35 → 16.1.6 (LTS)
-- [2026-02-04] Fixed clipboard copy with fallback for non-HTTPS environments
-- [2026-02-04] Improved language selector with test IDs and mobile z-index fixes
-- [2026-02-04] All tests passing at 100%
-- [2026-02-04] Added customer name display in checkout page
-- All yarn dependencies installed
-- Playwright Chromium installed for e2e testing
-- Frontend service running on port 3000 with Turbopack
+## Issues Fixed (Feb 4, 2026)
 
-## Core Features (Existing)
-- Payment page flow (/pay route)
-- Multi-language support
-- QR code functionality
-- Theme context for customization
+### 1. TypeScript Build Errors
+- Fixed `data-testid` property placement in MenuProps (header.tsx:139)
+- Removed invalid `slotProps.backdrop` property from Select component (header.tsx:293)
 
-## Next Tasks
-- Awaiting user requirements for next feature/improvement
+### 2. Railway Deployment Configuration
+- Created proper `railway.toml` with correct build and deploy settings
+- Updated `nixpacks.toml` with cleaner configuration
+- Removed conflicting `railway.json` (was using Dockerfile builder incorrectly)
+- Added `.node-version` and `.nvmrc` files to specify Node.js 20
+
+## Deployment Configuration Summary
+
+### railway.toml
+- Builder: nixpacks
+- Build command: `npm install --legacy-peer-deps && npm run build`
+- Start command: `node server.js`
+- Health check: `/api/health`
+
+### Key Files
+- `/app/railway.toml` - Railway deployment config
+- `/app/nixpacks.toml` - Nixpacks build config
+- `/app/server.js` - Custom Next.js server with logging
+- `/app/pages/api/health.js` - Health check endpoint
+
+## What's Working
+- ✅ Next.js build completes successfully
+- ✅ Server starts and listens on port 3000
+- ✅ Health check endpoint responds correctly
+- ✅ All TypeScript errors resolved
+
+## Next Steps
+- Deploy to Railway with new configuration
+- Set required environment variables in Railway:
+  - `NEXT_PUBLIC_SERVER_URL`
+  - `NEXT_PUBLIC_BASE_URL`
+  - `NEXT_PUBLIC_CYPHER_KEY`
