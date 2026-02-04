@@ -1163,6 +1163,7 @@ const CryptoTransfer = ({
         merchantName={merchantInfo?.name}
         amount={amountDisplay}
         email={email}
+        customerName={customerName}
       />
     );
   }
