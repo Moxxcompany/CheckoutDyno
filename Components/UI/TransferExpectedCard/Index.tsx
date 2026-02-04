@@ -244,7 +244,10 @@ export default function TransferExpectedCard({
               fontFamily='Space Grotesk'
               data-testid="success-title"
             >
-              {t('success.paymentSuccessful')}
+              {customerName 
+                ? t('success.paymentSuccessfulName', { name: customerName, defaultValue: `Payment Successful, ${customerName}!` })
+                : t('success.paymentSuccessful')
+              }
             </Typography>
 
             {/* Amount paid info */}
