@@ -112,6 +112,7 @@ interface CryptoTransferProps {
   transferRate?: number;
   email?: string;
   transactionId?: string;
+  customerName?: string;
 }
 
 // Cache duration for rate prefetching
