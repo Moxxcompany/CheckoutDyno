@@ -1260,6 +1260,7 @@ const Payment = () => {
                 transferRate={transferRate}
                 email={tokenData?.email}
                 transactionId={linkId}
+                customerName={customerName}
               />
             )
           ) : activeStep === 2 ? (
@@ -1272,6 +1273,7 @@ const Payment = () => {
               merchantName={merchantInfo?.name}
               amount={`${formatWithSeparators(Number(totalAmount), displayCurrency)} ${displayCurrency}`}
               email={tokenData?.email}
+              customerName={customerName}
             />
           ) : null}
         </Box>
