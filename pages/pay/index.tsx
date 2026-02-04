@@ -760,7 +760,7 @@ const Payment = () => {
                 </Typography>
 
                 {/* Order Details Section */}
-                {(description || orderReference) && (
+                {(description || orderReference || customerName) && (
                   <Box
                     sx={{
                       border: `1px solid ${isDark ? theme.palette.surface.border : '#E7EAFD'}`,
