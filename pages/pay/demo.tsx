@@ -229,6 +229,21 @@ const PaymentDemo = () => {
                   {MOCK_DATA.description}
                 </Typography>
                 
+                {MOCK_DATA.customerName && (
+                  <Box display='flex' alignItems='center' gap={1} mb={1.5}>
+                    <Icon icon="mdi:account-outline" width={16} color={isDark ? theme.palette.text.secondary : '#666'} />
+                    <Typography
+                      fontWeight={500}
+                      fontSize={13}
+                      color={theme.palette.text.primary}
+                      fontFamily='Space Grotesk'
+                      data-testid="customer-name"
+                    >
+                      {MOCK_DATA.customerName}
+                    </Typography>
+                  </Box>
+                )}
+                
                 <Box display='flex' alignItems='center' justifyContent='space-between'>
                   <Box>
                     <Typography
