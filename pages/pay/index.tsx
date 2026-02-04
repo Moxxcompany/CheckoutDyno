@@ -546,17 +546,67 @@ const Payment = () => {
     handleClose()
   }
 
-  const handleCopyInvoice = useCallback(() => {
+  const handleCopyInvoice = useCallback(async () => {
     if (orderReference) {
-      navigator.clipboard.writeText(orderReference)
-      setCopySnackbar(true)
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(orderReference)
+        } else {
+          const textArea = document.createElement('textarea')
+          textArea.value = orderReference
+          textArea.style.position = 'fixed'
+          textArea.style.left = '-999999px'
+          document.body.appendChild(textArea)
+          textArea.focus()
+          textArea.select()
+          document.execCommand('copy')
+          document.body.removeChild(textArea)
+        }
+        setCopySnackbar(true)
+      } catch {
+        const textArea = document.createElement('textarea')
+        textArea.value = orderReference
+        textArea.style.position = 'fixed'
+        textArea.style.left = '-999999px'
+        document.body.appendChild(textArea)
+        textArea.focus()
+        textArea.select()
+        document.execCommand('copy')
+        document.body.removeChild(textArea)
+        setCopySnackbar(true)
+      }
     }
   }, [orderReference])
 
-  const handleCopyTransactionId = useCallback(() => {
+  const handleCopyTransactionId = useCallback(async () => {
     if (linkId) {
-      navigator.clipboard.writeText(linkId)
-      setCopySnackbar(true)
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(linkId)
+        } else {
+          const textArea = document.createElement('textarea')
+          textArea.value = linkId
+          textArea.style.position = 'fixed'
+          textArea.style.left = '-999999px'
+          document.body.appendChild(textArea)
+          textArea.focus()
+          textArea.select()
+          document.execCommand('copy')
+          document.body.removeChild(textArea)
+        }
+        setCopySnackbar(true)
+      } catch {
+        const textArea = document.createElement('textarea')
+        textArea.value = linkId
+        textArea.style.position = 'fixed'
+        textArea.style.left = '-999999px'
+        document.body.appendChild(textArea)
+        textArea.focus()
+        textArea.select()
+        document.execCommand('copy')
+        document.body.removeChild(textArea)
+        setCopySnackbar(true)
+      }
     }
   }, [linkId])
 
