@@ -159,7 +159,7 @@ export default function TransferExpectedCard({
               mb={1}
               fontFamily='Space Grotesk'
             >
-              {t('success.thankYou')}
+              {customerName ? t('success.thankYouName', { name: customerName, defaultValue: `Thank you, ${customerName}!` }) : t('success.thankYou')}
             </Typography>
             <Box 
               display='flex' 
