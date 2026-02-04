@@ -12,9 +12,10 @@ Setup and install dependencies for an existing Next.js TypeScript payment applic
 
 ## What's Been Implemented
 - [2026-02-02] Initial setup and dependency installation completed
+- [2026-02-04] Upgraded Next.js from 14.2.35 → 16.1.6 (LTS)
 - All yarn dependencies installed
 - Playwright Chromium installed for e2e testing
-- Frontend service running on port 3000
+- Frontend service running on port 3000 with Turbopack
 
 ## Core Features (Existing)
 - Payment page flow (/pay route)
