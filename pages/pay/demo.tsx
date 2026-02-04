@@ -183,7 +183,7 @@ const PaymentDemo = () => {
                 {t('checkout.title')}
               </Typography>
 
-              {/* Subtitle with Merchant Name */}
+              {/* Subtitle with Merchant Name and Customer Personalization */}
               <Typography
                 color={isDark ? theme.palette.text.secondary : '#000'}
                 fontWeight={400}
@@ -193,7 +193,10 @@ const PaymentDemo = () => {
                 fontFamily='Space Grotesk'
                 data-testid="checkout-subtitle"
               >
-                {t('checkout.subtitle', { merchant: MOCK_DATA.merchantInfo.name })}
+                {MOCK_DATA.customerName 
+                  ? `Hi ${MOCK_DATA.customerName}, complete your payment to ${MOCK_DATA.merchantInfo.name}`
+                  : t('checkout.subtitle', { merchant: MOCK_DATA.merchantInfo.name })
+                }
               </Typography>
 
               {/* Order Details Section */}
