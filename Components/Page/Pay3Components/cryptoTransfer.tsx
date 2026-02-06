@@ -1557,10 +1557,19 @@ const CryptoTransfer = ({
               },
             }}
             MenuProps={{
+              anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "left",
+              },
+              transformOrigin: {
+                vertical: "top",
+                horizontal: "left",
+              },
               PaperProps: {
                 sx: {
                   py: "10px",
                   px: "20px",
+                  mt: "4px",
                   backgroundColor: theme.palette.background.paper,
                   border: `1px solid ${isDark ? theme.palette.divider : "#737373"}`,
                   boxShadow: 3,
