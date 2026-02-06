@@ -17,12 +17,17 @@ Setup and install dependencies for the existing Next.js DynoPay payment applicat
   - Verified both services running (frontend:3000, backend:8001)
   - Homepage renders correctly (DynoPay landing page)
 
+- **2026-02-06**: Bug Fix - Crypto dropdown overlap
+  - Fixed MUI Select dropdown in `cryptoTransfer.tsx` overlapping "Preferred Crypto" field
+  - Added `anchorOrigin`/`transformOrigin` to `MenuProps` to position dropdown below the field
+
 ## Core Features (Existing)
-- Payment flow (card payments, QR codes)
+- Payment flow (card payments, QR codes, crypto)
 - Multi-language support (i18next)
 - Theme context (dark/light)
 - Redux state management
 - Credit card UI components
+- Crypto payment with polling
 
 ## Backlog / Next Steps
 - P0: Implement payment flow features
