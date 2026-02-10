@@ -394,18 +394,35 @@ const CryptoTransfer = ({
         const configuredCurrencies: string[] = data?.configured_currencies || [];
         const shouldSkipSelection = data?.skip_selection || false;
         
-        // Parse currencies - separate base currencies and USDT networks
+        // Parse currencies - separate base currencies and USDT/RLUSD networks
         const baseCryptos: string[] = [];
-        const usdtNetworks: ('TRC20' | 'ERC20')[] = [];
+        const usdtNetworks: ('TRC20' | 'ERC20' | 'POLYGON')[] = [];
+        const rlusdNetworks: ('XRPL' | 'ERC20')[] = [];
         
         configuredCurrencies.forEach((currency: string) => {
           if (currency.startsWith('USDT-')) {
-            const network = currency.replace('USDT-', '') as 'TRC20' | 'ERC20';
-            if (network === 'TRC20' || network === 'ERC20') {
+            const network = currency.replace('USDT-', '') as 'TRC20' | 'ERC20' | 'POLYGON';
+            if (network === 'TRC20' || network === 'ERC20' || network === 'POLYGON') {
               usdtNetworks.push(network);
               if (!baseCryptos.includes('USDT')) {
                 baseCryptos.push('USDT');
               }
+            }
+          } else if (currency.startsWith('RLUSD-')) {
+            const network = currency.replace('RLUSD-', '') as 'XRPL' | 'ERC20';
+            if (network === 'XRPL' || network === 'ERC20') {
+              rlusdNetworks.push(network);
+              if (!baseCryptos.includes('RLUSD')) {
+                baseCryptos.push('RLUSD');
+              }
+            }
+          } else if (currency === 'RLUSD') {
+            // Plain RLUSD without network defaults to XRPL
+            if (!rlusdNetworks.includes('XRPL')) {
+              rlusdNetworks.push('XRPL');
+            }
+            if (!baseCryptos.includes('RLUSD')) {
+              baseCryptos.push('RLUSD');
             }
           } else {
             baseCryptos.push(currency);
@@ -414,6 +431,7 @@ const CryptoTransfer = ({
         
         setAvailableCryptos(baseCryptos);
         setAvailableUSDTNetworks(usdtNetworks);
+        setAvailableRLUSDNetworks(rlusdNetworks);
         setSkipSelection(shouldSkipSelection);
         
         // Auto-select if skip_selection is true and only one option
