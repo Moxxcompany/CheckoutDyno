@@ -584,19 +584,23 @@ const CryptoTransfer = ({
 
   const getCurrencyRateAndSubmit = async (
     cryptoValue: string,
-    network: "TRC20" | "ERC20" = "TRC20"
+    network: "TRC20" | "ERC20" | "POLYGON" | "XRPL" = "TRC20"
   ) => {
     try {
       setLoading(true);
 
       // This is what you display or send to backend
       const displayCurrency =
-        cryptoValue === "USDT" ? `USDT-${network}` : cryptoValue;
+        cryptoValue === "USDT" ? `USDT-${network}` 
+        : cryptoValue === "RLUSD" ? `RLUSD-${network}`
+        : cryptoValue;
 
       // This is the actual currency key used in rateData
       const baseCurrency =
         cryptoValue === "USDT"
           ? "USDT"
+          : cryptoValue === "RLUSD"
+          ? "RLUSD"
           : cryptoOptions.find((x) => x.value === cryptoValue)?.currency || "";
 
       console.log("displayCurrency:", displayCurrency);
