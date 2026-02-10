@@ -1953,6 +1953,8 @@ const CryptoTransfer = ({
                   >
                     {selectedCrypto === "USDT"
                       ? t('crypto.sendOnlyWarning', { crypto: selectedCrypto, network: selectedNetwork })
+                      : selectedCrypto === "RLUSD"
+                      ? t('crypto.sendOnlyWarning', { crypto: selectedCrypto, network: selectedNetwork })
                       : t('crypto.sendOnlyWarningSimple', { crypto: selectedCrypto })}
                   </Typography>
                 </Box>
