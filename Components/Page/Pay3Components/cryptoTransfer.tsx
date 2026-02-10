@@ -716,7 +716,19 @@ const CryptoTransfer = ({
           console.log('[Crypto Payment] Timer set to', timerMinutes, 'minutes');
         }
         
-        setCryptoDetails(result);
+        // Extract memo/destination tag - backend may return as memo, tag, destination_tag, or dt
+        const memo = result?.memo || result?.tag || result?.destination_tag || result?.dt || "";
+        
+        setCryptoDetails({
+          qr_code: result?.qr_code || "",
+          address: result?.address || "",
+          hash: result?.hash || "",
+          memo: memo,
+        });
+        
+        if (memo) {
+          console.log('[Crypto Payment] Memo/Tag received:', memo);
+        }
       }
     } catch (e: any) {
       const message = e?.response?.data?.message ?? e.message;
