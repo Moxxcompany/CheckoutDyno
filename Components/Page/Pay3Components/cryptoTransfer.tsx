@@ -1740,7 +1740,7 @@ const CryptoTransfer = ({
 
         {isNetwork === "USDT" && (
           availableUSDTNetworks.length > 0 ? (
-            <Box mt={"10px"} mb={3} display="flex" gap={1} alignItems="center">
+            <Box mt={"10px"} mb={3} display="flex" gap={1} alignItems="center" flexWrap="wrap">
               {availableUSDTNetworks.map((net) => (
                 <Typography
                   key={net}
@@ -1783,9 +1783,69 @@ const CryptoTransfer = ({
           )
         )}
 
+        {isNetwork === "RLUSD" && (
+          <Box mt={1}>
+            <Typography
+              variant="subtitle2"
+              fontWeight={500}
+              fontFamily="Space Grotesk"
+              color={theme.palette.text.primary}
+            >
+              {t('crypto.preferredNetwork')}
+            </Typography>
+          </Box>
+        )}
+
+        {isNetwork === "RLUSD" && (
+          availableRLUSDNetworks.length > 0 ? (
+            <Box mt={"10px"} mb={3} display="flex" gap={1} alignItems="center" flexWrap="wrap">
+              {availableRLUSDNetworks.map((net) => (
+                <Typography
+                  key={net}
+                  border={`1px solid ${
+                    selectedNetwork === net 
+                      ? (isDark ? '#6C7BFF' : "#86A4F9") 
+                      : (isDark ? theme.palette.divider : "#E7EAFD")
+                  }`}
+                  padding="5px 10px"
+                  fontSize="small"
+                  bgcolor={selectedNetwork === net 
+                    ? (isDark ? 'rgba(108, 123, 255, 0.2)' : "#E7EAFD") 
+                    : (isDark ? 'rgba(255, 255, 255, 0.05)' : "#F5F8FF")}
+                  color={theme.palette.text.primary}
+                  borderRadius="5px"
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => handleRLUSDNetworkChange(net)}
+                  fontFamily="Space Grotesk"
+                >
+                  {net}
+                </Typography>
+              ))}
+            </Box>
+          ) : (
+            <Box 
+              mt={"10px"} 
+              mb={3} 
+              display="flex" 
+              alignItems="center"
+              py={1}
+              px={2}
+              border="1px solid #f59e0b"
+              borderRadius="8px"
+              bgcolor={isDark ? 'rgba(255, 251, 235, 0.1)' : "#fffbeb"}
+            >
+              <Typography fontFamily="Space Grotesk" color="#f59e0b" fontSize="small">
+                {t('crypto.noRlusdNetworks', { defaultValue: 'No RLUSD networks configured' })}
+              </Typography>
+            </Box>
+          )
+        )}
+
         {selectedCrypto &&
           (selectedCrypto !== "USDT" ||
-            ["TRC20", "ERC20"].includes(selectedNetwork)) && (
+            ["TRC20", "ERC20", "POLYGON"].includes(selectedNetwork)) &&
+          (selectedCrypto !== "RLUSD" ||
+            ["XRPL", "ERC20"].includes(selectedNetwork)) && (
             <>
               <Typography
                 variant="h6"
