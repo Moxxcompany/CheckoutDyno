@@ -1,35 +1,45 @@
-# DynoPay - PRD
+# DynoPay - Payment Processing Application
 
 ## Problem Statement
-Setup and install dependencies for the existing Next.js DynoPay payment application.
+Set up and install needed dependencies for the existing DynoPay Next.js payment application.
 
 ## Architecture
-- **Frontend**: Next.js (Pages Router) with TypeScript, MUI, Redux, i18next
-- **Backend**: FastAPI (minimal health endpoint)
-- **Database**: MongoDB (available via supervisor)
-- **Runtime**: Node.js v20, Python 3.11
+- **Frontend**: Next.js 16 (Pages Router) with MUI, Redux Toolkit, i18next (6 locales), react-credit-cards-2
+- **Backend**: FastAPI (minimal health check endpoint)
+- **Database**: MongoDB (running locally)
+- **Styling**: MUI Theme (light/dark), Space Grotesk + Poppins fonts
+- **State**: Redux Toolkit + React Context (ThemeContext)
 
-## What's Been Implemented
-- **2026-02-06**: Initial setup & dependency installation
-  - Installed 776 npm packages from package.json
-  - Created supervisor-compatible wrapper (`/app/frontend/package.json`) to run Next.js from `/app`
-  - Created minimal FastAPI backend at `/app/backend/server.py`
-  - Verified both services running (frontend:3000, backend:8001)
-  - Homepage renders correctly (DynoPay landing page)
+## Core Features
+- Cryptocurrency payment flow (BTC, etc.)
+- Bank transfer flow
+- Multi-currency support (37 currencies with flag icons)
+- i18n: EN, FR, PT, ES, DE, NL
+- Dark/Light theme toggle
+- Payment link expiry countdown
+- Incomplete payment detection & lock
+- Fee breakdown (subtotal, processing fee, tax)
+- QR code generation for crypto payments
+- Merchant branding (custom logos)
 
-- **2026-02-06**: Bug Fix - Crypto dropdown overlap
-  - Fixed MUI Select dropdown in `cryptoTransfer.tsx` overlapping "Preferred Crypto" field
-  - Added `anchorOrigin`/`transformOrigin` to `MenuProps` to position dropdown below the field
+## What's Been Implemented (2026-02-10)
+- [x] Installed all Node.js dependencies via `yarn install`
+- [x] Created `/app/.env` with NEXT_PUBLIC_BASE_URL, NEXT_PUBLIC_CYPHER_KEY, NEXT_PUBLIC_SERVER_URL
+- [x] Created `/app/backend/.env` with MONGO_URL, DB_NAME
+- [x] Created `/app/frontend/.env` with REACT_APP_BACKEND_URL
+- [x] Verified frontend (port 3000) and backend (port 8001) running
 
-## Core Features (Existing)
-- Payment flow (card payments, QR codes, crypto)
-- Multi-language support (i18next)
-- Theme context (dark/light)
-- Redux state management
-- Credit card UI components
-- Crypto payment with polling
+## Key Files
+- `/app/pages/index.tsx` - Homepage
+- `/app/pages/pay/index.tsx` - Payment page (main flow)
+- `/app/axiosConfig.ts` - API client config
+- `/app/styles/theme.ts` - MUI light/dark themes
+- `/app/contexts/ThemeContext.tsx` - Theme provider
+- `/app/next-i18next.config.js` - i18n config
+- `/app/Components/` - UI components
+- `/app/Redux/` - State management
 
-## Backlog / Next Steps
-- P0: Implement payment flow features
-- P1: API integrations for payment processing
-- P2: Testing & E2E coverage
+## Backlog
+- P0: None
+- P1: Backend API routes for payment processing
+- P2: Webhook endpoint for payment status notifications
