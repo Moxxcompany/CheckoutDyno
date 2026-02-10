@@ -200,6 +200,7 @@ interface CryptoDetails {
   qr_code: string;
   address: string;
   hash: string;
+  memo?: string;
 }
 
 const CryptoTransfer = ({
@@ -233,6 +234,7 @@ const CryptoTransfer = ({
     qr_code: "",
     hash: "",
     address: "",
+    memo: "",
   });
   const [loading, setLoading] = useState(false);
 
