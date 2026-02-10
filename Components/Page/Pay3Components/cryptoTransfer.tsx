@@ -514,6 +514,7 @@ const CryptoTransfer = ({
 
   const getApiCurrency = () => {
     if (selectedCrypto === "USDT") return `USDT-${selectedNetwork}`;
+    if (selectedCrypto === "RLUSD") return `RLUSD-${selectedNetwork}`;
     return (
       cryptoOptions.find((opt) => opt.value === selectedCrypto)?.currency || ""
     );
