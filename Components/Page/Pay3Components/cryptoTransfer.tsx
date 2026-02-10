@@ -794,7 +794,9 @@ const CryptoTransfer = ({
     const isValidSelection =
       selectedCrypto &&
       (selectedCrypto !== "USDT" ||
-        ["TRC20", "ERC20"].includes(selectedNetwork));
+        ["TRC20", "ERC20", "POLYGON"].includes(selectedNetwork)) &&
+      (selectedCrypto !== "RLUSD" ||
+        ["XRPL", "ERC20"].includes(selectedNetwork));
 
     if (!isValidSelection) return;
     
