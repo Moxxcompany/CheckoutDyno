@@ -1372,7 +1372,7 @@ const CryptoTransfer = ({
               setPaymentStatus("waiting");
               setSelectedCrypto("");
               setSelectedNetwork("");
-              setCryptoDetails({ qr_code: "", hash: "", address: "" });
+              setCryptoDetails({ qr_code: "", hash: "", address: "", memo: "" });
               setIsStart(false);
             }}
             sx={{
