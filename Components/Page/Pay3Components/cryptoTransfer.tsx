@@ -223,7 +223,7 @@ const CryptoTransfer = ({
   const dispatch = useDispatch();
   const [selectedCrypto, setSelectedCrypto] = useState("");
   const [selectedNetwork, setSelectedNetwork] = useState<
-    "" | "TRC20" | "ERC20"
+    "" | "TRC20" | "ERC20" | "POLYGON" | "XRPL"
   >("");
 
   const [copied, setCopied] = useState(false);
