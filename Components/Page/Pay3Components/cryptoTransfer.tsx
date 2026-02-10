@@ -1963,6 +1963,78 @@ const CryptoTransfer = ({
                     </IconButton>
                   </Tooltip>
                 </Box>
+
+                {/* Memo / Destination Tag - shown for XRP and RLUSD (XRPL) */}
+                {requiresMemo(selectedCrypto, selectedNetwork) && cryptoDetails?.memo && (
+                  <Box mt={1.5}>
+                    <Typography
+                      variant="caption"
+                      fontWeight={600}
+                      fontFamily="Space Grotesk"
+                      color={isDark ? '#FF9F43' : '#E67E22'}
+                      fontSize="11px"
+                      letterSpacing={0.5}
+                      data-testid="memo-label"
+                    >
+                      {t('crypto.memoTag', { defaultValue: 'MEMO / DESTINATION TAG' })}
+                    </Typography>
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="space-between"
+                      border={`1px solid ${isDark ? '#FF9F43' : '#F0C27A'}`}
+                      padding="10px"
+                      borderRadius="8px"
+                      bgcolor={isDark ? 'rgba(255, 159, 67, 0.08)' : '#FFF8F0'}
+                      mt={0.5}
+                      data-testid="memo-value-box"
+                    >
+                      <Typography
+                        variant="body2"
+                        sx={{ color: isDark ? '#FF9F43' : '#E67E22' }}
+                        fontWeight="600"
+                        fontSize="13px"
+                        maxWidth="85%"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                        fontFamily="Space Grotesk"
+                        data-testid="memo-value"
+                      >
+                        {cryptoDetails.memo}
+                      </Typography>
+                      <Tooltip title={t('crypto.copyMemo', { defaultValue: 'Copy Memo' })}>
+                        <IconButton
+                          size="small"
+                          sx={{
+                            bgcolor: isDark ? 'rgba(255, 159, 67, 0.2)' : "#FDEBD0",
+                            p: 0.5,
+                            height: "24px",
+                            width: "24px",
+                            borderRadius: "5px",
+                            "&:hover": { bgcolor: isDark ? 'rgba(255, 159, 67, 0.3)' : "#F9D9B0" },
+                          }}
+                          onClick={handleCopyMemo}
+                          data-testid="copy-memo-btn"
+                        >
+                          <CopyIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                    <Box display="flex" alignItems="center" gap={0.5} mt={0.75}>
+                      <Icon icon="mdi:alert-circle-outline" width={14} color={isDark ? '#FF9F43' : '#E67E22'} />
+                      <Typography
+                        fontSize="11px"
+                        fontFamily="Space Grotesk"
+                        color={isDark ? '#FF9F43' : '#E67E22'}
+                        fontWeight={500}
+                      >
+                        {t('crypto.memoWarning', { defaultValue: 'You MUST include this memo/tag or your funds may be lost' })}
+                      </Typography>
+                    </Box>
+                  </Box>
+                )}
+
                 <Box display="flex" alignItems="center" gap={1}>
                   <InfoOutlinedIcon fontSize="small" sx={{ color: theme.palette.text.secondary }} />
                   <Typography
