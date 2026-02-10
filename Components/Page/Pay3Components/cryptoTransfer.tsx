@@ -443,7 +443,10 @@ const CryptoTransfer = ({
           if (autoSelectedCrypto === 'USDT' && usdtNetworks.length === 1) {
             setSelectedNetwork(usdtNetworks[0]);
             getCurrencyRateAndSubmit('USDT', usdtNetworks[0]);
-          } else if (autoSelectedCrypto !== 'USDT') {
+          } else if (autoSelectedCrypto === 'RLUSD' && rlusdNetworks.length === 1) {
+            setSelectedNetwork(rlusdNetworks[0]);
+            getCurrencyRateAndSubmit('RLUSD', rlusdNetworks[0]);
+          } else if (autoSelectedCrypto !== 'USDT' && autoSelectedCrypto !== 'RLUSD') {
             getCurrencyRateAndSubmit(autoSelectedCrypto);
           }
         }
