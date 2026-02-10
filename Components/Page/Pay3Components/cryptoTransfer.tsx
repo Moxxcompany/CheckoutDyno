@@ -170,6 +170,30 @@ const cryptoOptions = [
     icon: <Image src={TRXicon} alt="TRX" width={25} height={25} unoptimized />,
     currency: "TRX",
   },
+  {
+    value: "SOL",
+    label: "Solana (SOL)",
+    icon: <SOL width={25} height={25} />,
+    currency: "SOL",
+  },
+  {
+    value: "XRP",
+    label: "Ripple (XRP)",
+    icon: <XRP width={25} height={25} />,
+    currency: "XRP",
+  },
+  {
+    value: "POLYGON",
+    label: "Polygon (POL)",
+    icon: <POLYGON width={25} height={25} />,
+    currency: "POLYGON",
+  },
+  {
+    value: "RLUSD",
+    label: "RLUSD (XRPL, ERC-20)",
+    icon: <RLUSD width={25} height={25} />,
+    currency: "RLUSD",
+  },
 ];
 
 interface CryptoDetails {
