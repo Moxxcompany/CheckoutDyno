@@ -280,7 +280,8 @@ const CryptoTransfer = ({
 
   // State for configured currencies
   const [availableCryptos, setAvailableCryptos] = useState<string[]>([]);
-  const [availableUSDTNetworks, setAvailableUSDTNetworks] = useState<('TRC20' | 'ERC20')[]>([]);
+  const [availableUSDTNetworks, setAvailableUSDTNetworks] = useState<('TRC20' | 'ERC20' | 'POLYGON')[]>([]);
+  const [availableRLUSDNetworks, setAvailableRLUSDNetworks] = useState<('XRPL' | 'ERC20')[]>([]);
   const [loadingCurrencies, setLoadingCurrencies] = useState(true);
   const [skipSelection, setSkipSelection] = useState(false);
   const [currencyError, setCurrencyError] = useState<string | null>(null);
