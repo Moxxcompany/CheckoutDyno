@@ -563,8 +563,20 @@ const CryptoTransfer = ({
       return 30000; // 30 seconds
     }
     // ETH and ERC20 tokens
-    if (crypto === 'ETH' || (crypto === 'USDT' && network === 'ERC20')) {
+    if (crypto === 'ETH' || (crypto === 'USDT' && network === 'ERC20') || (crypto === 'RLUSD' && network === 'ERC20')) {
       return 15000; // 15 seconds
+    }
+    // SOL is fast
+    if (crypto === 'SOL') {
+      return 10000; // 10 seconds
+    }
+    // XRP / RLUSD on XRPL are fast
+    if (crypto === 'XRP' || (crypto === 'RLUSD' && network === 'XRPL')) {
+      return 10000; // 10 seconds
+    }
+    // Polygon is relatively fast
+    if (crypto === 'POLYGON' || (crypto === 'USDT' && network === 'POLYGON')) {
+      return 10000; // 10 seconds
     }
     // Default for other chains
     return 15000; // 15 seconds
