@@ -455,7 +455,8 @@ const CryptoTransfer = ({
         setCurrencyError(message);
         // Set defaults if API fails - show all currencies
         setAvailableCryptos(cryptoOptions.map(opt => opt.value));
-        setAvailableUSDTNetworks(['TRC20', 'ERC20']);
+        setAvailableUSDTNetworks(['TRC20', 'ERC20', 'POLYGON']);
+        setAvailableRLUSDNetworks(['XRPL', 'ERC20']);
       } finally {
         setLoadingCurrencies(false);
       }
