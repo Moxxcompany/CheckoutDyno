@@ -538,6 +538,28 @@ const CryptoTransfer = ({
       setShowCopyToast(false);
     }, 2000);
   };
+
+  // Copy memo/tag to clipboard
+  const handleCopyMemo = () => {
+    if (!cryptoDetails?.memo) return;
+    navigator.clipboard.writeText(cryptoDetails.memo);
+    setShowCopyToast(true);
+    dispatch({
+      type: TOAST_SHOW,
+      payload: {
+        message: t('crypto.memoCopied', { defaultValue: 'Memo/Tag copied to clipboard' }),
+        severity: "success",
+      },
+    });
+    setTimeout(() => {
+      setShowCopyToast(false);
+    }, 2000);
+  };
+
+  // Check if the selected crypto requires a memo/destination tag
+  const requiresMemo = (crypto: string, network?: string): boolean => {
+    return crypto === 'XRP' || (crypto === 'RLUSD' && network === 'XRPL');
+  };
   
   // Copy amount to clipboard
   const handleCopyAmount = () => {
