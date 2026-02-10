@@ -58,7 +58,7 @@ type PaymentStatusType =
   | "underpaid"    // Partial payment received
   | "overpaid"     // More than expected was paid
   | "expired"      // Payment window expired
-  | "failed";      // Payment processing failed
+  | "failed"       // Payment processing failed
 
 // Merchant settings from backend
 interface MerchantSettings {
