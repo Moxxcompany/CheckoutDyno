@@ -711,6 +711,10 @@ const CryptoTransfer = ({
       setSelectedCrypto("USDT");
       setIsStart(false);
       checkNetwork(value);
+    } else if (value === "RLUSD") {
+      setSelectedCrypto("RLUSD");
+      setIsStart(false);
+      checkNetworkRLUSD(value);
     } else {
       setSelectedNetwork("");
       setIsStart(false);
@@ -725,10 +729,23 @@ const CryptoTransfer = ({
     }
   };
 
-  const handleNetworkChange = (network: "TRC20" | "ERC20") => {
+  const checkNetworkRLUSD = (value: any) => {
+    if (selectedNetwork) {
+      setIsStart(false);
+      getCurrencyRateAndSubmit(value, selectedNetwork as "XRPL" | "ERC20");
+    }
+  };
+
+  const handleNetworkChange = (network: "TRC20" | "ERC20" | "POLYGON") => {
     setSelectedNetwork(network);
     setIsStart(false);
     getCurrencyRateAndSubmit("USDT", network);
+  };
+
+  const handleRLUSDNetworkChange = (network: "XRPL" | "ERC20") => {
+    setSelectedNetwork(network);
+    setIsStart(false);
+    getCurrencyRateAndSubmit("RLUSD", network);
   };
 
   useEffect(() => {
