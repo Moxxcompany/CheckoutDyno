@@ -774,8 +774,8 @@ const CryptoTransfer = ({
   function formatAmount(amount: any, currency: string): string {
     const lowerCurrency = currency?.toLowerCase();
 
-    const cryptoCurrencies = new Set(["btc", "eth", "usdc", "bnb", "matic"]);
-    const fiatCurrencies = new Set(["usd", "eur", "inr", "usdt"]);
+    const cryptoCurrencies = new Set(["btc", "eth", "usdc", "bnb", "matic", "sol", "xrp", "polygon"]);
+    const fiatCurrencies = new Set(["usd", "eur", "inr", "usdt", "rlusd"]);
 
     if (cryptoCurrencies.has(lowerCurrency)) {
       return amount?.toFixed(6);
