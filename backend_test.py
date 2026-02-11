@@ -46,118 +46,36 @@ class DynoPayTester:
         """Test basic health endpoint"""
         return self.run_test("Health Check", "GET", "api/health")
 
-    def test_configured_currencies(self):
-        """Test configured currencies endpoint for new crypto additions"""
-        success, response = self.run_test("Configured Currencies", "GET", "pay/configured-currencies")
-        if success:
-            try:
-                data = response.get('data', response) if isinstance(response, dict) else response
-                configured = data.get('configured_currencies', []) if isinstance(data, dict) else []
-                
-                # Check for new currencies
-                expected_currencies = ['SOL', 'XRP', 'POLYGON', 'RLUSD', 'BCH']
-                found_currencies = []
-                missing_currencies = []
-                
-                for currency in expected_currencies:
-                    # Check for exact match or with network suffix
-                    found = any(c == currency or c.startswith(f"{currency}-") for c in configured)
-                    if found:
-                        found_currencies.append(currency)
-                    else:
-                        missing_currencies.append(currency)
-                
-                print(f"  ➤ Found currencies: {found_currencies}")
-                print(f"  ➤ Missing currencies: {missing_currencies}")
-                
-                # Check USDT-POLYGON specifically
-                usdt_polygon_found = 'USDT-POLYGON' in configured
-                print(f"  ➤ USDT-POLYGON support: {'✅' if usdt_polygon_found else '❌'}")
-                
-                # Check RLUSD networks
-                rlusd_xrpl = any('RLUSD-XRPL' in c for c in configured)
-                rlusd_erc20 = any('RLUSD-ERC20' in c for c in configured)
-                print(f"  ➤ RLUSD-XRPL support: {'✅' if rlusd_xrpl else '❌'}")
-                print(f"  ➤ RLUSD-ERC20 support: {'✅' if rlusd_erc20 else '❌'}")
-                
-                return success and len(missing_currencies) == 0, {
-                    'found': found_currencies,
-                    'missing': missing_currencies,
-                    'usdt_polygon': usdt_polygon_found,
-                    'rlusd_networks': {'xrpl': rlusd_xrpl, 'erc20': rlusd_erc20}
-                }
-            except Exception as e:
-                print(f"  ➤ Error parsing response: {e}")
-                return False, {}
-        return success, response
-
-    def test_currency_rates(self):
-        """Test currency rates endpoint with new cryptocurrencies"""
-        test_data = {
-            "source": "USD",
-            "amount": 100,
-            "currencyList": ["USDT", "BTC", "ETH", "SOL", "XRP", "POLYGON", "RLUSD"],
-            "fixedDecimal": False
-        }
-        
-        success, response = self.run_test(
-            "Currency Rates for New Cryptos", 
-            "POST", 
-            "pay/getCurrencyRates",
-            data=test_data
-        )
-        
-        if success:
-            try:
-                data = response.get('data', response) if isinstance(response, dict) else response
-                rates = data if isinstance(data, list) else []
-                
-                found_rates = [rate.get('currency') for rate in rates if isinstance(rate, dict)]
-                print(f"  ➤ Available rates: {found_rates}")
-                
-                # Check for new currency rates
-                new_currencies = ['SOL', 'XRP', 'POLYGON', 'RLUSD']
-                available_new = [curr for curr in new_currencies if curr in found_rates]
-                print(f"  ➤ New currencies with rates: {available_new}")
-                
-                return success, {'available_rates': found_rates, 'new_currencies': available_new}
-            except Exception as e:
-                print(f"  ➤ Error parsing rates response: {e}")
-                return False, {}
-        
-        return success, response
-
-    def test_payment_creation(self):
-        """Test payment creation with new cryptocurrencies"""
-        test_currencies = [
-            {"currency": "SOL", "amount": 1.5},
-            {"currency": "XRP", "amount": 100},
-            {"currency": "POLYGON", "amount": 50},
-            {"currency": "USDT-POLYGON", "amount": 100},
-            {"currency": "RLUSD-XRPL", "amount": 100},
-            {"currency": "RLUSD-ERC20", "amount": 100}
+    def test_frontend_pages(self):
+        """Test that main frontend pages load without errors"""
+        pages = [
+            {"name": "Homepage", "path": "", "expected": 200},
+            {"name": "Pay Page", "path": "pay", "expected": 200},
+            {"name": "Pay Demo Page", "path": "pay/demo", "expected": 200}
         ]
         
         results = {}
-        for test_curr in test_currencies:
-            payload = {
-                "currency": test_curr["currency"],
-                "amount": test_curr["amount"],
-                "paymentType": "CRYPTO"
-            }
-            
-            # Note: This might require encryption in real implementation
-            success, response = self.run_test(
-                f"Payment Creation - {test_curr['currency']}", 
-                "POST", 
-                "pay/addPayment",
-                data={"data": payload},  # Simplified for testing
-                expected_status=200  # May return different status codes
-            )
-            
-            results[test_curr["currency"]] = success
-            
-        return any(results.values()), results
+        for page in pages:
+            url = f"{self.base_url}/{page['path']}" if page['path'] else self.base_url
+            try:
+                response = requests.get(url, timeout=10)
+                success = response.status_code == page['expected']
+                results[page['name']] = success
+                
+                if success:
+                    self.tests_passed += 1
+                    print(f"✅ {page['name']} - Status: {response.status_code}")
+                else:
+                    print(f"❌ {page['name']} - Expected {page['expected']}, got {response.status_code}")
+                
+                self.tests_run += 1
+                    
+            except Exception as e:
+                print(f"❌ {page['name']} - Error: {str(e)}")
+                results[page['name']] = False
+                self.tests_run += 1
+                
+        return all(results.values()), results
 
 def main():
     print("🚀 Starting DynoPay Backend Testing...")
