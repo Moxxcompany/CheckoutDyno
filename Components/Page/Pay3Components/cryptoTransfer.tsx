@@ -130,7 +130,7 @@ const cryptoOptions = [
   },
   {
     value: "USDC",
-    label: "USD Coin (USDC)",
+    label: "USD Coin (USDC - ERC-20)",
     icon: <USDC size={25} />,
     currency: "USDC",
   },
