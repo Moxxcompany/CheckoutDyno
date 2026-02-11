@@ -160,10 +160,10 @@ class DynoPayTester:
         return any(results.values()), results
 
 def main():
-    print("🚀 Starting DynoPay Cryptocurrency Testing...")
+    print("🚀 Starting DynoPay Backend Testing...")
     print("=" * 60)
     
-    tester = CryptoCurrencyTester()
+    tester = DynoPayTester()
     
     # Test 1: Basic health check
     health_success, _ = tester.test_health_endpoint()
