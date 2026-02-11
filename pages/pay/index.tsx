@@ -256,6 +256,8 @@ const Payment = () => {
     pending_amount: string;
     remaining_minutes: number;
     qr_code?: string;
+    memo?: string;
+    destination_tag?: string;
   } | null>(null)
   const [availableCurrencies, setAvailableCurrencies] = useState<string[]>([
     'USD', 'EUR', 'GBP', 'AUD', 'CAD', 'CHF', 'CNY', 'JPY', 'HKD', 'NZD', 'SGD',
