@@ -37,7 +37,8 @@
     "invoiceExpiresIn": "factuur verloopt over:",
     "validPaymentLinkRequired": "Gebruik een geldige betalingslink om door te gaan met afrekenen.",
     "goToHomepage": "Naar Startpagina",
-    "paymentLinkExpired": "Deze betalingslink is verlopen. Neem contact op met de verkoper voor een nieuwe link."
+    "paymentLinkExpired": "Deze betalingslink is verlopen. Neem contact op met de verkoper voor een nieuwe link.",
+    "memoTag": "Memo / Tag"
   },
   "crypto": {
     "title": "Cryptovaluta",
@@ -73,7 +74,12 @@
     "paymentExpired": "Het betalingsvenster is verlopen. Probeer het opnieuw.",
     "paymentFailed": "Betalingsverwerking is mislukt. Probeer het opnieuw.",
     "paymentLinkExpired": "Deze betalingslink is verlopen.",
-    "paymentError": "Er is een fout opgetreden met uw betaling."
+    "paymentError": "Er is een fout opgetreden met uw betaling.",
+    "memoTag": "MEMO / BESTEMMINGSTAG",
+    "copyMemo": "Memo kopiëren",
+    "memoCopied": "Memo/Tag gekopieerd naar klembord",
+    "memoWarning": "U MOET deze memo/tag opnemen, anders kunnen uw fondsen verloren gaan",
+    "noRlusdNetworks": "Geen RLUSD-netwerken geconfigureerd"
   },
   "underpayment": {
     "title": "Gedeeltelijke Betaling Ontvangen",

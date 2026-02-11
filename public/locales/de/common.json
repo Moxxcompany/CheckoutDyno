@@ -37,7 +37,8 @@
     "invoiceExpiresIn": "Rechnung läuft ab in:",
     "validPaymentLinkRequired": "Bitte verwenden Sie einen gültigen Zahlungslink, um zur Kasse zu gelangen.",
     "goToHomepage": "Zur Startseite",
-    "paymentLinkExpired": "Dieser Zahlungslink ist abgelaufen. Bitte kontaktieren Sie den Händler für einen neuen Link."
+    "paymentLinkExpired": "Dieser Zahlungslink ist abgelaufen. Bitte kontaktieren Sie den Händler für einen neuen Link.",
+    "memoTag": "Memo / Tag"
   },
   "crypto": {
     "title": "Kryptowährung",
@@ -73,7 +74,12 @@
     "paymentExpired": "Das Zahlungsfenster ist abgelaufen. Bitte versuchen Sie es erneut.",
     "paymentFailed": "Die Zahlungsverarbeitung ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
     "paymentLinkExpired": "Dieser Zahlungslink ist abgelaufen.",
-    "paymentError": "Bei Ihrer Zahlung ist ein Fehler aufgetreten."
+    "paymentError": "Bei Ihrer Zahlung ist ein Fehler aufgetreten.",
+    "memoTag": "MEMO / ZIEL-TAG",
+    "copyMemo": "Memo kopieren",
+    "memoCopied": "Memo/Tag in die Zwischenablage kopiert",
+    "memoWarning": "Sie MÜSSEN dieses Memo/Tag angeben, sonst könnten Ihre Gelder verloren gehen",
+    "noRlusdNetworks": "Keine RLUSD-Netzwerke konfiguriert"
   },
   "underpayment": {
     "title": "Teilzahlung Erhalten",

@@ -37,7 +37,8 @@
     "invoiceExpiresIn": "a fatura expira em:",
     "validPaymentLinkRequired": "Por favor use um link de pagamento válido para prosseguir com o checkout.",
     "goToHomepage": "Ir para a Página Inicial",
-    "paymentLinkExpired": "Este link de pagamento expirou. Por favor contacte o comerciante para obter um novo link."
+    "paymentLinkExpired": "Este link de pagamento expirou. Por favor contacte o comerciante para obter um novo link.",
+    "memoTag": "Memo / Tag"
   },
   "crypto": {
     "title": "Criptomoeda",
@@ -73,7 +74,12 @@
     "paymentExpired": "A janela de pagamento expirou. Por favor tente novamente.",
     "paymentFailed": "O processamento do pagamento falhou. Por favor tente novamente.",
     "paymentLinkExpired": "Este link de pagamento expirou.",
-    "paymentError": "Ocorreu um erro com o seu pagamento."
+    "paymentError": "Ocorreu um erro com o seu pagamento.",
+    "memoTag": "MEMO / TAG DE DESTINO",
+    "copyMemo": "Copiar Memo",
+    "memoCopied": "Memo/Tag copiado para a área de transferência",
+    "memoWarning": "Você DEVE incluir este memo/tag ou seus fundos podem ser perdidos",
+    "noRlusdNetworks": "Nenhuma rede RLUSD configurada"
   },
   "underpayment": {
     "title": "Pagamento Parcial Recebido",

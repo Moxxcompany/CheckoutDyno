@@ -37,7 +37,8 @@
     "invoiceExpiresIn": "invoice expires in:",
     "validPaymentLinkRequired": "Please use a valid payment link to proceed with checkout.",
     "goToHomepage": "Go to Homepage",
-    "paymentLinkExpired": "This payment link has expired. Please contact the merchant for a new link."
+    "paymentLinkExpired": "This payment link has expired. Please contact the merchant for a new link.",
+    "memoTag": "Memo / Tag"
   },
   "crypto": {
     "title": "Cryptocurrency",
@@ -73,7 +74,12 @@
     "paymentExpired": "Payment window has expired. Please try again.",
     "paymentFailed": "Payment processing failed. Please try again.",
     "paymentLinkExpired": "This payment link has expired.",
-    "paymentError": "An error occurred with your payment."
+    "paymentError": "An error occurred with your payment.",
+    "memoTag": "MEMO / DESTINATION TAG",
+    "copyMemo": "Copy Memo",
+    "memoCopied": "Memo/Tag copied to clipboard",
+    "memoWarning": "You MUST include this memo/tag or your funds may be lost",
+    "noRlusdNetworks": "No RLUSD networks configured"
   },
   "underpayment": {
     "title": "Partial Payment Received",
