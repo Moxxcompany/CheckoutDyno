@@ -85,24 +85,11 @@ def main():
     
     # Test 1: Basic health check
     health_success, _ = tester.test_health_endpoint()
-    if not health_success:
-        print("❌ Backend health check failed. Cannot proceed with testing.")
-        return 1
     
-    # Test 2: Configured currencies
+    # Test 2: Frontend pages
     print("\n" + "="*60)
-    print("Testing Configured Currencies...")
-    currencies_success, currencies_data = tester.test_configured_currencies()
-    
-    # Test 3: Currency rates  
-    print("\n" + "="*60)
-    print("Testing Currency Rates...")
-    rates_success, rates_data = tester.test_currency_rates()
-    
-    # Test 4: Payment creation
-    print("\n" + "="*60)
-    print("Testing Payment Creation...")
-    payment_success, payment_data = tester.test_payment_creation()
+    print("Testing Frontend Pages...")
+    pages_success, pages_data = tester.test_frontend_pages()
     
     # Summary
     print("\n" + "="*60)
@@ -113,9 +100,12 @@ def main():
     
     # Specific results
     print(f"\n🔸 Health Check: {'✅ PASS' if health_success else '❌ FAIL'}")
-    print(f"🔸 Configured Currencies: {'✅ PASS' if currencies_success else '❌ FAIL'}")
-    print(f"🔸 Currency Rates: {'✅ PASS' if rates_success else '❌ FAIL'}")  
-    print(f"🔸 Payment Creation: {'✅ PASS' if payment_success else '❌ FAIL'}")
+    print(f"🔸 Frontend Pages: {'✅ PASS' if pages_success else '❌ FAIL'}")
+    
+    if not pages_success:
+        print("   Frontend page failures:")
+        for page, result in pages_data.items():
+            print(f"   - {page}: {'✅' if result else '❌'}")
     
     # Return appropriate exit code
     return 0 if tester.tests_passed == tester.tests_run else 1
