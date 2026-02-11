@@ -743,6 +743,22 @@ const Payment = () => {
                     >
                       {t('checkout.address', { defaultValue: 'Address' })}: {incompletePayment.address}
                     </Typography>
+                    {(incompletePayment.memo || incompletePayment.destination_tag) && (
+                      <Typography 
+                        variant="caption" 
+                        sx={{ 
+                          mt: 0.5, 
+                          display: 'block', 
+                          wordBreak: 'break-all',
+                          color: '#E67E22',
+                          fontWeight: 600,
+                        }}
+                        fontFamily='Space Grotesk'
+                        data-testid="incomplete-payment-memo"
+                      >
+                        {t('checkout.memoTag', { defaultValue: 'Memo / Tag' })}: {incompletePayment.memo || incompletePayment.destination_tag}
+                      </Typography>
+                    )}
                   </Alert>
                 )}
 
