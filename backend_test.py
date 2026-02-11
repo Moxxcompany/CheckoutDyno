@@ -3,8 +3,8 @@ import sys
 import json
 from datetime import datetime
 
-class CryptoCurrencyTester:
-    def __init__(self, base_url="https://f5e1fca3-63f4-47ce-ba14-e3114da5193b.preview.emergentagent.com"):
+class DynoPayTester:
+    def __init__(self, base_url="https://get-ready-2.preview.emergentagent.com"):
         self.base_url = base_url
         self.tests_run = 0
         self.tests_passed = 0
