@@ -2125,14 +2125,19 @@ const CryptoTransfer = ({
                     </Box>
                   )}
 
-                  {/* Tax breakdown - only shown when taxInfo is present and not in partial payment mode */}
-                  {taxInfo && taxInfo.amount > 0 && !isPartialPaymentMode && (
-                    <Box mb={2}>
+                  {/* Fee breakdown - shown when tax or customer-paid processing fee is present */}
+                  {!isPartialPaymentMode && (
+                    (taxInfo && taxInfo.amount > 0) || 
+                    (feeInfo && feeInfo.fee_payer === 'customer' && ((feeInfo.processing_fee ?? 0) > 0 || (selectedCurrency?.processing_fee ?? 0) > 0))
+                  ) && (
+                    <Box mb={2} data-testid="fee-breakdown">
+                      {/* Subtotal */}
                       <Box display="flex" justifyContent="space-between" mb={0.5}>
                         <Typography
                           variant="body2"
                           color={theme.palette.text.secondary}
                           fontFamily="Space Grotesk"
+                          data-testid="fee-breakdown-subtotal-label"
                         >
                           {t('checkout.subtotal')}
                         </Typography>
@@ -2141,35 +2146,43 @@ const CryptoTransfer = ({
                           color={theme.palette.text.primary}
                           fontFamily="Space Grotesk"
                           fontWeight={500}
+                          data-testid="fee-breakdown-subtotal-value"
                         >
                           {formatWithSeparators(convertedSubtotal, displayCurrency)} {displayCurrency}
                         </Typography>
                       </Box>
-                      <Box display="flex" justifyContent="space-between" mb={0.5}>
-                        <Typography
-                          variant="body2"
-                          color={theme.palette.text.secondary}
-                          fontFamily="Space Grotesk"
-                        >
-                          {taxInfo.country 
-                            ? t('checkout.vatRate', { rate: taxInfo.rate, country: taxInfo.country })
-                            : `${taxInfo.type || t('checkout.tax')} (${taxInfo.rate}%)`}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color={theme.palette.text.primary}
-                          fontFamily="Space Grotesk"
-                          fontWeight={500}
-                        >
-                          {formatWithSeparators(convertedTaxAmount, displayCurrency)} {displayCurrency}
-                        </Typography>
-                      </Box>
+                      {/* Tax row - only when tax exists */}
+                      {taxInfo && taxInfo.amount > 0 && (
+                        <Box display="flex" justifyContent="space-between" mb={0.5}>
+                          <Typography
+                            variant="body2"
+                            color={theme.palette.text.secondary}
+                            fontFamily="Space Grotesk"
+                            data-testid="fee-breakdown-tax-label"
+                          >
+                            {taxInfo.country 
+                              ? t('checkout.vatRate', { rate: taxInfo.rate, country: taxInfo.country })
+                              : `${taxInfo.type || t('checkout.tax')} (${taxInfo.rate}%)`}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            color={theme.palette.text.primary}
+                            fontFamily="Space Grotesk"
+                            fontWeight={500}
+                            data-testid="fee-breakdown-tax-value"
+                          >
+                            {formatWithSeparators(convertedTaxAmount, displayCurrency)} {displayCurrency}
+                          </Typography>
+                        </Box>
+                      )}
+                      {/* Processing fee row */}
                       {feeInfo && ((feeInfo.processing_fee ?? 0) > 0 || (selectedCurrency?.processing_fee ?? 0) > 0) && (
                         <Box display="flex" justifyContent="space-between" mb={0.5}>
                           <Typography
                             variant="body2"
                             color={theme.palette.text.secondary}
                             fontFamily="Space Grotesk"
+                            data-testid="fee-breakdown-processing-fee-label"
                           >
                             {t('checkout.processingFee')}
                           </Typography>
@@ -2178,6 +2191,7 @@ const CryptoTransfer = ({
                             color={feeInfo.fee_payer === 'merchant' ? '#10B981' : theme.palette.text.primary}
                             fontFamily="Space Grotesk"
                             fontWeight={500}
+                            data-testid="fee-breakdown-processing-fee-value"
                           >
                             {feeInfo.fee_payer === 'merchant' 
                               ? t('checkout.processingFeesIncluded')
