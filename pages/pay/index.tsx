@@ -378,10 +378,20 @@ const Payment = () => {
 
       // Check for incomplete payment
       if (data.incomplete_payment?.exists) {
-        setIncompletePayment(data.incomplete_payment)
+        const ip = data.incomplete_payment
+        setIncompletePayment({
+          exists: ip.exists,
+          currency: ip.currency,
+          address: ip.address,
+          pending_amount: ip.pending_amount,
+          remaining_minutes: ip.remaining_minutes,
+          qr_code: ip.qr_code,
+          memo: ip.memo || ip.tag || ip.destination_tag || ip.dt || '',
+          destination_tag: ip.destination_tag || ip.tag || ip.memo || ip.dt || '',
+        })
         // Lock currency selector to only show the incomplete payment currency
-        setAvailableCurrencies([data.incomplete_payment.currency])
-        console.log(`[Incomplete Payment] Locked to ${data.incomplete_payment.currency}, ${data.incomplete_payment.remaining_minutes} mins remaining`)
+        setAvailableCurrencies([ip.currency])
+        console.log(`[Incomplete Payment] Locked to ${ip.currency}, ${ip.remaining_minutes} mins remaining${ip.memo || ip.destination_tag || ip.tag ? `, memo/tag: ${ip.memo || ip.destination_tag || ip.tag}` : ''}`)
       }
 
       // Capture enhanced checkout fields from backend
