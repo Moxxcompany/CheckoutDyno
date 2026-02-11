@@ -1,5 +1,3 @@
-import Router from "next/router";
-
 const unAuthorizedHelper = (e: any) => {
   const status = e?.response?.status;
   if (status === 403) {
